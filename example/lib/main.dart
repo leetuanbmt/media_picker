@@ -1,0 +1,140 @@
+import 'package:flutter/material.dart';
+import 'package:media_picker/media_picker.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  bool isReview = true;
+  bool isSingleAssetMode = true;
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: SafeArea(
+        child: SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Review"),
+                  Switch(
+                    value: isReview,
+                    onChanged: (newValue) {
+                      setState(() => isReview = newValue);
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Single Mode"),
+                  Switch(
+                    value: isSingleAssetMode,
+                    onChanged: (newValue) {
+                      setState(() => isSingleAssetMode = newValue);
+                    },
+                  ),
+                ],
+              ),
+              MaterialButton(
+                color: themeData.primaryColor,
+                child: const Text(
+                  'All',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  picker(RequestType.all);
+                },
+              ),
+              MaterialButton(
+                color: themeData.primaryColor,
+                child: const Text(
+                  'Images and videos',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  picker(RequestType.common);
+                },
+              ),
+              MaterialButton(
+                color: themeData.primaryColor,
+                child: const Text(
+                  'Image picker',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  picker(RequestType.image);
+                },
+              ),
+              MaterialButton(
+                color: themeData.primaryColor,
+                child: const Text(
+                  'Video picker',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  picker(RequestType.video);
+                },
+              ),
+              MaterialButton(
+                color: themeData.primaryColor,
+                child: const Text(
+                  'Audio picker',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  picker(RequestType.audio);
+                },
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void picker(RequestType type) {
+    MediaPicker.assetPicker(
+      context,
+      isSingleAssetMode: isSingleAssetMode,
+      type: type,
+      isReview: isReview,
+    );
+  }
+}
