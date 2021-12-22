@@ -35,4 +35,5 @@ import 'package:media_picker/media_picker.dart';
 
 ## Screenshots
 
-| ![1](https://pic.alexv525.com/2021-07-05-picker_1.jpg) | ![2](https://pic.alexv525.com/2021-07-05-picker_2.jpg)
+| ![1](https://github.com/TuanMinhVan/media_picker/blob/main/ima/screen.jpg?raw=true) | ![2](https://github.com/TuanMinhVan/media_picker/blob/main/ima/path_list.jpg?raw=true)
+|
