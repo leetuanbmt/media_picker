@@ -34,7 +34,7 @@ class _VideoPageBuilderState extends State<VideoPageBuilder>
     super.initState();
     _buttonAnimation =
         AnimationController(vsync: this, duration: kThemeAnimationDuration);
-    initializeVideoPlayerController();
+    _initialize();
   }
 
   @override
@@ -47,9 +47,8 @@ class _VideoPageBuilderState extends State<VideoPageBuilder>
     super.dispose();
   }
 
-  Future<void> initializeVideoPlayerController() async {
+  Future<void> _initialize() async {
     isLoading = widget.autoPlay;
-
     final url = (await widget.asset!.getMediaUrl())!;
     _controller = VideoPlayerController.network(Uri.parse(url).toString());
     setInitState();

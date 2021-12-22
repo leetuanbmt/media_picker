@@ -23,7 +23,7 @@ class PathEntityWidget extends StatelessWidget {
         return ColoredBox(
           color: Colors.white.withOpacity(0.12),
           child: const Center(
-            child: Icon(Icons.audiotrack, color: Colors.white),
+            child: Icon(Icons.audiotrack, color: Colors.black),
           ),
         );
       }

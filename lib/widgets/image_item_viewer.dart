@@ -27,7 +27,11 @@ class ImageItemViewer extends StatelessWidget {
             loader = const ColoredBox(color: Color(0x10ffffff));
             break;
           case LoadState.completed:
-            loader = RepaintBoundary(child: state.completedWidget);
+            loader = RepaintBoundary(
+              child: FadeImageBuilder(
+                child: state.completedWidget,
+              ),
+            );
             break;
           case LoadState.failed:
             loader = failedItemBuilder(context);

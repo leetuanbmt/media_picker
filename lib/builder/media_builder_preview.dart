@@ -92,30 +92,31 @@ class _MediaBuilderPreviewBuillderState
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-        color: Colors.black,
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(
-              child: ExtendedImageGesturePageView.builder(
-                canScrollPage: (val) {
-                  return val?.totalScale == 1.0 || val?.totalScale == null;
-                },
-                physics: const AlwaysScrollableScrollPhysics(),
-                controller: pageController,
-                itemCount: total,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: assetPageBuilder,
-                onPageChanged: (int index) {
-                  currentIndex = index;
-                  _pageStreamController.add(index);
-                  _showAppBar.value = true;
-                },
-              ),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: ExtendedImageGesturePageView.builder(
+              canScrollPage: (val) {
+                return val?.totalScale == 1.0 || val?.totalScale == null;
+              },
+              physics: const AlwaysScrollableScrollPhysics(),
+              controller: pageController,
+              itemCount: total,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: assetPageBuilder,
+              onPageChanged: (int index) {
+                currentIndex = index;
+                _pageStreamController.add(index);
+                _showAppBar.value = true;
+              },
             ),
-            appBar(context),
-          ],
-        ));
+          ),
+          appBar(context),
+        ],
+      ),
+    );
   }
 
   Widget appBar(BuildContext context) {
@@ -129,31 +130,32 @@ class _MediaBuilderPreviewBuillderState
           left: 0.0,
           right: 0.0,
           height: context.padding.top + kToolbarHeight,
-          child: Container(
-            padding: EdgeInsets.only(top: context.padding.top, right: 12.0),
-            child: Row(
-              children: <Widget>[
-                const CloseButton(color: Colors.white),
-                StreamBuilder<int>(
-                  initialData: currentIndex,
-                  stream: _pageStreamController.stream,
-                  builder: (BuildContext _, AsyncSnapshot<int> snapshot) {
-                    return Text(
-                      '${snapshot.data! + 1}/$total',
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    );
-                  },
-                ),
-                const Spacer(),
-              ],
-            ),
-          ),
+          child: child!,
         );
       },
+      child: Container(
+        padding: EdgeInsets.only(top: context.padding.top, right: 12.0),
+        child: Row(
+          children: <Widget>[
+            const CloseButton(color: Colors.white),
+            StreamBuilder<int>(
+              initialData: currentIndex,
+              stream: _pageStreamController.stream,
+              builder: (_, AsyncSnapshot<int> snapshot) {
+                return Text(
+                  '${snapshot.data! + 1}/$total',
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                );
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 

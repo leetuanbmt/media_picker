@@ -13,7 +13,7 @@ It also allows you to select both images, videos and audios if you wish
 - Upgrade your Gradle version (the one in `gradle-wrapper.properties`) to `6.8.3` or the latest version but lower than `7.0.0`.
 - Upgrade your Kotlin version (`ext.kotlin_version`) to `1.4.32` or the latest version.
 - Required permissions: `INTERNET`, `READ_EXTERNAL_STORAGE`, `WRITE_EXTERNAL_STORAGE`, `ACCESS_MEDIA_LOCATION`.
-If you don't need the `ACCESS_MEDIA_LOCATION` permission,
+  If you don't need the `ACCESS_MEDIA_LOCATION` permission,
 
 ```xml
 <uses-permission
