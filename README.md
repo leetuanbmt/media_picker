@@ -35,7 +35,5 @@ import 'package:media_picker/media_picker.dart';
 
 ## Screenshots
 
-
-| ![1](https://github.com/TuanMinhVan/media_picker/blob/main/ima/screen.jpg?raw=true)   | ![2](https://github.com/TuanMinhVan/media_picker/blob/main/ima/path_list.jpg?raw=true)    |
-| -------------------------------------------------------- | -------------------------------------------------------- | 
-
+| ![1](https://github.com/TuanMinhVan/media_picker/blob/main/ima/screen.jpg?raw=true) | ![2](https://github.com/TuanMinhVan/media_picker/blob/main/ima/path_list.jpg?raw=true) | ![3](https://github.com/TuanMinhVan/media_picker/blob/main/ima/review.jpg?raw=true) |
+| ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
