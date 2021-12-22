@@ -208,14 +208,10 @@ class _MyHomePageState extends State<MyHomePage> {
       type: type,
       isReview: isReview,
       mulCallback: (List<AssetEntity> assets) {
-        if (type == RequestType.common) {
-          setState(() => _assetEntity = assets.first);
-        }
+        //return list if isMulti true
       },
       singleCallback: (AssetEntity asset) {
-        if (type == RequestType.common) {
-          setState(() => _assetEntity = asset);
-        }
+        //return single item if  isMulti false
       },
     );
   }
