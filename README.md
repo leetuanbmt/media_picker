@@ -4,11 +4,13 @@
 
 Required permissions: `INTERNET`, `READ_EXTERNAL_STORAGE`, `WRITE_EXTERNAL_STORAGE`, `ACCESS_MEDIA_LOCATION`.
 If you don't need the `ACCESS_MEDIA_LOCATION` permission,
-see [Disable `ACCESS_MEDIA_LOCATION` permission](#disable-access_media_location-permission).
 
-If you found some warning logs with `Glide` appearing,
-then the main project needs an implementation of `AppGlideModule`.
-See [Generated API](https://sjudd.github.io/glide/doc/generatedapi.html).
+```xml
+<uses-permission
+  android:name="android.permission.ACCESS_MEDIA_LOCATION"
+  tools:node="remove"
+  />
+```
 
 ### iOS
 
