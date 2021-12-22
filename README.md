@@ -58,18 +58,20 @@ import 'package:media_picker/media_picker.dart';
       isMulti: true,
       type: RequestType.all,
       isReview: true,
-
+      mulCallback: (List<AssetEntity> assets){
+        //return selected items
+      }
   );
 ```
 
-| Parameter          | Type                 | Description                                                      | Default                           |
-| ------------------ | -------------------- | ---------------------------------------------------------------- | --------------------------------- |
-| **isMulti**        | `bool`               | Multiple select mode                                             | true                              |
-| **type**           | `RequestType`        | Request type for picker                                          | RequestType.common                |
-| **limit**          | `int`                | Maximum asset that the picker can pick                           | 10                                |
-| **isReview**       | `bool`               | Review after select                                              | true                              |
-| **filterOptions**  | `FilterOptionGroup?` | Allow users to customize assets filter options                   | null                              |
-| **leadingBuilder** | `WidgetBuilder?`     | The widget builder for the special item                          | null                              |
-| **routeDuration**  | `Duration`           | The duration which the picker use to build page route transition | const Duration(milliseconds: 300) |
-| **mulCallback**    | `MulCallback?`       | Return list item in select                                       | null                              |
-| **singleCallback** | `SingleCallback?`    | Return item in select                                            | null                              |
+| Parameter      | Type                 | Description                                                      | Default                             |
+| -------------- | -------------------- | ---------------------------------------------------------------- | ----------------------------------- |
+| isMulti        | `bool`               | Multiple select mode                                             | `true`                              |
+| type           | `RequestType`        | Request type for picker                                          | `RequestType.common`                |
+| limit          | `int`                | Maximum asset that the picker can pick                           | `10`                                |
+| isReview       | `bool`               | Review before select                                             | `true`                              |
+| filterOptions  | `FilterOptionGroup?` | Allow users to customize assets filter options                   | `null`                              |
+| leadingBuilder | `WidgetBuilder?`     | The widget builder for the special item                          | `null`                              |
+| routeDuration  | `Duration`           | The duration which the picker use to build page route transition | `const Duration(milliseconds: 300)` |
+| mulCallback    | `MulCallback?`       | Return list item in select                                       | `null`                              |
+| singleCallback | `SingleCallback?`    | Return item in select                                            | `null`                              |
