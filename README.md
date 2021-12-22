@@ -1,4 +1,4 @@
-# media_picker
+# multi_media_picker
 
 Flutter plugin to get pictures, videos and audios.
 It allows you to select one or more images from gallery or camera, without needing to switch provider.
@@ -44,7 +44,7 @@ platform :ios, '10.0'
 
 ```yaml
 dependencies:
-  media_picker: 0.0.1
+  multi_media_picker: 0.0.1
 ```
 
 ## Screenshots

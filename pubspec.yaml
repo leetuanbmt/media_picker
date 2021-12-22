@@ -1,5 +1,5 @@
-name: media_picker
-description: An audio/video/image picker in pure Dart which is the same with WeChat, support multi picking.
+name: multi_media_picker
+description: An audio/video/image picker in pure Dart, support multi picking.
 version: 0.0.1
 repository: https://github.com/TuanMinhVan/media_picker
 environment:
