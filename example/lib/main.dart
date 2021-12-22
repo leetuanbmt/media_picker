@@ -150,11 +150,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void picker(RequestType type) {
-    MediaPicker.picker(
-      context,
-      isMulti: isMulti,
-      type: type,
-      isReview: isReview,
-    );
+    MediaPicker.picker(context,
+        isMulti: isMulti,
+        type: type,
+        isReview: isReview,
+        mulCallback: (List<AssetEntity> assets) {});
   }
 }

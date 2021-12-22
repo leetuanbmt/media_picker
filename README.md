@@ -1,3 +1,9 @@
+# media_picker
+
+Flutter plugin to get pictures, videos and audios.
+It allows you to select one or more images from gallery or camera, without needing to switch provider.
+It also allows you to select both images, videos and audios if you wish
+
 ## Requirements
 
 ### Android
