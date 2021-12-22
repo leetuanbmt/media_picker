@@ -1,7 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:multi_media_picker/media_picker.dart';
+import 'package:gmo_media_picker/media_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,16 +15,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
+  const MyHomePage({Key? key}) : super(key: key);
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -34,13 +29,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool isReview = false;
   bool isMulti = false;
-  File? _file;
+  AssetEntity? _assetEntity;
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text('Media picker example'),
       ),
       body: SafeArea(
         child: SizedBox(
@@ -50,7 +45,11 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if (_file != null) Image.file(_file!, height: 50),
+              if (_assetEntity != null)
+                Image(
+                  image: AssetEntityImageProvider(_assetEntity!),
+                  width: 100,
+                ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -135,10 +134,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void picker(RequestType type) {
-    MediaPicker.picker(context,
-        isMulti: isMulti,
-        type: type,
-        isReview: isReview,
-        mulCallback: (List<AssetEntity> assets) {});
+    MediaPicker.picker(
+      context,
+      isMulti: isMulti,
+      type: type,
+      isReview: isReview,
+      mulCallback: (List<AssetEntity> assets) {
+        if (type == RequestType.common) {
+          setState(() => _assetEntity = assets.first);
+        }
+      },
+      singleCallback: (AssetEntity asset) {
+        if (type == RequestType.common) {
+          setState(() => _assetEntity = asset);
+        }
+      },
+    );
   }
 }
