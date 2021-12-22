@@ -97,7 +97,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool isReview = false;
   bool isMulti = false;
-  AssetEntity? _assetEntity;
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
@@ -113,12 +112,6 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if (_assetEntity != null)
-                Image(
-                  image: AssetEntityImageProvider(_assetEntity!),
-                  width: 100,
-                ),
-              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
