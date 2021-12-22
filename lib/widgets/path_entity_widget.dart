@@ -67,7 +67,7 @@ class PathEntityWidget extends StatelessWidget {
                               path.name,
                               style: const TextStyle(
                                 fontSize: 18.0,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

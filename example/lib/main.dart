@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:gmo_camera_picker/gmo_camera_picker.dart';
 import 'package:media_picker/media_picker.dart';
 
 void main() {
@@ -30,11 +33,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool isReview = true;
-  bool isSingleAssetMode = true;
+  bool isReview = false;
+  bool isMulti = false;
+  File? _file;
   @override
   Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -47,6 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              if (_file != null) Image.file(_file!, height: 50),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -63,11 +69,11 @@ class _MyHomePageState extends State<MyHomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Single Mode"),
+                  const Text("Multi Mode"),
                   Switch(
-                    value: isSingleAssetMode,
+                    value: isMulti,
                     onChanged: (newValue) {
-                      setState(() => isSingleAssetMode = newValue);
+                      setState(() => isMulti = newValue);
                     },
                   ),
                 ],
@@ -121,7 +127,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   picker(RequestType.audio);
                 },
-              )
+              ),
+              MaterialButton(
+                color: themeData.primaryColor,
+                child: const Text(
+                  'Camera picker',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  GmoCameraPicker.pickFromCamera(context).then((value) {
+                    if (value != null) {
+                      setState(() => _file = value);
+                    }
+                  });
+                },
+              ),
             ],
           ),
         ),
@@ -130,9 +150,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void picker(RequestType type) {
-    MediaPicker.assetPicker(
+    MediaPicker.picker(
       context,
-      isSingleAssetMode: isSingleAssetMode,
+      isMulti: isMulti,
       type: type,
       isReview: isReview,
     );

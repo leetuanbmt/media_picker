@@ -13,9 +13,8 @@ class AudioPageBuilder extends StatefulWidget {
 }
 
 class _AudioPageBuilderState extends State<AudioPageBuilder> {
-  final durationStreamController = StreamController<Duration>.broadcast();
+  final _durationStream = StreamController<Duration>.broadcast();
   VideoPlayerController? _controller;
-
   bool isLoaded = false;
   bool isPlaying = false;
   bool get isControllerPlaying => _controller?.value.isPlaying ?? false;
@@ -24,7 +23,7 @@ class _AudioPageBuilderState extends State<AudioPageBuilder> {
   @override
   void initState() {
     super.initState();
-    openAudioFile();
+    _openAudioFile();
   }
 
   @override
@@ -32,11 +31,11 @@ class _AudioPageBuilderState extends State<AudioPageBuilder> {
     _controller?.pause();
     _controller?.removeListener(audioPlayerListener);
     _controller?.dispose();
-    durationStreamController.close();
+    _durationStream.close();
     super.dispose();
   }
 
-  Future<void> openAudioFile() async {
+  Future<void> _openAudioFile() async {
     try {
       final url = await widget.asset.getMediaUrl();
       assetDuration = Duration(seconds: widget.asset.duration);
@@ -62,7 +61,7 @@ class _AudioPageBuilderState extends State<AudioPageBuilder> {
     }
 
     if (_controller?.value.position != null) {
-      durationStreamController.add(_controller!.value.position);
+      _durationStream.add(_controller!.value.position);
     }
   }
 
@@ -100,7 +99,7 @@ class _AudioPageBuilderState extends State<AudioPageBuilder> {
 
   Widget get durationIndicator => StreamBuilder<Duration>(
         initialData: Duration.zero,
-        stream: durationStreamController.stream,
+        stream: _durationStream.stream,
         builder: (BuildContext _, AsyncSnapshot<Duration> data) {
           return Text(
             '${MediaPicker.formatDuration(data.data!)}'

@@ -41,7 +41,9 @@ class ImagePageBuilder extends StatelessWidget {
                 loader = const ColoredBox(color: Color(0x10ffffff));
                 break;
               case LoadState.completed:
-                loader = RepaintBoundary(child: state.completedWidget);
+                loader = RepaintBoundary(
+                  child: Hero(tag: asset.id, child: state.completedWidget),
+                );
                 break;
               case LoadState.failed:
                 loader = failedItemBuilder(context);

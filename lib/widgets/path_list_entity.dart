@@ -11,6 +11,7 @@ class PathEntityList extends StatelessWidget {
     required this.currentPathEntity,
     required this.onTap,
     required this.type,
+    required this.height,
   }) : super(key: key);
   final bool isAppleOS;
   final Duration switchingPathDuration;
@@ -20,9 +21,9 @@ class PathEntityList extends StatelessWidget {
   final RequestType type;
   final Function(AssetPathEntity) onTap;
   final ValueListenable<AssetPathEntity?> currentPathEntity;
+  final double height;
   @override
   Widget build(BuildContext context) {
-    final double maxHeight = context.height * 0.825;
     return ValueListenableBuilder(
       valueListenable: isSwitchingPath,
       builder: (_, bool val, Widget? child) {
@@ -31,16 +32,16 @@ class PathEntityList extends StatelessWidget {
           curve: switchingPathCurve,
           top: isAppleOS
               ? !val
-                  ? -maxHeight
+                  ? -height
                   : 0
-              : -(!val ? maxHeight : 1.0),
+              : -(!val ? height : 1.0),
           child: AnimatedOpacity(
             duration: switchingPathDuration,
             curve: switchingPathCurve,
             opacity: !isAppleOS || val ? 1.0 : 0.0,
             child: Container(
               width: context.width,
-              height: maxHeight,
+              height: height,
               decoration: BoxDecoration(
                 borderRadius: isAppleOS
                     ? const BorderRadius.only(
@@ -48,7 +49,7 @@ class PathEntityList extends StatelessWidget {
                         bottomRight: Radius.circular(10.0),
                       )
                     : null,
-                color: Colors.black,
+                color: Colors.white,
               ),
               child: ListView.separated(
                 padding: const EdgeInsets.only(top: 1.0),

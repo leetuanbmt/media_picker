@@ -11,22 +11,30 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'mixins/after_layout.dart';
+import 'mixins/loadmore_mixin.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:video_player/video_player.dart';
 
 export 'package:photo_manager/photo_manager.dart';
 
-part 'media_picker/asset_entity_image_provider.dart';
-part 'media_picker/asset_picker_builder.dart';
-part 'media_picker/media_builder_preview.dart';
-part 'widgets/thumbnail.dart';
+part 'asset_entity_image_provider.dart';
+part 'builder/asset_picker_builder.dart';
+part 'builder/media_builder_preview.dart';
+part 'builder/audio_page_builder.dart';
+part 'builder/image_page_builder.dart';
+part 'builder/video_page_builder.dart';
+part 'builder/video_progress.dart';
 part 'widgets/path_entity_selector.dart';
 part 'widgets/path_entity_widget.dart';
+part 'widgets/select_indicator.dart';
 part 'widgets/path_list_entity.dart';
-part 'media_builder/audio_page_builder.dart';
-part 'media_builder/image_page_builder.dart';
-part 'media_builder/video_page_builder.dart';
-part 'media_builder/video_progress.dart';
+part 'widgets/audio_item_viewer.dart';
+part 'widgets/duration_indicator.dart';
+part 'widgets/image_item_viewer.dart';
+part 'widgets/confirm_button.dart';
+part 'widgets/list_backdrop.dart';
 
 class ZoomImageItem {
   ZoomImageItem({this.path, this.isVideo = false, this.thumbnail});
@@ -42,38 +50,32 @@ typedef SingleCallback = void Function(AssetEntity);
 typedef Callback = void Function(AssetEntity);
 
 class MediaPicker {
-  factory MediaPicker() {
-    return _instance;
-  }
+  factory MediaPicker() => _instance;
   MediaPicker._internal();
   static final MediaPicker _instance = MediaPicker._internal();
-  static void assetPicker(
+
+  static void picker(
     BuildContext context, {
     RequestType type = RequestType.common,
     int limit = 10,
-    Color appBarColor = Colors.black,
     MulCallback? mulCallback,
     SingleCallback? singleCallback,
-    int? limitSize,
-    Duration? maxDuration,
     Duration routeDuration = const Duration(milliseconds: 300),
-    bool isSingleAssetMode = false,
+    bool isMulti = true,
     bool isReview = true,
     WidgetBuilder? leadingBuilder,
     FilterOptionGroup? filterOptions,
   }) async {
-    final bool isPermissionGranted = await PhotoManager.requestPermission();
-    if (isPermissionGranted) {
+    final bool isPermission = await PhotoManager.requestPermission();
+    if (isPermission) {
       Navigator.of(context)
           .push(
         MaterialPageRoute(
           builder: (_) => AssetPickerBuilder(
             routeDuration: routeDuration,
             type: type,
-            appBarColor: appBarColor,
-            isSingleAssetMode: isSingleAssetMode,
+            isMulti: isMulti,
             limit: limit,
-            maxDuration: maxDuration,
             leadingBuilder: leadingBuilder,
             filterOptions: filterOptions,
             isReview: isReview,
@@ -83,9 +85,9 @@ class MediaPicker {
           .then(
         (data) {
           if (data != null) {
-            if (mulCallback != null && !isSingleAssetMode) {
+            if (mulCallback != null && isMulti) {
               mulCallback(data as List<AssetEntity>);
-            } else if (singleCallback != null && isSingleAssetMode) {
+            } else if (singleCallback != null && !isMulti) {
               singleCallback.call(data.first as AssetEntity);
             }
           }
@@ -103,7 +105,7 @@ class MediaPicker {
   }
 
   static void log(dynamic message, {String tag = ''}) {
-    developer.log(message, name: tag);
+    developer.log(message.toString(), name: tag);
   }
 
   static Size sizeImage(
@@ -140,14 +142,12 @@ class Loading extends StatelessWidget {
     Key? key,
     this.width = 50.0,
     this.padding,
-    this.isSeparatePlatform = true,
     this.color,
   }) : super(key: key);
 
   final double width;
   final Color? color;
   final EdgeInsets? padding;
-  final bool isSeparatePlatform;
 
   @override
   Widget build(BuildContext context) {
