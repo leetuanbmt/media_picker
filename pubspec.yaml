@@ -1,6 +1,6 @@
 name: gmo_media_picker
 description: An audio/video/image picker in pure Dart, support multi picking.
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/TuanMinhVan/media_picker
 environment:
   sdk: ">=2.15.0 <3.0.0"
