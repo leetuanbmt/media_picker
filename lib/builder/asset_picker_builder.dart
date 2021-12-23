@@ -202,7 +202,7 @@ class _AssetPickerBuilderState extends State<AssetPickerBuilder>
       PhotoManager.addChangeCallback(callback);
       PhotoManager.startChangeNotify();
     } catch (e) {
-      MediaPicker.log('Error when registering assets callback: $e');
+      GmoMediaPicker.log('Error when registering assets callback: $e');
     }
   }
 
@@ -214,7 +214,7 @@ class _AssetPickerBuilderState extends State<AssetPickerBuilder>
       PhotoManager.removeChangeCallback(callback);
       PhotoManager.stopChangeNotify();
     } catch (e) {
-      MediaPicker.log('Error when unregistering assets callback: $e');
+      GmoMediaPicker.log('Error when unregistering assets callback: $e');
     }
   }
 

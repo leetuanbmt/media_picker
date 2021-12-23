@@ -66,7 +66,7 @@ class _VideoPageBuilderState extends State<VideoPageBuilder>
       }
       _controller?.addListener(videoPlayerListener);
     } catch (e) {
-      MediaPicker.log('Error when initialize video controller: $e');
+      GmoMediaPicker.log('Error when initialize video controller: $e');
       hasErrorWhenInitializing = true;
     } finally {
       setInitState();
@@ -228,7 +228,7 @@ class _VideoPageBuilderState extends State<VideoPageBuilder>
     return Padding(
       padding: const EdgeInsets.only(right: 12.0),
       child: Text(
-        MediaPicker.formatDuration(position),
+        GmoMediaPicker.formatDuration(position),
         style: const TextStyle(
           color: Colors.white,
           fontSize: 12.0,
@@ -246,7 +246,7 @@ class _VideoPageBuilderState extends State<VideoPageBuilder>
     return Padding(
       padding: const EdgeInsets.only(right: 12.0),
       child: Text(
-        '-${MediaPicker.formatDuration(position)}',
+        '-${GmoMediaPicker.formatDuration(position)}',
         style: const TextStyle(color: Colors.white, fontSize: 12.0),
       ),
     );
@@ -315,11 +315,10 @@ class _VideoPageBuilderState extends State<VideoPageBuilder>
     );
   }
 
-  Future<void> _seekTo(Duration position) async {
-    await _controller?.seekTo(position);
+  void _seekTo(Duration position) {
     final bool isFinished = position == _controller?.value.duration;
     if (isFinished && isPlaying) {
-      _controller?.pause();
+      _controller?.play();
       _buttonAnimation?.reverse();
     } else if (!isPlaying) {
       _controller?.play();

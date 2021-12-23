@@ -128,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void picker(RequestType type) {
-    MediaPicker.picker(
+    GmoMediaPicker.picker(
       context,
       isMulti: isMulti,
       type: type,

@@ -43,7 +43,7 @@ class _AudioPageBuilderState extends State<AudioPageBuilder> {
       await _controller?.initialize();
       _controller?.addListener(audioPlayerListener);
     } catch (e) {
-      MediaPicker.log('Error when opening audio file: $e');
+      GmoMediaPicker.log('Error when opening audio file: $e');
     } finally {
       isLoaded = true;
       if (mounted) {
@@ -102,9 +102,9 @@ class _AudioPageBuilderState extends State<AudioPageBuilder> {
         stream: _durationStream.stream,
         builder: (BuildContext _, AsyncSnapshot<Duration> data) {
           return Text(
-            '${MediaPicker.formatDuration(data.data!)}'
+            '${GmoMediaPicker.formatDuration(data.data!)}'
             ' / '
-            '${MediaPicker.formatDuration(assetDuration)}',
+            '${GmoMediaPicker.formatDuration(assetDuration)}',
             style: const TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.normal,

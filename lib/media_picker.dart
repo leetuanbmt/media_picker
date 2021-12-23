@@ -49,10 +49,10 @@ typedef SingleCallback = void Function(AssetEntity);
 
 typedef Callback = void Function(AssetEntity);
 
-class MediaPicker {
-  factory MediaPicker() => _instance;
-  MediaPicker._internal();
-  static final MediaPicker _instance = MediaPicker._internal();
+class GmoMediaPicker {
+  factory GmoMediaPicker() => _instance;
+  GmoMediaPicker._internal();
+  static final GmoMediaPicker _instance = GmoMediaPicker._internal();
 
   static void picker(
     BuildContext context, {
@@ -61,7 +61,7 @@ class MediaPicker {
     MulCallback? mulCallback,
     SingleCallback? singleCallback,
     Duration routeDuration = const Duration(milliseconds: 300),
-    bool isMulti = true,
+    bool isMulti = false,
     bool isReview = true,
     WidgetBuilder? leadingBuilder,
     FilterOptionGroup? filterOptions,

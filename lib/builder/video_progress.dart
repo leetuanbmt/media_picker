@@ -42,6 +42,7 @@ class _VideoProgressState extends State<VideoProgress> {
       final double relative = tapPos.dx / box.size.width;
       final Duration position = controller.value.duration * relative;
       controller.seekTo(position);
+      widget.seekTo.call(position);
     }
 
     return Expanded(

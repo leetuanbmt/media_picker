@@ -65,10 +65,7 @@ import 'package:media_picker/media_picker.dart';
 ```dart
  MediaPicker.assetPicker(
       context,
-      isMulti: true,
-      type: RequestType.all,
-      isReview: true,
-      mulCallback: (List<AssetEntity> assets){
+      singleCallback: (AssetEntity asset){
         //return selected items
       }
   );
@@ -76,7 +73,7 @@ import 'package:media_picker/media_picker.dart';
 
 | Parameter      | Type                 | Description                                                      | Default                             |
 | -------------- | -------------------- | ---------------------------------------------------------------- | ----------------------------------- |
-| isMulti        | `bool`               | Multiple select mode                                             | `true`                              |
+| isMulti        | `bool`               | Multiple select mode                                             | `false`                             |
 | type           | `RequestType`        | Request type for picker                                          | `RequestType.common`                |
 | limit          | `int`                | Maximum asset that the picker can pick                           | `10`                                |
 | isReview       | `bool`               | Review before select                                             | `true`                              |
