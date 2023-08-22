@@ -7,6 +7,7 @@ export 'package:auto_size_text/auto_size_text.dart';
 export 'package:easy_localization/easy_localization.dart' hide TextDirection;
 export 'package:flutter/material.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
+export 'package:hooks_riverpod/hooks_riverpod.dart';
 export 'package:velocity_x/velocity_x.dart';
 
 part 'styles/dimensions.dart';
@@ -19,5 +20,5 @@ enum Flavor { dev, staging, prod }
 class AppConfig {
   AppConfig._();
   static const title = 'Go Tip App';
-  static const baseUrl = 'https://api.coinmarketcap.com/data-api/v3';
+  static const baseUrl = 'https://reqres.in/api/';
 }

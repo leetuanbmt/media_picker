@@ -9,8 +9,6 @@ part 'rest_client.g.dart';
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
-  @GET("/api/v1/example")
-  Future<dynamic> getExample(
-    @QueryParam() Map<String, dynamic> queryParameters,
-  );
+  @GET("users/{userId}")
+  Future<dynamic> fetchUserInfo(@Path() String userId);
 }

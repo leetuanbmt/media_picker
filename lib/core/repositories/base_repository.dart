@@ -22,32 +22,36 @@ abstract class BaseRepository {
   Future<Result<Data>> request<Data>(Future<Data> call) async {
     try {
       final response = await call;
-      return Success(response);
+      return Result.success(response);
     } on Exception catch (exception) {
       if (exception is DioException) {
         int? errorCode = exception.response?.statusCode;
-        final error = Error<Data>(
-          type: ErrorType.other,
-          message: exception.message,
-          code: errorCode,
-        );
 
         switch (exception.type) {
           case DioExceptionType.connectionTimeout:
           case DioExceptionType.sendTimeout:
           case DioExceptionType.receiveTimeout:
           case DioExceptionType.connectionError:
-            return error.copyWith(type: ErrorType.timeOut);
+            return Result.error(
+              ErrorType.timeOut,
+              message: exception.message,
+              code: errorCode,
+            );
           case DioExceptionType.cancel:
-            return error.copyWith(type: ErrorType.cancel);
+            return Result.error(
+              ErrorType.cancel,
+              message: exception.message,
+              code: errorCode,
+            );
           default:
-            if (errorCode == 401) {
-              return error.copyWith(type: ErrorType.tokenExpired);
-            }
-            return error.copyWith(type: ErrorType.other);
+            return Result.error(
+              ErrorType.other,
+              message: exception.message,
+              code: errorCode,
+            );
         }
       }
-      return Error(type: ErrorType.other, message: exception.toString());
+      return Result.error(ErrorType.other, message: exception.toString());
     }
   }
 }
