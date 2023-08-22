@@ -18,9 +18,11 @@ class ThemeColor {
     ThemeColor(4, "red2", AppTheme.red2),
     ThemeColor(5, "red3", AppTheme.red3),
     ThemeColor(6, "purple", AppTheme.purple),
-    ThemeColor(7, "yellow", AppTheme.yellow),
-    ThemeColor(8, "grey1", AppTheme.grey1),
-    ThemeColor(9, "darkGrey", AppTheme.darkGrey),
-    ThemeColor(10, "grey2", AppTheme.grey2),
+    ThemeColor(7, "orange", AppTheme.orange),
+    ThemeColor(8, "yellow", AppTheme.yellow),
+    ThemeColor(9, "grey1", AppTheme.grey1),
+    ThemeColor(10, "darkGrey", AppTheme.darkGrey),
+    ThemeColor(11, "grey2", AppTheme.grey2),
+    ThemeColor(12, "blue", AppTheme.blue),
   ];
 }

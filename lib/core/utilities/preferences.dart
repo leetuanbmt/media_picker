@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-// import '../config.dart';
+import '../config.dart';
 
 class Preferences {
   factory Preferences() {
@@ -83,13 +83,6 @@ class Preferences {
     return preferences.setStringList(key, value);
   }
 
-  // Color setThemeColor(String languageCode) {
-  //   preferences.setString('themeColor', languageCode);
-  //   return locale(languageCode);
-  // }
-
-  // Color getThemeColor() {
-  //   String languageCode = preferences.getString('themeColor') ?? "en";
-  //   return locale(languageCode);
-  // }
+  static int? get themeColor =>
+      getInt('ThemeColor') ?? ThemeColor.themeColorList.first.id;
 }
