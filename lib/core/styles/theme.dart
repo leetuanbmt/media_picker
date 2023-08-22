@@ -20,6 +20,7 @@ class AppTheme {
       brightness: colorScheme.brightness,
       scaffoldBackgroundColor: Colors.white,
       appBarTheme: const AppBarTheme(
+        iconTheme: IconThemeData(color: Colors.white),
         scrolledUnderElevation: 0,
         backgroundColor: primaryColor,
         centerTitle: true,
