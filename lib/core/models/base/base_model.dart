@@ -1,57 +1,24 @@
-import 'package:dio/dio.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'base_model.g.dart';
+import 'error_type.dart';
 
-@JsonSerializable(explicitToJson: true, genericArgumentFactories: true)
-class BaseModel<T> {
-  final String? requestId;
-  final String? desc;
-  final String? message;
-  final int? status;
-  final T? data;
-  final dynamic error;
+part 'base_model.freezed.dart';
 
-  BaseModel({
-    this.requestId,
-    this.status,
-    this.desc,
-    this.message,
-    this.data,
-    this.error,
-  });
-
-  bool isSuccess() => status == 200;
-
-  bool isTokenExpired() => message == 'tokenExpired';
-
-  factory BaseModel.fromJson(
-    Map<String, dynamic> json,
-    T Function(Object? json) fromJsonT,
-  ) =>
-      _$BaseModelFromJson<T>(json, fromJsonT);
-
-  Map<String, dynamic> toJson(Object Function(T) toJsonT) =>
-      _$BaseModelToJson<T>(this, toJsonT);
+@freezed
+abstract class BaseState<T> with _$BaseState {
+  const factory BaseState() = InitialState;
+  const factory BaseState.loading() = LoadingState;
+  const factory BaseState.loaded(T user) = SuccessState<T>;
+  const factory BaseState.error({String? message}) = ErrorState;
 }
 
-class PaginatorBase<T, B> {
-  int page;
-  int pageSize;
-  int totalItems;
-  List<T> items;
-  B request;
-  bool canLoadMore;
-  CancelToken? cancelToken;
-  PaginatorBase({
-    this.page = 1,
-    this.pageSize = 20,
-    this.totalItems = 1,
-    this.canLoadMore = false,
-    this.items = const [],
-    this.cancelToken,
-    required this.request,
-  });
-
-  bool get hasMoreToLoad => items.length < totalItems;
+@freezed
+abstract class Result<T> with _$Result {
+  const factory Result.success(T? data) = Success<T>;
+  const factory Result.error(
+    ErrorType type, {
+    String? message,
+    int? code,
+    String? result,
+  }) = Errors;
 }
