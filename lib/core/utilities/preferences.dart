@@ -1,7 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../config.dart';
-
 class Preferences {
   factory Preferences() {
     return _instance;
@@ -83,6 +81,5 @@ class Preferences {
     return preferences.setStringList(key, value);
   }
 
-  static int? get themeColor =>
-      getInt('themeColor') ?? ThemeColor.themeColorList.first.id;
+  static String? get themeColor => getString('themeColor') ?? 'ff47C3BE';
 }

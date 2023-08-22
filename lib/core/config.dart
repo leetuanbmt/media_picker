@@ -2,6 +2,7 @@ library config;
 
 import 'config.dart';
 import 'utilities/preferences.dart';
+import 'utilities/theme_color.dart';
 
 export 'package:auto_route/auto_route.dart';
 export 'package:auto_size_text/auto_size_text.dart';
@@ -11,7 +12,6 @@ export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:hooks_riverpod/hooks_riverpod.dart';
 export 'package:velocity_x/velocity_x.dart';
 
-export '../core/models/theme_color_model.dart';
 export '../notifiers/theme_color_notifier.dart';
 
 part 'styles/dimensions.dart';
