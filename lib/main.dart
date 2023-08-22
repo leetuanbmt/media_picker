@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'root.dart';
 
 void main() {
-  runApp(const RootApp());
+  runApp(const ProviderScope(child: RootApp()));
 }

@@ -19,5 +19,5 @@ enum Flavor { dev, staging, prod }
 class AppConfig {
   AppConfig._();
   static const title = 'Go Tip App';
-  static const baseUrl = 'https://api.coinmarketcap.com/data-api/v3';
+  static const baseUrl = 'https://reqres.in/api/';
 }

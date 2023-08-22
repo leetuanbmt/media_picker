@@ -13,7 +13,7 @@ class _RestClient implements RestClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://api.coinmarketcap.com/data-api/v3';
+    baseUrl ??= 'https://reqres.in/api/';
   }
 
   final Dio _dio;
@@ -21,7 +21,7 @@ class _RestClient implements RestClient {
   String? baseUrl;
 
   @override
-  Future<dynamic> getExample(Map<String, dynamic> queryParameters) async {
+  Future<dynamic> fetchUserInfo(String userId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -33,7 +33,7 @@ class _RestClient implements RestClient {
     )
         .compose(
           _dio.options,
-          '/api/v1/example',
+          'users/${userId}',
           queryParameters: queryParameters,
           data: _data,
         )
