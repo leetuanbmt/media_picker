@@ -84,5 +84,5 @@ class Preferences {
   }
 
   static int? get themeColor =>
-      getInt('ThemeColor') ?? ThemeColor.themeColorList.first.id;
+      getInt('themeColor') ?? ThemeColor.themeColorList.first.id;
 }

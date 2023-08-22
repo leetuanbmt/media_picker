@@ -17,7 +17,9 @@ class AppTheme {
   static const darkGrey = Color(0xff575F74);
   static const grey2 = Color(0xff4F4F4F);
 
-  static Color primaryColor = green1;
+  static Color primaryColor = ThemeColor.themeColorList
+      .firstWhere((element) => element.id == Preferences.themeColor)
+      .colorValue;
   static const background = Colors.white;
   static const surface = Color(0xffF5F8FA);
   static const title = Color(0xff6d7175);
