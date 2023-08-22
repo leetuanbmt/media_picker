@@ -43,8 +43,10 @@ class Error<T> extends Result<T> {
         code: code ?? this.code,
         result: result ?? this.result,
       );
+
   @override
   int get hashCode => Object.hash(type, message, code, result);
+
   @override
   bool operator ==(Object other) {
     return other is Error && other.hashCode == hashCode;
