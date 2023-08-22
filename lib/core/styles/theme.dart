@@ -2,13 +2,27 @@ part of config;
 
 class AppTheme {
   AppTheme._();
-  static const primaryColor = Color(0xff00BAAF);
+
+  //multi theme
+  static const green1 = Color(0xff47C3BE);
+  static const green2 = Color(0xff55BE81);
+  static const red1 = Color(0xffFF3976);
+  static const red2 = Color(0xffFF3976);
+  static const red3 = Color(0xffEE5266);
+  static const purple = Color(0xff6B7CFF);
+  static const orange = Color(0xffFF8A48);
+  static const yellow = Color(0xffFCA600);
+  static const grey1 = Color(0xffACAEB5);
+  static const darkGrey = Color(0xff575F74);
+  static const grey2 = Color(0xff4F4F4F);
+
+  static Color primaryColor = green1;
   static const background = Colors.white;
   static const surface = Color(0xffF5F8FA);
   static const title = Color(0xff6d7175);
   static const dividerColor = Color(0xffE5E5E5);
   static ThemeData get appTheme {
-    ColorScheme colorScheme = const ColorScheme.light(
+    ColorScheme colorScheme = ColorScheme.light(
       primary: primaryColor,
       surface: surface,
     );
@@ -19,17 +33,17 @@ class AppTheme {
       colorScheme: colorScheme,
       brightness: colorScheme.brightness,
       scaffoldBackgroundColor: Colors.white,
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         scrolledUnderElevation: 0,
         backgroundColor: primaryColor,
         centerTitle: true,
-        titleTextStyle: TextStyle(
+        titleTextStyle: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 22,
           color: Colors.white,
         ),
       ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
         selectedItemColor: primaryColor,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
