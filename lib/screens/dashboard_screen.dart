@@ -26,30 +26,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: AutoTabsScaffold(
-          routes: const [
-            HomeRoute(),
-            SearchRoute(),
-            MainRoute(),
-            NotificationRoute(),
-            ProfileRoute(),
-          ],
-          bottomNavigationBuilder: (context, tabsRouter) {
-            return _BottomNavigation(
-              currentIndex: tabsRouter.activeIndex,
-              onChange: (index) {
-                if (index == tabsRouter.activeIndex) {
-                  if (tabsRouter.topRoute.router is NestedStackRouter) {
-                    tabsRouter.topRoute.router.navigateNamed('');
-                  }
-                } else {
-                  tabsRouter.setActiveIndex(index);
+      body: AutoTabsScaffold(
+        routes: const [
+          HomeRoute(),
+          SearchRoute(),
+          MainRoute(),
+          NotificationRoute(),
+          ProfileRoute(),
+        ],
+        bottomNavigationBuilder: (context, tabsRouter) {
+          return _BottomNavigation(
+            currentIndex: tabsRouter.activeIndex,
+            onChange: (index) {
+              if (index == tabsRouter.activeIndex) {
+                if (tabsRouter.topRoute.router is NestedStackRouter) {
+                  tabsRouter.topRoute.router.navigateNamed('');
                 }
-              },
-            );
-          },
-        ),
+              } else {
+                tabsRouter.setActiveIndex(index);
+              }
+            },
+          );
+        },
       ),
     );
   }
@@ -88,10 +86,16 @@ class _BottomNavigation extends StatelessWidget {
         image: Assets.iconsIconPerson.path,
       ),
     ];
+
     return SizedBox(
       height: 50.h + context.screenPadding.bottom / 2,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        padding: EdgeInsets.fromLTRB(
+          10.w,
+          0,
+          10.w,
+          context.screenPadding.bottom / 2,
+        ),
         child: Row(
           children: tabs
               .asMap()
