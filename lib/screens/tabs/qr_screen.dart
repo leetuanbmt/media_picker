@@ -14,12 +14,9 @@ class QRScreen extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'Qr Screen',
-          style: TextStyle(
-            color: AppTheme.primaryColor,
-          ),
         ),
       ),
     );
