@@ -8,6 +8,7 @@ class AppTheme {
   static const surface = Color(0xffF5F8FA);
   static const title = Color(0xff6d7175);
   static const dividerColor = Color(0xffE5E5E5);
+  static const defaultGrey = Color(0xffBDBDBD);
   static ThemeData get appTheme {
     ColorScheme colorScheme = ColorScheme.light(
       primary: primaryColor,
