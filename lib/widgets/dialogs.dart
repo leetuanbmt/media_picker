@@ -1,6 +1,7 @@
 library dialogs;
 
 import '../core/config.dart';
+import '../core/utilities/colors.dart';
 
 class AppDialog {
   AppDialog._();
@@ -31,34 +32,40 @@ class AppDialog {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: EdgeInsets.only(bottom: context.screenPadding.bottom),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Consumer(
-                builder: (context, ref, child) {
-                  final themeColor = ref.watch(selectedThemeColor);
-                  return InkWell(
-                    child: Icon(
-                      Icons.close_sharp,
-                      size: 30.sp,
-                      color: themeColor,
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                  );
-                },
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 25.h),
-                child: Text(
-                  title,
-                  style: TextStyle(fontSize: 24.sp),
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.close_sharp,
+                    color: AppColors.icon,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
               ),
-              child,
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
+                child: Text(
+                  title,
+                  style: context.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.blackBold,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10.0.h,
+                  horizontal: 20.0.w,
+                ),
+                child: child,
+              ),
             ],
           ),
         ),

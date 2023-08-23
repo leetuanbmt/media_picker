@@ -8,6 +8,34 @@ class AppColors {
       ? supportColors.first
       : Color(Preferences.themeColor!);
 
+  static const blackBold = Color(0xff332C2C);
+
+  static const fontGrayLead = Color(0xff646464);
+
+  static const fontGreen = Color(0xff00BAB3);
+
+  static const purple = Color(0xff6B7CFF);
+
+  static const fontGray = Color(0xff95A8B5);
+
+  static const lightGray = Color(0xffF2F2F5);
+
+  static const black = Color(0xff211A1A);
+
+  static const box = Color(0xffD4D4D4);
+
+  static const boxFont = Color(0xffAFAFAF);
+
+  static const fontBoldLight = Color(0xff565656);
+
+  static const middleGray = Color(0xffC0C8CD);
+
+  static const perlGreen = Color(0xffF1F8F7);
+
+  static const icon = Color(0xffBDBDBD);
+
+  static const background = Color(0xffF9FBFB);
+
   static const supportColors = <Color>[
     Color(0xff47C3BE),
     Color(0xff55BE81),

@@ -36,7 +36,7 @@ class ThemeColorPicker extends HookConsumerWidget {
               )
               .toList(),
         ),
-        HeightBox(40.h),
+        HeightBox(10.h),
         ElevatedButton(
           onPressed: () {
             ref.read(appGlobalNotifier.notifier).setColor(colorTheme);
@@ -45,7 +45,7 @@ class ThemeColorPicker extends HookConsumerWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: AppTheme.appTheme.primaryColor,
             foregroundColor: Colors.white,
-            fixedSize: Size(context.screenWidth, 50.h),
+            fixedSize: Size(context.screenWidth, 48.h),
           ),
           child: const Text('設定する'),
         ),
