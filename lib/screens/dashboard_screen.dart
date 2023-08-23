@@ -1,17 +1,17 @@
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../core/config.dart';
 import '../gen/assets.gen.dart';
 import '../routes/app_routes.gr.dart';
-part 'dashboard_screen.freezed.dart';
 
-@freezed
-class TabItem with _$TabItem {
-  const factory TabItem({
-    required String title,
-    required String image,
-  }) = _TabItem;
+class TabItem {
+  const TabItem({
+    required this.title,
+    required this.image,
+  });
+
+  final String title;
+  final String image;
 }
 
 @RoutePage()
@@ -22,20 +22,7 @@ class DashboardScreen extends StatefulWidget {
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen>
-    with AutoRouteAwareStateMixin, WidgetsBindingObserver {
-  @override
-  void initState() {
-    WidgetsBinding.instance.addObserver(this);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
+class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,7 +179,7 @@ class _MainTabCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: ClipOval(
         child: Material(
           color: AppTheme.primaryColor,
