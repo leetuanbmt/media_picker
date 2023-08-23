@@ -6,24 +6,25 @@ enum ButtonType {
 }
 
 class ButtonCustom extends StatelessWidget {
-  const ButtonCustom({
+  const ButtonCustom(
+    this.textContent, {
     super.key,
     this.type = ButtonType.normal,
-    this.textColor = Colors.white,
-    this.backgroundColor = Colors.white,
+    this.textColor,
+    this.backgroundColor,
     this.fontSize = 14,
-    this.radius = 0,
+    this.radius = 30,
     this.borderWidth = 1,
     this.height,
     this.width,
     this.borderColor,
     this.onPressed,
-    required this.textContent,
+    this.elevation = 0,
   });
 
   final ButtonType type;
   final Color? textColor, borderColor, backgroundColor;
-  final double fontSize, radius, borderWidth;
+  final double fontSize, radius, borderWidth, elevation;
   final double? height, width;
   final VoidCallback? onPressed;
   final String textContent;
@@ -42,22 +43,23 @@ class ButtonCustom extends StatelessWidget {
     BorderSide side = switch (type) {
       ButtonType.outline => BorderSide(
           width: borderWidth,
-          color: borderColor ?? AppTheme.primaryColor,
+          color: borderColor ?? textColor ?? AppTheme.primaryColor,
         ),
       _ => BorderSide.none
     };
 
+    Color bgColor = backgroundColor ??
+        (type == ButtonType.outline ? Colors.white : AppTheme.primaryColor);
+
+    Color? titleColor = textColor ??
+        (type == ButtonType.outline ? AppTheme.primaryColor : Colors.white);
+
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: onPressed == null
-            ? const Color(0xffC0C8CD)
-            : type == ButtonType.normal
-                ? AppTheme.primaryColor
-                : backgroundColor,
+        backgroundColor: bgColor,
         fixedSize: size,
-        shadowColor: Colors.transparent,
-        elevation: 0,
+        elevation: elevation,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(radius),
           side: side,
@@ -65,9 +67,9 @@ class ButtonCustom extends StatelessWidget {
       ),
       child: Text(
         textContent,
-        style: TextStyle(
+        style: context.bodyMedium!.copyWith(
           fontSize: fontSize,
-          color: type == ButtonType.outline ? AppTheme.primaryColor : textColor,
+          color: titleColor,
           fontWeight: FontWeight.w600,
         ),
       ),
