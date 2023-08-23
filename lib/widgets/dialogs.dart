@@ -5,7 +5,10 @@ import '../core/config.dart';
 class AppDialog {
   AppDialog._();
 
-  static void showAppBottomSheet(BuildContext context, Widget child) {
+  static void showAppBottomSheet(
+    BuildContext context,
+    Widget child,
+  ) {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -14,6 +17,7 @@ class AppDialog {
       builder: (context) {
         return child;
       },
+      isScrollControlled: true,
     );
   }
 }

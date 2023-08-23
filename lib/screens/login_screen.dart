@@ -1,6 +1,5 @@
 import '../core/config.dart';
 import '../widgets/commons/theme_picker.dart';
-import '../widgets/dialogs.dart';
 
 @RoutePage()
 class LoginScreen extends StatelessWidget {
@@ -16,7 +15,7 @@ class LoginScreen extends StatelessWidget {
       body: Center(
         child: TextButton(
           onPressed: () {
-            AppDialog.showAppBottomSheet(context, ThemeColorPicker(context));
+            ThemeColorPicker.showBottomSheet(context);
           },
           child: Text(
             'Login Screen',

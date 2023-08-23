@@ -4,7 +4,7 @@ class AppTheme {
   AppTheme._();
 
   static Color primaryColor = AppColor.supportColors.firstWhere(
-    (e) => e == Vx.hexToColor(Preferences.themeColor ?? 'ff47C3BE'),
+    (e) => e == Color(Preferences.themeColor ?? 0xff47C3BE),
   );
 
   static const background = Colors.white;

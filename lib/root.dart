@@ -7,7 +7,7 @@ class RootApp extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colorTheme = ref.watch(selectedThemeColor);
+    final appGlobal = ref.watch(appGlobalNotifier);
     return EasyLocalization(
       supportedLocales: AppLanguage.supports,
       fallbackLocale: AppLanguage.defaultLanguage,
@@ -27,7 +27,7 @@ class RootApp extends HookConsumerWidget {
                 debugShowCheckedModeBanner: false,
                 showPerformanceOverlay: false,
                 theme: AppTheme.appTheme.copyWith(
-                  primaryColor: Vx.hexToColor(colorTheme),
+                  primaryColor: appGlobal.themeColor,
                 ),
                 routerDelegate: _appRouter.delegate(),
                 routeInformationParser: _appRouter.defaultRouteParser(),
