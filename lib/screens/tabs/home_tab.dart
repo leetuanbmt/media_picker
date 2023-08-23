@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             Divider(
-              color: AppTheme.dividerColor2,
+              color: AppTheme.surface,
               thickness: 8.h,
             ),
             SizedBox(height: 20.h),
