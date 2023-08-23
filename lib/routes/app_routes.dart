@@ -11,7 +11,19 @@ class AppRouter extends $AppRouter {
   final GlobalKey<NavigatorState> navigatorKey;
   @override
   final List<AutoRoute> routes = [
-    AutoRoute(page: LoginRoute.page, path: '/login', initial: true),
+    AutoRoute(
+      initial: true,
+      page: DashboardRoute.page,
+      path: '/dashboard',
+      children: [
+        AutoRoute(page: HomeRoute.page, path: 'home'),
+        AutoRoute(page: SearchRoute.page, path: 'search'),
+        AutoRoute(page: MainRoute.page, path: 'main'),
+        AutoRoute(page: NotificationRoute.page, path: 'notification'),
+        AutoRoute(page: ProfileRoute.page, path: 'profile'),
+      ],
+    ),
+    AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: UserRoute.page, path: '/user'),
     RedirectRoute(path: '*', redirectTo: '/'),
   ];
