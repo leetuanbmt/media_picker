@@ -5,69 +5,51 @@ import '../dialogs.dart';
 class ThemeColorPicker extends HookConsumerWidget {
   const ThemeColorPicker({super.key});
   static showBottomSheet(BuildContext context) {
-    return AppDialog.showAppBottomSheet(context, const ThemeColorPicker());
+    return AppDialog.showAppBottomSheet(
+      context,
+      title: 'テーマカラーの設定',
+      child: const ThemeColorPicker(),
+    );
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorTheme = ref.watch(selectedThemeColor);
-    return Container(
-      height: context.screenHeight * 0.6,
-      padding: const EdgeInsets.all(30.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InkWell(
-            child: Icon(
-              Icons.close_sharp,
-              size: 30.sp,
-              color: AppTheme.primaryColor,
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-            },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        GridView.count(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          crossAxisCount: 4,
+          crossAxisSpacing: 15.r,
+          mainAxisSpacing: 15.r,
+          children: AppColors.supportColors
+              .map(
+                (e) => _ItemColorBuilder(
+                  color: e,
+                  selectedColor: colorTheme == e,
+                  onTap: () {
+                    ref.read(selectedThemeColor.notifier).selectThemeColor(e);
+                  },
+                ),
+              )
+              .toList(),
+        ),
+        HeightBox(40.h),
+        ElevatedButton(
+          onPressed: () {
+            ref.read(appGlobalNotifier.notifier).setColor(colorTheme);
+            Navigator.of(context).pop();
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppTheme.appTheme.primaryColor,
+            foregroundColor: Colors.white,
+            fixedSize: Size(context.screenWidth, 50.h),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 25.h),
-            child: Text(
-              'テーマカラーの設定',
-              style: TextStyle(fontSize: 24.sp),
-            ),
-          ),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 4,
-              crossAxisSpacing: 15.r,
-              mainAxisSpacing: 15.r,
-              children: AppColors.supportColors
-                  .map(
-                    (e) => _ItemColorBuilder(
-                      color: e,
-                      selectedColor: colorTheme == e,
-                      onTap: () {
-                        ref
-                            .read(selectedThemeColor.notifier)
-                            .selectThemeColor(e);
-                      },
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              ref.read(appGlobalNotifier.notifier).setColor(colorTheme);
-              Navigator.of(context).pop();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.appTheme.primaryColor,
-              foregroundColor: Colors.white,
-              fixedSize: Size(context.screenWidth, 50.h),
-            ),
-            child: const Text('設定する'),
-          ),
-        ],
-      ),
+          child: const Text('設定する'),
+        ),
+      ],
     );
   }
 }
@@ -93,7 +75,7 @@ class _ItemColorBuilder extends StatelessWidget {
         borderRadius: border,
         onTap: onTap,
         child: SizedBox.square(
-          dimension: 64.r,
+          dimension: 60.r,
           child: selectedColor
               ? Icon(
                   Icons.check,
