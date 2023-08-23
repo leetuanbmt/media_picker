@@ -5,28 +5,28 @@ class ButtonCustom extends StatelessWidget {
     super.key,
     this.isOutLine = false,
     this.textColor = Colors.white,
+    this.fontSize = 18,
+    this.radius = 30,
+    this.height = 50,
+    this.width = 315,
     this.backgroundColor,
-    this.fontSize = 14,
-    required this.radius,
-    required this.height,
-    required this.width,
-    required this.borderWidth,
-    required this.borderColor,
-    required this.textContent,
+    this.borderWidth,
+    this.borderColor,
     this.onPressed,
+    required this.textContent,
   });
 
   final bool? isOutLine;
   final Color? textColor;
   final Color? backgroundColor;
   final double? fontSize;
-  final double radius;
-  final double height;
-  final double width;
-  final double borderWidth;
-  final Color borderColor;
-  final String textContent;
+  final double? radius;
+  final double? height;
+  final double? width;
+  final double? borderWidth;
+  final Color? borderColor;
   final VoidCallback? onPressed;
+  final String textContent;
 
   @override
   Widget build(BuildContext context) {
@@ -36,19 +36,19 @@ class ButtonCustom extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: (isOutLine! == true && onPressed != null)
+          backgroundColor: (isOutLine! && onPressed != null)
               ? Colors.white
-              : (isOutLine! == false && onPressed != null)
+              : (!isOutLine! && onPressed != null)
                   ? AppTheme.primaryColor
-                  : Colors.grey,
+                  : const Color(0xffC0C8CD),
           shadowColor: Colors.transparent,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius),
-            side: isOutLine == true
+            borderRadius: BorderRadius.circular(radius!),
+            side: isOutLine!
                 ? BorderSide(
-                    width: borderWidth,
-                    color: borderColor,
+                    width: borderWidth ?? 1,
+                    color: borderColor ?? AppTheme.primaryColor,
                   )
                 : BorderSide.none,
           ),
@@ -57,7 +57,7 @@ class ButtonCustom extends StatelessWidget {
           textContent,
           style: TextStyle(
             fontSize: fontSize,
-            color: isOutLine! == true ? AppTheme.primaryColor : Colors.white,
+            color: isOutLine! ? AppTheme.primaryColor : Colors.white,
             fontWeight: FontWeight.w600,
           ),
         ),
