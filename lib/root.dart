@@ -2,11 +2,12 @@ import 'core/config.dart';
 import 'core/utilities/language.dart';
 import 'routes/app_routes.dart';
 
-class RootApp extends StatelessWidget {
+class RootApp extends HookConsumerWidget {
   const RootApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appGlobal = ref.watch(appGlobalNotifier);
     return EasyLocalization(
       supportedLocales: AppLanguage.supports,
       fallbackLocale: AppLanguage.defaultLanguage,
@@ -25,7 +26,9 @@ class RootApp extends StatelessWidget {
                 locale: context.locale,
                 debugShowCheckedModeBanner: false,
                 showPerformanceOverlay: false,
-                theme: AppTheme.appTheme,
+                theme: AppTheme.appTheme.copyWith(
+                  primaryColor: appGlobal.themeColor,
+                ),
                 routerDelegate: _appRouter.delegate(),
                 routeInformationParser: _appRouter.defaultRouteParser(),
               );

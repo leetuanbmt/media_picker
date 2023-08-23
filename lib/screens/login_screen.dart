@@ -1,4 +1,5 @@
 import '../core/config.dart';
+import '../widgets/commons/theme_picker.dart';
 
 @RoutePage()
 class LoginScreen extends StatelessWidget {
@@ -8,7 +9,21 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppTheme.primaryColor,
         title: const Text('Login'),
+      ),
+      body: Center(
+        child: TextButton(
+          onPressed: () {
+            ThemeColorPicker.showBottomSheet(context);
+          },
+          child: Text(
+            'Login Screen',
+            style: TextStyle(
+              color: AppTheme.primaryColor,
+            ),
+          ),
+        ),
       ),
     );
   }

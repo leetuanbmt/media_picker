@@ -2,13 +2,17 @@ part of config;
 
 class AppTheme {
   AppTheme._();
-  static const primaryColor = Color(0xff00BAAF);
+
+  static Color primaryColor = AppColor.supportColors.firstWhere(
+    (e) => e == Color(Preferences.themeColor ?? 0xff47C3BE),
+  );
+
   static const background = Colors.white;
   static const surface = Color(0xffF5F8FA);
   static const title = Color(0xff6d7175);
   static const dividerColor = Color(0xffE5E5E5);
   static ThemeData get appTheme {
-    ColorScheme colorScheme = const ColorScheme.light(
+    ColorScheme colorScheme = ColorScheme.light(
       primary: primaryColor,
       surface: surface,
     );
@@ -19,18 +23,17 @@ class AppTheme {
       colorScheme: colorScheme,
       brightness: colorScheme.brightness,
       scaffoldBackgroundColor: Colors.white,
-      appBarTheme: const AppBarTheme(
-        iconTheme: IconThemeData(color: Colors.white),
+      appBarTheme: AppBarTheme(
         scrolledUnderElevation: 0,
         backgroundColor: primaryColor,
         centerTitle: true,
-        titleTextStyle: TextStyle(
+        titleTextStyle: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 22,
           color: Colors.white,
         ),
       ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
         selectedItemColor: primaryColor,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
