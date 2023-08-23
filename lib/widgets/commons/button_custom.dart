@@ -1,65 +1,74 @@
 import '../../core/config.dart';
 
+enum ButtonType {
+  normal,
+  outline,
+}
+
 class ButtonCustom extends StatelessWidget {
   const ButtonCustom({
     super.key,
-    this.isOutLine = false,
+    this.type = ButtonType.normal,
     this.textColor = Colors.white,
-    this.fontSize = 18,
-    this.radius = 30,
-    this.height = 50,
-    this.width = 315,
-    this.backgroundColor,
-    this.borderWidth,
+    this.backgroundColor = Colors.white,
+    this.fontSize = 14,
+    this.radius = 0,
+    this.borderWidth = 1,
+    this.height,
+    this.width,
     this.borderColor,
     this.onPressed,
     required this.textContent,
   });
 
-  final bool? isOutLine;
-  final Color? textColor;
-  final Color? backgroundColor;
-  final double? fontSize;
-  final double? radius;
-  final double? height;
-  final double? width;
-  final double? borderWidth;
-  final Color? borderColor;
+  final ButtonType type;
+  final Color? textColor, borderColor, backgroundColor;
+  final double fontSize, radius, borderWidth;
+  final double? height, width;
   final VoidCallback? onPressed;
   final String textContent;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      height: height,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: (isOutLine! && onPressed != null)
-              ? Colors.white
-              : (!isOutLine! && onPressed != null)
-                  ? AppTheme.primaryColor
-                  : const Color(0xffC0C8CD),
-          shadowColor: Colors.transparent,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius!),
-            side: isOutLine!
-                ? BorderSide(
-                    width: borderWidth ?? 1,
-                    color: borderColor ?? AppTheme.primaryColor,
-                  )
-                : BorderSide.none,
-          ),
+    Size? size;
+    if (width != null && height != null) {
+      size = Size(width!, height!);
+    } else if (width != null) {
+      size = Size.fromWidth(width!);
+    } else if (height != null) {
+      size = Size.fromHeight(height!);
+    }
+
+    BorderSide side = switch (type) {
+      ButtonType.outline => BorderSide(
+          width: borderWidth,
+          color: borderColor ?? AppTheme.primaryColor,
         ),
-        child: Text(
-          textContent,
-          style: TextStyle(
-            fontSize: fontSize,
-            color: isOutLine! ? AppTheme.primaryColor : Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
+      _ => BorderSide.none
+    };
+
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: onPressed == null
+            ? const Color(0xffC0C8CD)
+            : type == ButtonType.normal
+                ? AppTheme.primaryColor
+                : backgroundColor,
+        fixedSize: size,
+        shadowColor: Colors.transparent,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radius),
+          side: side,
+        ),
+      ),
+      child: Text(
+        textContent,
+        style: TextStyle(
+          fontSize: fontSize,
+          color: type == ButtonType.outline ? AppTheme.primaryColor : textColor,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );
