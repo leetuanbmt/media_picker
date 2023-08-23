@@ -1,5 +1,5 @@
 import '../../core/config.dart';
-import '../../core/utilities/theme_color.dart';
+import '../../core/utilities/colors.dart';
 import '../dialogs.dart';
 
 class ThemeColorPicker extends HookConsumerWidget {
@@ -13,7 +13,7 @@ class ThemeColorPicker extends HookConsumerWidget {
     final colorTheme = ref.watch(selectedThemeColor);
     return Container(
       height: context.screenHeight * 0.6,
-      margin: const EdgeInsets.all(30.0),
+      padding: const EdgeInsets.all(30.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -39,20 +39,19 @@ class ThemeColorPicker extends HookConsumerWidget {
               crossAxisCount: 4,
               crossAxisSpacing: 15.r,
               mainAxisSpacing: 15.r,
-              children: List.generate(
-                AppColor.supportColors.length,
-                (index) {
-                  return _ItemColorBuilder(
-                    onTap: () {
-                      ref.read(selectedThemeColor.notifier).selectThemeColor(
-                            AppColor.supportColors[index],
-                          );
-                    },
-                    color: AppColor.supportColors[index],
-                    selectedColor: colorTheme == AppColor.supportColors[index],
-                  );
-                },
-              ),
+              children: AppColors.supportColors
+                  .map(
+                    (e) => _ItemColorBuilder(
+                      color: e,
+                      selectedColor: colorTheme == e,
+                      onTap: () {
+                        ref
+                            .read(selectedThemeColor.notifier)
+                            .selectThemeColor(e);
+                      },
+                    ),
+                  )
+                  .toList(),
             ),
           ),
           ElevatedButton(
@@ -62,12 +61,10 @@ class ThemeColorPicker extends HookConsumerWidget {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppTheme.appTheme.primaryColor,
-              fixedSize: Size.fromWidth(context.screenWidth),
+              foregroundColor: Colors.white,
+              fixedSize: Size(context.screenWidth, 50.h),
             ),
-            child: const Text(
-              '設定する',
-              style: TextStyle(color: Colors.white),
-            ),
+            child: const Text('設定する'),
           ),
         ],
       ),
@@ -88,19 +85,20 @@ class _ItemColorBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final border = BorderRadius.circular(15.0);
     return Material(
-      borderRadius: BorderRadius.circular(15.0),
+      borderRadius: border,
       color: color,
       child: InkWell(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: border,
         onTap: onTap,
         child: SizedBox.square(
           dimension: 64.r,
           child: selectedColor
-              ? const Icon(
+              ? Icon(
                   Icons.check,
                   color: Colors.white,
-                  size: 30,
+                  size: 30.r,
                 )
               : null,
         ),

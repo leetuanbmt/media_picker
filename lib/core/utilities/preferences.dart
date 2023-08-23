@@ -81,5 +81,5 @@ class Preferences {
     return preferences.setStringList(key, value);
   }
 
-  static int? get themeColor => getInt('themeColor') ?? 0xff47C3BE;
+  static int? get themeColor => getInt('themeColor');
 }

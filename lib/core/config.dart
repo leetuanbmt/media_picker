@@ -1,8 +1,7 @@
 library config;
 
 import 'config.dart';
-import 'utilities/preferences.dart';
-import 'utilities/theme_color.dart';
+import 'utilities/colors.dart';
 
 export 'package:auto_route/auto_route.dart';
 export 'package:auto_size_text/auto_size_text.dart';
@@ -12,7 +11,7 @@ export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:hooks_riverpod/hooks_riverpod.dart';
 export 'package:velocity_x/velocity_x.dart';
 
-export '../notifiers/theme_color_notifier.dart';
+export '../notifiers/global_notifier.dart';
 
 part 'styles/dimensions.dart';
 part 'styles/theme.dart';
@@ -23,6 +22,7 @@ enum Flavor { dev, staging, prod }
 
 class AppConfig {
   AppConfig._();
-  static const title = 'Go Tip App';
-  static const baseUrl = 'https://reqres.in/api/';
+  static const String title = 'Go Tip App';
+  static const String baseUrl = 'https://reqres.in/api/';
+  static const String themeColorKey = 'themeColor';
 }

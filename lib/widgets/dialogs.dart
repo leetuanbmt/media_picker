@@ -7,17 +7,19 @@ class AppDialog {
 
   static void showAppBottomSheet(
     BuildContext context,
-    Widget child,
-  ) {
+    Widget child, {
+    bool barrierDismissible = true,
+  }) {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(15.0),
+        ),
       ),
-      builder: (context) {
-        return child;
-      },
       isScrollControlled: true,
+      isDismissible: barrierDismissible,
+      builder: (context) => child,
     );
   }
 }

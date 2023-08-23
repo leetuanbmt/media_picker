@@ -3,10 +3,7 @@ part of config;
 class AppTheme {
   AppTheme._();
 
-  static Color primaryColor = AppColor.supportColors.firstWhere(
-    (e) => e == Color(Preferences.themeColor ?? 0xff47C3BE),
-  );
-
+  static Color primaryColor = AppColors.defaultColor;
   static const background = Colors.white;
   static const surface = Color(0xffF5F8FA);
   static const title = Color(0xff6d7175);

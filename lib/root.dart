@@ -14,7 +14,7 @@ class RootApp extends HookConsumerWidget {
       startLocale: AppLanguage.defaultLanguage,
       path: 'assets/locales',
       child: ScreenUtilInit(
-        designSize: const Size(375, 667),
+        designSize: const Size(375, 812),
         minTextAdapt: false,
         builder: (_, Widget? child) {
           return Builder(
