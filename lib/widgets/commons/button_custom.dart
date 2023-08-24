@@ -20,6 +20,9 @@ class ButtonCustom extends StatelessWidget {
     this.borderColor,
     this.onPressed,
     this.elevation = 0,
+    this.tapTargetSize = MaterialTapTargetSize.shrinkWrap,
+    this.padding,
+    this.fontWeight = FontWeight.w600,
   });
 
   final ButtonType type;
@@ -28,7 +31,9 @@ class ButtonCustom extends StatelessWidget {
   final double? height, width;
   final VoidCallback? onPressed;
   final String textContent;
-
+  final MaterialTapTargetSize? tapTargetSize;
+  final EdgeInsetsGeometry? padding;
+  final FontWeight fontWeight;
   @override
   Widget build(BuildContext context) {
     Size? size;
@@ -60,6 +65,8 @@ class ButtonCustom extends StatelessWidget {
         backgroundColor: bgColor,
         fixedSize: size,
         elevation: elevation,
+        tapTargetSize: tapTargetSize,
+        padding: padding,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(radius),
           side: side,
@@ -70,7 +77,7 @@ class ButtonCustom extends StatelessWidget {
         style: context.bodyMedium!.copyWith(
           fontSize: fontSize,
           color: titleColor,
-          fontWeight: FontWeight.w600,
+          fontWeight: fontWeight,
         ),
       ),
     );
