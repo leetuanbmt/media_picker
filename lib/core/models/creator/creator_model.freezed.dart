@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'user_model.dart';
+part of 'creator_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,45 +14,44 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-UserModel _$UserModelFromJson(Map<String, dynamic> json) {
-  return _UserModel.fromJson(json);
+CreatorModel _$CreatorModelFromJson(Map<String, dynamic> json) {
+  return _CreatorModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$UserModel {
+mixin _$CreatorModel {
   int get id => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
   @JsonKey(name: 'first_name')
   String get firstName => throw _privateConstructorUsedError;
   @JsonKey(name: 'last_name')
   String get lastName => throw _privateConstructorUsedError;
   String get avatar => throw _privateConstructorUsedError;
-  List<FollowingModel>? get following => throw _privateConstructorUsedError;
+  String get category => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $UserModelCopyWith<UserModel> get copyWith =>
+  $CreatorModelCopyWith<CreatorModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UserModelCopyWith<$Res> {
-  factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
-      _$UserModelCopyWithImpl<$Res, UserModel>;
+abstract class $CreatorModelCopyWith<$Res> {
+  factory $CreatorModelCopyWith(
+          CreatorModel value, $Res Function(CreatorModel) then) =
+      _$CreatorModelCopyWithImpl<$Res, CreatorModel>;
   @useResult
   $Res call(
       {int id,
-      String email,
       @JsonKey(name: 'first_name') String firstName,
       @JsonKey(name: 'last_name') String lastName,
       String avatar,
-      List<FollowingModel>? following});
+      String category});
 }
 
 /// @nodoc
-class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
-    implements $UserModelCopyWith<$Res> {
-  _$UserModelCopyWithImpl(this._value, this._then);
+class _$CreatorModelCopyWithImpl<$Res, $Val extends CreatorModel>
+    implements $CreatorModelCopyWith<$Res> {
+  _$CreatorModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -63,21 +62,16 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   @override
   $Res call({
     Object? id = null,
-    Object? email = null,
     Object? firstName = null,
     Object? lastName = null,
     Object? avatar = null,
-    Object? following = freezed,
+    Object? category = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
       firstName: null == firstName
           ? _value.firstName
           : firstName // ignore: cast_nullable_to_non_nullable
@@ -90,57 +84,52 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
-      following: freezed == following
-          ? _value.following
-          : following // ignore: cast_nullable_to_non_nullable
-              as List<FollowingModel>?,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
-  factory _$$_UserModelCopyWith(
-          _$_UserModel value, $Res Function(_$_UserModel) then) =
-      __$$_UserModelCopyWithImpl<$Res>;
+abstract class _$$_CreatorModelCopyWith<$Res>
+    implements $CreatorModelCopyWith<$Res> {
+  factory _$$_CreatorModelCopyWith(
+          _$_CreatorModel value, $Res Function(_$_CreatorModel) then) =
+      __$$_CreatorModelCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {int id,
-      String email,
       @JsonKey(name: 'first_name') String firstName,
       @JsonKey(name: 'last_name') String lastName,
       String avatar,
-      List<FollowingModel>? following});
+      String category});
 }
 
 /// @nodoc
-class __$$_UserModelCopyWithImpl<$Res>
-    extends _$UserModelCopyWithImpl<$Res, _$_UserModel>
-    implements _$$_UserModelCopyWith<$Res> {
-  __$$_UserModelCopyWithImpl(
-      _$_UserModel _value, $Res Function(_$_UserModel) _then)
+class __$$_CreatorModelCopyWithImpl<$Res>
+    extends _$CreatorModelCopyWithImpl<$Res, _$_CreatorModel>
+    implements _$$_CreatorModelCopyWith<$Res> {
+  __$$_CreatorModelCopyWithImpl(
+      _$_CreatorModel _value, $Res Function(_$_CreatorModel) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = null,
-    Object? email = null,
     Object? firstName = null,
     Object? lastName = null,
     Object? avatar = null,
-    Object? following = freezed,
+    Object? category = null,
   }) {
-    return _then(_$_UserModel(
+    return _then(_$_CreatorModel(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
       firstName: null == firstName
           ? _value.firstName
           : firstName // ignore: cast_nullable_to_non_nullable
@@ -153,34 +142,30 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
-      following: freezed == following
-          ? _value._following
-          : following // ignore: cast_nullable_to_non_nullable
-              as List<FollowingModel>?,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_UserModel extends _UserModel {
-  const _$_UserModel(
+class _$_CreatorModel extends _CreatorModel {
+  const _$_CreatorModel(
       {required this.id,
-      required this.email,
       @JsonKey(name: 'first_name') required this.firstName,
       @JsonKey(name: 'last_name') required this.lastName,
       required this.avatar,
-      final List<FollowingModel>? following})
-      : _following = following,
-        super._();
+      required this.category})
+      : super._();
 
-  factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
-      _$$_UserModelFromJson(json);
+  factory _$_CreatorModel.fromJson(Map<String, dynamic> json) =>
+      _$$_CreatorModelFromJson(json);
 
   @override
   final int id;
-  @override
-  final String email;
   @override
   @JsonKey(name: 'first_name')
   final String firstName;
@@ -189,73 +174,62 @@ class _$_UserModel extends _UserModel {
   final String lastName;
   @override
   final String avatar;
-  final List<FollowingModel>? _following;
   @override
-  List<FollowingModel>? get following {
-    final value = _following;
-    if (value == null) return null;
-    if (_following is EqualUnmodifiableListView) return _following;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+  final String category;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, email: $email, firstName: $firstName, lastName: $lastName, avatar: $avatar, following: $following)';
+    return 'CreatorModel(id: $id, firstName: $firstName, lastName: $lastName, avatar: $avatar, category: $category)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UserModel &&
+            other is _$_CreatorModel &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.email, email) || other.email == email) &&
             (identical(other.firstName, firstName) ||
                 other.firstName == firstName) &&
             (identical(other.lastName, lastName) ||
                 other.lastName == lastName) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
-            const DeepCollectionEquality()
-                .equals(other._following, _following));
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, email, firstName, lastName,
-      avatar, const DeepCollectionEquality().hash(_following));
+  int get hashCode =>
+      Object.hash(runtimeType, id, firstName, lastName, avatar, category);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UserModelCopyWith<_$_UserModel> get copyWith =>
-      __$$_UserModelCopyWithImpl<_$_UserModel>(this, _$identity);
+  _$$_CreatorModelCopyWith<_$_CreatorModel> get copyWith =>
+      __$$_CreatorModelCopyWithImpl<_$_CreatorModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UserModelToJson(
+    return _$$_CreatorModelToJson(
       this,
     );
   }
 }
 
-abstract class _UserModel extends UserModel {
-  const factory _UserModel(
+abstract class _CreatorModel extends CreatorModel {
+  const factory _CreatorModel(
       {required final int id,
-      required final String email,
       @JsonKey(name: 'first_name') required final String firstName,
       @JsonKey(name: 'last_name') required final String lastName,
       required final String avatar,
-      final List<FollowingModel>? following}) = _$_UserModel;
-  const _UserModel._() : super._();
+      required final String category}) = _$_CreatorModel;
+  const _CreatorModel._() : super._();
 
-  factory _UserModel.fromJson(Map<String, dynamic> json) =
-      _$_UserModel.fromJson;
+  factory _CreatorModel.fromJson(Map<String, dynamic> json) =
+      _$_CreatorModel.fromJson;
 
   @override
   int get id;
-  @override
-  String get email;
   @override
   @JsonKey(name: 'first_name')
   String get firstName;
@@ -265,9 +239,9 @@ abstract class _UserModel extends UserModel {
   @override
   String get avatar;
   @override
-  List<FollowingModel>? get following;
+  String get category;
   @override
   @JsonKey(ignore: true)
-  _$$_UserModelCopyWith<_$_UserModel> get copyWith =>
+  _$$_CreatorModelCopyWith<_$_CreatorModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
