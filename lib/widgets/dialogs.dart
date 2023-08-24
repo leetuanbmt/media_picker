@@ -1,7 +1,6 @@
 library dialogs;
 
 import '../core/config.dart';
-import '../core/utilities/colors.dart';
 
 class AppDialog {
   AppDialog._();
@@ -42,7 +41,7 @@ class AppDialog {
                 child: IconButton(
                   icon: const Icon(
                     Icons.close_sharp,
-                    color: AppColors.icon,
+                    color: AppTheme.icon,
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -55,7 +54,7 @@ class AppDialog {
                   title,
                   style: context.titleLarge?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.blackBold,
+                    color: AppTheme.blackBold,
                   ),
                 ),
               ),

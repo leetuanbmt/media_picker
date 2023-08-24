@@ -1,5 +1,4 @@
 import '../../core/config.dart';
-import '../../core/utilities/colors.dart';
 import '../dialogs.dart';
 
 class ThemeColorPicker extends HookConsumerWidget {
@@ -24,7 +23,7 @@ class ThemeColorPicker extends HookConsumerWidget {
           crossAxisCount: 4,
           crossAxisSpacing: 15.r,
           mainAxisSpacing: 15.r,
-          children: AppColors.supportColors
+          children: AppTheme.supportColors
               .map(
                 (e) => _ItemColorBuilder(
                   color: e,
