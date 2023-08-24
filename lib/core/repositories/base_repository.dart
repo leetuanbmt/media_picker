@@ -27,16 +27,27 @@ abstract class BaseRepository {
       if (exception is DioException) {
         int? errorCode = exception.response?.statusCode;
         final failure = FailureException(
+          type: ErrorType.other,
           error: exception.error,
           stackTrace: exception.stackTrace,
           message: exception.message,
           code: errorCode,
         );
-        return Result.failure(failure);
+        switch (exception.type) {
+          case DioExceptionType.connectionTimeout:
+          case DioExceptionType.sendTimeout:
+          case DioExceptionType.receiveTimeout:
+          case DioExceptionType.connectionError:
+            return Result.failure(failure.copyWith(type: ErrorType.timeOut));
+          case DioExceptionType.cancel:
+            return Result.failure(failure.copyWith(type: ErrorType.cancel));
+          default:
+            return Result.failure(failure);
+        }
       }
       return Result.failure(
         FailureException(
-          code: -1,
+          type: ErrorType.other,
           message: exception.toString(),
         ),
       );

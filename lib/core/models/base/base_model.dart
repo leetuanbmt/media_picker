@@ -18,18 +18,15 @@ abstract class Result<T> with _$Result {
   const factory Result.failure(FailureException exception) = Failure<T>;
 }
 
-class FailureException implements Exception {
-  final Object? error;
-  final StackTrace? stackTrace;
-  final String? message;
-  final int? code;
-
-  ErrorType get type => switch (code) {
-        401 => ErrorType.tokenExpired,
-        _ => ErrorType.other,
-      };
-
-  FailureException({this.error, this.stackTrace, this.message, this.code});
+@freezed
+class FailureException with _$FailureException {
+  const factory FailureException({
+    ErrorType? type,
+    Object? error,
+    StackTrace? stackTrace,
+    String? message,
+    int? code,
+  }) = _FailureException;
 }
 // @freezed
 // abstract class Result<Success, Failure extends Object>
