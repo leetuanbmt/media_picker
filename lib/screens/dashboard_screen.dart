@@ -33,6 +33,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         NotificationRoute(),
         ProfileRoute(),
       ],
+      transitionBuilder: (context, child, animation) {
+        return child;
+      },
       bottomNavigationBuilder: (context, tabsRouter) {
         return _BottomNavigation(
           currentIndex: tabsRouter.activeIndex,
