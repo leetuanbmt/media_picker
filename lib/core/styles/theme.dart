@@ -37,6 +37,8 @@ class AppTheme {
 
   static const background = Color(0xffF9FBFB);
 
+  static const pink = Color(0xffEA497B);
+
   static const supportColors = <Color>[
     Color(0xff47C3BE),
     Color(0xff55BE81),

@@ -3,9 +3,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'creator_model.freezed.dart';
+part 'creator_model.g.dart';
 
 @freezed
 class CreatorModel with _$CreatorModel {
+  const CreatorModel._();
+
   const factory CreatorModel({
     required int id,
     @JsonKey(name: 'first_name') required String firstName,
@@ -13,4 +16,7 @@ class CreatorModel with _$CreatorModel {
     required String avatar,
     required String category,
   }) = _CreatorModel;
+
+  factory CreatorModel.fromJson(Map<String, dynamic> json) =>
+      _$CreatorModelFromJson(json);
 }

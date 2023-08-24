@@ -27,7 +27,7 @@ class SearchAppBar extends StatelessWidget {
           hintStyle: context.labelMedium?.copyWith(
             fontSize: 16.sp,
             fontWeight: FontWeight.w300,
-            color: const Color(0xffAFAFAF),
+            color: AppTheme.boxFont,
           ),
           contentPadding: EdgeInsets.zero,
           border: const OutlineInputBorder(

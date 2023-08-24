@@ -11,14 +11,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const CreatorModel model = CreatorModel(
-      id: 1,
-      firstName: 'ゆうこ',
-      lastName: '',
-      avatar:
-          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80',
-      category: '👗ファッション',
-    );
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
@@ -48,13 +40,12 @@ class HomeScreen extends StatelessWidget {
                 final listCategory = ref.watch(creatorCategoryProvider);
                 return Column(
                   children: [
-                    SizedBox(height: 20.h),
+                    SizedBox(height: 16.h),
                     _ListCreator(
                       title: 'オンライン',
                       showMore: false,
                       child: _listCreatorBuilder(
-                        height: 126.h,
-                        child: const _UserOnlineItem(model: model),
+                        onlineList: true,
                       ),
                     ),
                     Divider(
@@ -65,10 +56,8 @@ class HomeScreen extends StatelessWidget {
                     ...listCategory
                         .map(
                           (e) => _ListCreator(
-                            title: e,
-                            child: _listCreatorBuilder(
-                              child: const _RecommendUserItem(model: model),
-                            ),
+                            title: e.title,
+                            child: _listCreatorBuilder(),
                           ),
                         )
                         .toList(),
@@ -83,17 +72,23 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _listCreatorBuilder({
-    Widget? child,
-    double? height,
+    List<CreatorModel>? listCreator,
+    bool onlineList = false,
   }) {
     return SizedBox(
-      height: height ?? 164.h,
+      height: onlineList ? 126.h : 164.h,
       child: ListView.builder(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         scrollDirection: Axis.horizontal,
-        itemCount: 5,
+        itemCount: listCreator?.length,
         itemBuilder: (context, index) {
-          return child;
+          return onlineList
+              ? _UserOnlineItem(
+                  model: listCreator?[index],
+                )
+              : _RecommendUserItem(
+                  model: listCreator?[index],
+                );
         },
       ),
     );
@@ -150,16 +145,17 @@ class _ListCreator extends StatelessWidget {
 
 class _RecommendUserItem extends StatelessWidget {
   const _RecommendUserItem({
-    required this.model,
+    this.model,
   });
 
-  final CreatorModel model;
+  final CreatorModel? model;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 136.w,
       margin: EdgeInsets.only(right: 9.w),
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.symmetric(vertical: 16.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
@@ -173,14 +169,15 @@ class _RecommendUserItem extends StatelessWidget {
           CircleAvatar(
             radius: 32.r,
             backgroundImage: NetworkImage(
-              model.avatar,
+              model?.avatar ??
+                  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80',
             ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                model.firstName,
+                model?.firstName ?? 'ゆうこ',
                 style: context.labelMedium?.copyWith(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
@@ -188,15 +185,17 @@ class _RecommendUserItem extends StatelessWidget {
               ),
               2.widthBox,
               CircleAvatar(
-                radius: 10,
+                radius: 8.r,
                 child: Icon(Icons.check, size: 12.sp),
               ),
             ],
           ),
           ButtonCustom(
             'フォローする',
-            fontSize: 12,
             padding: EdgeInsets.symmetric(horizontal: 20.w),
+            radius: 100,
+            width: 114.w,
+            fontSize: 12,
             onPressed: () {},
           ),
         ],
@@ -207,10 +206,10 @@ class _RecommendUserItem extends StatelessWidget {
 
 class _UserOnlineItem extends StatelessWidget {
   const _UserOnlineItem({
-    required this.model,
+    this.model,
   });
 
-  final CreatorModel model;
+  final CreatorModel? model;
 
   @override
   Widget build(BuildContext context) {
@@ -223,7 +222,8 @@ class _UserOnlineItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         image: DecorationImage(
           image: NetworkImage(
-            model.avatar,
+            model?.avatar ??
+                'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80',
           ),
           fit: BoxFit.cover,
         ),
@@ -233,14 +233,14 @@ class _UserOnlineItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
-            margin: EdgeInsets.only(left: 5.w),
+            padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+            margin: EdgeInsets.only(left: 4.w),
             decoration: BoxDecoration(
-              color: const Color(0xffEA497B),
+              color: AppTheme.pink,
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
-              model.category,
+              model?.category ?? 'お笑い',
               style: context.labelMedium?.copyWith(
                 color: Colors.white,
                 fontSize: 12.sp,
@@ -252,7 +252,7 @@ class _UserOnlineItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                model.firstName,
+                model?.firstName ?? 'ゆうこ',
                 style: context.labelMedium?.copyWith(
                   color: Colors.white,
                   fontSize: 12.sp,

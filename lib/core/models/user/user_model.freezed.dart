@@ -27,6 +27,7 @@ mixin _$UserModel {
   @JsonKey(name: 'last_name')
   String get lastName => throw _privateConstructorUsedError;
   String get avatar => throw _privateConstructorUsedError;
+  List<FollowingModel>? get following => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,7 +45,8 @@ abstract class $UserModelCopyWith<$Res> {
       String email,
       @JsonKey(name: 'first_name') String firstName,
       @JsonKey(name: 'last_name') String lastName,
-      String avatar});
+      String avatar,
+      List<FollowingModel>? following});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? firstName = null,
     Object? lastName = null,
     Object? avatar = null,
+    Object? following = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -87,6 +90,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
+      following: freezed == following
+          ? _value.following
+          : following // ignore: cast_nullable_to_non_nullable
+              as List<FollowingModel>?,
     ) as $Val);
   }
 }
@@ -103,7 +110,8 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       String email,
       @JsonKey(name: 'first_name') String firstName,
       @JsonKey(name: 'last_name') String lastName,
-      String avatar});
+      String avatar,
+      List<FollowingModel>? following});
 }
 
 /// @nodoc
@@ -122,6 +130,7 @@ class __$$_UserModelCopyWithImpl<$Res>
     Object? firstName = null,
     Object? lastName = null,
     Object? avatar = null,
+    Object? following = freezed,
   }) {
     return _then(_$_UserModel(
       id: null == id
@@ -144,6 +153,10 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
+      following: freezed == following
+          ? _value._following
+          : following // ignore: cast_nullable_to_non_nullable
+              as List<FollowingModel>?,
     ));
   }
 }
@@ -156,8 +169,10 @@ class _$_UserModel extends _UserModel {
       required this.email,
       @JsonKey(name: 'first_name') required this.firstName,
       @JsonKey(name: 'last_name') required this.lastName,
-      required this.avatar})
-      : super._();
+      required this.avatar,
+      final List<FollowingModel>? following})
+      : _following = following,
+        super._();
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$$_UserModelFromJson(json);
@@ -174,10 +189,19 @@ class _$_UserModel extends _UserModel {
   final String lastName;
   @override
   final String avatar;
+  final List<FollowingModel>? _following;
+  @override
+  List<FollowingModel>? get following {
+    final value = _following;
+    if (value == null) return null;
+    if (_following is EqualUnmodifiableListView) return _following;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'UserModel(id: $id, email: $email, firstName: $firstName, lastName: $lastName, avatar: $avatar)';
+    return 'UserModel(id: $id, email: $email, firstName: $firstName, lastName: $lastName, avatar: $avatar, following: $following)';
   }
 
   @override
@@ -191,13 +215,15 @@ class _$_UserModel extends _UserModel {
                 other.firstName == firstName) &&
             (identical(other.lastName, lastName) ||
                 other.lastName == lastName) &&
-            (identical(other.avatar, avatar) || other.avatar == avatar));
+            (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            const DeepCollectionEquality()
+                .equals(other._following, _following));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, email, firstName, lastName, avatar);
+  int get hashCode => Object.hash(runtimeType, id, email, firstName, lastName,
+      avatar, const DeepCollectionEquality().hash(_following));
 
   @JsonKey(ignore: true)
   @override
@@ -219,7 +245,8 @@ abstract class _UserModel extends UserModel {
       required final String email,
       @JsonKey(name: 'first_name') required final String firstName,
       @JsonKey(name: 'last_name') required final String lastName,
-      required final String avatar}) = _$_UserModel;
+      required final String avatar,
+      final List<FollowingModel>? following}) = _$_UserModel;
   const _UserModel._() : super._();
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -237,6 +264,8 @@ abstract class _UserModel extends UserModel {
   String get lastName;
   @override
   String get avatar;
+  @override
+  List<FollowingModel>? get following;
   @override
   @JsonKey(ignore: true)
   _$$_UserModelCopyWith<_$_UserModel> get copyWith =>

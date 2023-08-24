@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+CreatorModel _$CreatorModelFromJson(Map<String, dynamic> json) {
+  return _CreatorModel.fromJson(json);
+}
+
 /// @nodoc
 mixin _$CreatorModel {
   int get id => throw _privateConstructorUsedError;
@@ -24,6 +28,7 @@ mixin _$CreatorModel {
   String get avatar => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $CreatorModelCopyWith<CreatorModel> get copyWith =>
       throw _privateConstructorUsedError;
@@ -146,14 +151,18 @@ class __$$_CreatorModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-class _$_CreatorModel implements _CreatorModel {
+@JsonSerializable()
+class _$_CreatorModel extends _CreatorModel {
   const _$_CreatorModel(
       {required this.id,
       @JsonKey(name: 'first_name') required this.firstName,
       @JsonKey(name: 'last_name') required this.lastName,
       required this.avatar,
-      required this.category});
+      required this.category})
+      : super._();
+
+  factory _$_CreatorModel.fromJson(Map<String, dynamic> json) =>
+      _$$_CreatorModelFromJson(json);
 
   @override
   final int id;
@@ -188,6 +197,7 @@ class _$_CreatorModel implements _CreatorModel {
                 other.category == category));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, firstName, lastName, avatar, category);
@@ -197,15 +207,26 @@ class _$_CreatorModel implements _CreatorModel {
   @pragma('vm:prefer-inline')
   _$$_CreatorModelCopyWith<_$_CreatorModel> get copyWith =>
       __$$_CreatorModelCopyWithImpl<_$_CreatorModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_CreatorModelToJson(
+      this,
+    );
+  }
 }
 
-abstract class _CreatorModel implements CreatorModel {
+abstract class _CreatorModel extends CreatorModel {
   const factory _CreatorModel(
       {required final int id,
       @JsonKey(name: 'first_name') required final String firstName,
       @JsonKey(name: 'last_name') required final String lastName,
       required final String avatar,
       required final String category}) = _$_CreatorModel;
+  const _CreatorModel._() : super._();
+
+  factory _CreatorModel.fromJson(Map<String, dynamic> json) =
+      _$_CreatorModel.fromJson;
 
   @override
   int get id;
