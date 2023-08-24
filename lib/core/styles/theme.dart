@@ -38,6 +38,15 @@ class AppTheme {
   static const background = Color(0xffF9FBFB);
 
   static const pink = Color(0xffEA497B);
+  static const lightStatusBar = SystemUiOverlayStyle(
+    statusBarIconBrightness: Brightness.light,
+    statusBarBrightness: Brightness.dark,
+  );
+
+  static const darkStatusBar = SystemUiOverlayStyle(
+    statusBarIconBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.light,
+  );
 
   static const supportColors = <Color>[
     Color(0xff47C3BE),
@@ -79,6 +88,7 @@ class AppTheme {
         scrolledUnderElevation: 0,
         backgroundColor: primaryColor,
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
         titleTextStyle: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 22,

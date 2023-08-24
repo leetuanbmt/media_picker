@@ -1,5 +1,7 @@
 library config;
 
+import 'package:flutter/services.dart';
+
 import 'config.dart';
 import 'utilities/preferences.dart';
 
