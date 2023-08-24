@@ -1,9 +1,9 @@
-import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../core/config.dart';
 import '../../core/models/creator/creator_model.dart';
-import '../../gen/assets.gen.dart';
+import '../../notifiers/home_notifier.dart';
 import '../../routes/app_routes.gr.dart';
+import '../../widgets/commons/button_custom.dart';
+import '../../widgets/search_app_bar.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -11,7 +11,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listCategory = ['お笑い', 'アート', 'メディア'];
     const CreatorModel model = CreatorModel(
       id: 1,
       firstName: 'ゆうこ',
@@ -24,7 +23,12 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 70,
         backgroundColor: AppTheme.primaryColor,
-        title: const _SearchAppBar(),
+        title: SearchAppBar(
+          readOnly: true,
+          onTap: () {
+            context.router.push(const SearchCreatorRoute());
+          },
+        ),
         titleSpacing: 0,
         leading: IconButton(
           onPressed: () {
@@ -36,35 +40,44 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 20.h),
-            _ListCreator(
-              title: 'オンライン',
-              showMore: false,
-              child: _listCreatorBuilder(
-                height: 126.h,
-                child: const _UserOnlineItem(model: model),
-              ),
-            ),
-            Divider(
-              color: AppTheme.surface,
-              thickness: 8.h,
-            ),
-            SizedBox(height: 20.h),
-            ...listCategory
-                .map(
-                  (e) => _ListCreator(
-                    title: e,
-                    child: _listCreatorBuilder(
-                      child: const _RecommendUserItem(model: model),
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Consumer(
+              builder: (context, ref, _) {
+                final listCategory = ref.watch(creatorCategoryProvider);
+                return Column(
+                  children: [
+                    SizedBox(height: 20.h),
+                    _ListCreator(
+                      title: 'オンライン',
+                      showMore: false,
+                      child: _listCreatorBuilder(
+                        height: 126.h,
+                        child: const _UserOnlineItem(model: model),
+                      ),
                     ),
-                  ),
-                )
-                .toList(),
-          ],
-        ),
+                    Divider(
+                      color: AppTheme.surface,
+                      thickness: 8.h,
+                    ),
+                    SizedBox(height: 20.h),
+                    ...listCategory
+                        .map(
+                          (e) => _ListCreator(
+                            title: e,
+                            child: _listCreatorBuilder(
+                              child: const _RecommendUserItem(model: model),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -82,39 +95,6 @@ class HomeScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           return child;
         },
-      ),
-    );
-  }
-}
-
-class _SearchAppBar extends StatelessWidget {
-  const _SearchAppBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 36.h,
-      margin: EdgeInsets.only(right: 16.w),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'ユーザー名・IDで検索',
-          filled: true,
-          fillColor: Colors.white,
-          hintStyle: context.labelMedium?.copyWith(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w300,
-            color: const Color(0xffAFAFAF),
-          ),
-          contentPadding: EdgeInsets.zero,
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            borderSide: BorderSide.none,
-          ),
-          prefixIcon: SvgPicture.asset(
-            Assets.iconsIconSearch.path,
-            fit: BoxFit.scaleDown,
-          ),
-        ),
       ),
     );
   }
@@ -144,7 +124,6 @@ class _ListCreator extends StatelessWidget {
                 style: context.labelMedium?.copyWith(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppTheme.greyText,
                 ),
               ),
               if (showMore)
@@ -182,14 +161,14 @@ class _RecommendUserItem extends StatelessWidget {
       margin: EdgeInsets.only(right: 9.w),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.r),
+        borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
-          color: const Color(0xffd4d4d4),
+          color: AppTheme.lightGray,
           width: 1.w,
         ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CircleAvatar(
             radius: 32.r,
@@ -197,41 +176,28 @@ class _RecommendUserItem extends StatelessWidget {
               model.avatar,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 5.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  model.firstName,
-                  style: context.labelMedium?.copyWith(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                model.firstName,
+                style: context.labelMedium?.copyWith(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
                 ),
-                2.widthBox,
-                CircleAvatar(
-                  radius: 10,
-                  child: Icon(Icons.check, size: 12.sp),
-                ),
-              ],
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.appTheme.primaryColor,
-              foregroundColor: Colors.white,
-              elevation: 0,
-            ),
-            child: Text(
-              'フォローする',
-              style: context.labelMedium?.copyWith(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
               ),
-            ),
+              2.widthBox,
+              CircleAvatar(
+                radius: 10,
+                child: Icon(Icons.check, size: 12.sp),
+              ),
+            ],
+          ),
+          ButtonCustom(
+            'フォローする',
+            fontSize: 12,
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            onPressed: () {},
           ),
         ],
       ),
