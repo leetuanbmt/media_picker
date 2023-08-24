@@ -8,7 +8,9 @@ final userNotifierProvider = StateNotifierProvider<UserNotifier, BaseState>(
 );
 
 class UserNotifier extends StateNotifier<BaseState> {
-  UserNotifier() : super(const BaseState());
+  UserNotifier() : super(const BaseState()) {
+    getUserInfo('1');
+  }
 
   Future<void> getUserInfo(String userId) async {
     state = const BaseState.loading();
@@ -16,8 +18,8 @@ class UserNotifier extends StateNotifier<BaseState> {
       success: (data) {
         state = BaseState.loaded(data);
       },
-      error: (type, message, code, result) {
-        state = BaseState.error(message: message);
+      failure: (error) {
+        state = BaseState.error(message: error.message);
       },
     );
   }

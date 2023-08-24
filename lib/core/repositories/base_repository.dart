@@ -26,32 +26,20 @@ abstract class BaseRepository {
     } on Exception catch (exception) {
       if (exception is DioException) {
         int? errorCode = exception.response?.statusCode;
-
-        switch (exception.type) {
-          case DioExceptionType.connectionTimeout:
-          case DioExceptionType.sendTimeout:
-          case DioExceptionType.receiveTimeout:
-          case DioExceptionType.connectionError:
-            return Result.error(
-              ErrorType.timeOut,
-              message: exception.message,
-              code: errorCode,
-            );
-          case DioExceptionType.cancel:
-            return Result.error(
-              ErrorType.cancel,
-              message: exception.message,
-              code: errorCode,
-            );
-          default:
-            return Result.error(
-              ErrorType.other,
-              message: exception.message,
-              code: errorCode,
-            );
-        }
+        final failure = FailureException(
+          error: exception.error,
+          stackTrace: exception.stackTrace,
+          message: exception.message,
+          code: errorCode,
+        );
+        return Result.failure(failure);
       }
-      return Result.error(ErrorType.other, message: exception.toString());
+      return Result.failure(
+        FailureException(
+          code: -1,
+          message: exception.toString(),
+        ),
+      );
     }
   }
 }

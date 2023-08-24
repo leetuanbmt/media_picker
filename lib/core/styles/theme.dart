@@ -87,6 +87,7 @@ class AppTheme {
         scrolledUnderElevation: 0,
         backgroundColor: primaryColor,
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
         titleTextStyle: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 22,

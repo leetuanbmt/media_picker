@@ -14,12 +14,7 @@ class AppRepositoriesImpl extends BaseRepository implements AppRepositories {
       success: (data) {
         return Result.success(UserModel.fromJson(data['data']));
       },
-      error: (type, message, code, result) => Result.error(
-        type,
-        message: message,
-        code: code,
-        result: result,
-      ),
+      failure: (error) => Result.failure(error),
     );
   }
 }
