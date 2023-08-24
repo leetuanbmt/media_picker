@@ -33,12 +33,12 @@ class HomeScreen extends StatelessWidget {
                     return listOnline.when(
                       () => const Text('Initial'),
                       loading: () => const CircularProgressIndicator.adaptive(),
-                      loaded: (list) {
+                      loaded: (result) {
                         return ListCreator(
                           title: 'オンライン',
                           onlineList: true,
                           showMore: false,
-                          listCreator: list,
+                          listCreator: result,
                         );
                       },
                       error: (error) => Text('Error: $error'),
@@ -53,10 +53,10 @@ class HomeScreen extends StatelessWidget {
                     return listFollowing.when(
                       () => const Text('Initial'),
                       loading: () => const CircularProgressIndicator.adaptive(),
-                      loaded: (list) {
+                      loaded: (result) {
                         return Column(
                           children: [
-                            ...list
+                            ...result
                                 .map(
                                   (e) => ListCreator(
                                     title: e.title,
