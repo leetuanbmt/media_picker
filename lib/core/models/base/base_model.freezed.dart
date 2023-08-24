@@ -805,6 +805,8 @@ abstract class _$$FailureCopyWith<T, $Res> {
       __$$FailureCopyWithImpl<T, $Res>;
   @useResult
   $Res call({FailureException exception});
+
+  $FailureExceptionCopyWith<$Res> get exception;
 }
 
 /// @nodoc
@@ -826,6 +828,14 @@ class __$$FailureCopyWithImpl<T, $Res>
           : exception // ignore: cast_nullable_to_non_nullable
               as FailureException,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FailureExceptionCopyWith<$Res> get exception {
+    return $FailureExceptionCopyWith<$Res>(_value.exception, (value) {
+      return _then(_value.copyWith(exception: value));
+    });
   }
 }
 
@@ -929,5 +939,198 @@ abstract class Failure<T> implements Result<T> {
   FailureException get exception;
   @JsonKey(ignore: true)
   _$$FailureCopyWith<T, _$Failure<T>> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$FailureException {
+  ErrorType? get type => throw _privateConstructorUsedError;
+  Object? get error => throw _privateConstructorUsedError;
+  StackTrace? get stackTrace => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
+  int? get code => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $FailureExceptionCopyWith<FailureException> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FailureExceptionCopyWith<$Res> {
+  factory $FailureExceptionCopyWith(
+          FailureException value, $Res Function(FailureException) then) =
+      _$FailureExceptionCopyWithImpl<$Res, FailureException>;
+  @useResult
+  $Res call(
+      {ErrorType? type,
+      Object? error,
+      StackTrace? stackTrace,
+      String? message,
+      int? code});
+}
+
+/// @nodoc
+class _$FailureExceptionCopyWithImpl<$Res, $Val extends FailureException>
+    implements $FailureExceptionCopyWith<$Res> {
+  _$FailureExceptionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = freezed,
+    Object? error = freezed,
+    Object? stackTrace = freezed,
+    Object? message = freezed,
+    Object? code = freezed,
+  }) {
+    return _then(_value.copyWith(
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ErrorType?,
+      error: freezed == error ? _value.error : error,
+      stackTrace: freezed == stackTrace
+          ? _value.stackTrace
+          : stackTrace // ignore: cast_nullable_to_non_nullable
+              as StackTrace?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_FailureExceptionCopyWith<$Res>
+    implements $FailureExceptionCopyWith<$Res> {
+  factory _$$_FailureExceptionCopyWith(
+          _$_FailureException value, $Res Function(_$_FailureException) then) =
+      __$$_FailureExceptionCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ErrorType? type,
+      Object? error,
+      StackTrace? stackTrace,
+      String? message,
+      int? code});
+}
+
+/// @nodoc
+class __$$_FailureExceptionCopyWithImpl<$Res>
+    extends _$FailureExceptionCopyWithImpl<$Res, _$_FailureException>
+    implements _$$_FailureExceptionCopyWith<$Res> {
+  __$$_FailureExceptionCopyWithImpl(
+      _$_FailureException _value, $Res Function(_$_FailureException) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = freezed,
+    Object? error = freezed,
+    Object? stackTrace = freezed,
+    Object? message = freezed,
+    Object? code = freezed,
+  }) {
+    return _then(_$_FailureException(
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ErrorType?,
+      error: freezed == error ? _value.error : error,
+      stackTrace: freezed == stackTrace
+          ? _value.stackTrace
+          : stackTrace // ignore: cast_nullable_to_non_nullable
+              as StackTrace?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_FailureException implements _FailureException {
+  const _$_FailureException(
+      {this.type, this.error, this.stackTrace, this.message, this.code});
+
+  @override
+  final ErrorType? type;
+  @override
+  final Object? error;
+  @override
+  final StackTrace? stackTrace;
+  @override
+  final String? message;
+  @override
+  final int? code;
+
+  @override
+  String toString() {
+    return 'FailureException(type: $type, error: $error, stackTrace: $stackTrace, message: $message, code: $code)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_FailureException &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality().equals(other.error, error) &&
+            (identical(other.stackTrace, stackTrace) ||
+                other.stackTrace == stackTrace) &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.code, code) || other.code == code));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, type,
+      const DeepCollectionEquality().hash(error), stackTrace, message, code);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_FailureExceptionCopyWith<_$_FailureException> get copyWith =>
+      __$$_FailureExceptionCopyWithImpl<_$_FailureException>(this, _$identity);
+}
+
+abstract class _FailureException implements FailureException {
+  const factory _FailureException(
+      {final ErrorType? type,
+      final Object? error,
+      final StackTrace? stackTrace,
+      final String? message,
+      final int? code}) = _$_FailureException;
+
+  @override
+  ErrorType? get type;
+  @override
+  Object? get error;
+  @override
+  StackTrace? get stackTrace;
+  @override
+  String? get message;
+  @override
+  int? get code;
+  @override
+  @JsonKey(ignore: true)
+  _$$_FailureExceptionCopyWith<_$_FailureException> get copyWith =>
       throw _privateConstructorUsedError;
 }
