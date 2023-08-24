@@ -37,12 +37,16 @@ class ButtonCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size? size;
+    Size minimumSize = const Size(64, 36);
     if (width != null && height != null) {
       size = Size(width!, height!);
+      minimumSize = size;
     } else if (width != null) {
       size = Size.fromWidth(width!);
+      minimumSize = Size(width!, minimumSize.height);
     } else if (height != null) {
       size = Size.fromHeight(height!);
+      minimumSize = Size(minimumSize.width, height!);
     }
 
     BorderSide side = switch (type) {
@@ -64,6 +68,7 @@ class ButtonCustom extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: bgColor,
         fixedSize: size,
+        minimumSize: minimumSize,
         elevation: elevation,
         tapTargetSize: tapTargetSize,
         padding: padding,
@@ -72,13 +77,14 @@ class ButtonCustom extends StatelessWidget {
           side: side,
         ),
       ),
-      child: Text(
+      child: AutoSizeText(
         textContent,
         style: context.bodyMedium!.copyWith(
           fontSize: fontSize,
           color: titleColor,
           fontWeight: fontWeight,
         ),
+        maxLines: 1,
       ),
     );
   }

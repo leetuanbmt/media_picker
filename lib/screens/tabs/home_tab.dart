@@ -13,68 +13,64 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarCustom(
+        leading: const QRLeading(),
         searchAppBar: SearchAppBar(
           readOnly: true,
           onTap: () {
             context.router.push(const SearchCreatorRoute());
           },
         ),
-        leading: const QRLeading(),
       ),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                SizedBox(height: 16.h),
-                Consumer(
-                  builder: (context, ref, _) {
-                    final listOnline = ref.watch(creatorOnlineProvider);
-                    return listOnline.when(
-                      () => const Text('Initial'),
-                      loading: () => const CircularProgressIndicator.adaptive(),
-                      loaded: (result) {
-                        return ListCreator(
-                          title: 'オンライン',
-                          onlineList: true,
-                          showMore: false,
-                          listCreator: result,
-                        );
-                      },
-                      error: (error) => Text('Error: $error'),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(vertical: 16.w),
+        child: Column(
+          children: [
+            Consumer(
+              builder: (context, ref, _) {
+                final listOnline = ref.watch(creatorOnlineProvider);
+                return listOnline.when(
+                  () => const Text('Initial'),
+                  loading: () => const CircularProgressIndicator.adaptive(),
+                  loaded: (result) {
+                    return ListCreator(
+                      title: 'オンライン',
+                      onlineList: true,
+                      showMore: false,
+                      listCreator: result,
                     );
                   },
-                ),
-                Divider(color: AppTheme.surface, thickness: 8.h),
-                SizedBox(height: 20.h),
-                Consumer(
-                  builder: (context, ref, _) {
-                    final listFollowing = ref.watch(userFollowingProvider);
-                    return listFollowing.when(
-                      () => const Text('Initial'),
-                      loading: () => const CircularProgressIndicator.adaptive(),
-                      loaded: (result) {
-                        return Column(
-                          children: [
-                            ...result
-                                .map(
-                                  (e) => ListCreator(
-                                    title: e.title,
-                                    listCreator: e.listCreator,
-                                  ),
-                                )
-                                .toList(),
-                          ],
-                        );
-                      },
-                      error: (error) => Text('Error: $error'),
-                    );
-                  },
-                ),
-              ],
+                  error: (error) => Text('Error: $error'),
+                );
+              },
             ),
-          ),
-        ],
+            Divider(color: AppTheme.surface, thickness: 8.h),
+            SizedBox(height: 20.h),
+            Consumer(
+              builder: (context, ref, _) {
+                final listFollowing = ref.watch(userFollowingProvider);
+                return listFollowing.when(
+                  () => const Text('Initial'),
+                  loading: () => const CircularProgressIndicator.adaptive(),
+                  loaded: (result) {
+                    return Column(
+                      children: [
+                        ...result
+                            .map(
+                              (e) => ListCreator(
+                                title: e.title,
+                                listCreator: e.listCreator,
+                              ),
+                            )
+                            .toList(),
+                      ],
+                    );
+                  },
+                  error: (error) => Text('Error: $error'),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

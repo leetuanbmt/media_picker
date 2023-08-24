@@ -53,6 +53,7 @@ class FollowingItem extends StatelessWidget {
           ButtonCustom(
             'フォローする',
             width: 114.w,
+            height: 32.h,
             fontSize: 12,
             onPressed: () {},
           ),

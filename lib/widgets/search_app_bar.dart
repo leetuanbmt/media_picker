@@ -34,9 +34,14 @@ class SearchAppBar extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
             borderSide: BorderSide.none,
           ),
+          prefixIconConstraints: BoxConstraints(
+            minWidth: 32.w,
+            minHeight: 24.h,
+          ),
           prefixIcon: SvgPicture.asset(
             Assets.iconsIconSearch.path,
             fit: BoxFit.scaleDown,
+            width: 24.r,
           ),
         ),
       ),

@@ -27,12 +27,11 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   final bool automaticallyImplyLeading, centerTitle, showSearch;
   final VoidCallback? onBack;
   final List<Widget>? actions;
-  final double elevation, toolbarHeight;
-  final double? titleSpacing;
+  final double elevation, toolbarHeight, titleSpacing;
   final Color? background;
   final Widget Function(String title)? titleBuilder;
   final PreferredSizeWidget? bottom;
-  final SystemUiOverlayStyle? systemOverlayStyle;
+  final SystemUiOverlayStyle systemOverlayStyle;
   final Widget? searchAppBar;
 
   @override
@@ -64,7 +63,17 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize =>
-      Size.fromHeight((toolbarHeight + (bottom?.preferredSize.height ?? 0)));
+      _PreferredAppBarSize(toolbarHeight, bottom?.preferredSize.height);
+}
+
+class _PreferredAppBarSize extends Size {
+  _PreferredAppBarSize(this.toolbarHeight, this.bottomHeight)
+      : super.fromHeight(
+          (toolbarHeight ?? kToolbarHeight) + (bottomHeight ?? 0),
+        );
+
+  final double? toolbarHeight;
+  final double? bottomHeight;
 }
 
 class QRLeading extends StatelessWidget {
@@ -76,10 +85,7 @@ class QRLeading extends StatelessWidget {
       onPressed: () {
         context.router.push(const QRRoute());
       },
-      icon: const Icon(
-        Icons.qr_code_scanner,
-        color: Colors.white,
-      ),
+      icon: const Icon(Icons.qr_code_scanner),
     );
   }
 }
