@@ -1,13 +1,13 @@
 import '../../core/config.dart';
 import '../dialogs.dart';
 
-class ThemeColorPicker extends HookConsumerWidget {
-  const ThemeColorPicker({super.key});
-  static showBottomSheet(BuildContext context) {
+class ThemePicker extends HookConsumerWidget {
+  const ThemePicker({super.key});
+  static show(BuildContext context) {
     return AppDialog.showAppBottomSheet(
       context,
       title: 'テーマカラーの設定',
-      child: const ThemeColorPicker(),
+      child: const ThemePicker(),
     );
   }
 

@@ -1,5 +1,4 @@
 import '../../core/config.dart';
-import '../../widgets/commons/button_custom.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -13,9 +12,11 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Home'),
       ),
       body: Center(
-        child: ButtonCustom(
+        child: Text(
           'Home Screen',
-          onPressed: () {},
+          style: TextStyle(
+            color: AppTheme.primaryColor,
+          ),
         ),
       ),
     );

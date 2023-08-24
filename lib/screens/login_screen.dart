@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
       body: Center(
         child: TextButton(
           onPressed: () {
-            ThemeColorPicker.showBottomSheet(context);
+            ThemePicker.show(context);
           },
           child: Text(
             'Login Screen',
