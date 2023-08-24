@@ -20,11 +20,11 @@ final selectedThemeColor = StateNotifierProvider<ThemeColorNotifier, Color>(
 );
 
 class ThemeColorNotifier extends StateNotifier<Color> {
-  ThemeColorNotifier() : super(AppColors.defaultColor);
+  ThemeColorNotifier() : super(AppTheme.defaultColor);
 
   void selectThemeColor(Color color) {
     state = color;
-    AppTheme.primaryColor = AppColors.findByValue(color.value);
+    AppTheme.primaryColor = AppTheme.findByValue(color.value);
     Preferences.setInt(AppConfig.themeColorKey, color.value);
   }
 }

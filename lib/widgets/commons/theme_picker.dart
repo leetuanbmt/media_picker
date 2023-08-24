@@ -1,14 +1,13 @@
 import '../../core/config.dart';
-import '../../core/utilities/colors.dart';
 import '../dialogs.dart';
 
-class ThemeColorPicker extends HookConsumerWidget {
-  const ThemeColorPicker({super.key});
-  static showBottomSheet(BuildContext context) {
+class ThemePicker extends HookConsumerWidget {
+  const ThemePicker({super.key});
+  static show(BuildContext context) {
     return AppDialog.showAppBottomSheet(
       context,
       title: 'テーマカラーの設定',
-      child: const ThemeColorPicker(),
+      child: const ThemePicker(),
     );
   }
 
@@ -24,7 +23,7 @@ class ThemeColorPicker extends HookConsumerWidget {
           crossAxisCount: 4,
           crossAxisSpacing: 15.r,
           mainAxisSpacing: 15.r,
-          children: AppColors.supportColors
+          children: AppTheme.supportColors
               .map(
                 (e) => _ItemColorBuilder(
                   color: e,
