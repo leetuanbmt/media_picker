@@ -25,30 +25,31 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AutoTabsScaffold(
-        routes: const [
-          HomeRoute(),
-          SearchRoute(),
-          MainRoute(),
-          NotificationRoute(),
-          ProfileRoute(),
-        ],
-        bottomNavigationBuilder: (context, tabsRouter) {
-          return _BottomNavigation(
-            currentIndex: tabsRouter.activeIndex,
-            onChange: (index) {
-              if (index == tabsRouter.activeIndex) {
-                if (tabsRouter.topRoute.router is NestedStackRouter) {
-                  tabsRouter.topRoute.router.navigateNamed('');
-                }
-              } else {
-                tabsRouter.setActiveIndex(index);
+    return AutoTabsScaffold(
+      routes: const [
+        HomeRoute(),
+        SearchRoute(),
+        MainRoute(),
+        NotificationRoute(),
+        ProfileRoute(),
+      ],
+      transitionBuilder: (context, child, animation) {
+        return child;
+      },
+      bottomNavigationBuilder: (context, tabsRouter) {
+        return _BottomNavigation(
+          currentIndex: tabsRouter.activeIndex,
+          onChange: (index) {
+            if (index == tabsRouter.activeIndex) {
+              if (tabsRouter.topRoute.router is NestedStackRouter) {
+                tabsRouter.topRoute.router.navigateNamed('');
               }
-            },
-          );
-        },
-      ),
+            } else {
+              tabsRouter.setActiveIndex(index);
+            }
+          },
+        );
+      },
     );
   }
 }
@@ -86,38 +87,34 @@ class _BottomNavigation extends StatelessWidget {
         image: Assets.iconsIconPerson.path,
       ),
     ];
-
-    return SizedBox(
-      height: 50.h + context.screenPadding.bottom / 2,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          10.w,
-          0,
-          10.w,
-          context.screenPadding.bottom / 2,
-        ),
-        child: Row(
-          children: tabs
-              .asMap()
-              .entries
-              .map(
-                (e) => e.key != 2
-                    ? _BottomTabItem(
-                        tab: e.value,
-                        index: e.key,
-                        currentIndex: currentIndex,
-                        onTap: () {
-                          onChange.call(e.key);
-                        },
-                      )
-                    : _MainTabCustom(
-                        tab: e.value,
-                        onTap: () {
-                          onChange.call(e.key);
-                        },
-                      ),
-              )
-              .toList(),
+    return SafeArea(
+      child: SizedBox(
+        height: kBottomNavigationBarHeight,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          child: Row(
+            children: tabs
+                .asMap()
+                .entries
+                .map(
+                  (e) => e.key != 2
+                      ? _BottomTabItem(
+                          tab: e.value,
+                          index: e.key,
+                          currentIndex: currentIndex,
+                          onTap: () {
+                            onChange.call(e.key);
+                          },
+                        )
+                      : _MainTabCustom(
+                          tab: e.value,
+                          onTap: () {
+                            onChange.call(e.key);
+                          },
+                        ),
+                )
+                .toList(),
+          ),
         ),
       ),
     );
