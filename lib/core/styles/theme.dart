@@ -37,6 +37,16 @@ class AppTheme {
 
   static const background = Color(0xffF9FBFB);
 
+  static const lightStatusBar = SystemUiOverlayStyle(
+    statusBarIconBrightness: Brightness.light,
+    statusBarBrightness: Brightness.dark,
+  );
+
+  static const darkStatusBar = SystemUiOverlayStyle(
+    statusBarIconBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.light,
+  );
+
   static const supportColors = <Color>[
     Color(0xff47C3BE),
     Color(0xff55BE81),
