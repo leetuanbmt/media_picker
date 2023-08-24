@@ -57,7 +57,9 @@ class HomeScreen extends StatelessWidget {
                         .map(
                           (e) => _ListCreator(
                             title: e.title,
-                            child: _listCreatorBuilder(),
+                            child: _listCreatorBuilder(
+                              listCreator: e.listCreator,
+                            ),
                           ),
                         )
                         .toList(),
@@ -76,7 +78,7 @@ class HomeScreen extends StatelessWidget {
     bool onlineList = false,
   }) {
     return SizedBox(
-      height: onlineList ? 126.h : 164.h,
+      height: onlineList ? 136.h : 174.h,
       child: ListView.builder(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         scrollDirection: Axis.horizontal,
@@ -215,7 +217,6 @@ class _UserOnlineItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 126.w,
-      height: 126.h,
       margin: EdgeInsets.only(right: 9.w),
       padding: EdgeInsets.symmetric(vertical: 4.h),
       decoration: BoxDecoration(

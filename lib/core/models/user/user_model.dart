@@ -38,11 +38,6 @@ class UserModel with _$UserModel {
               'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80',
           category: '👗ファッション',
         ),
-      ],
-    ),
-    FollowingModel(
-      title: 'お笑い',
-      listCreator: [
         CreatorModel(
           id: 1,
           firstName: 'ゆうこ',
@@ -54,8 +49,61 @@ class UserModel with _$UserModel {
       ],
     ),
     FollowingModel(
-      title: 'お笑い',
+      title: 'アート',
       listCreator: [
+        CreatorModel(
+          id: 1,
+          firstName: 'ゆうこ',
+          lastName: '',
+          avatar:
+              'https://media.istockphoto.com/id/1007763808/photo/portrait-of-handsome-latino-african-man.jpg?s=612x612&w=0&k=20&c=XPL1ukeC99OY8HBfNa_njDujOPf9Xz4yCEOo7O3evU0=',
+          category: '👗ファッション',
+        ),
+        CreatorModel(
+          id: 1,
+          firstName: 'ゆうこ',
+          lastName: '',
+          avatar:
+              'https://media.istockphoto.com/id/1007763808/photo/portrait-of-handsome-latino-african-man.jpg?s=612x612&w=0&k=20&c=XPL1ukeC99OY8HBfNa_njDujOPf9Xz4yCEOo7O3evU0=',
+          category: '👗ファッション',
+        ),
+        CreatorModel(
+          id: 1,
+          firstName: 'ゆうこ',
+          lastName: '',
+          avatar:
+              'https://media.istockphoto.com/id/1007763808/photo/portrait-of-handsome-latino-african-man.jpg?s=612x612&w=0&k=20&c=XPL1ukeC99OY8HBfNa_njDujOPf9Xz4yCEOo7O3evU0=',
+          category: '👗ファッション',
+        ),
+      ],
+    ),
+    FollowingModel(
+      title: 'メディア',
+      listCreator: [
+        CreatorModel(
+          id: 1,
+          firstName: 'ゆうこ',
+          lastName: '',
+          avatar:
+              'https://static.independent.co.uk/s3fs-public/thumbnails/image/2015/06/06/15/Chris-Pratt.jpg',
+          category: '👗ファッション',
+        ),
+        CreatorModel(
+          id: 1,
+          firstName: 'ゆうこ',
+          lastName: '',
+          avatar:
+              'https://static.independent.co.uk/s3fs-public/thumbnails/image/2015/06/06/15/Chris-Pratt.jpg',
+          category: '👗ファッション',
+        ),
+        CreatorModel(
+          id: 1,
+          firstName: 'ゆうこ',
+          lastName: '',
+          avatar:
+              'https://static.independent.co.uk/s3fs-public/thumbnails/image/2015/06/06/15/Chris-Pratt.jpg',
+          category: '👗ファッション',
+        ),
         CreatorModel(
           id: 1,
           firstName: 'ゆうこ',
