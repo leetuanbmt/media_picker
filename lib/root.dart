@@ -1,5 +1,3 @@
-import 'package:flutter/services.dart';
-
 import 'core/config.dart';
 import 'core/utilities/language.dart';
 import 'routes/app_routes.dart';
@@ -30,9 +28,6 @@ class RootApp extends HookConsumerWidget {
                 showPerformanceOverlay: false,
                 theme: AppTheme.appTheme.copyWith(
                   primaryColor: appGlobal.themeColor,
-                  appBarTheme: const AppBarTheme(
-                    systemOverlayStyle: AppTheme.lightStatusBar,
-                  ),
                 ),
                 routerDelegate: _appRouter.delegate(),
                 routeInformationParser: _appRouter.defaultRouteParser(),

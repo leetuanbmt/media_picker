@@ -26,6 +26,33 @@ class UserModel with _$UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 
+  static List<CreatorModel> listOnline = const [
+    CreatorModel(
+      id: 1,
+      firstName: 'ゆうこ',
+      lastName: '',
+      avatar:
+          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80',
+      category: '👗ファッション',
+    ),
+    CreatorModel(
+      id: 1,
+      firstName: 'ゆうこ',
+      lastName: '',
+      avatar:
+          'https://static.independent.co.uk/s3fs-public/thumbnails/image/2015/06/06/15/Chris-Pratt.jpg',
+      category: '📚漫画',
+    ),
+    CreatorModel(
+      id: 1,
+      firstName: 'ゆうこ',
+      lastName: '',
+      avatar:
+          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80',
+      category: '🎵音楽',
+    ),
+  ];
+
   static List<FollowingModel> listFollowing = const [
     FollowingModel(
       title: 'お笑い',

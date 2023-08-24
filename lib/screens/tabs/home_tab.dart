@@ -1,9 +1,9 @@
 import '../../core/config.dart';
-import '../../core/models/creator/creator_model.dart';
 import '../../notifiers/home_notifier.dart';
 import '../../routes/app_routes.gr.dart';
-import '../../widgets/commons/button_custom.dart';
+import '../../widgets/commons/app_bar_custom.dart';
 import '../../widgets/search_app_bar.dart';
+import 'widgets/list_creator.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -12,260 +12,67 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 70,
-        backgroundColor: AppTheme.primaryColor,
-        title: SearchAppBar(
+      appBar: AppBarCustom(
+        searchAppBar: SearchAppBar(
           readOnly: true,
           onTap: () {
             context.router.push(const SearchCreatorRoute());
           },
         ),
-        titleSpacing: 0,
-        leading: IconButton(
-          onPressed: () {
-            context.router.push(const QRRoute());
-          },
-          icon: const Icon(
-            Icons.qr_code_scanner,
-            color: Colors.white,
-          ),
-        ),
+        leading: const QRLeading(),
       ),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            child: Consumer(
-              builder: (context, ref, _) {
-                final listCategory = ref.watch(creatorCategoryProvider);
-                return Column(
-                  children: [
-                    SizedBox(height: 16.h),
-                    _ListCreator(
-                      title: 'オンライン',
-                      showMore: false,
-                      child: _listCreatorBuilder(
-                        onlineList: true,
-                      ),
-                    ),
-                    Divider(
-                      color: AppTheme.surface,
-                      thickness: 8.h,
-                    ),
-                    SizedBox(height: 20.h),
-                    ...listCategory
-                        .map(
-                          (e) => _ListCreator(
-                            title: e.title,
-                            child: _listCreatorBuilder(
-                              listCreator: e.listCreator,
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ],
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _listCreatorBuilder({
-    List<CreatorModel>? listCreator,
-    bool onlineList = false,
-  }) {
-    return SizedBox(
-      height: onlineList ? 136.h : 174.h,
-      child: ListView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        scrollDirection: Axis.horizontal,
-        itemCount: listCreator?.length,
-        itemBuilder: (context, index) {
-          return onlineList
-              ? _UserOnlineItem(
-                  model: listCreator?[index],
-                )
-              : _RecommendUserItem(
-                  model: listCreator?[index],
-                );
-        },
-      ),
-    );
-  }
-}
-
-class _ListCreator extends StatelessWidget {
-  const _ListCreator({
-    required this.title,
-    required this.child,
-    this.showMore = true,
-  });
-  final String title;
-  final bool showMore;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(16.w, 0.h, 16.w, 9.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: context.labelMedium?.copyWith(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
+            child: Column(
+              children: [
+                SizedBox(height: 16.h),
+                Consumer(
+                  builder: (context, ref, _) {
+                    final listOnline = ref.watch(creatorOnlineProvider);
+                    return listOnline.when(
+                      () => const Text('Initial'),
+                      loading: () => const CircularProgressIndicator.adaptive(),
+                      loaded: (list) {
+                        return ListCreator(
+                          title: 'オンライン',
+                          onlineList: true,
+                          showMore: false,
+                          listCreator: list,
+                        );
+                      },
+                      error: (error) => Text('Error: $error'),
+                    );
+                  },
                 ),
-              ),
-              if (showMore)
-                InkWell(
-                  onTap: () {},
-                  child: Text(
-                    'もっと見る',
-                    style: context.labelMedium?.copyWith(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.primaryColor,
-                    ),
-                  ),
+                Divider(color: AppTheme.surface, thickness: 8.h),
+                SizedBox(height: 20.h),
+                Consumer(
+                  builder: (context, ref, _) {
+                    final listFollowing = ref.watch(userFollowingProvider);
+                    return listFollowing.when(
+                      () => const Text('Initial'),
+                      loading: () => const CircularProgressIndicator.adaptive(),
+                      loaded: (list) {
+                        return Column(
+                          children: [
+                            ...list
+                                .map(
+                                  (e) => ListCreator(
+                                    title: e.title,
+                                    listCreator: e.listCreator,
+                                  ),
+                                )
+                                .toList(),
+                          ],
+                        );
+                      },
+                      error: (error) => Text('Error: $error'),
+                    );
+                  },
                 ),
-            ],
-          ),
-        ),
-        child,
-        SizedBox(height: 20.h),
-      ],
-    );
-  }
-}
-
-class _RecommendUserItem extends StatelessWidget {
-  const _RecommendUserItem({
-    this.model,
-  });
-
-  final CreatorModel? model;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 136.w,
-      margin: EdgeInsets.only(right: 9.w),
-      padding: EdgeInsets.symmetric(vertical: 16.h),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(
-          color: AppTheme.lightGray,
-          width: 1.w,
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CircleAvatar(
-            radius: 32.r,
-            backgroundImage: NetworkImage(
-              model?.avatar ??
-                  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80',
+              ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                model?.firstName ?? 'ゆうこ',
-                style: context.labelMedium?.copyWith(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              2.widthBox,
-              CircleAvatar(
-                radius: 8.r,
-                child: Icon(Icons.check, size: 12.sp),
-              ),
-            ],
-          ),
-          ButtonCustom(
-            'フォローする',
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            radius: 100,
-            width: 114.w,
-            fontSize: 12,
-            onPressed: () {},
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _UserOnlineItem extends StatelessWidget {
-  const _UserOnlineItem({
-    this.model,
-  });
-
-  final CreatorModel? model;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 126.w,
-      margin: EdgeInsets.only(right: 9.w),
-      padding: EdgeInsets.symmetric(vertical: 4.h),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.r),
-        image: DecorationImage(
-          image: NetworkImage(
-            model?.avatar ??
-                'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80',
-          ),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-            margin: EdgeInsets.only(left: 4.w),
-            decoration: BoxDecoration(
-              color: AppTheme.pink,
-              borderRadius: BorderRadius.circular(20.r),
-            ),
-            child: Text(
-              model?.category ?? 'お笑い',
-              style: context.labelMedium?.copyWith(
-                color: Colors.white,
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                model?.firstName ?? 'ゆうこ',
-                style: context.labelMedium?.copyWith(
-                  color: Colors.white,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              2.widthBox,
-              CircleAvatar(
-                radius: 8.r,
-                child: Icon(Icons.check, size: 12.sp),
-              ),
-            ],
           ),
         ],
       ),
