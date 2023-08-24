@@ -31,7 +31,7 @@ class RootApp extends HookConsumerWidget {
                 theme: AppTheme.appTheme.copyWith(
                   primaryColor: appGlobal.themeColor,
                   appBarTheme: const AppBarTheme(
-                    systemOverlayStyle: SystemUiOverlayStyle.light,
+                    systemOverlayStyle: AppTheme.lightStatusBar,
                   ),
                 ),
                 routerDelegate: _appRouter.delegate(),
