@@ -25,30 +25,28 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AutoTabsScaffold(
-        routes: const [
-          HomeRoute(),
-          SearchRoute(),
-          MainRoute(),
-          NotificationRoute(),
-          ProfileRoute(),
-        ],
-        bottomNavigationBuilder: (context, tabsRouter) {
-          return _BottomNavigation(
-            currentIndex: tabsRouter.activeIndex,
-            onChange: (index) {
-              if (index == tabsRouter.activeIndex) {
-                if (tabsRouter.topRoute.router is NestedStackRouter) {
-                  tabsRouter.topRoute.router.navigateNamed('');
-                }
-              } else {
-                tabsRouter.setActiveIndex(index);
+    return AutoTabsScaffold(
+      routes: const [
+        HomeRoute(),
+        SearchRoute(),
+        MainRoute(),
+        NotificationRoute(),
+        ProfileRoute(),
+      ],
+      bottomNavigationBuilder: (context, tabsRouter) {
+        return _BottomNavigation(
+          currentIndex: tabsRouter.activeIndex,
+          onChange: (index) {
+            if (index == tabsRouter.activeIndex) {
+              if (tabsRouter.topRoute.router is NestedStackRouter) {
+                tabsRouter.topRoute.router.navigateNamed('');
               }
-            },
-          );
-        },
-      ),
+            } else {
+              tabsRouter.setActiveIndex(index);
+            }
+          },
+        );
+      },
     );
   }
 }
