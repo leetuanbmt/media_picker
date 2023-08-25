@@ -1,5 +1,6 @@
 import '../../../core/config.dart';
 import '../../../core/models/creator/creator_model.dart';
+import '../../user_screen.dart';
 import 'creator_online_item.dart';
 import 'following_item.dart';
 
@@ -54,7 +55,9 @@ class ListCreator extends StatelessWidget {
                       color: AppTheme.primaryColor,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.nextPage(const UserScreen());
+                  },
                 ),
               ),
           ],
