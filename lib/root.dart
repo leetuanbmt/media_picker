@@ -7,7 +7,7 @@ class RootApp extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appGlobal = ref.watch(appGlobalNotifier);
+    final appGlobal = ref.watch(appGlobalProvider);
     return EasyLocalization(
       supportedLocales: AppLanguage.supports,
       fallbackLocale: AppLanguage.defaultLanguage,

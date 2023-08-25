@@ -1,6 +1,7 @@
 import '../../../core/config.dart';
 import '../../../core/models/creator/creator_model.dart';
 import '../../../widgets/commons/button_custom.dart';
+import '../../../widgets/commons/theme_picker.dart';
 
 class FollowingItem extends StatelessWidget {
   const FollowingItem({
@@ -55,7 +56,9 @@ class FollowingItem extends StatelessWidget {
             width: 114.w,
             height: 32.h,
             fontSize: 12,
-            onPressed: () {},
+            onPressed: () {
+              ThemePicker.show(context);
+            },
           ),
         ],
       ),

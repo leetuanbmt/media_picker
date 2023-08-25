@@ -38,7 +38,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       systemOverlayStyle: systemOverlayStyle,
-      backgroundColor: background ?? AppTheme.primaryColor,
+      backgroundColor: background,
       automaticallyImplyLeading: automaticallyImplyLeading,
       titleSpacing: titleSpacing,
       title: searchAppBar ??

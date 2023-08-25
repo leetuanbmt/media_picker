@@ -1083,11 +1083,6 @@ class _$_FailureException implements _FailureException {
   final int? code;
 
   @override
-  String toString() {
-    return 'FailureException(type: $type, error: $error, stackTrace: $stackTrace, message: $message, code: $code)';
-  }
-
-  @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&

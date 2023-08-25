@@ -16,6 +16,7 @@ class AppRepositoriesImpl extends BaseRepository implements AppRepositories {
     CancelToken? cancelToken,
   }) async {
     final data = await request(restClient.fetchUserInfo(userId, cancelToken));
+
     return data.when(
       success: (data) {
         return Result.success(UserModel.fromJson(data['data']));
