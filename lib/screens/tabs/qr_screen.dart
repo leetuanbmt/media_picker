@@ -22,6 +22,8 @@ class _QRScreenState extends State<QRScreen> {
       setState(() {
         result = scanData;
       });
+
+      /// Todo:Implement Logic after Scan
     });
   }
 
@@ -68,7 +70,6 @@ class _QRScreenState extends State<QRScreen> {
             '読み取り中...',
             style: context.titleMedium?.copyWith(
               color: Colors.white,
-              fontSize: 14.sp,
               fontWeight: FontWeight.w600,
             ),
           ),
