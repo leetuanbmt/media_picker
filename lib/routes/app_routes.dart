@@ -16,7 +16,15 @@ class AppRouter extends $AppRouter {
       page: DashboardRoute.page,
       path: '/dashboard',
       children: [
-        AutoRoute(page: HomeRoute.page, path: 'home'),
+        AutoRoute(
+          initial: true,
+          page: EmptyRouterRoute.page,
+          path: 'homeTabs',
+          children: [
+            AutoRoute(initial: true, page: HomeRoute.page, path: 'home'),
+            AutoRoute(page: SearchCreatorRoute.page, path: 'searchCreator'),
+          ],
+        ),
         AutoRoute(page: SearchRoute.page, path: 'search'),
         AutoRoute(page: MainRoute.page, path: 'main'),
         AutoRoute(page: NotificationRoute.page, path: 'notification'),
@@ -25,8 +33,12 @@ class AppRouter extends $AppRouter {
     ),
     AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: QRRoute.page, path: '/qrRoute'),
-    AutoRoute(page: SearchCreatorRoute.page, path: '/searchCreator'),
     AutoRoute(page: UserRoute.page, path: '/user'),
     RedirectRoute(path: '*', redirectTo: '/'),
   ];
+}
+
+@RoutePage()
+class EmptyRouterScreen extends AutoRouter {
+  const EmptyRouterScreen({super.key});
 }
