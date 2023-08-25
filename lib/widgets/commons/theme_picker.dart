@@ -13,7 +13,7 @@ class ThemePicker extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colorTheme = ref.watch(themeColorProvider);
+    final colorTheme = ref.watch(colorProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -29,7 +29,9 @@ class ThemePicker extends HookConsumerWidget {
                   color: e,
                   selectedColor: colorTheme == e,
                   onTap: () {
-                    ref.read(themeColorProvider.notifier).selectThemeColor(e);
+                    ref
+                        .read(colorProvider.notifier)
+                        .update((state) => state = e);
                   },
                 ),
               )

@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:toast/toast.dart';
 
 import '../../core/config.dart';
-import '../../core/utilities/logger.dart';
 import '../../widgets/custom_painter.dart';
 
 @RoutePage()
@@ -16,47 +18,43 @@ class _QRScreenState extends State<QRScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
+  StreamSubscription? subscription;
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
+    subscription = controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
       });
-
-      /// Todo:Implement Logic after Scan
     });
   }
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    subscription?.cancel();
+    controller?.dispose();
+    ToastView.dismiss();
+    super.dispose();
   }
 
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
+  void onPermissionSet(
+    BuildContext context,
+    QRViewController ctrl,
+    bool isPermission,
+  ) {
+    ToastContext().init(context);
+    if (!isPermission) {
+      Toast.show('No Permission');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    void onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
-      Logger.log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
-      if (!p) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('no Permission')),
-        );
-      }
-    }
-
     return Scaffold(
       backgroundColor: AppTheme.fontBoldLight,
       appBar: AppBar(
         backgroundColor: AppTheme.primaryColor,
         title: const Text('QRコード'),
-        leading: const BackButton(
-          color: Colors.white,
-        ),
+        leading: const BackButton(),
       ),
       body: Column(
         children: [

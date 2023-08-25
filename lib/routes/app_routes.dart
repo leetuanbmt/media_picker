@@ -18,27 +18,26 @@ class AppRouter extends $AppRouter {
       children: [
         AutoRoute(
           initial: true,
-          page: EmptyRouterRoute.page,
-          path: 'homeTabs',
+          page: HomeTabRoute.page,
           children: [
-            AutoRoute(initial: true, page: HomeRoute.page, path: 'home'),
-            AutoRoute(page: SearchCreatorRoute.page, path: 'searchCreator'),
+            AutoRoute(initial: true, page: HomeRoute.page),
+            AutoRoute(page: SearchCreatorRoute.page),
           ],
         ),
-        AutoRoute(page: SearchRoute.page, path: 'search'),
-        AutoRoute(page: MainRoute.page, path: 'main'),
-        AutoRoute(page: NotificationRoute.page, path: 'notification'),
-        AutoRoute(page: ProfileRoute.page, path: 'profile'),
+        AutoRoute(page: SearchRoute.page),
+        AutoRoute(page: MainRoute.page),
+        AutoRoute(page: NotificationRoute.page),
+        AutoRoute(page: ProfileRoute.page),
       ],
     ),
-    AutoRoute(page: LoginRoute.page, path: '/login'),
-    AutoRoute(page: QRRoute.page, path: '/qrRoute'),
-    AutoRoute(page: UserRoute.page, path: '/user'),
+    AutoRoute(page: LoginRoute.page),
+    AutoRoute(page: QRRoute.page),
+    AutoRoute(page: UserRoute.page),
     RedirectRoute(path: '*', redirectTo: '/'),
   ];
 }
 
-@RoutePage()
-class EmptyRouterScreen extends AutoRouter {
-  const EmptyRouterScreen({super.key});
+@RoutePage(name: 'HomeTabRoute')
+class HomeTab extends AutoRouter {
+  const HomeTab({super.key});
 }
