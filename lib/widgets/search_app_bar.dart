@@ -3,14 +3,40 @@ import 'package:flutter_svg/svg.dart';
 import '../core/config.dart';
 import '../gen/assets.gen.dart';
 
-class SearchAppBar extends StatelessWidget {
+class SearchAppBar extends StatefulWidget {
   const SearchAppBar({
     super.key,
     this.readOnly = false,
     this.onTap,
+    this.controller,
+    this.focusNode,
+    this.onChanged,
   });
   final bool readOnly;
   final VoidCallback? onTap;
+  final FocusNode? focusNode;
+  final TextEditingController? controller;
+  final Function(String val)? onChanged;
+
+  @override
+  State<SearchAppBar> createState() => _SearchAppBarState();
+}
+
+class _SearchAppBarState extends State<SearchAppBar> {
+  bool showIconClose = false;
+  @override
+  void initState() {
+    widget.controller?.addListener(() {
+      showIconClose = widget.controller?.text.isNotEmptyAndNotNull ?? false;
+    });
+    super.initState();
+  }
+
+  void clear() {
+    widget.controller?.clear();
+    widget.onChanged?.call('');
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +44,11 @@ class SearchAppBar extends StatelessWidget {
       height: 36.h,
       margin: EdgeInsets.only(right: 16.w),
       child: TextField(
-        onTap: onTap,
-        readOnly: readOnly,
+        onTap: widget.onTap,
+        readOnly: widget.readOnly,
+        controller: widget.controller,
+        focusNode: widget.focusNode,
+        onChanged: widget.onChanged,
         decoration: InputDecoration(
           hintText: 'ユーザー名・IDで検索',
           filled: true,
@@ -43,6 +72,16 @@ class SearchAppBar extends StatelessWidget {
             fit: BoxFit.scaleDown,
             width: 24.r,
           ),
+          suffixIconConstraints: BoxConstraints(
+            minWidth: 32.w,
+            minHeight: 12.h,
+          ),
+          suffixIcon: showIconClose
+              ? IconButton(
+                  onPressed: clear,
+                  icon: SvgPicture.asset(Assets.iconsIconClose.path),
+                )
+              : null,
         ),
       ),
     );
