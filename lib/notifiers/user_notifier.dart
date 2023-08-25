@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../core/config.dart';
 import '../core/models/models.dart';
 import '../core/repositories/base_repository.dart';
 
@@ -28,6 +29,23 @@ Future<UserModel> getUserDetail(
     },
   );
 }
+
+final userProvider =
+    FutureProvider.family<UserModel, String>((ref, userId) async {
+  // access the provider above
+  final repository = ref.watch(appRepositoryProvider);
+
+  // use it to return a Future
+  final result = await repository.fetchUserInfo(userId: userId);
+  return result.when(
+    success: (data) {
+      return data;
+    },
+    failure: (error) {
+      throw error.message ?? 'Error';
+    },
+  );
+});
 
 @freezed
 class UserResultState with _$UserResultState {
