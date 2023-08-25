@@ -16,7 +16,7 @@ class SearchAppBar extends StatefulWidget {
   final VoidCallback? onTap;
   final FocusNode? focusNode;
   final TextEditingController? controller;
-  final Function(String)? onChanged;
+  final Function(String val)? onChanged;
 
   @override
   State<SearchAppBar> createState() => _SearchAppBarState();
