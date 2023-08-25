@@ -27,7 +27,13 @@ class FailureException with _$FailureException {
     String? message,
     int? code,
   }) = _FailureException;
+
+  @override
+  String toString() {
+    return 'FailureException(type: $type, error: $error, stackTrace: $stackTrace, message: $message, code: $code)';
+  }
 }
+
 // @freezed
 // abstract class Result<Success, Failure extends Object>
 //     with _$Result<Success, Failure> {
