@@ -1,24 +1,90 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:dio/dio.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../core/config.dart';
 import '../core/models/models.dart';
 import '../core/repositories/base_repository.dart';
 
-final userNotifierProvider = StateNotifierProvider<UserNotifier, BaseState>(
-  (ref) => UserNotifier(),
-);
+part 'user_notifier.g.dart';
+part 'user_notifier.freezed.dart';
 
-class UserNotifier extends StateNotifier<BaseState> {
-  UserNotifier() : super(const BaseState());
+@riverpod
+Future<UserModel> getUserDetail(
+  GetUserDetailRef ref,
+  String userId,
+) async {
+  final cancelToken = CancelToken();
+  ref.onDispose(() => cancelToken.cancel());
+  final result = await Repositories.api.fetchUserInfo(
+    userId: userId,
+    cancelToken: cancelToken,
+  );
+  return result.when(
+    success: (data) {
+      return data;
+    },
+    failure: (error) {
+      throw error.message ?? 'Error';
+    },
+  );
+}
 
-  Future<void> getUserInfo(String userId) async {
-    state = const BaseState.loading();
-    (await Repositories.api.fetchUserInfo(userId)).when(
+final userProvider =
+    FutureProvider.family<UserModel, String>((ref, userId) async {
+  // access the provider above
+  final repository = ref.watch(appRepositoryProvider);
+
+  // use it to return a Future
+  final result = await repository.fetchUserInfo(userId: userId);
+  return result.when(
+    success: (data) {
+      return data;
+    },
+    failure: (error) {
+      throw error.message ?? 'Error';
+    },
+  );
+});
+
+@freezed
+class UserResultState with _$UserResultState {
+  const factory UserResultState({
+    required String query,
+    required int page,
+    required int? nextPage,
+    required List<UserModel> list,
+  }) = _UserResultState;
+}
+
+@riverpod
+class UserProvider extends _$UserProvider {
+  int page = 0;
+
+  int total = 0;
+
+  bool isLoadMore = false;
+
+  bool get isHasMore => page < total;
+
+  @override
+  Future<UserResultState> build() async {
+    final result = await Repositories.api.fetchUserInfo(userId: "1");
+
+    return result.when(
       success: (data) {
-        state = BaseState.loaded(data);
+        return UserResultState(
+          query: "query",
+          page: 1,
+          nextPage: 1,
+          list: [data],
+        );
       },
-      error: (type, message, code, result) {
-        state = BaseState.error(message: message);
+      failure: (error) {
+        throw error.message ?? 'Error';
       },
     );
   }
+
+  Future<void> loadMore() async {}
 }

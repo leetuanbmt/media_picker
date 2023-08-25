@@ -1,30 +1,34 @@
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import '../core/config.dart';
 import '../core/models/models.dart';
+import '../core/repositories/base_repository.dart';
 import '../core/utilities/utilities.dart';
 
-final appGlobalNotifier =
-    StateNotifierProvider<AppGlobalNotifier, GlobalSetting>(
-  (_) => AppGlobalNotifier(),
-);
+part 'global_notifier.g.dart';
 
-class AppGlobalNotifier extends StateNotifier<GlobalSetting> {
-  AppGlobalNotifier() : super(const GlobalSetting());
+final appRepositoryProvider = Provider((ref) => AppRepositoriesImpl());
+
+@riverpod
+class AppGlobal extends _$AppGlobal {
+  @override
+  GlobalSetting build() => const GlobalSetting();
 
   void setColor(Color color) {
     state = state.copyWith(themeColor: color);
+    AppTheme.primaryColor = AppTheme.findByValue(color.value);
+    Preferences.setInt(AppConfig.themeColorKey, color.value);
   }
 }
 
-final selectedThemeColor = StateNotifierProvider<ThemeColorNotifier, Color>(
-  (_) => ThemeColorNotifier(),
-);
-
-class ThemeColorNotifier extends StateNotifier<Color> {
-  ThemeColorNotifier() : super(AppColors.defaultColor);
+@riverpod
+class ThemeColor extends _$ThemeColor {
+  @override
+  Color build() {
+    return ref.watch(appGlobalProvider).themeColor ?? AppTheme.defaultColor;
+  }
 
   void selectThemeColor(Color color) {
     state = color;
-    AppTheme.primaryColor = AppColors.findByValue(color.value);
-    Preferences.setInt(AppConfig.themeColorKey, color.value);
   }
 }

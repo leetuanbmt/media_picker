@@ -1,20 +1,19 @@
 import '../../core/config.dart';
-import '../../core/utilities/colors.dart';
 import '../dialogs.dart';
 
-class ThemeColorPicker extends HookConsumerWidget {
-  const ThemeColorPicker({super.key});
-  static showBottomSheet(BuildContext context) {
+class ThemePicker extends HookConsumerWidget {
+  const ThemePicker({super.key});
+  static show(BuildContext context) {
     return AppDialog.showAppBottomSheet(
       context,
       title: 'テーマカラーの設定',
-      child: const ThemeColorPicker(),
+      child: const ThemePicker(),
     );
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colorTheme = ref.watch(selectedThemeColor);
+    final colorTheme = ref.watch(themeColorProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -24,13 +23,13 @@ class ThemeColorPicker extends HookConsumerWidget {
           crossAxisCount: 4,
           crossAxisSpacing: 15.r,
           mainAxisSpacing: 15.r,
-          children: AppColors.supportColors
+          children: AppTheme.supportColors
               .map(
                 (e) => _ItemColorBuilder(
                   color: e,
                   selectedColor: colorTheme == e,
                   onTap: () {
-                    ref.read(selectedThemeColor.notifier).selectThemeColor(e);
+                    ref.read(themeColorProvider.notifier).selectThemeColor(e);
                   },
                 ),
               )
@@ -39,11 +38,11 @@ class ThemeColorPicker extends HookConsumerWidget {
         HeightBox(10.h),
         ElevatedButton(
           onPressed: () {
-            ref.read(appGlobalNotifier.notifier).setColor(colorTheme);
+            ref.read(appGlobalProvider.notifier).setColor(colorTheme);
             Navigator.of(context).pop();
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppTheme.appTheme.primaryColor,
+            backgroundColor: colorTheme,
             foregroundColor: Colors.white,
             fixedSize: Size(context.screenWidth, 48.h),
           ),

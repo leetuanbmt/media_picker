@@ -24,6 +24,8 @@ class AppRouter extends $AppRouter {
       ],
     ),
     AutoRoute(page: LoginRoute.page, path: '/login'),
+    AutoRoute(page: QRRoute.page, path: '/qrRoute'),
+    AutoRoute(page: SearchCreatorRoute.page, path: '/searchCreator'),
     AutoRoute(page: UserRoute.page, path: '/user'),
     RedirectRoute(path: '*', redirectTo: '/'),
   ];

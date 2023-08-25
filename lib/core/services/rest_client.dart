@@ -10,5 +10,8 @@ abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
   @GET("users/{userId}")
-  Future<dynamic> fetchUserInfo(@Path() String userId);
+  Future<dynamic> fetchUserInfo(
+    @Path() String userId,
+    @CancelRequest() CancelToken? cancelToken,
+  );
 }
