@@ -13,7 +13,7 @@ class ThemePicker extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colorTheme = ref.watch(selectedThemeColor);
+    final colorTheme = ref.watch(themeColorProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -29,7 +29,7 @@ class ThemePicker extends HookConsumerWidget {
                   color: e,
                   selectedColor: colorTheme == e,
                   onTap: () {
-                    ref.read(selectedThemeColor.notifier).selectThemeColor(e);
+                    ref.read(themeColorProvider.notifier).selectThemeColor(e);
                   },
                 ),
               )
@@ -38,11 +38,11 @@ class ThemePicker extends HookConsumerWidget {
         HeightBox(10.h),
         ElevatedButton(
           onPressed: () {
-            ref.read(appGlobalNotifier.notifier).setColor(colorTheme);
+            ref.read(appGlobalProvider.notifier).setColor(colorTheme);
             Navigator.of(context).pop();
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppTheme.appTheme.primaryColor,
+            backgroundColor: colorTheme,
             foregroundColor: Colors.white,
             fixedSize: Size(context.screenWidth, 48.h),
           ),

@@ -23,7 +23,7 @@ class UserDetailScreen extends ConsumerWidget {
   final String userId;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userAsync = ref.watch(userProvider(userId));
+    final userAsync = ref.watch(getUserDetailProvider(userId));
     return userAsync.when(
       data: (user) => Column(
         children: [

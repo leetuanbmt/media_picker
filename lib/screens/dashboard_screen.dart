@@ -140,7 +140,7 @@ class _BottomTabItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isActive ? AppTheme.primaryColor : AppTheme.defaultGrey;
+    final color = isActive ? context.primaryColor : AppTheme.defaultGrey;
     return Expanded(
       child: Material(
         child: InkWell(
@@ -183,7 +183,7 @@ class _MainTabCustom extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: ClipOval(
         child: Material(
-          color: AppTheme.primaryColor,
+          color: context.primaryColor,
           child: InkWell(
             onTap: onTap,
             child: SizedBox.square(
