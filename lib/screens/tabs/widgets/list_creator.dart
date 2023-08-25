@@ -23,7 +23,10 @@ class ListCreator extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.w,
+                vertical: showMore ? 0 : 8.h,
+              ),
               child: Text(
                 title,
                 style: context.labelMedium?.copyWith(
@@ -34,11 +37,11 @@ class ListCreator extends StatelessWidget {
             ),
             if (showMore)
               Padding(
-                padding: const EdgeInsets.only(right: 10),
+                padding: EdgeInsets.only(right: 5.w),
                 child: TextButton(
                   style: TextButton.styleFrom(
-                    minimumSize: const Size(0, 32),
-                    padding: const EdgeInsets.all(5),
+                    minimumSize: Size(0, 32.w),
+                    padding: EdgeInsets.all(5.r),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.r),
                     ),
@@ -69,7 +72,7 @@ class ListCreator extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(height: 20.h),
+        SizedBox(height: 15.h),
       ],
     );
   }
