@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 16.w),
+        padding: EdgeInsets.symmetric(vertical: 8.w),
         child: Column(
           children: [
             Consumer(
@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             Divider(color: AppTheme.surface, thickness: 8.h),
-            SizedBox(height: 20.h),
+            SizedBox(height: 5.h),
             Consumer(
               builder: (context, ref, _) {
                 final listFollowing = ref.watch(userFollowingProvider);
