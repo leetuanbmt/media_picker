@@ -23,13 +23,13 @@ class LoginScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                    top: 37,
-                    bottom: 30,
+                  padding: EdgeInsets.only(
+                    top: 37.h,
+                    bottom: 30.h,
                   ),
-                  child: Assets.imagesLoginScreenLogo.image(
-                    height: 109,
-                    width: 78,
+                  child: Assets.iconsIconLogo.svg(
+                    height: 109.h,
+                    width: 78.w,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                         text: '上記からはじめることで、',
                         style: context.bodyMedium!.copyWith(
                           fontSize: 12,
-                          color: const Color(0xff646464),
+                          color: AppTheme.fontGrayLead,
                         ),
                       ),
                       TextSpan(
@@ -57,14 +57,14 @@ class LoginScreen extends StatelessWidget {
                         text: 'に同意します。',
                         style: context.bodyMedium!.copyWith(
                           fontSize: 12,
-                          color: const Color(0xff646464),
+                          color: AppTheme.fontGrayLead,
                         ),
                       ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 37),
+                  padding: EdgeInsets.only(top: 20.h, bottom: 37.w),
                   child: RichText(
                     text: TextSpan(
                       children: <TextSpan>[
@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                           text: 'アカウントをお持ちでない方',
                           style: context.bodyMedium!.copyWith(
                             fontSize: 12,
-                            color: const Color(0xff646464),
+                            color: AppTheme.fontGrayLead,
                           ),
                         ),
                         TextSpan(

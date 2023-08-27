@@ -16,43 +16,37 @@ class _LoginBySocialOrIDState extends State<LoginBySocialOrID> {
         Text(
           'SNSアカウントでログイン',
           style: context.bodyMedium!.copyWith(
-            color: const Color(0xff332C2C),
+            color: AppTheme.blackBold,
             fontWeight: FontWeight.w600,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(95, 18, 95, 40),
+          padding: EdgeInsets.fromLTRB(95.w, 18.h, 95.w, 40.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(
-                onTap: () {},
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                child: Assets.imagesTwitterIcon.image(
-                  height: 48,
-                  width: 48,
-                  fit: BoxFit.contain,
+              IconButton(
+                onPressed: () {},
+                style: IconButton.styleFrom(highlightColor: Colors.transparent),
+                icon: Assets.iconsIconTwitter.svg(
+                  height: 48.h,
+                  width: 48.w,
                 ),
               ),
-              InkWell(
-                onTap: () {},
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                child: Assets.imagesGoogleIcon.image(
-                  height: 48,
-                  width: 48,
-                  fit: BoxFit.contain,
+              IconButton(
+                onPressed: () {},
+                style: IconButton.styleFrom(highlightColor: Colors.transparent),
+                icon: Assets.iconsIconGoogle.svg(
+                  height: 48.h,
+                  width: 48.w,
                 ),
               ),
-              InkWell(
-                onTap: () {},
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                child: Assets.imagesFacebookIcon.image(
-                  height: 48,
-                  width: 48,
-                  fit: BoxFit.contain,
+              IconButton(
+                onPressed: () {},
+                style: IconButton.styleFrom(highlightColor: Colors.transparent),
+                icon: Assets.iconsIconFacebook.svg(
+                  height: 48.h,
+                  width: 48.w,
                 ),
               ),
             ],
@@ -62,20 +56,18 @@ class _LoginBySocialOrIDState extends State<LoginBySocialOrID> {
           'Face IDでログイン',
           style: context.bodyMedium!.copyWith(
             fontWeight: FontWeight.w600,
-            color: const Color(0xff565656),
+            color: AppTheme.fontBoldLight,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 12, bottom: 20),
-          child: InkWell(
-            onTap: () {},
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            child: Assets.imagesFaceIdIcon.image(
-              height: 54,
-              width: 54,
-              fit: BoxFit.contain,
+          padding: EdgeInsets.only(top: 12.h, bottom: 20.h),
+          child: IconButton(
+            icon: Assets.iconsIconFaceId.svg(
+              height: 54.h,
+              width: 54.w,
             ),
+            onPressed: () {},
+            style: IconButton.styleFrom(highlightColor: Colors.transparent),
           ),
         ),
       ],
