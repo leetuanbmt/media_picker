@@ -21,14 +21,6 @@ class AppGlobal extends _$AppGlobal {
   }
 }
 
-@riverpod
-class ThemeColor extends _$ThemeColor {
-  @override
-  Color build() {
-    return ref.watch(appGlobalProvider).themeColor ?? AppTheme.defaultColor;
-  }
-
-  void selectThemeColor(Color color) {
-    state = color;
-  }
-}
+final colorProvider = StateProvider<Color>(
+  (ref) => ref.read(appGlobalProvider).themeColor ?? AppTheme.defaultColor,
+);

@@ -38,6 +38,7 @@ class AppTheme {
   static const background = Color(0xffF9FBFB);
 
   static const pink = Color(0xffEA497B);
+
   static const lightStatusBar = SystemUiOverlayStyle(
     statusBarIconBrightness: Brightness.light,
     statusBarBrightness: Brightness.dark,

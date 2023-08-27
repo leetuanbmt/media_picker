@@ -27,7 +27,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
       routes: const [
-        HomeRoute(),
+        HomeTabRoute(),
         SearchRoute(),
         MainRoute(),
         NotificationRoute(),
