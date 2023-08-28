@@ -19,6 +19,8 @@ class AppTheme {
 
   static const fontGray = Color(0xff95A8B5);
 
+  static const fontGray3 = Color(0xff828282);
+
   static const lightGray = Color(0xffF2F2F5);
 
   static const black = Color(0xff211A1A);
@@ -38,6 +40,8 @@ class AppTheme {
   static const background = Color(0xffF9FBFB);
 
   static const pink = Color(0xffEA497B);
+
+  static const textiked = Color(0xffE3E3E3);
 
   static const lightStatusBar = SystemUiOverlayStyle(
     statusBarIconBrightness: Brightness.light,

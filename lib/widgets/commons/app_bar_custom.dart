@@ -89,3 +89,29 @@ class QRLeading extends StatelessWidget {
     );
   }
 }
+
+class IconButtonCustom extends StatelessWidget {
+  const IconButtonCustom({
+    super.key,
+    required this.iconData,
+    this.onTap,
+  });
+  final IconData iconData;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      borderRadius: BorderRadius.circular(30.r),
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(30.r),
+        onTap: onTap,
+        child: Padding(
+          padding: EdgeInsets.all(8.0.r),
+          child: Icon(iconData),
+        ),
+      ),
+    );
+  }
+}

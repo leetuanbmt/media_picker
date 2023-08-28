@@ -1,8 +1,8 @@
-import '../../core/config.dart';
-import '../../notifiers/home_notifier.dart';
-import '../../routes/app_routes.gr.dart';
-import '../../widgets/commons/app_bar_custom.dart';
-import '../../widgets/search_app_bar.dart';
+import '../../../core/config.dart';
+import '../../../notifiers/home_notifier.dart';
+import '../../../routes/app_routes.gr.dart';
+import '../../../widgets/commons/app_bar_custom.dart';
+import '../../../widgets/search_app_bar.dart';
 import 'widgets/list_creator.dart';
 
 @RoutePage()

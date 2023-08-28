@@ -1,5 +1,6 @@
-import '../../../core/config.dart';
-import '../../../core/models/creator/creator_model.dart';
+import '../../../../core/config.dart';
+import '../../../../core/models/creator/creator_model.dart';
+import '../../profile/widgets/tag_name.dart';
 
 class CreatorOnlineItem extends StatelessWidget {
   const CreatorOnlineItem({
@@ -45,23 +46,9 @@ class CreatorOnlineItem extends StatelessWidget {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                model?.firstName ?? 'ゆうこ',
-                style: context.labelMedium?.copyWith(
-                  color: Colors.white,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              2.widthBox,
-              CircleAvatar(
-                radius: 8.r,
-                child: Icon(Icons.check, size: 12.sp),
-              ),
-            ],
+          TagName(
+            name: model?.firstName ?? 'ゆうこ',
+            textColor: Colors.white,
           ),
         ],
       ),
