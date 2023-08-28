@@ -1,8 +1,8 @@
 import '../../../../core/config.dart';
 import '../../../../core/models/creator/creator_model.dart';
 import '../../../../widgets/commons/button_custom.dart';
+import '../../../../widgets/commons/tag_name_custom.dart';
 import '../../../../widgets/commons/theme_picker.dart';
-import '../../profile/widgets/tag_name.dart';
 
 class FollowingItem extends StatelessWidget {
   const FollowingItem({

@@ -1,7 +1,7 @@
 import '../../../../core/config.dart';
 import '../../../../widgets/commons/button_custom.dart';
-import 'card_profile_item.dart';
-import 'tag_name.dart';
+import '../../../../widgets/commons/tag_name_custom.dart';
+import 'card_profile.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
@@ -16,8 +16,8 @@ class ProfileHeader extends StatelessWidget {
       fontWeight: FontWeight.w300,
     );
 
-    return CardProfileItem(
-      radius: 20,
+    return CardProfile(
+      radius: 20.r,
       child: Padding(
         padding: EdgeInsets.all(13.r),
         child: Column(

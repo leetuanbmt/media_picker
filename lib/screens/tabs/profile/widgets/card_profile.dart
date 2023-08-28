@@ -1,7 +1,7 @@
 import '../../../../core/config.dart';
 
-class CardProfileItem extends StatelessWidget {
-  const CardProfileItem({
+class CardProfile extends StatelessWidget {
+  const CardProfile({
     super.key,
     required this.child,
     this.radius = 10,

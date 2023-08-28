@@ -24,10 +24,16 @@ class AppRouter extends $AppRouter {
             AutoRoute(page: SearchCreatorRoute.page),
           ],
         ),
+        AutoRoute(
+          page: ProfileTabRoute.page,
+          children: [
+            AutoRoute(initial: true, page: ProfileRoute.page),
+            AutoRoute(page: EditProfileRoute.page),
+          ],
+        ),
         AutoRoute(page: SearchRoute.page),
         AutoRoute(page: MainRoute.page),
         AutoRoute(page: NotificationRoute.page),
-        AutoRoute(page: ProfileRoute.page),
       ],
     ),
     AutoRoute(page: LoginRoute.page),
@@ -40,4 +46,9 @@ class AppRouter extends $AppRouter {
 @RoutePage(name: 'HomeTabRoute')
 class HomeTab extends AutoRouter {
   const HomeTab({super.key});
+}
+
+@RoutePage(name: 'ProfileTabRoute')
+class ProfileTab extends AutoRouter {
+  const ProfileTab({super.key});
 }

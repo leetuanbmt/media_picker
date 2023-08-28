@@ -1,7 +1,7 @@
 import '../../../core/config.dart';
-import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
-import 'widgets/profile_body.dart';
+import 'edit_profile.dart';
+import 'widgets/profile_detail.dart';
 import 'widgets/profile_header.dart';
 
 @RoutePage()
@@ -14,7 +14,7 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: AppTheme.background,
       appBar: AppBarCustom(
         title: 'マイページ',
-        titleSpacing: 16,
+        titleSpacing: 16.w,
         actions: [
           IconButtonCustom(
             iconData: Icons.more_horiz,
@@ -25,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
             child: IconButtonCustom(
               iconData: Icons.edit,
               onTap: () {
-                context.router.push(const EditProfileRoute());
+                context.nextPage(const EditProfileScreen());
               },
             ),
           ),
@@ -35,7 +35,7 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           children: [
             ProfileHeader(),
-            ProfileBody(),
+            ProfileDetail(),
           ],
         ),
       ),

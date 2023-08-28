@@ -2,10 +2,10 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/config.dart';
 import '../../../../gen/assets.gen.dart';
-import 'card_profile_item.dart';
+import 'card_profile.dart';
 
-class ProfileBody extends StatelessWidget {
-  const ProfileBody({
+class ProfileDetail extends StatelessWidget {
+  const ProfileDetail({
     super.key,
   });
 
@@ -13,7 +13,7 @@ class ProfileBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CardProfileItem(
+        CardProfile(
           child: ListTile(
             leading: SvgPicture.asset(
               Assets.iconsIcPoint.path,
@@ -28,7 +28,7 @@ class ProfileBody extends StatelessWidget {
             ),
           ),
         ),
-        CardProfileItem(
+        CardProfile(
           child: ListTile(
             leading: SvgPicture.asset(
               Assets.iconsIcCreditCard1.path,
@@ -43,7 +43,7 @@ class ProfileBody extends StatelessWidget {
             ),
           ),
         ),
-        CardProfileItem(
+        CardProfile(
           child: ListTile(
             leading: SvgPicture.asset(
               Assets.iconsIcBalance.path,
@@ -58,7 +58,7 @@ class ProfileBody extends StatelessWidget {
             ),
           ),
         ),
-        CardProfileItem(
+        CardProfile(
           child: ListTile(
             leading: SvgPicture.asset(
               Assets.iconsIcQna.path,
@@ -73,7 +73,7 @@ class ProfileBody extends StatelessWidget {
             ),
           ),
         ),
-        CardProfileItem(
+        CardProfile(
           child: ListTile(
             leading: SvgPicture.asset(
               Assets.iconsIcCreditCard.path,
@@ -88,7 +88,7 @@ class ProfileBody extends StatelessWidget {
             ),
           ),
         ),
-        CardProfileItem(
+        CardProfile(
           child: ListTile(
             leading: SvgPicture.asset(
               Assets.iconsIcComment.path,
@@ -103,7 +103,7 @@ class ProfileBody extends StatelessWidget {
             ),
           ),
         ),
-        CardProfileItem(
+        CardProfile(
           child: ListTile(
             leading: SvgPicture.asset(
               Assets.iconsIconNotifications.path,
@@ -118,7 +118,7 @@ class ProfileBody extends StatelessWidget {
             ),
           ),
         ),
-        CardProfileItem(
+        CardProfile(
           child: ListTile(
             title: Text(
               'ログアウト',

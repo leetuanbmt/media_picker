@@ -1,4 +1,4 @@
-import '../../../../core/config.dart';
+import '../../core/config.dart';
 
 class TagName extends StatelessWidget {
   const TagName({

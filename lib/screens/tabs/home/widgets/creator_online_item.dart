@@ -1,6 +1,6 @@
 import '../../../../core/config.dart';
 import '../../../../core/models/creator/creator_model.dart';
-import '../../profile/widgets/tag_name.dart';
+import '../../../../widgets/commons/tag_name_custom.dart';
 
 class CreatorOnlineItem extends StatelessWidget {
   const CreatorOnlineItem({
