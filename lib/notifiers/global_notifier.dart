@@ -21,6 +21,6 @@ class AppGlobal extends _$AppGlobal {
   }
 }
 
-final colorProvider = StateProvider<Color>(
+final colorProvider = StateProvider.autoDispose<Color>(
   (ref) => ref.read(appGlobalProvider).themeColor ?? AppTheme.defaultColor,
 );
