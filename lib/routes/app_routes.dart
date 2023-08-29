@@ -33,6 +33,7 @@ class AppRouter extends $AppRouter {
     AutoRoute(page: LoginRoute.page),
     AutoRoute(page: QRRoute.page),
     AutoRoute(page: UserRoute.page),
+    AutoRoute(page: OTPRoute.page),
     RedirectRoute(path: '*', redirectTo: '/'),
   ];
 }

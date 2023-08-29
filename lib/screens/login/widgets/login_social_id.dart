@@ -21,7 +21,7 @@ class _LoginBySocialOrIDState extends State<LoginBySocialOrID> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(95.w, 18.h, 95.w, 40.h),
+          padding: EdgeInsets.fromLTRB(90.w, 18.h, 90.w, 40.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

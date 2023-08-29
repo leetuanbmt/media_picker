@@ -7,61 +7,47 @@ class TextFieldCustom extends StatelessWidget {
     this.hintText,
     this.obscureText = false,
     this.fontSize = 16,
-    this.hintSize = 16,
     this.radius = 4,
     this.keyboardType,
     this.errorText,
+    this.textAlign = TextAlign.start,
   });
 
   final TextEditingController? textController;
   final bool? obscureText;
-  final double? fontSize, hintSize, radius;
+  final double? fontSize, radius;
   final String? hintText, errorText;
   final TextInputType? keyboardType;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
-    double size = obscureText! ? 24 : fontSize!;
-    double paddingText = (44 - size) / 2;
+    final style = context.titleMedium!.copyWith(
+      color: AppTheme.blackBold,
+      fontWeight: FontWeight.w300,
+    );
+
+    final border = OutlineInputBorder(
+      borderSide: const BorderSide(
+        width: 1,
+        color: AppTheme.box,
+      ),
+      borderRadius: BorderRadius.circular(radius!),
+    );
 
     return TextField(
       controller: textController,
-      style: context.titleMedium!.copyWith(
-        fontSize: size,
-        color: AppTheme.blackBold,
-        fontWeight: FontWeight.w300,
-      ),
+      style: style,
+      textAlign: textAlign!,
       keyboardType: keyboardType,
       obscureText: obscureText!,
       obscuringCharacter: '●',
       decoration: InputDecoration(
         hintText: hintText,
         errorText: errorText,
-        hintStyle: context.bodyLarge!.copyWith(
-          fontSize: hintSize,
-          color: AppTheme.fontGray,
-          fontWeight: FontWeight.w300,
-        ),
-        contentPadding: EdgeInsets.fromLTRB(
-          10,
-          paddingText,
-          0,
-          paddingText,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            width: 1,
-            color: AppTheme.box,
-          ),
-          borderRadius: BorderRadius.circular(radius!),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            width: 1,
-            color: AppTheme.box,
-          ),
-          borderRadius: BorderRadius.circular(radius!),
-        ),
+        hintStyle: style.copyWith(color: AppTheme.fontGray),
+        focusedBorder: border,
+        enabledBorder: border,
       ),
     );
   }

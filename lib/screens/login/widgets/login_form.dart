@@ -1,4 +1,5 @@
 import '../../../core/config.dart';
+import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/commons/button_custom.dart';
 import '../../../widgets/commons/text_field_custom.dart';
 
@@ -10,8 +11,7 @@ class LoginForm extends HookWidget {
     final emailController = useTextEditingController(text: '');
     final passwordController = useTextEditingController(text: '');
     final checkFieldsEmpty = useState<bool>(true);
-
-    var toggleValue = useState(false);
+    final toggleValue = useState<bool>(false);
 
     bool areFieldsEmpty() {
       return emailController.text.toString().isEmpty ||
@@ -73,8 +73,12 @@ class LoginForm extends HookWidget {
               "ログイン",
               width: 327.w,
               height: 48.h,
-              onPressed: () {},
-              backgroundColor: areFieldsEmpty()
+              onPressed: () {
+                checkFieldsEmpty.value
+                    ? null
+                    : AutoRouter.of(context).push(const OTPRoute());
+              },
+              backgroundColor: checkFieldsEmpty.value
                   ? AppTheme.middleGray
                   : AppTheme.primaryColor,
             ),
