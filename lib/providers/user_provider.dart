@@ -2,12 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../core/config.dart';
 import '../core/models/models.dart';
-import '../core/repositories/base_repository.dart';
+import 'global_provider.dart';
 
-part 'user_notifier.g.dart';
-part 'user_notifier.freezed.dart';
+part 'user_provider.g.dart';
+part 'user_provider.freezed.dart';
 
 @riverpod
 Future<UserModel> getUserDetail(
@@ -16,10 +15,10 @@ Future<UserModel> getUserDetail(
 ) async {
   final cancelToken = CancelToken();
   ref.onDispose(() => cancelToken.cancel());
-  final result = await Repositories.api.fetchUserInfo(
-    userId: userId,
-    cancelToken: cancelToken,
-  );
+  final result = await ref.read(appProvider).fetchUserInfo(
+        userId: userId,
+        cancelToken: cancelToken,
+      );
   return result.when(
     success: (data) {
       return data;
@@ -33,7 +32,7 @@ Future<UserModel> getUserDetail(
 final userProvider =
     FutureProvider.family<UserModel, String>((ref, userId) async {
   // access the provider above
-  final repository = ref.watch(appRepositoryProvider);
+  final repository = ref.watch(appProvider);
 
   // use it to return a Future
   final result = await repository.fetchUserInfo(userId: userId);
@@ -69,7 +68,9 @@ class UserProvider extends _$UserProvider {
 
   @override
   Future<UserResultState> build() async {
-    final result = await Repositories.api.fetchUserInfo(userId: "1");
+    final result = await ref.read(appProvider).fetchUserInfo(
+          userId: "1",
+        );
 
     return result.when(
       success: (data) {

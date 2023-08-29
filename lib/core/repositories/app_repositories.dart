@@ -1,6 +1,6 @@
 part of repositories;
 
-abstract class AppRepositories {
+sealed class AppRepositories {
   Future<Result<dynamic>> fetchUserInfo({
     required String userId,
     CancelToken? cancelToken,
@@ -24,4 +24,8 @@ class AppRepositoriesImpl extends BaseRepository implements AppRepositories {
       failure: (error) => Result.failure(error),
     );
   }
+}
+
+base class Demo {
+  void setData() {}
 }

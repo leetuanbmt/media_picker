@@ -14,8 +14,6 @@ export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:hooks_riverpod/hooks_riverpod.dart';
 export 'package:velocity_x/velocity_x.dart';
 
-export '../notifiers/global_notifier.dart';
-
 part 'styles/dimensions.dart';
 part 'styles/theme.dart';
 

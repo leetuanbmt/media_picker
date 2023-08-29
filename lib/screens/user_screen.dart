@@ -1,5 +1,5 @@
 import '../core/config.dart';
-import '../notifiers/user_notifier.dart';
+import '../providers/user_provider.dart';
 
 @RoutePage()
 class UserScreen extends StatelessWidget {

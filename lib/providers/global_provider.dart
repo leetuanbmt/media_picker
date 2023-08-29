@@ -5,9 +5,9 @@ import '../core/models/models.dart';
 import '../core/repositories/base_repository.dart';
 import '../core/utilities/utilities.dart';
 
-part 'global_notifier.g.dart';
+part 'global_provider.g.dart';
 
-final appRepositoryProvider = Provider((ref) => AppRepositoriesImpl());
+final appProvider = Provider((ref) => AppRepositoriesImpl());
 
 @riverpod
 class AppGlobal extends _$AppGlobal {
