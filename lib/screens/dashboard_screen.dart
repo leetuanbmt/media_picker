@@ -41,9 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           currentIndex: tabsRouter.activeIndex,
           onChange: (index) {
             if (index == tabsRouter.activeIndex) {
-              if (tabsRouter.topRoute.router is NestedStackRouter) {
-                tabsRouter.topRoute.router.navigateNamed('');
-              }
+              tabsRouter.topRoute.router.pop();
             } else {
               tabsRouter.setActiveIndex(index);
             }
@@ -181,20 +179,20 @@ class _MainTabCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: ClipOval(
-        child: Material(
-          color: context.primaryColor,
-          child: InkWell(
-            onTap: onTap,
-            child: SizedBox.square(
-              dimension: 48.r,
-              child: SvgPicture.asset(
-                tab.image,
-                fit: BoxFit.scaleDown,
-                colorFilter: const ColorFilter.mode(
-                  Colors.white,
-                  BlendMode.srcIn,
-                ),
+      child: Material(
+        color: context.primaryColor,
+        shape: const CircleBorder(),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: SizedBox.square(
+            dimension: 48.r,
+            child: SvgPicture.asset(
+              tab.image,
+              fit: BoxFit.scaleDown,
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
               ),
             ),
           ),

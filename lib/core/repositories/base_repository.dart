@@ -2,15 +2,15 @@ library repositories;
 
 import 'package:dio/dio.dart';
 
+import '../../providers/user_provider.dart';
 import '../config.dart';
 import '../models/models.dart';
 import '../services/rest_client.dart';
-import '../utilities/logger.dart';
 part 'app_repositories.dart';
 
 typedef CallBack<Data> = Future Function(Data? data);
 
-abstract class BaseRepository {
+sealed class BaseRepository {
   final dio = Dio(
     BaseOptions(
       baseUrl: AppConfig.baseUrl,
@@ -55,7 +55,7 @@ abstract class BaseRepository {
   }
 }
 
-class DioInterceptor extends Interceptor {
+base class DioInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     final msg = options.uri.toString();
@@ -68,9 +68,4 @@ class DioInterceptor extends Interceptor {
     Logger.log(response.data.toString());
     super.onResponse(response, handler);
   }
-}
-
-class Repositories {
-  Repositories._();
-  static final api = AppRepositoriesImpl();
 }
