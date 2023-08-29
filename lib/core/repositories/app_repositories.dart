@@ -5,6 +5,10 @@ sealed class AppRepositories {
     required String userId,
     CancelToken? cancelToken,
   });
+  Future<Result<UserResultState>> getUserList({
+    required int page,
+    CancelToken? cancelToken,
+  });
 }
 
 class AppRepositoriesImpl extends BaseRepository implements AppRepositories {
@@ -23,6 +27,14 @@ class AppRepositoriesImpl extends BaseRepository implements AppRepositories {
       },
       failure: (error) => Result.failure(error),
     );
+  }
+
+  @override
+  Future<Result<UserResultState>> getUserList({
+    required int page,
+    CancelToken? cancelToken,
+  }) {
+    return request(restClient.getUserList(page, 10, cancelToken));
   }
 }
 

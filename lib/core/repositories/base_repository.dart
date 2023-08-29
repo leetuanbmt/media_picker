@@ -2,10 +2,10 @@ library repositories;
 
 import 'package:dio/dio.dart';
 
+import '../../providers/user_provider.dart';
 import '../config.dart';
 import '../models/models.dart';
 import '../services/rest_client.dart';
-import '../utilities/logger.dart';
 part 'app_repositories.dart';
 
 typedef CallBack<Data> = Future Function(Data? data);
