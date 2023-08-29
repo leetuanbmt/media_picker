@@ -16,7 +16,7 @@ class AppGlobal extends _$AppGlobal {
 
   void setColor(Color color) {
     state = state.copyWith(themeColor: color);
-    AppTheme.primaryColor = AppTheme.findByValue(color.value);
+    AppTheme.primaryColor = color;
     Preferences.setInt(AppConfig.themeColorKey, color.value);
   }
 }
