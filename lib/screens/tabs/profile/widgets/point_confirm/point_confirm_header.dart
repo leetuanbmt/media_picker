@@ -1,6 +1,6 @@
 import '../../../../../core/config.dart';
 import '../../../../../gen/assets.gen.dart';
-import '../../../../../providers/profile_notifier.dart';
+import '../../../../../providers/profile_provider.dart';
 import '../../../../../widgets/commons/button_custom.dart';
 
 class PointConfirmHeader extends HookWidget {

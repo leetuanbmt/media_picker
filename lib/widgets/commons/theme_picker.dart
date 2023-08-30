@@ -1,6 +1,7 @@
 import '../../core/config.dart';
 import '../../providers/global_provider.dart';
 import '../dialogs.dart';
+import 'button_custom.dart';
 
 class ThemePicker extends HookConsumerWidget {
   const ThemePicker({super.key});
@@ -39,17 +40,14 @@ class ThemePicker extends HookConsumerWidget {
               .toList(),
         ),
         HeightBox(10.h),
-        ElevatedButton(
+        ButtonCustom(
+          '設定する',
+          height: 48.h,
+          width: context.screenWidth,
           onPressed: () {
             ref.read(appGlobalProvider.notifier).setColor(colorTheme);
             Navigator.of(context).pop();
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: colorTheme,
-            foregroundColor: Colors.white,
-            fixedSize: Size(context.screenWidth, 48.h),
-          ),
-          child: const Text('設定する'),
         ),
       ],
     );
