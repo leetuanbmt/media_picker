@@ -33,7 +33,7 @@ class PointConfirmHeader extends HookWidget {
                         onPageChanged: (value) {
                           ref
                               .read(pointConfirmChangeCardProvider.notifier)
-                              .onChangeCard(value);
+                              .update((state) => state = value);
                         },
                         itemBuilder: (context, index) {
                           return Container(
