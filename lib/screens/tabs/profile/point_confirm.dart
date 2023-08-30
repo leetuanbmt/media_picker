@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../core/config.dart';
 import '../../../gen/assets.gen.dart';
-import '../../../notifiers/profile_notifier.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
 import '../../../widgets/commons/button_custom.dart';
 import 'widgets/point_confirm/point_confirm_detail.dart';
