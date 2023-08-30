@@ -24,6 +24,28 @@ class UserModel with _$UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 
+  static List<String> listCategory = const [
+    '🕺 ステージ',
+    '🎵 音楽',
+    '🔈 メディア',
+    '😂 お笑い',
+    '🎭 演技',
+    '🎩 コスプレ',
+    '📚 漫画',
+    '🎮 ゲーム',
+    '🤡 アニメ',
+    '💅 美容',
+    '⚾️ スポーツ',
+    '🎨 アート',
+    '👗 ファッション',
+    '👥 コミュニティ',
+    '🤝 チャリティ',
+    '📊 経済',
+    '‍🎓 教育',
+    '‍🎤 配信',
+    '‍📣 店舗',
+  ];
+
   static List<CreatorModel> listOnline = const [
     CreatorModel(
       id: 1,

@@ -1129,3 +1129,828 @@ abstract class _FailureException implements FailureException {
   _$$_FailureExceptionCopyWith<_$_FailureException> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$PaginationState<T> {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<T> items) data,
+    required TResult Function(Object? e) error,
+    required TResult Function() loading,
+    required TResult Function(List<T> items) loadMore,
+    required TResult Function(List<T> items, Object? e) loadMoreError,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<T> items)? data,
+    TResult? Function(Object? e)? error,
+    TResult? Function()? loading,
+    TResult? Function(List<T> items)? loadMore,
+    TResult? Function(List<T> items, Object? e)? loadMoreError,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<T> items)? data,
+    TResult Function(Object? e)? error,
+    TResult Function()? loading,
+    TResult Function(List<T> items)? loadMore,
+    TResult Function(List<T> items, Object? e)? loadMoreError,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Data<T> value) data,
+    required TResult Function(_Error<T> value) error,
+    required TResult Function(_Loading<T> value) loading,
+    required TResult Function(_OnLoadMore<T> value) loadMore,
+    required TResult Function(_LoadMoreError<T> value) loadMoreError,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Data<T> value)? data,
+    TResult? Function(_Error<T> value)? error,
+    TResult? Function(_Loading<T> value)? loading,
+    TResult? Function(_OnLoadMore<T> value)? loadMore,
+    TResult? Function(_LoadMoreError<T> value)? loadMoreError,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Data<T> value)? data,
+    TResult Function(_Error<T> value)? error,
+    TResult Function(_Loading<T> value)? loading,
+    TResult Function(_OnLoadMore<T> value)? loadMore,
+    TResult Function(_LoadMoreError<T> value)? loadMoreError,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PaginationStateCopyWith<T, $Res> {
+  factory $PaginationStateCopyWith(
+          PaginationState<T> value, $Res Function(PaginationState<T>) then) =
+      _$PaginationStateCopyWithImpl<T, $Res, PaginationState<T>>;
+}
+
+/// @nodoc
+class _$PaginationStateCopyWithImpl<T, $Res, $Val extends PaginationState<T>>
+    implements $PaginationStateCopyWith<T, $Res> {
+  _$PaginationStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$_DataCopyWith<T, $Res> {
+  factory _$$_DataCopyWith(_$_Data<T> value, $Res Function(_$_Data<T>) then) =
+      __$$_DataCopyWithImpl<T, $Res>;
+  @useResult
+  $Res call({List<T> items});
+}
+
+/// @nodoc
+class __$$_DataCopyWithImpl<T, $Res>
+    extends _$PaginationStateCopyWithImpl<T, $Res, _$_Data<T>>
+    implements _$$_DataCopyWith<T, $Res> {
+  __$$_DataCopyWithImpl(_$_Data<T> _value, $Res Function(_$_Data<T>) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+  }) {
+    return _then(_$_Data<T>(
+      null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<T>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_Data<T> implements _Data<T> {
+  const _$_Data(final List<T> items) : _items = items;
+
+  final List<T> _items;
+  @override
+  List<T> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
+
+  @override
+  String toString() {
+    return 'PaginationState<$T>.data(items: $items)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Data<T> &&
+            const DeepCollectionEquality().equals(other._items, _items));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_items));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_DataCopyWith<T, _$_Data<T>> get copyWith =>
+      __$$_DataCopyWithImpl<T, _$_Data<T>>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<T> items) data,
+    required TResult Function(Object? e) error,
+    required TResult Function() loading,
+    required TResult Function(List<T> items) loadMore,
+    required TResult Function(List<T> items, Object? e) loadMoreError,
+  }) {
+    return data(items);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<T> items)? data,
+    TResult? Function(Object? e)? error,
+    TResult? Function()? loading,
+    TResult? Function(List<T> items)? loadMore,
+    TResult? Function(List<T> items, Object? e)? loadMoreError,
+  }) {
+    return data?.call(items);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<T> items)? data,
+    TResult Function(Object? e)? error,
+    TResult Function()? loading,
+    TResult Function(List<T> items)? loadMore,
+    TResult Function(List<T> items, Object? e)? loadMoreError,
+    required TResult orElse(),
+  }) {
+    if (data != null) {
+      return data(items);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Data<T> value) data,
+    required TResult Function(_Error<T> value) error,
+    required TResult Function(_Loading<T> value) loading,
+    required TResult Function(_OnLoadMore<T> value) loadMore,
+    required TResult Function(_LoadMoreError<T> value) loadMoreError,
+  }) {
+    return data(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Data<T> value)? data,
+    TResult? Function(_Error<T> value)? error,
+    TResult? Function(_Loading<T> value)? loading,
+    TResult? Function(_OnLoadMore<T> value)? loadMore,
+    TResult? Function(_LoadMoreError<T> value)? loadMoreError,
+  }) {
+    return data?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Data<T> value)? data,
+    TResult Function(_Error<T> value)? error,
+    TResult Function(_Loading<T> value)? loading,
+    TResult Function(_OnLoadMore<T> value)? loadMore,
+    TResult Function(_LoadMoreError<T> value)? loadMoreError,
+    required TResult orElse(),
+  }) {
+    if (data != null) {
+      return data(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Data<T> implements PaginationState<T> {
+  const factory _Data(final List<T> items) = _$_Data<T>;
+
+  List<T> get items;
+  @JsonKey(ignore: true)
+  _$$_DataCopyWith<T, _$_Data<T>> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_ErrorCopyWith<T, $Res> {
+  factory _$$_ErrorCopyWith(
+          _$_Error<T> value, $Res Function(_$_Error<T>) then) =
+      __$$_ErrorCopyWithImpl<T, $Res>;
+  @useResult
+  $Res call({Object? e});
+}
+
+/// @nodoc
+class __$$_ErrorCopyWithImpl<T, $Res>
+    extends _$PaginationStateCopyWithImpl<T, $Res, _$_Error<T>>
+    implements _$$_ErrorCopyWith<T, $Res> {
+  __$$_ErrorCopyWithImpl(_$_Error<T> _value, $Res Function(_$_Error<T>) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? e = freezed,
+  }) {
+    return _then(_$_Error<T>(
+      freezed == e ? _value.e : e,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_Error<T> implements _Error<T> {
+  const _$_Error(this.e);
+
+  @override
+  final Object? e;
+
+  @override
+  String toString() {
+    return 'PaginationState<$T>.error(e: $e)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Error<T> &&
+            const DeepCollectionEquality().equals(other.e, e));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_ErrorCopyWith<T, _$_Error<T>> get copyWith =>
+      __$$_ErrorCopyWithImpl<T, _$_Error<T>>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<T> items) data,
+    required TResult Function(Object? e) error,
+    required TResult Function() loading,
+    required TResult Function(List<T> items) loadMore,
+    required TResult Function(List<T> items, Object? e) loadMoreError,
+  }) {
+    return error(e);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<T> items)? data,
+    TResult? Function(Object? e)? error,
+    TResult? Function()? loading,
+    TResult? Function(List<T> items)? loadMore,
+    TResult? Function(List<T> items, Object? e)? loadMoreError,
+  }) {
+    return error?.call(e);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<T> items)? data,
+    TResult Function(Object? e)? error,
+    TResult Function()? loading,
+    TResult Function(List<T> items)? loadMore,
+    TResult Function(List<T> items, Object? e)? loadMoreError,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(e);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Data<T> value) data,
+    required TResult Function(_Error<T> value) error,
+    required TResult Function(_Loading<T> value) loading,
+    required TResult Function(_OnLoadMore<T> value) loadMore,
+    required TResult Function(_LoadMoreError<T> value) loadMoreError,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Data<T> value)? data,
+    TResult? Function(_Error<T> value)? error,
+    TResult? Function(_Loading<T> value)? loading,
+    TResult? Function(_OnLoadMore<T> value)? loadMore,
+    TResult? Function(_LoadMoreError<T> value)? loadMoreError,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Data<T> value)? data,
+    TResult Function(_Error<T> value)? error,
+    TResult Function(_Loading<T> value)? loading,
+    TResult Function(_OnLoadMore<T> value)? loadMore,
+    TResult Function(_LoadMoreError<T> value)? loadMoreError,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Error<T> implements PaginationState<T> {
+  const factory _Error(final Object? e) = _$_Error<T>;
+
+  Object? get e;
+  @JsonKey(ignore: true)
+  _$$_ErrorCopyWith<T, _$_Error<T>> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_LoadingCopyWith<T, $Res> {
+  factory _$$_LoadingCopyWith(
+          _$_Loading<T> value, $Res Function(_$_Loading<T>) then) =
+      __$$_LoadingCopyWithImpl<T, $Res>;
+}
+
+/// @nodoc
+class __$$_LoadingCopyWithImpl<T, $Res>
+    extends _$PaginationStateCopyWithImpl<T, $Res, _$_Loading<T>>
+    implements _$$_LoadingCopyWith<T, $Res> {
+  __$$_LoadingCopyWithImpl(
+      _$_Loading<T> _value, $Res Function(_$_Loading<T>) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_Loading<T> implements _Loading<T> {
+  const _$_Loading();
+
+  @override
+  String toString() {
+    return 'PaginationState<$T>.loading()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_Loading<T>);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<T> items) data,
+    required TResult Function(Object? e) error,
+    required TResult Function() loading,
+    required TResult Function(List<T> items) loadMore,
+    required TResult Function(List<T> items, Object? e) loadMoreError,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<T> items)? data,
+    TResult? Function(Object? e)? error,
+    TResult? Function()? loading,
+    TResult? Function(List<T> items)? loadMore,
+    TResult? Function(List<T> items, Object? e)? loadMoreError,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<T> items)? data,
+    TResult Function(Object? e)? error,
+    TResult Function()? loading,
+    TResult Function(List<T> items)? loadMore,
+    TResult Function(List<T> items, Object? e)? loadMoreError,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Data<T> value) data,
+    required TResult Function(_Error<T> value) error,
+    required TResult Function(_Loading<T> value) loading,
+    required TResult Function(_OnLoadMore<T> value) loadMore,
+    required TResult Function(_LoadMoreError<T> value) loadMoreError,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Data<T> value)? data,
+    TResult? Function(_Error<T> value)? error,
+    TResult? Function(_Loading<T> value)? loading,
+    TResult? Function(_OnLoadMore<T> value)? loadMore,
+    TResult? Function(_LoadMoreError<T> value)? loadMoreError,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Data<T> value)? data,
+    TResult Function(_Error<T> value)? error,
+    TResult Function(_Loading<T> value)? loading,
+    TResult Function(_OnLoadMore<T> value)? loadMore,
+    TResult Function(_LoadMoreError<T> value)? loadMoreError,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Loading<T> implements PaginationState<T> {
+  const factory _Loading() = _$_Loading<T>;
+}
+
+/// @nodoc
+abstract class _$$_OnLoadMoreCopyWith<T, $Res> {
+  factory _$$_OnLoadMoreCopyWith(
+          _$_OnLoadMore<T> value, $Res Function(_$_OnLoadMore<T>) then) =
+      __$$_OnLoadMoreCopyWithImpl<T, $Res>;
+  @useResult
+  $Res call({List<T> items});
+}
+
+/// @nodoc
+class __$$_OnLoadMoreCopyWithImpl<T, $Res>
+    extends _$PaginationStateCopyWithImpl<T, $Res, _$_OnLoadMore<T>>
+    implements _$$_OnLoadMoreCopyWith<T, $Res> {
+  __$$_OnLoadMoreCopyWithImpl(
+      _$_OnLoadMore<T> _value, $Res Function(_$_OnLoadMore<T>) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+  }) {
+    return _then(_$_OnLoadMore<T>(
+      null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<T>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_OnLoadMore<T> implements _OnLoadMore<T> {
+  const _$_OnLoadMore(final List<T> items) : _items = items;
+
+  final List<T> _items;
+  @override
+  List<T> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
+
+  @override
+  String toString() {
+    return 'PaginationState<$T>.loadMore(items: $items)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_OnLoadMore<T> &&
+            const DeepCollectionEquality().equals(other._items, _items));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_items));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_OnLoadMoreCopyWith<T, _$_OnLoadMore<T>> get copyWith =>
+      __$$_OnLoadMoreCopyWithImpl<T, _$_OnLoadMore<T>>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<T> items) data,
+    required TResult Function(Object? e) error,
+    required TResult Function() loading,
+    required TResult Function(List<T> items) loadMore,
+    required TResult Function(List<T> items, Object? e) loadMoreError,
+  }) {
+    return loadMore(items);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<T> items)? data,
+    TResult? Function(Object? e)? error,
+    TResult? Function()? loading,
+    TResult? Function(List<T> items)? loadMore,
+    TResult? Function(List<T> items, Object? e)? loadMoreError,
+  }) {
+    return loadMore?.call(items);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<T> items)? data,
+    TResult Function(Object? e)? error,
+    TResult Function()? loading,
+    TResult Function(List<T> items)? loadMore,
+    TResult Function(List<T> items, Object? e)? loadMoreError,
+    required TResult orElse(),
+  }) {
+    if (loadMore != null) {
+      return loadMore(items);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Data<T> value) data,
+    required TResult Function(_Error<T> value) error,
+    required TResult Function(_Loading<T> value) loading,
+    required TResult Function(_OnLoadMore<T> value) loadMore,
+    required TResult Function(_LoadMoreError<T> value) loadMoreError,
+  }) {
+    return loadMore(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Data<T> value)? data,
+    TResult? Function(_Error<T> value)? error,
+    TResult? Function(_Loading<T> value)? loading,
+    TResult? Function(_OnLoadMore<T> value)? loadMore,
+    TResult? Function(_LoadMoreError<T> value)? loadMoreError,
+  }) {
+    return loadMore?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Data<T> value)? data,
+    TResult Function(_Error<T> value)? error,
+    TResult Function(_Loading<T> value)? loading,
+    TResult Function(_OnLoadMore<T> value)? loadMore,
+    TResult Function(_LoadMoreError<T> value)? loadMoreError,
+    required TResult orElse(),
+  }) {
+    if (loadMore != null) {
+      return loadMore(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _OnLoadMore<T> implements PaginationState<T> {
+  const factory _OnLoadMore(final List<T> items) = _$_OnLoadMore<T>;
+
+  List<T> get items;
+  @JsonKey(ignore: true)
+  _$$_OnLoadMoreCopyWith<T, _$_OnLoadMore<T>> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_LoadMoreErrorCopyWith<T, $Res> {
+  factory _$$_LoadMoreErrorCopyWith(
+          _$_LoadMoreError<T> value, $Res Function(_$_LoadMoreError<T>) then) =
+      __$$_LoadMoreErrorCopyWithImpl<T, $Res>;
+  @useResult
+  $Res call({List<T> items, Object? e});
+}
+
+/// @nodoc
+class __$$_LoadMoreErrorCopyWithImpl<T, $Res>
+    extends _$PaginationStateCopyWithImpl<T, $Res, _$_LoadMoreError<T>>
+    implements _$$_LoadMoreErrorCopyWith<T, $Res> {
+  __$$_LoadMoreErrorCopyWithImpl(
+      _$_LoadMoreError<T> _value, $Res Function(_$_LoadMoreError<T>) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+    Object? e = freezed,
+  }) {
+    return _then(_$_LoadMoreError<T>(
+      null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<T>,
+      freezed == e ? _value.e : e,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_LoadMoreError<T> implements _LoadMoreError<T> {
+  const _$_LoadMoreError(final List<T> items, this.e) : _items = items;
+
+  final List<T> _items;
+  @override
+  List<T> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
+
+  @override
+  final Object? e;
+
+  @override
+  String toString() {
+    return 'PaginationState<$T>.loadMoreError(items: $items, e: $e)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_LoadMoreError<T> &&
+            const DeepCollectionEquality().equals(other._items, _items) &&
+            const DeepCollectionEquality().equals(other.e, e));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_items),
+      const DeepCollectionEquality().hash(e));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_LoadMoreErrorCopyWith<T, _$_LoadMoreError<T>> get copyWith =>
+      __$$_LoadMoreErrorCopyWithImpl<T, _$_LoadMoreError<T>>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<T> items) data,
+    required TResult Function(Object? e) error,
+    required TResult Function() loading,
+    required TResult Function(List<T> items) loadMore,
+    required TResult Function(List<T> items, Object? e) loadMoreError,
+  }) {
+    return loadMoreError(items, e);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(List<T> items)? data,
+    TResult? Function(Object? e)? error,
+    TResult? Function()? loading,
+    TResult? Function(List<T> items)? loadMore,
+    TResult? Function(List<T> items, Object? e)? loadMoreError,
+  }) {
+    return loadMoreError?.call(items, e);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<T> items)? data,
+    TResult Function(Object? e)? error,
+    TResult Function()? loading,
+    TResult Function(List<T> items)? loadMore,
+    TResult Function(List<T> items, Object? e)? loadMoreError,
+    required TResult orElse(),
+  }) {
+    if (loadMoreError != null) {
+      return loadMoreError(items, e);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Data<T> value) data,
+    required TResult Function(_Error<T> value) error,
+    required TResult Function(_Loading<T> value) loading,
+    required TResult Function(_OnLoadMore<T> value) loadMore,
+    required TResult Function(_LoadMoreError<T> value) loadMoreError,
+  }) {
+    return loadMoreError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Data<T> value)? data,
+    TResult? Function(_Error<T> value)? error,
+    TResult? Function(_Loading<T> value)? loading,
+    TResult? Function(_OnLoadMore<T> value)? loadMore,
+    TResult? Function(_LoadMoreError<T> value)? loadMoreError,
+  }) {
+    return loadMoreError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Data<T> value)? data,
+    TResult Function(_Error<T> value)? error,
+    TResult Function(_Loading<T> value)? loading,
+    TResult Function(_OnLoadMore<T> value)? loadMore,
+    TResult Function(_LoadMoreError<T> value)? loadMoreError,
+    required TResult orElse(),
+  }) {
+    if (loadMoreError != null) {
+      return loadMoreError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LoadMoreError<T> implements PaginationState<T> {
+  const factory _LoadMoreError(final List<T> items, final Object? e) =
+      _$_LoadMoreError<T>;
+
+  List<T> get items;
+  Object? get e;
+  @JsonKey(ignore: true)
+  _$$_LoadMoreErrorCopyWith<T, _$_LoadMoreError<T>> get copyWith =>
+      throw _privateConstructorUsedError;
+}
