@@ -1,5 +1,6 @@
 import 'core/config.dart';
 import 'core/utilities/language.dart';
+import 'providers/global_provider.dart';
 import 'routes/app_routes.dart';
 
 class RootApp extends HookConsumerWidget {

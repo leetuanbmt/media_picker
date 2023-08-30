@@ -1,5 +1,5 @@
 import '../../../core/config.dart';
-import '../../../notifiers/home_notifier.dart';
+import '../../../providers/home_provider.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
 import '../../../widgets/search_app_bar.dart';
 import 'search_screen.dart';

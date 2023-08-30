@@ -1,4 +1,5 @@
 import '../../core/config.dart';
+import '../../providers/global_provider.dart';
 import '../dialogs.dart';
 
 class ThemePicker extends HookConsumerWidget {

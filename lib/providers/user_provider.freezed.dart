@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'user_notifier.dart';
+part of 'user_provider.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,13 +14,20 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+UserResultState _$UserResultStateFromJson(Map<String, dynamic> json) {
+  return _UserResultState.fromJson(json);
+}
+
 /// @nodoc
 mixin _$UserResultState {
-  String get query => throw _privateConstructorUsedError;
   int get page => throw _privateConstructorUsedError;
-  int? get nextPage => throw _privateConstructorUsedError;
-  List<UserModel> get list => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_pages")
+  int get total => throw _privateConstructorUsedError;
+  List<UserModel> get data => throw _privateConstructorUsedError;
+  dynamic get isLoading => throw _privateConstructorUsedError;
+  dynamic get isLoadMore => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $UserResultStateCopyWith<UserResultState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -32,7 +39,12 @@ abstract class $UserResultStateCopyWith<$Res> {
           UserResultState value, $Res Function(UserResultState) then) =
       _$UserResultStateCopyWithImpl<$Res, UserResultState>;
   @useResult
-  $Res call({String query, int page, int? nextPage, List<UserModel> list});
+  $Res call(
+      {int page,
+      @JsonKey(name: "total_pages") int total,
+      List<UserModel> data,
+      dynamic isLoading,
+      dynamic isLoadMore});
 }
 
 /// @nodoc
@@ -48,28 +60,33 @@ class _$UserResultStateCopyWithImpl<$Res, $Val extends UserResultState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? query = null,
     Object? page = null,
-    Object? nextPage = freezed,
-    Object? list = null,
+    Object? total = null,
+    Object? data = null,
+    Object? isLoading = freezed,
+    Object? isLoadMore = freezed,
   }) {
     return _then(_value.copyWith(
-      query: null == query
-          ? _value.query
-          : query // ignore: cast_nullable_to_non_nullable
-              as String,
       page: null == page
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
               as int,
-      nextPage: freezed == nextPage
-          ? _value.nextPage
-          : nextPage // ignore: cast_nullable_to_non_nullable
-              as int?,
-      list: null == list
-          ? _value.list
-          : list // ignore: cast_nullable_to_non_nullable
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
               as List<UserModel>,
+      isLoading: freezed == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      isLoadMore: freezed == isLoadMore
+          ? _value.isLoadMore
+          : isLoadMore // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ) as $Val);
   }
 }
@@ -82,7 +99,12 @@ abstract class _$$_UserResultStateCopyWith<$Res>
       __$$_UserResultStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String query, int page, int? nextPage, List<UserModel> list});
+  $Res call(
+      {int page,
+      @JsonKey(name: "total_pages") int total,
+      List<UserModel> data,
+      dynamic isLoading,
+      dynamic isLoadMore});
 }
 
 /// @nodoc
@@ -96,59 +118,68 @@ class __$$_UserResultStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? query = null,
     Object? page = null,
-    Object? nextPage = freezed,
-    Object? list = null,
+    Object? total = null,
+    Object? data = null,
+    Object? isLoading = freezed,
+    Object? isLoadMore = freezed,
   }) {
     return _then(_$_UserResultState(
-      query: null == query
-          ? _value.query
-          : query // ignore: cast_nullable_to_non_nullable
-              as String,
       page: null == page
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
               as int,
-      nextPage: freezed == nextPage
-          ? _value.nextPage
-          : nextPage // ignore: cast_nullable_to_non_nullable
-              as int?,
-      list: null == list
-          ? _value._list
-          : list // ignore: cast_nullable_to_non_nullable
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
               as List<UserModel>,
+      isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
+      isLoadMore: freezed == isLoadMore ? _value.isLoadMore! : isLoadMore,
     ));
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_UserResultState implements _UserResultState {
   const _$_UserResultState(
-      {required this.query,
-      required this.page,
-      required this.nextPage,
-      required final List<UserModel> list})
-      : _list = list;
+      {required this.page,
+      @JsonKey(name: "total_pages") required this.total,
+      required final List<UserModel> data,
+      this.isLoading = true,
+      this.isLoadMore = false})
+      : _data = data;
 
-  @override
-  final String query;
+  factory _$_UserResultState.fromJson(Map<String, dynamic> json) =>
+      _$$_UserResultStateFromJson(json);
+
   @override
   final int page;
   @override
-  final int? nextPage;
-  final List<UserModel> _list;
+  @JsonKey(name: "total_pages")
+  final int total;
+  final List<UserModel> _data;
   @override
-  List<UserModel> get list {
-    if (_list is EqualUnmodifiableListView) return _list;
+  List<UserModel> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_list);
+    return EqualUnmodifiableListView(_data);
   }
 
   @override
+  @JsonKey()
+  final dynamic isLoading;
+  @override
+  @JsonKey()
+  final dynamic isLoadMore;
+
+  @override
   String toString() {
-    return 'UserResultState(query: $query, page: $page, nextPage: $nextPage, list: $list)';
+    return 'UserResultState(page: $page, total: $total, data: $data, isLoading: $isLoading, isLoadMore: $isLoadMore)';
   }
 
   @override
@@ -156,39 +187,60 @@ class _$_UserResultState implements _UserResultState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserResultState &&
-            (identical(other.query, query) || other.query == query) &&
             (identical(other.page, page) || other.page == page) &&
-            (identical(other.nextPage, nextPage) ||
-                other.nextPage == nextPage) &&
-            const DeepCollectionEquality().equals(other._list, _list));
+            (identical(other.total, total) || other.total == total) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
+            const DeepCollectionEquality()
+                .equals(other.isLoadMore, isLoadMore));
   }
 
+  @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, query, page, nextPage,
-      const DeepCollectionEquality().hash(_list));
+  int get hashCode => Object.hash(
+      runtimeType,
+      page,
+      total,
+      const DeepCollectionEquality().hash(_data),
+      const DeepCollectionEquality().hash(isLoading),
+      const DeepCollectionEquality().hash(isLoadMore));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$_UserResultStateCopyWith<_$_UserResultState> get copyWith =>
       __$$_UserResultStateCopyWithImpl<_$_UserResultState>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_UserResultStateToJson(
+      this,
+    );
+  }
 }
 
 abstract class _UserResultState implements UserResultState {
   const factory _UserResultState(
-      {required final String query,
-      required final int page,
-      required final int? nextPage,
-      required final List<UserModel> list}) = _$_UserResultState;
+      {required final int page,
+      @JsonKey(name: "total_pages") required final int total,
+      required final List<UserModel> data,
+      final dynamic isLoading,
+      final dynamic isLoadMore}) = _$_UserResultState;
 
-  @override
-  String get query;
+  factory _UserResultState.fromJson(Map<String, dynamic> json) =
+      _$_UserResultState.fromJson;
+
   @override
   int get page;
   @override
-  int? get nextPage;
+  @JsonKey(name: "total_pages")
+  int get total;
   @override
-  List<UserModel> get list;
+  List<UserModel> get data;
+  @override
+  dynamic get isLoading;
+  @override
+  dynamic get isLoadMore;
   @override
   @JsonKey(ignore: true)
   _$$_UserResultStateCopyWith<_$_UserResultState> get copyWith =>

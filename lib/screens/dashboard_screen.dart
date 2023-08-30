@@ -41,9 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           currentIndex: tabsRouter.activeIndex,
           onChange: (index) {
             if (index == tabsRouter.activeIndex) {
-              if (tabsRouter.topRoute.router is NestedStackRouter) {
-                tabsRouter.topRoute.router.navigateNamed('');
-              }
+              tabsRouter.topRoute.router.pop();
             } else {
               tabsRouter.setActiveIndex(index);
             }
@@ -89,7 +87,7 @@ class _BottomNavigation extends StatelessWidget {
     ];
     return SafeArea(
       child: SizedBox(
-        height: kBottomNavigationBarHeight,
+        height: kBottomNavigationBarHeight.h,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.w),
           child: Row(
@@ -102,15 +100,12 @@ class _BottomNavigation extends StatelessWidget {
                           tab: e.value,
                           index: e.key,
                           currentIndex: currentIndex,
-                          onTap: () {
-                            onChange.call(e.key);
-                          },
+                          onTap: onChange,
                         )
                       : _MainTabCustom(
                           tab: e.value,
-                          onTap: () {
-                            onChange.call(e.key);
-                          },
+                          index: e.key,
+                          onTap: onChange,
                         ),
                 )
                 .toList(),
@@ -132,7 +127,7 @@ class _BottomTabItem extends StatelessWidget {
 
   final TabItem tab;
 
-  final VoidCallback onTap;
+  final ValueChanged<int> onTap;
 
   final int currentIndex, index;
 
@@ -144,7 +139,7 @@ class _BottomTabItem extends StatelessWidget {
     return Expanded(
       child: Material(
         child: InkWell(
-          onTap: onTap,
+          onTap: () => onTap.call(index),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -173,31 +168,32 @@ class _MainTabCustom extends StatelessWidget {
   const _MainTabCustom({
     required this.tab,
     required this.onTap,
+    required this.index,
   });
+
+  final int index;
   final TabItem tab;
-  final VoidCallback onTap;
+  final ValueChanged<int> onTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: ClipOval(
-        child: Material(
-          color: context.primaryColor,
-          child: InkWell(
-            onTap: onTap,
-            child: SizedBox.square(
-              dimension: 48.r,
-              child: tab.image.contains('http')
-                  ? Image.network(tab.image)
-                  : SvgPicture.asset(
-                      tab.image,
-                      fit: BoxFit.scaleDown,
-                      colorFilter: const ColorFilter.mode(
-                        Colors.white,
-                        BlendMode.srcIn,
-                      ),
-                    ),
+      child: Material(
+        color: context.primaryColor,
+        shape: const CircleBorder(),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => onTap.call(index),
+          child: SizedBox.square(
+            dimension: 48,
+            child: SvgPicture.asset(
+              tab.image,
+              fit: BoxFit.scaleDown,
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
+              ),
             ),
           ),
         ),

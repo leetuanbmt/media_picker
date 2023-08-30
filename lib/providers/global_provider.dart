@@ -5,9 +5,9 @@ import '../core/models/models.dart';
 import '../core/repositories/base_repository.dart';
 import '../core/utilities/utilities.dart';
 
-part 'global_notifier.g.dart';
+part 'global_provider.g.dart';
 
-final appRepositoryProvider = Provider((ref) => AppRepositoriesImpl());
+final appProvider = Provider((ref) => AppRepositoriesImpl());
 
 @riverpod
 class AppGlobal extends _$AppGlobal {
@@ -16,11 +16,11 @@ class AppGlobal extends _$AppGlobal {
 
   void setColor(Color color) {
     state = state.copyWith(themeColor: color);
-    AppTheme.primaryColor = AppTheme.findByValue(color.value);
+    AppTheme.primaryColor = color;
     Preferences.setInt(AppConfig.themeColorKey, color.value);
   }
 }
 
-final colorProvider = StateProvider<Color>(
+final colorProvider = StateProvider.autoDispose<Color>(
   (ref) => ref.read(appGlobalProvider).themeColor ?? AppTheme.defaultColor,
 );
