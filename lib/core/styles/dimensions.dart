@@ -120,4 +120,8 @@ class Dimensions {
   static const width19 = SizedBox(width: Dimensions.size19);
   static const width20 = SizedBox(width: Dimensions.size20);
   static const width25 = SizedBox(width: Dimensions.size25);
+
+  static const sliverEmpty = SliverToBoxAdapter(
+    child: SizedBox.shrink(),
+  );
 }

@@ -34,28 +34,19 @@ class FailureException with _$FailureException {
   }
 }
 
-// @freezed
-// abstract class Result<Success, Failure extends Object>
-//     with _$Result<Success, Failure> {
-//   const Result._();
-//   const factory Result.success(Success data) = Success<Success, Failure>;
-//   const factory Result.failure(Failure error) = Failure<Success, Failure>;
+@freezed
+abstract class PaginationState<T> with _$PaginationState<T> {
+  const factory PaginationState.data(List<T> items) = _Data;
+  const factory PaginationState.error(Object? e) = _Error;
+  const factory PaginationState.loading() = _Loading;
+  const factory PaginationState.loadMore(List<T> items) = _OnLoadMore;
+  const factory PaginationState.loadMoreError(List<T> items, Object? e) =
+      _LoadMoreError;
+}
 
-//   static FutureOr<Result<T, E>> catching<T, E extends Object>(
-//       FutureOr<T> Function() closure) async {
-//     try {
-//       final value = await closure();
-//       return Result.success(value);
-//     } on E catch (e) {
-//       return Result.failure(e);
-//     }
-//   }
+class BaseResponse<T> {
+  final int total;
+  final List<T> items;
 
-//   /// `true` if the result is a [success], `false`
-//   /// otherwise.
-//   bool get isSuccess;
-
-//   /// `true` if the result is a [failure], `false`
-//   /// otherwise.
-//   bool get isFailure => !isSuccess;
-// }
+  BaseResponse({required this.total, required this.items});
+}

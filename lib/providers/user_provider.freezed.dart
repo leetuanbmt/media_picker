@@ -20,12 +20,10 @@ UserResultState _$UserResultStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserResultState {
-  int get page => throw _privateConstructorUsedError;
   @JsonKey(name: "total_pages")
   int get total => throw _privateConstructorUsedError;
+  bool get isLoadMore => throw _privateConstructorUsedError;
   List<UserModel> get data => throw _privateConstructorUsedError;
-  dynamic get isLoading => throw _privateConstructorUsedError;
-  dynamic get isLoadMore => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,11 +38,9 @@ abstract class $UserResultStateCopyWith<$Res> {
       _$UserResultStateCopyWithImpl<$Res, UserResultState>;
   @useResult
   $Res call(
-      {int page,
-      @JsonKey(name: "total_pages") int total,
-      List<UserModel> data,
-      dynamic isLoading,
-      dynamic isLoadMore});
+      {@JsonKey(name: "total_pages") int total,
+      bool isLoadMore,
+      List<UserModel> data});
 }
 
 /// @nodoc
@@ -60,33 +56,23 @@ class _$UserResultStateCopyWithImpl<$Res, $Val extends UserResultState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? page = null,
     Object? total = null,
+    Object? isLoadMore = null,
     Object? data = null,
-    Object? isLoading = freezed,
-    Object? isLoadMore = freezed,
   }) {
     return _then(_value.copyWith(
-      page: null == page
-          ? _value.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
       total: null == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
               as int,
+      isLoadMore: null == isLoadMore
+          ? _value.isLoadMore
+          : isLoadMore // ignore: cast_nullable_to_non_nullable
+              as bool,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<UserModel>,
-      isLoading: freezed == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      isLoadMore: freezed == isLoadMore
-          ? _value.isLoadMore
-          : isLoadMore // ignore: cast_nullable_to_non_nullable
-              as dynamic,
     ) as $Val);
   }
 }
@@ -100,11 +86,9 @@ abstract class _$$_UserResultStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int page,
-      @JsonKey(name: "total_pages") int total,
-      List<UserModel> data,
-      dynamic isLoading,
-      dynamic isLoadMore});
+      {@JsonKey(name: "total_pages") int total,
+      bool isLoadMore,
+      List<UserModel> data});
 }
 
 /// @nodoc
@@ -118,27 +102,23 @@ class __$$_UserResultStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? page = null,
     Object? total = null,
+    Object? isLoadMore = null,
     Object? data = null,
-    Object? isLoading = freezed,
-    Object? isLoadMore = freezed,
   }) {
     return _then(_$_UserResultState(
-      page: null == page
-          ? _value.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
       total: null == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
               as int,
+      isLoadMore: null == isLoadMore
+          ? _value.isLoadMore
+          : isLoadMore // ignore: cast_nullable_to_non_nullable
+              as bool,
       data: null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as List<UserModel>,
-      isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
-      isLoadMore: freezed == isLoadMore ? _value.isLoadMore! : isLoadMore,
     ));
   }
 }
@@ -147,21 +127,20 @@ class __$$_UserResultStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_UserResultState implements _UserResultState {
   const _$_UserResultState(
-      {required this.page,
-      @JsonKey(name: "total_pages") required this.total,
-      required final List<UserModel> data,
-      this.isLoading = true,
-      this.isLoadMore = false})
+      {@JsonKey(name: "total_pages") required this.total,
+      this.isLoadMore = false,
+      required final List<UserModel> data})
       : _data = data;
 
   factory _$_UserResultState.fromJson(Map<String, dynamic> json) =>
       _$$_UserResultStateFromJson(json);
 
   @override
-  final int page;
-  @override
   @JsonKey(name: "total_pages")
   final int total;
+  @override
+  @JsonKey()
+  final bool isLoadMore;
   final List<UserModel> _data;
   @override
   List<UserModel> get data {
@@ -171,15 +150,8 @@ class _$_UserResultState implements _UserResultState {
   }
 
   @override
-  @JsonKey()
-  final dynamic isLoading;
-  @override
-  @JsonKey()
-  final dynamic isLoadMore;
-
-  @override
   String toString() {
-    return 'UserResultState(page: $page, total: $total, data: $data, isLoading: $isLoading, isLoadMore: $isLoadMore)';
+    return 'UserResultState(total: $total, isLoadMore: $isLoadMore, data: $data)';
   }
 
   @override
@@ -187,23 +159,16 @@ class _$_UserResultState implements _UserResultState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserResultState &&
-            (identical(other.page, page) || other.page == page) &&
             (identical(other.total, total) || other.total == total) &&
-            const DeepCollectionEquality().equals(other._data, _data) &&
-            const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality()
-                .equals(other.isLoadMore, isLoadMore));
+            (identical(other.isLoadMore, isLoadMore) ||
+                other.isLoadMore == isLoadMore) &&
+            const DeepCollectionEquality().equals(other._data, _data));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      page,
-      total,
-      const DeepCollectionEquality().hash(_data),
-      const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(isLoadMore));
+  int get hashCode => Object.hash(runtimeType, total, isLoadMore,
+      const DeepCollectionEquality().hash(_data));
 
   @JsonKey(ignore: true)
   @override
@@ -221,26 +186,20 @@ class _$_UserResultState implements _UserResultState {
 
 abstract class _UserResultState implements UserResultState {
   const factory _UserResultState(
-      {required final int page,
-      @JsonKey(name: "total_pages") required final int total,
-      required final List<UserModel> data,
-      final dynamic isLoading,
-      final dynamic isLoadMore}) = _$_UserResultState;
+      {@JsonKey(name: "total_pages") required final int total,
+      final bool isLoadMore,
+      required final List<UserModel> data}) = _$_UserResultState;
 
   factory _UserResultState.fromJson(Map<String, dynamic> json) =
       _$_UserResultState.fromJson;
 
   @override
-  int get page;
-  @override
   @JsonKey(name: "total_pages")
   int get total;
   @override
+  bool get isLoadMore;
+  @override
   List<UserModel> get data;
-  @override
-  dynamic get isLoading;
-  @override
-  dynamic get isLoadMore;
   @override
   @JsonKey(ignore: true)
   _$$_UserResultStateCopyWith<_$_UserResultState> get copyWith =>
