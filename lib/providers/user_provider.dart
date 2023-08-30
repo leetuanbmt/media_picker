@@ -113,8 +113,8 @@ class UserList extends _$UserList {
   }
 }
 
-final usersProvider = StateNotifierProvider<PaginationNotifier<UserModel>,
-    PaginationState<UserModel>>((ref) {
+final usersProvider = StateNotifierProvider.autoDispose<
+    PaginationNotifier<UserModel>, PaginationState<UserModel>>((ref) {
   return PaginationNotifier(
     request: (int page) async {
       final res = await ref.read(appProvider).getUserList(page: page);

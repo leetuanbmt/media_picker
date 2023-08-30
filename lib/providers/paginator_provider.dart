@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../core/config.dart';
 import '../core/models/models.dart';
 
 class PaginationNotifier<T> extends StateNotifier<PaginationState<T>> {
@@ -9,11 +10,12 @@ class PaginationNotifier<T> extends StateNotifier<PaginationState<T>> {
     init();
   }
   final Future<BaseResponse<T>> Function(int nextPage) request;
+
   final List<T> _items = [];
 
   int totalPage = 0;
 
-  int _currentPage = 0;
+  int _currentPage = 1;
 
   bool get noMoreItem => _currentPage >= totalPage;
 
@@ -24,16 +26,21 @@ class PaginationNotifier<T> extends StateNotifier<PaginationState<T>> {
   }
 
   void updateData(List<T> result) {
-    if (_currentPage == 0) {
-      state = PaginationState.data(_items);
+    if (_currentPage == 1) {
+      state = PaginationState.data(
+        _items
+          ..clear()
+          ..addAll(result),
+      );
     } else {
+      _items.addAll(result);
       state = PaginationState.data(_items..addAll(result));
     }
   }
 
   Future<void> fetchFirst() async {
     try {
-      _currentPage = 0;
+      _currentPage = 1;
       state = const PaginationState.loading();
       final result = await request(_currentPage);
       totalPage = result.total;
@@ -57,6 +64,7 @@ class PaginationNotifier<T> extends StateNotifier<PaginationState<T>> {
     state = PaginationState.loadMore(_items);
 
     try {
+      await Future.delayed(const Duration(seconds: 1));
       final result = await request(_currentPage);
       updateData(result.items);
     } catch (e) {
@@ -66,7 +74,7 @@ class PaginationNotifier<T> extends StateNotifier<PaginationState<T>> {
 
   Future<void> onRefresh() async {
     try {
-      _currentPage = 0;
+      _currentPage = 1;
       final result = await request(_currentPage);
       totalPage = result.total;
       updateData(result.items);

@@ -46,15 +46,17 @@ class TurnLoading extends HookWidget {
       duration: const Duration(seconds: 2),
       initialValue: 0,
     )..repeat();
-    return AnimatedBuilder(
-      animation: animate,
-      builder: (context, child) {
-        return Transform.rotate(
-          angle: animate.value * 2 * pi,
-          child: child,
-        );
-      },
-      child: Assets.iconsIconLoading.svg(),
+    return Center(
+      child: AnimatedBuilder(
+        animation: animate,
+        builder: (context, child) {
+          return Transform.rotate(
+            angle: animate.value * 2 * pi,
+            child: child,
+          );
+        },
+        child: Assets.iconsIconLoading.svg(),
+      ),
     );
   }
 }
