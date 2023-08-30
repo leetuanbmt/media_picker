@@ -1,7 +1,7 @@
 import '../../../core/config.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
-import 'widgets/edit_detail.dart';
-import 'widgets/edit_profile_header.dart';
+import 'widgets/edit_profile/edit_detail.dart';
+import 'widgets/edit_profile/edit_profile_header.dart';
 
 @RoutePage()
 class EditProfileScreen extends HookWidget {

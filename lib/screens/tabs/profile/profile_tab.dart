@@ -1,8 +1,8 @@
 import '../../../core/config.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
 import 'edit_profile.dart';
-import 'widgets/profile_detail.dart';
-import 'widgets/profile_header.dart';
+import 'widgets/profile_tab/profile_detail.dart';
+import 'widgets/profile_tab/profile_header.dart';
 
 @RoutePage()
 class ProfileScreen extends StatelessWidget {

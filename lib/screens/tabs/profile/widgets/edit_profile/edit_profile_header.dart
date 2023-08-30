@@ -1,4 +1,4 @@
-import '../../../../core/config.dart';
+import '../../../../../core/config.dart';
 
 class EditProfileHeader extends StatelessWidget {
   const EditProfileHeader({super.key});

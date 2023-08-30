@@ -31,7 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         SearchRoute(),
         MainRoute(),
         NotificationRoute(),
-        ProfileRoute(),
+        ProfileTabRoute(),
       ],
       transitionBuilder: (context, child, animation) {
         return child;
@@ -188,14 +188,16 @@ class _MainTabCustom extends StatelessWidget {
             onTap: onTap,
             child: SizedBox.square(
               dimension: 48.r,
-              child: SvgPicture.asset(
-                tab.image,
-                fit: BoxFit.scaleDown,
-                colorFilter: const ColorFilter.mode(
-                  Colors.white,
-                  BlendMode.srcIn,
-                ),
-              ),
+              child: tab.image.contains('http')
+                  ? Image.network(tab.image)
+                  : SvgPicture.asset(
+                      tab.image,
+                      fit: BoxFit.scaleDown,
+                      colorFilter: const ColorFilter.mode(
+                        Colors.white,
+                        BlendMode.srcIn,
+                      ),
+                    ),
             ),
           ),
         ),

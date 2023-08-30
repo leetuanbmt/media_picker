@@ -1,6 +1,6 @@
-import '../../../../core/config.dart';
-import '../../../../widgets/commons/button_custom.dart';
-import '../../../../widgets/commons/tag_name_custom.dart';
+import '../../../../../core/config.dart';
+import '../../../../../widgets/commons/button_custom.dart';
+import '../../../../../widgets/commons/tag_name_custom.dart';
 import 'card_profile.dart';
 
 class ProfileHeader extends StatelessWidget {

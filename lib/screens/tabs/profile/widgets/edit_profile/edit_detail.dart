@@ -1,7 +1,5 @@
-import 'package:flutter_svg/svg.dart';
-
-import '../../../../core/config.dart';
-import '../../../../gen/assets.gen.dart';
+import '../../../../../core/config.dart';
+import '../../../../../gen/assets.gen.dart';
 import 'edit_item.dart';
 
 class EditProfileDetail extends StatelessWidget {
@@ -73,9 +71,7 @@ class EditProfileDetail extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      SvgPicture.asset(
-                        Assets.iconsIcTwitter.path,
-                      ),
+                      Assets.iconsIcTwitter.svg(),
                       SizedBox(
                         width: 8.w,
                       ),
@@ -91,9 +87,7 @@ class EditProfileDetail extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      SvgPicture.asset(
-                        Assets.iconsIcFacebook.path,
-                      ),
+                      Assets.iconsIcFacebook.svg(),
                       SizedBox(
                         width: 8.w,
                       ),
