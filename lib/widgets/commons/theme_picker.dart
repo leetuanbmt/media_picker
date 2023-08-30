@@ -15,8 +15,7 @@ class ThemePicker extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorNotify = useValueNotifier(AppTheme.defaultColor);
-    final colorTheme = useListenable(colorNotify);
+    final colorTheme = useState<Color>(AppTheme.defaultColor);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,7 +31,7 @@ class ThemePicker extends HookWidget {
                   color: e,
                   selectedColor: colorTheme.value == e,
                   onTap: () {
-                    colorNotify.value = e;
+                    colorTheme.value = e;
                   },
                 ),
               )
