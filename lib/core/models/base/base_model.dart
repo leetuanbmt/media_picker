@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../config.dart';
 import 'error_type.dart';
 
 part 'base_model.freezed.dart';
