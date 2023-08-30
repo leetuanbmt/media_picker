@@ -47,7 +47,10 @@ class UserListScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scroll = useScrollController();
     onLoadMore() {
-      if (scroll.offset >= scroll.position.maxScrollExtent - 50) {
+      double currentScroll = scroll.position.pixels;
+      double maxScroll = scroll.position.maxScrollExtent;
+      double delta = MediaQuery.of(context).size.height * 0.25;
+      if (maxScroll - currentScroll <= delta) {
         ref.read(userListProvider.notifier).loadMore();
       }
     }
