@@ -31,11 +31,20 @@ Future<UserModel> getUserDetail(
 
 final userProvider = FutureProvider.autoDispose.family<UserModel, String>(
   (ref, userId) async {
+    // create a cancel token to cancel request
+    final cancelToken = CancelToken();
+
+    // cancel request when the provider is disposed
+    ref.onDispose(() => cancelToken.cancel());
+
     // access the provider above
     final repository = ref.watch(appProvider);
 
     // use it to return a Future
-    final result = await repository.fetchUserInfo(userId: userId);
+    final result = await repository.fetchUserInfo(
+      userId: userId,
+      cancelToken: cancelToken,
+    );
     return result.when(
       success: (data) {
         return data;
@@ -50,11 +59,9 @@ final userProvider = FutureProvider.autoDispose.family<UserModel, String>(
 @freezed
 class UserResultState with _$UserResultState {
   const factory UserResultState({
-    required int page,
     @JsonKey(name: "total_pages") required int total,
+    @Default(false) bool isLoadMore,
     required List<UserModel> data,
-    @Default(true) isLoading,
-    @Default(false) isLoadMore,
   }) = _UserResultState;
 
   factory UserResultState.fromJson(Map<String, dynamic> json) =>
@@ -66,8 +73,6 @@ class UserList extends _$UserList {
   int page = 1;
 
   int total = 0;
-
-  bool isLoadMore = false;
 
   bool get isHasMore => page < total;
 
@@ -86,11 +91,11 @@ class UserList extends _$UserList {
   }
 
   Future<void> loadMore() async {
-    if (!isLoadMore && isHasMore) {
-      isLoadMore = true;
+    if (!state.value!.isLoadMore && isHasMore) {
+      state = AsyncData(state.value!.copyWith(isLoadMore: true));
       page++;
       final result = await ref.read(appProvider).getUserList(page: page);
-      isLoadMore = false;
+      state = AsyncData(state.value!.copyWith(isLoadMore: false));
       result.when(
         success: (data) {
           final newState = state.value!.copyWith(

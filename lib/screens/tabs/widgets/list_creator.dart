@@ -56,7 +56,7 @@ class ListCreator extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    context.nextPage(const UserScreen());
+                    context.nextPage(const UserListScreen());
                   },
                 ),
               ),
