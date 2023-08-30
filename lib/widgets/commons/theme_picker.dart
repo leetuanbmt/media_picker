@@ -1,8 +1,9 @@
 import '../../core/config.dart';
 import '../../providers/global_provider.dart';
 import '../dialogs.dart';
+import 'button_custom.dart';
 
-class ThemePicker extends HookConsumerWidget {
+class ThemePicker extends HookWidget {
   const ThemePicker({super.key});
   static show(BuildContext context) {
     return AppDialog.showAppBottomSheet(
@@ -13,8 +14,9 @@ class ThemePicker extends HookConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final colorTheme = ref.watch(colorProvider);
+  Widget build(BuildContext context) {
+    final colorNotify = useValueNotifier(AppTheme.defaultColor);
+    final colorTheme = useListenable(colorNotify);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,28 +30,28 @@ class ThemePicker extends HookConsumerWidget {
               .map(
                 (e) => _ItemColorBuilder(
                   color: e,
-                  selectedColor: colorTheme == e,
+                  selectedColor: colorTheme.value == e,
                   onTap: () {
-                    ref
-                        .read(colorProvider.notifier)
-                        .update((state) => state = e);
+                    colorNotify.value = e;
                   },
                 ),
               )
               .toList(),
         ),
         HeightBox(10.h),
-        ElevatedButton(
-          onPressed: () {
-            ref.read(appGlobalProvider.notifier).setColor(colorTheme);
-            Navigator.of(context).pop();
+        Consumer(
+          builder: (context, ref, child) {
+            return ButtonCustom(
+              '設定する',
+              height: 48.h,
+              width: context.screenWidth,
+              backgroundColor: colorTheme.value,
+              onPressed: () {
+                ref.read(appGlobalProvider.notifier).setColor(colorTheme.value);
+                Navigator.of(context).pop();
+              },
+            );
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: colorTheme,
-            foregroundColor: Colors.white,
-            fixedSize: Size(context.screenWidth, 48.h),
-          ),
-          child: const Text('設定する'),
         ),
       ],
     );
