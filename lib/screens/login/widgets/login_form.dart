@@ -14,8 +14,11 @@ class LoginForm extends HookWidget {
     final toggleValue = useState<bool>(false);
 
     bool areFieldsEmpty() {
-      return emailController.text.toString().isEmpty ||
-          passwordController.text.toString().isEmpty;
+      return emailController.text.isEmpty || passwordController.text.isEmpty;
+    }
+
+    void navigateOTP() {
+      AutoRouter.of(context).push(const OTPRoute());
     }
 
     useEffect(() {
@@ -74,9 +77,7 @@ class LoginForm extends HookWidget {
               width: 327.w,
               height: 48.h,
               onPressed: () {
-                checkFieldsEmpty.value
-                    ? null
-                    : AutoRouter.of(context).push(const OTPRoute());
+                checkFieldsEmpty.value ? null : navigateOTP();
               },
               backgroundColor: checkFieldsEmpty.value
                   ? AppTheme.middleGray
