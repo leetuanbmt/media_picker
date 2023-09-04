@@ -1,151 +1,153 @@
 import 'dart:ui' as ui;
 
-import 'package:flutter/services.dart';
+import 'package:pinput/pinput.dart';
 
 import '../../core/config.dart';
 import '../../gen/assets.gen.dart';
-import 'widgets/resend_otp.dart';
+import '../../routes/app_routes.gr.dart';
 
 @RoutePage()
-class OTPScreen extends HookWidget {
+class OTPScreen extends StatelessWidget {
   const OTPScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final otpControllers = List.generate(4, (_) => useTextEditingController());
-    final focusNodes = List.generate(4, (_) => useFocusNode());
-    final isLoading = useState<bool>(false);
+    bool isLoading = false;
 
-    useEffect(
-      () {
-        backButtonHandler() {
-          Navigator.pop(context);
-          return true;
-        }
-
-        WidgetsBinding.instance
-            .addObserver(HookWidgetBindingObserver(backButtonHandler));
-        return () {
-          WidgetsBinding.instance
-              .removeObserver(HookWidgetBindingObserver(backButtonHandler));
-        };
-      },
-      [context],
-    );
-
-    final border = OutlineInputBorder(
-      borderSide: BorderSide(
-        width: 1,
-        color: AppTheme.primaryColor,
+    final theme = PinTheme(
+      width: 42.w,
+      height: 50.h,
+      textStyle: context.titleMedium!.copyWith(
+        fontSize: 16,
+        fontWeight: FontWeight.w300,
       ),
-      borderRadius: BorderRadius.circular(3.r),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(3),
+        border: Border.all(
+          color: AppTheme.box,
+          width: 1.r,
+        ),
+      ),
     );
 
-    return WillPopScope(
-      onWillPop: () async {
-        return true;
+    return GestureDetector(
+      onTap: () {
+        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
       },
-      child: GestureDetector(
-        onTap: () {
-          WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-        },
-        child: Scaffold(
-          body: Stack(
-            children: [
-              Column(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Center(
+              child: Column(
                 children: [
                   const OTPTitle(),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(74.w, 50.h, 74.w, 40.h),
-                    child: Row(
+                  SizedBox(
+                    height: 40.h,
+                  ),
+                  SizedBox(
+                    height: 50.h,
+                    width: 226.w,
+                    child: Pinput(
+                      length: 4,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(4, (index) {
-                        return SizedBox(
-                          width: 42.w,
-                          height: 50.h,
-                          child: TextField(
-                            controller: otpControllers[index],
-                            style: context.titleMedium!.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300,
-                            ),
-                            keyboardType: TextInputType.number,
-                            textAlign: TextAlign.center,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(1),
-                            ],
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                left: 4.w,
-                                bottom: 13.h,
-                                top: 13.h,
-                              ),
-                              focusedBorder: border,
-                              enabledBorder: border.copyWith(
-                                borderSide: const BorderSide(
-                                  color: AppTheme.box,
-                                ),
-                              ),
-                            ),
-                            focusNode: focusNodes[index],
-                            onChanged: (value) {
-                              if (value.isNotEmpty) {
-                                if (index < otpControllers.length - 1) {
-                                  focusNodes[index + 1].requestFocus();
-                                } else if (otpControllers[0].text.isNotEmpty &&
-                                    otpControllers[1].text.isNotEmpty &&
-                                    otpControllers[2].text.isNotEmpty &&
-                                    otpControllers[3].text.isNotEmpty) {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  isLoading.value = true;
-                                }
-                              } else {
-                                if (index > 0) {
-                                  focusNodes[index - 1].requestFocus();
-                                }
-                              }
-                            },
+                      defaultPinTheme: theme,
+                      focusedPinTheme: theme.copyWith(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppTheme.primaryColor,
                           ),
-                        );
-                      }),
+                        ),
+                      ),
+                      onCompleted: (value) {
+                        debugPrint(value);
+                      },
                     ),
+                  ),
+                  SizedBox(
+                    height: 48.h,
                   ),
                   const ReSendOTP(),
                 ],
               ),
-              if (isLoading.value) ...[
-                Positioned.fill(
-                  child: ColoredBox(
-                    color: Colors.black.withOpacity(0.4),
-                    child: BackdropFilter(
-                      filter: ui.ImageFilter.blur(),
-                    ),
+            ),
+            if (isLoading == true) ...[
+              Positioned.fill(
+                child: ColoredBox(
+                  color: Colors.black.withOpacity(0.4),
+                  child: BackdropFilter(
+                    filter: ui.ImageFilter.blur(),
                   ),
                 ),
-                Positioned.fill(
-                  child: Center(
-                    child: Assets.iconsIconLoading.svg(
-                      width: 48,
-                      height: 48,
-                    ),
+              ),
+              Positioned.fill(
+                child: Center(
+                  child: Assets.iconsIconLoading.svg(
+                    width: 48,
+                    height: 48,
                   ),
                 ),
-              ],
+              ),
             ],
-          ),
+          ],
         ),
       ),
     );
   }
 }
 
-class HookWidgetBindingObserver extends WidgetsBindingObserver {
-  final bool Function() backButtonHandler;
-
-  HookWidgetBindingObserver(this.backButtonHandler);
+class ReSendOTP extends StatelessWidget {
+  const ReSendOTP({super.key});
 
   @override
-  Future<bool> didPopRoute() async {
-    return backButtonHandler();
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        context.router.push(const SelectAttributeRoute());
+      },
+      child: Text(
+        "メールを再送する",
+        style: context.titleSmall!.copyWith(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: AppTheme.primaryColor,
+        ),
+      ),
+    );
+  }
+}
+
+class OTPTitle extends StatelessWidget {
+  const OTPTitle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 120.h,
+        ),
+        Text(
+          "認証コードを入力してください",
+          style: context.titleLarge!.copyWith(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: AppTheme.blackBold,
+          ),
+        ),
+        SizedBox(
+          height: 40.h,
+        ),
+        Text(
+          "メールアドレスに送信した認証コードを入力し、登録\nを完成させましょう！",
+          textAlign: TextAlign.center,
+          style: context.titleMedium!.copyWith(
+            fontSize: 14,
+            fontWeight: FontWeight.w300,
+            color: AppTheme.fontGrayLead,
+          ),
+        ),
+      ],
+    );
   }
 }

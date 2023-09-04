@@ -1,50 +1,65 @@
 import '../../../core/config.dart';
 import '../../../gen/assets.gen.dart';
 
-class LoginBySocialOrID extends StatefulWidget {
-  const LoginBySocialOrID({super.key});
+class LoginBySocial extends StatelessWidget {
+  const LoginBySocial({
+    super.key,
+    this.tapFaceBookButton,
+    this.tapGoogleButton,
+    this.tapTwitterButton,
+  });
 
-  @override
-  State<LoginBySocialOrID> createState() => _LoginBySocialOrIDState();
-}
+  final VoidCallback? tapGoogleButton;
+  final VoidCallback? tapFaceBookButton;
+  final VoidCallback? tapTwitterButton;
 
-class _LoginBySocialOrIDState extends State<LoginBySocialOrID> {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(
+          height: 49.h,
+        ),
         Text(
           'SNSアカウントでログイン',
           style: context.bodyMedium!.copyWith(
+            fontSize: 14,
             color: AppTheme.blackBold,
             fontWeight: FontWeight.w600,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(90.w, 18.h, 90.w, 40.h),
+        SizedBox(
+          height: 18.h,
+        ),
+        SizedBox(
+          height: 48.h,
+          width: 184.w,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(
-                onPressed: () {},
-                style: IconButton.styleFrom(highlightColor: Colors.transparent),
-                icon: Assets.iconsIconTwitter.svg(
+              InkWell(
+                onTap: tapTwitterButton,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                child: Assets.iconsIconTwitter.svg(
                   height: 48.h,
                   width: 48.w,
                 ),
               ),
-              IconButton(
-                onPressed: () {},
-                style: IconButton.styleFrom(highlightColor: Colors.transparent),
-                icon: Assets.iconsIconGoogle.svg(
+              InkWell(
+                onTap: tapGoogleButton,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                child: Assets.iconsIconGoogle.svg(
                   height: 48.h,
                   width: 48.w,
                 ),
               ),
-              IconButton(
-                onPressed: () {},
-                style: IconButton.styleFrom(highlightColor: Colors.transparent),
-                icon: Assets.iconsIconFacebook.svg(
+              InkWell(
+                onTap: tapFaceBookButton,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                child: Assets.iconsIconFacebook.svg(
                   height: 48.h,
                   width: 48.w,
                 ),
@@ -52,22 +67,39 @@ class _LoginBySocialOrIDState extends State<LoginBySocialOrID> {
             ],
           ),
         ),
+      ],
+    );
+  }
+}
+
+class LoginByFaceID extends StatelessWidget {
+  const LoginByFaceID({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 40.h,
+        ),
         Text(
           'Face IDでログイン',
           style: context.bodyMedium!.copyWith(
+            fontSize: 14,
             fontWeight: FontWeight.w600,
             color: AppTheme.fontBoldLight,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(top: 12.h, bottom: 20.h),
-          child: IconButton(
-            icon: Assets.iconsIconFaceId.svg(
-              height: 54.h,
-              width: 54.w,
-            ),
-            onPressed: () {},
-            style: IconButton.styleFrom(highlightColor: Colors.transparent),
+        SizedBox(
+          height: 12.h,
+        ),
+        InkWell(
+          onTap: () {},
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          child: Assets.iconsIconFaceId.svg(
+            height: 54.h,
+            width: 54.w,
           ),
         ),
       ],

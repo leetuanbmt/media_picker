@@ -21,19 +21,20 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 37.h,
-                    bottom: 30.h,
-                  ),
-                  child: Assets.iconsIconLogo.svg(
-                    height: 109.h,
-                    width: 78.w,
-                    fit: BoxFit.contain,
-                  ),
+                SizedBox(
+                  height: 37.h,
+                ),
+                Assets.iconsIconLogo.svg(
+                  height: 109.h,
+                  width: 78.w,
+                  fit: BoxFit.contain,
+                ),
+                SizedBox(
+                  height: 21.h,
                 ),
                 const LoginForm(),
-                const LoginBySocialOrID(),
+                const LoginBySocial(),
+                const LoginByFaceID(),
                 const NavigateRegister(),
               ],
             ),

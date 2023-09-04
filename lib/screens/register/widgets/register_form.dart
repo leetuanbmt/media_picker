@@ -2,23 +2,23 @@ import '../../../core/config.dart';
 
 import '../../../widgets/commons/button_custom.dart';
 import '../../../widgets/commons/text_field_custom.dart';
+import '../../login/otp_screen.dart';
 
-class LoginForm extends HookWidget {
-  const LoginForm({super.key});
+class RegisterForm extends HookWidget {
+  const RegisterForm({super.key});
 
   @override
   Widget build(BuildContext context) {
     final emailController = useTextEditingController(text: '');
     final passwordController = useTextEditingController(text: '');
     final checkFieldsEmpty = useState<bool>(true);
-    final toggleValue = useState<bool>(false);
 
     bool areFieldsEmpty() {
       return emailController.text.isEmpty || passwordController.text.isEmpty;
     }
 
-    void login() {
-      debugPrint('Login');
+    void navigateOTP() {
+      context.nextPage(const OTPScreen());
     }
 
     useEffect(() {
@@ -63,41 +63,19 @@ class LoginForm extends HookWidget {
               ),
             ),
           ),
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 10.w),
-                child: Checkbox(
-                  value: toggleValue.value,
-                  side: BorderSide(
-                    color: AppTheme.box,
-                    width: 3.r,
-                  ),
-                  onChanged: (bool? value) {
-                    toggleValue.value = value!;
-                  },
-                ),
-              ),
-              Text(
-                '次回から自動でログイン',
-                style: context.bodySmall!.copyWith(
-                  fontSize: 12,
-                  color: AppTheme.fontGrayLead,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-            ],
+          SizedBox(
+            height: 30.h,
           ),
           Padding(
             padding: EdgeInsets.only(left: 24.w, right: 24.w),
             child: ButtonCustom(
-              "ログイン",
+              "新規登録",
               width: double.maxFinite,
               height: 48.h,
               fontSize: 15,
               fontWeight: FontWeight.w600,
               onPressed: () {
-                checkFieldsEmpty.value ? null : login();
+                checkFieldsEmpty.value ? null : navigateOTP();
               },
               backgroundColor: checkFieldsEmpty.value
                   ? AppTheme.middleGray

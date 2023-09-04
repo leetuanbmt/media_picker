@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 
 import '../../../core/config.dart';
+import '../../../routes/app_routes.gr.dart';
 
 class NavigateRegister extends StatelessWidget {
   const NavigateRegister({super.key});
@@ -13,6 +14,9 @@ class NavigateRegister extends StatelessWidget {
     );
     return Column(
       children: [
+        SizedBox(
+          height: 18.h,
+        ),
         RichText(
           text: TextSpan(
             children: <TextSpan>[
@@ -32,23 +36,29 @@ class NavigateRegister extends StatelessWidget {
             ],
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(top: 20.h, bottom: 37.w),
-          child: RichText(
-            text: TextSpan(
-              children: <TextSpan>[
-                TextSpan(
-                  text: 'アカウントをお持ちでない方',
-                  style: style,
-                ),
-                TextSpan(
-                  text: '新規登録',
-                  style: style.copyWith(color: AppTheme.primaryColor),
-                  recognizer: TapGestureRecognizer()..onTap = () {},
-                ),
-              ],
-            ),
+        SizedBox(
+          height: 20.h,
+        ),
+        RichText(
+          text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                text: 'アカウントをお持ちでない方',
+                style: style,
+              ),
+              TextSpan(
+                text: '新規登録',
+                style: style.copyWith(color: AppTheme.primaryColor),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    context.router.push(const RegisterRoute());
+                  },
+              ),
+            ],
           ),
+        ),
+        SizedBox(
+          height: 37.h,
         ),
       ],
     );
