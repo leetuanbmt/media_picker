@@ -28,8 +28,7 @@ class CategoryPicker extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cateNotify = useValueNotifier([...active]);
-    final categories = useListenable(cateNotify);
+    final categories = useState<List<String>>([...active]);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
