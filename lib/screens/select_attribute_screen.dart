@@ -35,8 +35,7 @@ class SelectAttributeScreen extends StatelessWidget {
               padding: EdgeInsets.only(left: 5.w),
               child: Text(
                 'クリエイター・ファンのどちらで登録しても後から\nいつでも変更できます。',
-                style: context.bodyMedium!.copyWith(
-                  fontSize: 14,
+                style: context.bodySmall!.copyWith(
                   fontWeight: FontWeight.w300,
                   color: Colors.white,
                 ),
@@ -87,54 +86,53 @@ class UserOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        height: 140.h,
-        width: 335.w,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(15),
-          ),
-          color: Colors.white,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            svgFile,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 8.h),
-                  child: Text(
-                    titleMedium,
-                    style: context.bodyMedium!.copyWith(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.supportColors.last,
+    return Material(
+      clipBehavior: Clip.hardEdge,
+      borderRadius: const BorderRadius.all(
+        Radius.circular(15),
+      ),
+      color: Colors.white,
+      child: InkWell(
+        onTap: onTap,
+        child: SizedBox(
+          height: 140.h,
+          width: 335.w,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              svgFile,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 8.h),
+                    child: Text(
+                      titleMedium,
+                      style: context.bodyMedium!.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: AppTheme.supportColors.last,
+                      ),
                     ),
                   ),
-                ),
-                Text(
-                  titleSmall,
-                  style: context.bodySmall!.copyWith(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: AppTheme.fontGrayLead,
+                  Text(
+                    titleSmall,
+                    style: context.bodySmall!.copyWith(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.fontGrayLead,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            InkWell(
-              onTap: onTap,
-              child: Assets.iconsIconArrowRight.svg(
+                ],
+              ),
+              Assets.iconsIconArrowRight.svg(
                 height: 35.h,
                 width: 35.w,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

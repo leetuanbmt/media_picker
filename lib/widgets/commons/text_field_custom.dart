@@ -8,17 +8,17 @@ class TextFieldCustom extends StatelessWidget {
     this.obscureText = false,
     this.fontSize = 16,
     this.radius = 4,
-    this.keyboardType,
+    this.keyboardType = TextInputType.text,
     this.errorText,
     this.textAlign = TextAlign.start,
   });
 
   final TextEditingController? textController;
-  final bool? obscureText;
-  final double? fontSize, radius;
+  final bool obscureText;
+  final double fontSize, radius;
   final String? hintText, errorText;
-  final TextInputType? keyboardType;
-  final TextAlign? textAlign;
+  final TextInputType keyboardType;
+  final TextAlign textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +29,16 @@ class TextFieldCustom extends StatelessWidget {
     );
 
     final border = OutlineInputBorder(
-      borderSide: const BorderSide(
-        width: 1,
-        color: AppTheme.box,
-      ),
-      borderRadius: BorderRadius.circular(radius!),
+      borderSide: const BorderSide(color: AppTheme.box),
+      borderRadius: BorderRadius.circular(radius),
     );
 
     return TextField(
       controller: textController,
       style: style,
-      textAlign: textAlign!,
+      textAlign: textAlign,
       keyboardType: keyboardType,
-      obscureText: obscureText!,
+      obscureText: obscureText,
       obscuringCharacter: '●',
       decoration: InputDecoration(
         contentPadding: EdgeInsets.only(left: 10.w),

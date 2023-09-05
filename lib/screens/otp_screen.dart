@@ -1,10 +1,8 @@
-import 'dart:ui' as ui;
-
 import 'package:pinput/pinput.dart';
 
 import '../core/config.dart';
-import '../gen/assets.gen.dart';
 import '../routes/app_routes.gr.dart';
+import '../widgets/commons/indicators/loading_manager.dart';
 
 @RoutePage()
 class OTPScreen extends StatelessWidget {
@@ -12,8 +10,6 @@ class OTPScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isLoading = false;
-
     final theme = PinTheme(
       width: 42.w,
       height: 50.h,
@@ -31,68 +27,49 @@ class OTPScreen extends StatelessWidget {
       ),
     );
 
-    return GestureDetector(
-      onTap: () {
-        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      body: Center(
+        child: Column(
           children: [
-            Center(
-              child: Column(
-                children: [
-                  const OTPTitle(),
-                  SizedBox(
-                    height: 40.h,
-                  ),
-                  SizedBox(
-                    height: 50.h,
-                    width: 226.w,
-                    child: Pinput(
-                      length: 4,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      defaultPinTheme: theme,
-                      focusedPinTheme: theme.copyWith(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: AppTheme.primaryColor,
-                          ),
-                        ),
+            const OTPTitle(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 35.h),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 225.w),
+                child: Pinput(
+                  length: 4,
+                  autofocus: true,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  defaultPinTheme: theme,
+                  focusedPinTheme: theme.copyWith(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppTheme.primaryColor,
                       ),
-                      onCompleted: (value) {
-                        context.router.push(const SelectAttributeRoute());
-                      },
                     ),
                   ),
-                  SizedBox(
-                    height: 48.h,
-                  ),
-                  const ReSendOTP(),
-                ],
+                  onCompleted: (value) {
+                    sentOTP(context);
+                  },
+                ),
               ),
             ),
-            if (isLoading == true) ...[
-              Positioned.fill(
-                child: ColoredBox(
-                  color: Colors.black.withOpacity(0.4),
-                  child: BackdropFilter(
-                    filter: ui.ImageFilter.blur(),
-                  ),
-                ),
-              ),
-              Positioned.fill(
-                child: Center(
-                  child: Assets.iconsIconLoading.svg(
-                    width: 48,
-                    height: 48,
-                  ),
-                ),
-              ),
-            ],
+            const ReSendOTP(),
           ],
         ),
       ),
     );
+  }
+
+  void sentOTP(BuildContext context) {
+    FocusScope.of(context).unfocus();
+    LoadingManager.instance.show(context);
+    Future.delayed(1.seconds, () {
+      LoadingManager.instance.hide(context);
+      WidgetsBinding.instance.endOfFrame.then((value) {
+        AutoRouter.of(context).push(const SelectAttributeRoute());
+      });
+    });
   }
 }
 
