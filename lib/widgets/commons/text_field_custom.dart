@@ -23,6 +23,7 @@ class TextFieldCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = context.titleMedium!.copyWith(
+      fontSize: fontSize,
       color: AppTheme.blackBold,
       fontWeight: FontWeight.w300,
     );
@@ -43,6 +44,7 @@ class TextFieldCustom extends StatelessWidget {
       obscureText: obscureText!,
       obscuringCharacter: '●',
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.only(left: 10.w),
         hintText: hintText,
         errorText: errorText,
         hintStyle: style.copyWith(color: AppTheme.fontGray),

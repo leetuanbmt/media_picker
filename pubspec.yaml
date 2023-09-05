@@ -28,6 +28,7 @@ dependencies:
   qr_code_scanner: ^1.0.1
   riverpod_annotation: ^2.1.2
   toast: ^0.3.0
+  pinput: ^2.2.31
 
 dev_dependencies:
   flutter_test:
