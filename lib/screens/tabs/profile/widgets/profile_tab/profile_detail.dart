@@ -2,6 +2,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../../core/config.dart';
 import '../../../../../gen/assets.gen.dart';
+import '../../../../../routes/app_routes.gr.dart';
 import '../../point_confirm.dart';
 import '../../usage_guide.dart';
 import 'card_profile.dart';
@@ -56,6 +57,12 @@ class ProfileDetail extends StatelessWidget {
         ),
         CardProfile(
           child: ListTile(
+            onTap: () {
+              AutoRouter.of(context).pushAndPopUntil(
+                const LoginRoute(),
+                predicate: (_) => false,
+              );
+            },
             title: Text(
               'ログアウト',
               style: context.labelSmall?.copyWith(

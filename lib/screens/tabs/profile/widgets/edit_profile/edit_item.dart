@@ -23,15 +23,9 @@ class EditItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(
-          top: const BorderSide(
-            width: 1,
-            color: AppTheme.textiked,
-          ),
+          top: const BorderSide(color: AppTheme.textiked),
           bottom: isLastItem
-              ? const BorderSide(
-                  width: 1,
-                  color: AppTheme.textiked,
-                )
+              ? const BorderSide(color: AppTheme.textiked)
               : BorderSide.none,
         ),
       ),
@@ -41,8 +35,7 @@ class EditItem extends StatelessWidget {
         leading: title != null
             ? Text(
                 title!,
-                style: context.titleMedium?.copyWith(
-                  fontSize: 14.sp,
+                style: context.bodyMedium?.copyWith(
                   color: AppTheme.fontGrayLead,
                   fontWeight: FontWeight.w300,
                 ),

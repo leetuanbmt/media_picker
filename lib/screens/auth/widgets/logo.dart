@@ -12,6 +12,10 @@ class AuthLogo extends StatelessWidget {
         height: 109.h,
         width: 78.w,
         fit: BoxFit.contain,
+        colorFilter: ColorFilter.mode(
+          context.primaryColor,
+          BlendMode.srcIn,
+        ),
       ),
     );
   }

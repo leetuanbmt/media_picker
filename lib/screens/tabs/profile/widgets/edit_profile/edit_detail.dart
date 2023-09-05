@@ -112,7 +112,13 @@ class EditProfileDetail extends StatelessWidget {
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('自己紹介文'),
+              Text(
+                '自己紹介文',
+                style: context.bodyMedium?.copyWith(
+                  color: AppTheme.fontGrayLead,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
               SizedBox(height: 11.h),
               TextFormField(
                 maxLines: 2,

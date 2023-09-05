@@ -4,9 +4,15 @@ import '../../../core/config.dart';
 import '../../../gen/assets.gen.dart';
 
 class SocialButton extends StatelessWidget {
-  const SocialButton({super.key, required this.path, this.onPressed});
+  const SocialButton({
+    super.key,
+    required this.path,
+    this.onPressed,
+    this.colorFilter,
+  });
   final String path;
   final VoidCallback? onPressed;
+  final ColorFilter? colorFilter;
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -16,6 +22,7 @@ class SocialButton extends StatelessWidget {
         child: SvgPicture.asset(
           path,
           fit: BoxFit.contain,
+          colorFilter: colorFilter,
         ),
       ),
     );
