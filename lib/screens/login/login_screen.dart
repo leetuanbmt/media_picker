@@ -10,33 +10,28 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        WidgetsBinding.instance.focusManager.primaryFocus!.unfocus();
-      },
-      child: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 37.h,
-                    bottom: 30.h,
-                  ),
-                  child: Assets.iconsIconLogo.svg(
-                    height: 109.h,
-                    width: 78.w,
-                    fit: BoxFit.contain,
-                  ),
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 37.h,
+                  bottom: 30.h,
                 ),
-                const LoginForm(),
-                const LoginBySocialOrID(),
-                const NavigateRegister(),
-              ],
-            ),
+                child: Assets.iconsIconLogo.svg(
+                  height: 109.h,
+                  width: 78.w,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              const LoginForm(),
+              const LoginBySocialOrID(),
+              const NavigateRegister(),
+            ],
           ),
         ),
       ),

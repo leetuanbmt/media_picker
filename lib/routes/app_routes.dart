@@ -12,7 +12,6 @@ class AppRouter extends $AppRouter {
   @override
   final List<AutoRoute> routes = [
     AutoRoute(
-      initial: true,
       page: DashboardRoute.page,
       path: '/dashboard',
       children: [
@@ -30,11 +29,11 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: ProfileRoute.page),
       ],
     ),
-    AutoRoute(page: LoginRoute.page),
+    AutoRoute(page: LoginRoute.page, initial: true),
     AutoRoute(page: QRRoute.page),
     AutoRoute(page: UserRoute.page),
     AutoRoute(page: OTPRoute.page),
-    RedirectRoute(path: '*', redirectTo: '/'),
+    RedirectRoute(path: '/', redirectTo: '/dashboard'),
   ];
 }
 
