@@ -1,6 +1,8 @@
 import '../../../core/config.dart';
 
+import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/commons/button_custom.dart';
+
 import '../../../widgets/commons/text_field_custom.dart';
 
 class LoginForm extends HookWidget {
@@ -15,10 +17,6 @@ class LoginForm extends HookWidget {
 
     bool areFieldsEmpty() {
       return emailController.text.isEmpty || passwordController.text.isEmpty;
-    }
-
-    void login() {
-      debugPrint('Login');
     }
 
     useEffect(() {
@@ -38,14 +36,10 @@ class LoginForm extends HookWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(left: 24.w, right: 24.w),
-            child: SizedBox(
-              height: 48.h,
-              width: 327.w,
-              child: TextFieldCustom(
-                textController: emailController,
-                hintText: "メールアドレス",
-                keyboardType: TextInputType.emailAddress,
-              ),
+            child: TextFieldCustom(
+              textController: emailController,
+              hintText: "メールアドレス",
+              keyboardType: TextInputType.emailAddress,
             ),
           ),
           SizedBox(
@@ -53,14 +47,10 @@ class LoginForm extends HookWidget {
           ),
           Padding(
             padding: EdgeInsets.only(left: 24.w, right: 24.w),
-            child: SizedBox(
-              height: 48.h,
-              width: 327.w,
-              child: TextFieldCustom(
-                textController: passwordController,
-                hintText: 'パスワード（6文字以上の半角英数字）',
-                obscureText: true,
-              ),
+            child: TextFieldCustom(
+              textController: passwordController,
+              hintText: 'パスワード（6文字以上の半角英数字）',
+              obscureText: true,
             ),
           ),
           Row(
@@ -97,7 +87,9 @@ class LoginForm extends HookWidget {
               fontSize: 15,
               fontWeight: FontWeight.w600,
               onPressed: () {
-                checkFieldsEmpty.value ? null : login();
+                checkFieldsEmpty.value
+                    ? null
+                    : context.router.push(const OTPRoute());
               },
               backgroundColor: checkFieldsEmpty.value
                   ? AppTheme.middleGray

@@ -22,6 +22,7 @@ class RegisterScreen extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
+            padding: EdgeInsets.only(left: 24.w, right: 24.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,

@@ -2,9 +2,9 @@ import 'dart:ui' as ui;
 
 import 'package:pinput/pinput.dart';
 
-import '../../core/config.dart';
-import '../../gen/assets.gen.dart';
-import '../../routes/app_routes.gr.dart';
+import '../core/config.dart';
+import '../gen/assets.gen.dart';
+import '../routes/app_routes.gr.dart';
 
 @RoutePage()
 class OTPScreen extends StatelessWidget {
@@ -60,7 +60,6 @@ class OTPScreen extends StatelessWidget {
                         ),
                       ),
                       onCompleted: (value) {
-                        debugPrint(value);
                         context.router.push(const SelectAttributeRoute());
                       },
                     ),
