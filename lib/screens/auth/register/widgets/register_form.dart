@@ -1,7 +1,9 @@
 import '../../../../core/config.dart';
 
+import '../../../../core/models/models.dart';
 import '../../../../routes/app_routes.gr.dart';
 import '../../../../widgets/commons/button_custom.dart';
+import '../../../../widgets/commons/indicators/loading_manager.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
 
 class RegisterForm extends HookWidget {
@@ -56,9 +58,7 @@ class RegisterForm extends HookWidget {
               fontSize: 15,
               fontWeight: FontWeight.w600,
               onPressed: () {
-                checkFieldsEmpty.value
-                    ? null
-                    : context.router.push(const OTPRoute());
+                checkFieldsEmpty.value ? null : register(context);
               },
               backgroundColor: checkFieldsEmpty.value
                   ? AppTheme.middleGray
@@ -68,5 +68,16 @@ class RegisterForm extends HookWidget {
         ),
       ),
     );
+  }
+
+  void register(BuildContext context) {
+    FocusScope.of(context).unfocus();
+    LoadingManager.instance.show(context);
+    Future.delayed(1.seconds, () {
+      LoadingManager.instance.hide(context);
+      WidgetsBinding.instance.endOfFrame.then((value) {
+        AutoRouter.of(context).push(OTPRoute(authType: AuthType.register));
+      });
+    });
   }
 }

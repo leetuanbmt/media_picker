@@ -1,13 +1,14 @@
 import 'package:pinput/pinput.dart';
 
 import '../core/config.dart';
+import '../core/models/models.dart';
 import '../routes/app_routes.gr.dart';
 import '../widgets/commons/indicators/loading_manager.dart';
 
 @RoutePage()
 class OTPScreen extends StatelessWidget {
-  const OTPScreen({super.key});
-
+  const OTPScreen({super.key, required this.authType});
+  final AuthType authType;
   @override
   Widget build(BuildContext context) {
     final theme = PinTheme(
@@ -20,10 +21,7 @@ class OTPScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(3),
-        border: Border.all(
-          color: AppTheme.box,
-          width: 1.r,
-        ),
+        border: Border.all(color: AppTheme.box),
       ),
     );
 
@@ -67,7 +65,14 @@ class OTPScreen extends StatelessWidget {
     Future.delayed(1.seconds, () {
       LoadingManager.instance.hide(context);
       WidgetsBinding.instance.endOfFrame.then((value) {
-        AutoRouter.of(context).push(const SelectAttributeRoute());
+        if (authType == AuthType.login) {
+          AutoRouter.of(context).pushAndPopUntil(
+            const HomeRoute(),
+            predicate: (_) => false,
+          );
+        } else {
+          AutoRouter.of(context).push(const SelectAttributeRoute());
+        }
       });
     });
   }
