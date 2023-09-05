@@ -9,12 +9,13 @@ class AppRouter extends $AppRouter {
     AutoRoute(
       page: DashboardRoute.page,
       path: '/dashboard',
+      initial: true,
       children: [
         AutoRoute(
           initial: true,
           page: HomeTabRoute.page,
           children: [
-            AutoRoute(initial: true, page: HomeRoute.page),
+            AutoRoute(page: HomeRoute.page, initial: true),
             AutoRoute(page: SearchCreatorRoute.page),
           ],
         ),
@@ -34,7 +35,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: NotificationRoute.page),
       ],
     ),
-    AutoRoute(page: LoginRoute.page, initial: true),
+    AutoRoute(page: LoginRoute.page),
     AutoRoute(page: QRRoute.page),
     AutoRoute(page: UserRoute.page),
     AutoRoute(page: OTPRoute.page),

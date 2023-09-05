@@ -32,7 +32,9 @@ class RootApp extends StatelessWidget {
                   theme: AppTheme.appTheme.copyWith(
                     primaryColor: appGlobal.themeColor,
                   ),
-                  routerConfig: AppNavigator.instance.appRouter.config(),
+                  routerConfig: AppNavigator.instance.appRouter.config(
+                    navigatorObservers: () => [MyObserver()],
+                  ),
                 ),
               );
             },
@@ -40,5 +42,22 @@ class RootApp extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class MyObserver extends AutoRouterObserver {
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    Logger.log('New route pushed: ${route.settings.name}');
+  }
+
+  @override
+  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
+    Logger.log('Tab route visited: ${route.name}');
+  }
+
+  @override
+  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
+    Logger.log('Tab route re-visited: ${route.name}');
   }
 }

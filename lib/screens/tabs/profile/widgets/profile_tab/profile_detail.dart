@@ -55,25 +55,16 @@ class ProfileDetail extends StatelessWidget {
           assetIcon: Assets.iconsIconNotifications.path,
           onTap: () {},
         ),
-        CardProfile(
-          child: ListTile(
-            onTap: () {
-              AutoRouter.of(context).pushAndPopUntil(
-                const LoginRoute(),
-                predicate: (_) => false,
-              );
-            },
-            title: Text(
-              'ログアウト',
-              style: context.labelSmall?.copyWith(
-                fontSize: 14.sp,
-                color: Colors.red,
-              ),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-          ),
+        _ProfileItem(
+          title: 'ログアウト',
+          isNext: false,
+          textColor: Colors.red,
+          onTap: () {
+            AutoRouter.of(context).pushAndPopUntil(
+              const LoginRoute(),
+              predicate: (_) => false,
+            );
+          },
         ),
       ],
     );
@@ -83,28 +74,40 @@ class ProfileDetail extends StatelessWidget {
 class _ProfileItem extends StatelessWidget {
   const _ProfileItem({
     required this.title,
-    required this.assetIcon,
+    this.assetIcon,
     this.onTap,
+    this.isNext = true,
+    this.textColor,
   });
-  final String title, assetIcon;
+  final String title;
+  final String? assetIcon;
   final VoidCallback? onTap;
-
+  final bool isNext;
+  final Color? textColor;
   @override
   Widget build(BuildContext context) {
+    Widget? leading, trailing;
+    if (assetIcon != null) {
+      leading = SvgPicture.asset(
+        assetIcon!,
+        width: 24.w,
+      );
+    }
+    if (isNext) {
+      trailing = const Icon(
+        Icons.keyboard_arrow_right_outlined,
+        color: AppTheme.icon,
+      );
+    }
     return CardProfile(
       child: ListTile(
         onTap: onTap,
-        leading: SvgPicture.asset(
-          assetIcon,
-          width: 24.w,
-        ),
+        leading: leading,
         title: Text(
           title,
+          style: TextStyle(color: textColor),
         ),
-        trailing: const Icon(
-          Icons.keyboard_arrow_right_outlined,
-          color: AppTheme.icon,
-        ),
+        trailing: trailing,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.r),
         ),

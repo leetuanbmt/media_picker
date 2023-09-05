@@ -23,7 +23,6 @@ class UsageGuideScreen extends StatelessWidget {
                 border: Border(
                   bottom: BorderSide(
                     color: AppTheme.lightGray,
-                    width: 1,
                   ),
                 ),
               ),
@@ -65,7 +64,6 @@ class UsageGuideScreen extends StatelessWidget {
                 border: Border(
                   bottom: BorderSide(
                     color: AppTheme.lightGray,
-                    width: 1,
                   ),
                 ),
               ),
@@ -83,7 +81,6 @@ class UsageGuideScreen extends StatelessWidget {
                 border: Border(
                   bottom: BorderSide(
                     color: AppTheme.lightGray,
-                    width: 1,
                   ),
                 ),
               ),

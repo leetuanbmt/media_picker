@@ -36,12 +36,7 @@ class _QRScreenState extends State<QRScreen> {
     super.dispose();
   }
 
-  void onPermissionSet(
-    BuildContext context,
-    QRViewController ctrl,
-    bool isPermission,
-  ) {
-    ToastContext().init(context);
+  void onPermissionSet(QRViewController ctrl, bool isPermission) {
     if (!isPermission) {
       Toast.show('No Permission');
     }
@@ -49,6 +44,8 @@ class _QRScreenState extends State<QRScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
+
     return Scaffold(
       backgroundColor: AppTheme.fontBoldLight,
       appBar: AppBar(
@@ -81,7 +78,7 @@ class _QRScreenState extends State<QRScreen> {
               child: QRView(
                 key: qrKey,
                 onQRViewCreated: _onQRViewCreated,
-                onPermissionSet: (ctrl, p) => onPermissionSet(context, ctrl, p),
+                onPermissionSet: onPermissionSet,
               ),
             ),
           ),
