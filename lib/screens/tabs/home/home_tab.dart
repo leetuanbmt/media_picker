@@ -1,9 +1,9 @@
-import '../../core/config.dart';
-import '../../providers/home_provider.dart';
-import '../../routes/app_routes.gr.dart';
-import '../../widgets/commons/app_bar_custom.dart';
-import '../../widgets/search_app_bar.dart';
-import 'home/widgets/list_creator.dart';
+import '../../../core/config.dart';
+import '../../../providers/home_provider.dart';
+import '../../../widgets/commons/app_bar_custom.dart';
+import '../../../widgets/search_app_bar.dart';
+import 'search_screen.dart';
+import 'widgets/list_creator.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
         searchAppBar: SearchAppBar(
           readOnly: true,
           onTap: () {
-            context.router.push(const SearchCreatorRoute());
+            context.nextPage(const SearchCreatorScreen());
           },
         ),
       ),

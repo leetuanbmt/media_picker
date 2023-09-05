@@ -1,7 +1,8 @@
-import '../../../core/config.dart';
-import '../../../core/models/creator/creator_model.dart';
-import '../../../widgets/commons/button_custom.dart';
-import '../../../widgets/commons/theme_picker.dart';
+import '../../../../core/config.dart';
+import '../../../../core/models/creator/creator_model.dart';
+import '../../../../widgets/commons/button_custom.dart';
+import '../../../../widgets/commons/tag_name_custom.dart';
+import '../../../../widgets/commons/theme_picker.dart';
 
 class FollowingItem extends StatelessWidget {
   const FollowingItem({
@@ -34,22 +35,8 @@ class FollowingItem extends StatelessWidget {
                   'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80',
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                model?.firstName ?? 'ゆうこ',
-                style: context.labelMedium?.copyWith(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              2.widthBox,
-              CircleAvatar(
-                radius: 8.r,
-                child: Icon(Icons.check, size: 12.sp),
-              ),
-            ],
+          TagName(
+            name: model?.firstName ?? 'ゆうこ',
           ),
           ButtonCustom(
             'フォローする',

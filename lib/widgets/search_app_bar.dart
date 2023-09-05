@@ -1,5 +1,3 @@
-import 'package:flutter_svg/svg.dart';
-
 import '../core/config.dart';
 import '../gen/assets.gen.dart';
 
@@ -67,8 +65,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
             minWidth: 32.w,
             minHeight: 24.h,
           ),
-          prefixIcon: SvgPicture.asset(
-            Assets.iconsIconSearch.path,
+          prefixIcon: Assets.iconsIconSearch.svg(
             fit: BoxFit.scaleDown,
             width: 24.r,
           ),
@@ -79,7 +76,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
           suffixIcon: showIconClose
               ? IconButton(
                   onPressed: clear,
-                  icon: SvgPicture.asset(Assets.iconsIconClose.path),
+                  icon: Assets.iconsIconClose.svg(),
                 )
               : null,
         ),

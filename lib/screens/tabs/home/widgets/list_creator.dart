@@ -1,6 +1,6 @@
-import '../../../core/config.dart';
-import '../../../core/models/creator/creator_model.dart';
-import '../../user_screen.dart';
+import '../../../../core/config.dart';
+import '../../../../core/models/creator/creator_model.dart';
+import '../../../user_screen.dart';
 import 'creator_online_item.dart';
 import 'following_item.dart';
 
