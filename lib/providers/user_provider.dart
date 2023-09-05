@@ -132,3 +132,9 @@ final usersProvider = StateNotifierProvider.autoDispose<
     },
   );
 });
+final exampleStreamProvider = StreamProvider.autoDispose<int>((ref) async* {
+  for (var i = 0; i < 1000; i++) {
+    await Future.delayed(const Duration(seconds: 1));
+    yield i;
+  }
+});

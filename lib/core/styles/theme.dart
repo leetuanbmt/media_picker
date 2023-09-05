@@ -116,12 +116,12 @@ class AppTheme {
           fontWeight: FontWeight.w600,
         ),
       ),
-      pageTransitionsTheme: const PageTransitionsTheme(
-        builders: <TargetPlatform, PageTransitionsBuilder>{
-          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-        },
-      ),
+      // pageTransitionsTheme: const PageTransitionsTheme(
+      //   builders: <TargetPlatform, PageTransitionsBuilder>{
+      //     TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+      //     TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      //   },
+      // ),
     );
     final TextTheme textTheme = themeData.textTheme;
     return themeData.copyWith(
