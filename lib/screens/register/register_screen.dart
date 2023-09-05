@@ -2,13 +2,12 @@ import 'package:flutter/gestures.dart';
 
 import '../../core/config.dart';
 import '../../gen/assets.gen.dart';
-import '../../routes/app_routes.gr.dart';
-import 'widgets/login_form.dart';
-import 'widgets/login_social_id.dart';
+import '../login/widgets/login_social_id.dart';
+import 'widgets/register_form.dart';
 
 @RoutePage()
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +22,13 @@ class LoginScreen extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
+            padding: EdgeInsets.only(left: 24.w, right: 24.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
                 SizedBox(
-                  height: 37.h,
+                  height: 104.h,
                 ),
                 Assets.iconsIconLogo.svg(
                   height: 109.h,
@@ -36,11 +36,10 @@ class LoginScreen extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
                 SizedBox(
-                  height: 21.h,
+                  height: 43.h,
                 ),
-                const LoginForm(),
+                const RegisterForm(),
                 const LoginBySocial(),
-                const LoginByFaceID(),
                 SizedBox(
                   height: 18.h,
                 ),
@@ -78,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                         style: style.copyWith(color: AppTheme.primaryColor),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            context.router.push(const RegisterRoute());
+                            context.router.back();
                           },
                       ),
                     ],

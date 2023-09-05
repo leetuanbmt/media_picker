@@ -1,18 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
 
 import 'app_routes.gr.dart';
 
 @AutoRouterConfig()
 class AppRouter extends $AppRouter {
-  AppRouter(this.navigatorKey);
-
-  @override
-  final GlobalKey<NavigatorState> navigatorKey;
   @override
   final List<AutoRoute> routes = [
     AutoRoute(
-      initial: true,
       page: DashboardRoute.page,
       path: '/dashboard',
       children: [
@@ -40,11 +34,13 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: NotificationRoute.page),
       ],
     ),
-    AutoRoute(page: LoginRoute.page),
+    AutoRoute(page: LoginRoute.page, initial: true),
     AutoRoute(page: QRRoute.page),
     AutoRoute(page: UserRoute.page),
     AutoRoute(page: OTPRoute.page),
-    RedirectRoute(path: '*', redirectTo: '/'),
+    AutoRoute(page: RegisterRoute.page),
+    AutoRoute(page: SelectAttributeRoute.page),
+    RedirectRoute(path: '/', redirectTo: '/dashboard'),
   ];
 }
 
