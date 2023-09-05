@@ -1,8 +1,8 @@
 import '../../../core/config.dart';
 
+import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/commons/button_custom.dart';
 import '../../../widgets/commons/text_field_custom.dart';
-import '../../login/otp_screen.dart';
 
 class RegisterForm extends HookWidget {
   const RegisterForm({super.key});
@@ -18,7 +18,7 @@ class RegisterForm extends HookWidget {
     }
 
     void navigateOTP() {
-      context.nextPage(const OTPScreen());
+      context.router.push(const OTPRoute());
     }
 
     useEffect(() {
@@ -34,11 +34,11 @@ class RegisterForm extends HookWidget {
       passwordController,
     ]);
     return Form(
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: 24.w, right: 24.w),
-            child: SizedBox(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.only(left: 24.w, right: 24.w),
+        child: Column(
+          children: [
+            SizedBox(
               height: 48.h,
               width: 327.w,
               child: TextFieldCustom(
@@ -47,13 +47,10 @@ class RegisterForm extends HookWidget {
                 keyboardType: TextInputType.emailAddress,
               ),
             ),
-          ),
-          SizedBox(
-            height: 12.h,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 24.w, right: 24.w),
-            child: SizedBox(
+            SizedBox(
+              height: 12.h,
+            ),
+            SizedBox(
               height: 48.h,
               width: 327.w,
               child: TextFieldCustom(
@@ -62,13 +59,10 @@ class RegisterForm extends HookWidget {
                 obscureText: true,
               ),
             ),
-          ),
-          SizedBox(
-            height: 30.h,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 24.w, right: 24.w),
-            child: ButtonCustom(
+            SizedBox(
+              height: 30.h,
+            ),
+            ButtonCustom(
               "新規登録",
               width: double.maxFinite,
               height: 48.h,
@@ -81,8 +75,8 @@ class RegisterForm extends HookWidget {
                   ? AppTheme.middleGray
                   : AppTheme.primaryColor,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

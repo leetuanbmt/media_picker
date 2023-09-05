@@ -61,6 +61,7 @@ class OTPScreen extends StatelessWidget {
                       ),
                       onCompleted: (value) {
                         debugPrint(value);
+                        context.router.push(const SelectAttributeRoute());
                       },
                     ),
                   ),
@@ -102,9 +103,7 @@ class ReSendOTP extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        context.router.push(const SelectAttributeRoute());
-      },
+      onTap: () {},
       child: Text(
         "メールを再送する",
         style: context.titleSmall!.copyWith(

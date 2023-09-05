@@ -35,7 +35,7 @@ class RegisterScreen extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
                 SizedBox(
-                  height: 21.h,
+                  height: 43.h,
                 ),
                 const RegisterForm(),
                 const LoginBySocial(),
