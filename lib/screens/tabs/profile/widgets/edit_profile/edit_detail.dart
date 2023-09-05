@@ -1,14 +1,12 @@
 import '../../../../../core/config.dart';
 import '../../../../../gen/assets.gen.dart';
+import '../../../../../widgets/commons/theme_picker.dart';
 import 'edit_item.dart';
 
 class EditProfileDetail extends StatelessWidget {
   const EditProfileDetail({
     super.key,
-    required this.focusNode,
   });
-
-  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +53,9 @@ class EditProfileDetail extends StatelessWidget {
               ),
             ),
           ),
+          onTap: () {
+            ThemePicker.show(context);
+          },
         ),
         const EditItem(
           title: 'カテゴリ',
@@ -107,13 +108,13 @@ class EditProfileDetail extends StatelessWidget {
         ),
         EditItem(
           showTrailing: false,
+          isLastItem: true,
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('自己紹介文'),
               SizedBox(height: 11.h),
               TextFormField(
-                focusNode: focusNode,
                 maxLines: 2,
                 decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(

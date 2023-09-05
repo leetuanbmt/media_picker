@@ -1,31 +1,38 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../../../../core/config.dart';
 
 class EditItem extends StatelessWidget {
   const EditItem({
-    super.key,
-    this.title,
-    this.content,
+    Key? key,
     this.textContent,
+    this.content,
     this.showTrailing = true,
-  });
+    this.onTap,
+    this.title,
+    this.isLastItem = false,
+  }) : super(key: key);
   final String? title, textContent;
   final Widget? content;
   final bool showTrailing;
+  final VoidCallback? onTap;
+  final bool isLastItem;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.white,
         border: Border(
-          bottom: BorderSide(
-            width: .5,
-            color: AppTheme.textiked,
-          ),
-          top: BorderSide(
+          top: const BorderSide(
             width: 1,
             color: AppTheme.textiked,
           ),
+          bottom: isLastItem
+              ? const BorderSide(
+                  width: 1,
+                  color: AppTheme.textiked,
+                )
+              : BorderSide.none,
         ),
       ),
       child: ListTile(
@@ -58,6 +65,7 @@ class EditItem extends StatelessWidget {
                 color: AppTheme.icon,
               )
             : null,
+        onTap: onTap,
       ),
     );
   }

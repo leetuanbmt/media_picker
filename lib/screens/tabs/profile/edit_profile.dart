@@ -14,16 +14,16 @@ class EditProfileScreen extends HookWidget {
       onTap: () {
         focusNode.unfocus();
       },
-      child: Scaffold(
+      child: const Scaffold(
         backgroundColor: AppTheme.background,
-        appBar: const AppBarCustom(
+        appBar: AppBarCustom(
           title: 'プロフィール設定',
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const EditProfileHeader(),
-              EditProfileDetail(focusNode: focusNode),
+              EditProfileHeader(),
+              EditProfileDetail(),
             ],
           ),
         ),
