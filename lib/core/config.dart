@@ -13,7 +13,10 @@ export 'package:flutter_hooks/flutter_hooks.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:hooks_riverpod/hooks_riverpod.dart';
 export 'package:velocity_x/velocity_x.dart';
+
+export '../core/extensions/extension.dart';
 export '../core/utilities/logger.dart';
+
 part 'styles/dimensions.dart';
 part 'styles/theme.dart';
 

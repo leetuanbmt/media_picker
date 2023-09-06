@@ -57,14 +57,11 @@ class LoginForm extends HookWidget {
               child: Row(
                 children: [
                   SizedBox.square(
-                    dimension: 20.r,
+                    dimension: 24.r,
                     child: Checkbox(
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       value: toggleValue.value,
-                      side: BorderSide(
-                        color: AppTheme.box,
-                        width: 3.r,
-                      ),
+                      side: const BorderSide(color: AppTheme.box, width: 3),
                       onChanged: (bool? value) {
                         toggleValue.value = value!;
                       },
@@ -73,14 +70,13 @@ class LoginForm extends HookWidget {
                   SizedBox(width: 8.w),
                   GestureDetector(
                     onTap: () {
-                      toggleValue.value = !toggleValue.value;
+                      toggleValue.value = toggleValue.value.toggle();
                     },
                     child: Text(
                       '次回から自動でログイン',
                       style: context.bodySmall!.copyWith(
                         color: AppTheme.fontGrayLead,
                         fontWeight: FontWeight.w300,
-                        height: 1.5,
                       ),
                     ),
                   ),
@@ -89,8 +85,8 @@ class LoginForm extends HookWidget {
             ),
             ButtonCustom(
               "ログイン",
-              width: 327.w,
               height: 48.h,
+              width: double.infinity,
               onPressed: () {
                 checkFieldsEmpty.value ? null : login(context);
               },

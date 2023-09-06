@@ -7,126 +7,128 @@ class PointConfirmHeader extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pageIndexNotify = useValueNotifier(0);
-    final pageIndex = useListenable(pageIndexNotify);
+    final tabController = useTabController(initialLength: 3);
     final pageController = usePageController(
       initialPage: 0,
       viewportFraction: 0.7,
     );
-    return SliverFixedExtentList(
-      itemExtent: 180.h,
-      delegate: SliverChildListDelegate(
-        [
-          ColoredBox(
-            color: Colors.white,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 140.h,
+
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        height: 180.h,
+        child: ColoredBox(
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                height: 132.h,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                  ),
                   child: PageView.builder(
-                    itemCount: 2,
+                    itemCount: 3,
                     pageSnapping: true,
                     padEnds: false,
                     controller: pageController,
-                    onPageChanged: (value) {
-                      pageIndex.value = value;
-                    },
+                    onPageChanged: tabController.animateTo,
                     itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.only(left: 12.w, top: 18.h),
-                        decoration: BoxDecoration(
-                          color: const Color(0xffA0D7D4).withOpacity(.5),
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Assets.iconsIconApp.svg(
-                                  colorFilter: const ColorFilter.mode(
-                                    AppTheme.pink,
-                                    BlendMode.srcATop,
-                                  ),
-                                ),
-                                SizedBox(width: 5.w),
-                                Text(
-                                  '保有獲得ポイント',
-                                  style: context.titleSmall?.copyWith(
-                                    color: AppTheme.fontGrayLead,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 5.h),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Assets.iconsIcCoin.svg(
-                                    height: 18.h,
-                                  ),
-                                  SizedBox(width: 5.w),
-                                  RichText(
-                                    text: TextSpan(
-                                      text: '2000',
-                                      style: context.titleLarge?.copyWith(
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: 'pt',
-                                          style: context.titleSmall?.copyWith(
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            ButtonCustom(
-                              'チップ用ポイントに変換',
-                              height: 36.h,
-                              width: 232.w,
-                              fontSize: 15.sp,
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
+                      final int itemIndex = index ~/ 2;
+                      return Row(
+                        children: [
+                          const Expanded(child: _PointSlider()),
+                          if (itemIndex.isEven) SizedBox(width: 10.w),
+                        ],
                       );
                     },
                   ),
                 ),
-                SizedBox(height: 20.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ...List.generate(
-                      2,
-                      (index) => Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: CircleAvatar(
-                          radius: 4.r,
-                          backgroundColor: pageIndex.value == index
-                              ? AppTheme.black
-                              : AppTheme.middleGray,
-                        ),
-                      ),
-                    ),
-                  ],
+              ),
+              TabPageSelector(controller: tabController),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PointSlider extends StatelessWidget {
+  const _PointSlider();
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: context.primaryColor.withOpacity(.2),
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 16.h,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Assets.iconsIconApp.svg(
+                  colorFilter: const ColorFilter.mode(
+                    AppTheme.pink,
+                    BlendMode.srcATop,
+                  ),
+                ),
+                SizedBox(width: 5.w),
+                Text(
+                  '保有獲得ポイント',
+                  style: context.titleSmall?.copyWith(
+                    color: AppTheme.fontGrayLead,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Assets.iconsIcCoin.svg(height: 18.h),
+                  SizedBox(width: 5.w),
+                  RichText(
+                    text: TextSpan(
+                      text: '2000',
+                      style: context.titleLarge?.copyWith(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'pt',
+                          style: context.titleSmall?.copyWith(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ButtonCustom(
+              'チップ用ポイントに変換',
+              height: 36.h,
+              width: double.infinity,
+              onPressed: () {},
+            ),
+          ],
+        ),
       ),
     );
   }

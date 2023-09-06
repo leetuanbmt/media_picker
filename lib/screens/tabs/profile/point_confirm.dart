@@ -1,196 +1,144 @@
-// ignore_for_file: unused_import
-
-import 'package:flutter_svg/svg.dart';
-
 import '../../../core/config.dart';
+import '../../../core/models/models.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../gen/fonts.gen.dart';
+import '../../../providers/history_provider.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
-import '../../../widgets/commons/button_custom.dart';
 import 'widgets/point_confirm/point_confirm_detail.dart';
 import 'widgets/point_confirm/point_confirm_header.dart';
 
 @RoutePage()
-class PointConfirmScreen extends HookWidget {
+class PointConfirmScreen extends HookConsumerWidget {
   const PointConfirmScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tips = ref.watch(historyProvider.select((value) => value.tips));
+    final purchase =
+        ref.watch(historyProvider.select((value) => value.purchase));
+    final transfer =
+        ref.watch(historyProvider.select((value) => value.transfer));
     final tabController = useTabController(initialLength: 3);
 
     return Scaffold(
-      backgroundColor: AppTheme.background,
       appBar: const AppBarCustom(
         title: 'ポイント確認',
       ),
-      body: CustomScrollView(
-        slivers: [
-          /// Header
-          const PointConfirmHeader(),
-          SliverFixedExtentList(
-            itemExtent: 10.h,
-            delegate: SliverChildListDelegate(
-              [SizedBox(height: 8.h)],
-            ),
-          ),
-
-          /// Appbar Pinned
-          PointConfirmDetail(
-            context: context,
-            tabController: tabController,
-          ),
-
-          /// Tabbar View with listview
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: TabBarView(
-                controller: tabController,
-                children: [
-                  _listHistoryBuilder(
-                    itemBuilder: const _TipHistoryItem(),
-                  ),
-                  _listHistoryBuilder(
-                    itemBuilder: const _PurchaseHistoryItem(),
-                  ),
-                  _listHistoryBuilder(
-                    itemBuilder: const _PurchaseHistoryItem(),
-                  ),
-                ],
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            const PointConfirmHeader(),
+            SliverToBoxAdapter(
+              child: Container(
+                color: AppTheme.background,
+                height: 10.h,
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _listHistoryBuilder({
-    required Widget itemBuilder,
-  }) {
-    return Container(
-      color: Colors.white,
-      alignment: Alignment.center,
-      child: ListView.builder(
-        itemCount: 5,
-        itemExtent: 80.h,
-        padding: EdgeInsets.symmetric(
-          horizontal: 16.w,
-          vertical: 20.h,
-        ),
-        itemBuilder: (context, index) {
-          return itemBuilder;
+            PointConfirmDetail(
+              context: context,
+              tabController: tabController,
+            ),
+          ];
         },
+        body: TabBarView(
+          controller: tabController,
+          children: [
+            _listHistory(tips),
+            _listHistory(purchase),
+            _listHistory(transfer),
+          ],
+        ),
       ),
     );
   }
-}
 
-class _PurchaseHistoryItem extends StatelessWidget {
-  const _PurchaseHistoryItem();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            RichText(
-              text: TextSpan(
-                text: '1000',
-                style: context.titleLarge?.copyWith(
-                  color: AppTheme.fontBlue,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-                children: [
-                  TextSpan(
-                    text: 'ポイント',
-                    style: context.titleSmall?.copyWith(
-                      color: Colors.black,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  TextSpan(
-                    text: 'を獲得しました',
-                    style: context.titleSmall?.copyWith(
-                      color: Colors.black,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 4.h),
-        Text(
-          '3/3 18:00 ',
-          style: context.labelSmall?.copyWith(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w300,
-            color: AppTheme.fontGrayLead,
-          ),
-        ),
-      ],
+  Widget _listHistory(List<HistoryModel> histories) {
+    return ListView.separated(
+      itemCount: histories.length,
+      separatorBuilder: (context, index) {
+        return const Divider(
+          thickness: 1,
+          height: 1,
+          color: AppTheme.lightGray,
+        );
+      },
+      itemBuilder: (context, index) {
+        final history = histories[index];
+        return HistoryItem(history: history);
+      },
     );
   }
 }
 
-class _TipHistoryItem extends StatelessWidget {
-  const _TipHistoryItem();
-
+class HistoryItem extends StatelessWidget {
+  const HistoryItem({super.key, required this.history});
+  final HistoryModel history;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Assets.iconsIcCoin.svg(),
-            SizedBox(width: 7.w),
-            RichText(
-              text: TextSpan(
-                text: '1000',
-                style: context.titleLarge?.copyWith(
-                  color: Colors.black,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                ),
+    Color pointColor = switch (history.type) {
+      HistoryType.tip => const Color(0xffF4BF1A),
+      HistoryType.purchase => const Color(0xffFF9687),
+      _ => AppTheme.primaryColor,
+    };
+    return InkWell(
+      onTap: () {},
+      child: SizedBox(
+        height: 80.h,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 16.w,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
                 children: [
-                  TextSpan(
-                    text: 'ポイント',
-                    style: context.titleSmall?.copyWith(
-                      color: Colors.black,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  TextSpan(
-                    text: 'を獲得しました',
-                    style: context.titleSmall?.copyWith(
-                      color: Colors.black,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w300,
+                  if (history.type == HistoryType.tip) ...[
+                    Assets.iconsIcCoin.svg(width: 20.r),
+                    SizedBox(width: 8.w),
+                  ],
+                  RichText(
+                    text: TextSpan(
+                      text: '${history.point}',
+                      style: context.bodyMedium?.copyWith(
+                        color: pointColor,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: MyFontFamily.poppins,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: history.suffix,
+                          style: context.bodyMedium?.copyWith(
+                            color: AppTheme.fontBoldLight,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        TextSpan(
+                          text: history.title,
+                          style: context.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-        SizedBox(height: 4.h),
-        Text(
-          '3/3 18:00 ',
-          style: context.labelSmall?.copyWith(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w300,
-            color: AppTheme.fontGrayLead,
+              SizedBox(height: 4.h),
+              Text(
+                history.date.format('d/M H:s'),
+                style: context.labelSmall?.copyWith(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w300,
+                  color: AppTheme.fontGrayLead,
+                ),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

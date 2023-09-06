@@ -46,7 +46,6 @@ class SocialList extends StatelessWidget {
         Text(
           'SNSアカウントでログイン',
           style: context.bodyMedium!.copyWith(
-            fontSize: 14,
             color: AppTheme.blackBold,
             fontWeight: FontWeight.w600,
           ),

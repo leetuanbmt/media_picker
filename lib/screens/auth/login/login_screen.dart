@@ -38,8 +38,7 @@ class LoginInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.bodyMedium!.copyWith(
-      fontSize: 12,
+    final style = context.bodySmall!.copyWith(
       color: AppTheme.fontGrayLead,
     );
     return Padding(
@@ -105,7 +104,7 @@ class LoginByFaceID extends StatelessWidget {
         SizedBox(height: 40.h),
         Text(
           'Face IDでログイン',
-          style: context.bodySmall!.copyWith(
+          style: context.bodyMedium?.copyWith(
             fontWeight: FontWeight.w600,
             color: AppTheme.fontBoldLight,
           ),

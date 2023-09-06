@@ -11,7 +11,6 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.background,
       appBar: AppBarCustom(
         title: 'マイページ',
         titleSpacing: 16.w,

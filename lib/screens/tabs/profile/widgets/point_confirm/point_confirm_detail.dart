@@ -17,8 +17,8 @@ class PointConfirmDetail extends StatelessWidget {
     return SliverPersistentHeader(
       pinned: true,
       delegate: _SliverAppBarDelegate(
-        minHeight: 150.0,
-        maxHeight: 150.0,
+        minHeight: 130.h,
+        maxHeight: 130.h,
         child: Container(
           color: Colors.white,
           child: Column(
@@ -40,102 +40,77 @@ class PointConfirmDetail extends StatelessWidget {
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Flexible(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: MaterialButton(
-                        onPressed: () {},
-                        elevation: 0,
-                        shape: CircleBorder(
-                          side: BorderSide(
-                            color: AppTheme.primaryColor,
-                            width: 2.w,
-                          ),
-                        ),
-                        child: Icon(
-                          Icons.arrow_back_ios_new,
-                          size: 15.sp,
-                          color: AppTheme.primaryColor,
-                        ),
+                  MaterialButton(
+                    onPressed: () {},
+                    elevation: 0,
+                    shape: CircleBorder(
+                      side: BorderSide(
+                        color: AppTheme.primaryColor,
+                        width: 2.w,
                       ),
                     ),
+                    child: Icon(
+                      Icons.arrow_back_ios_new,
+                      size: 15.sp,
+                      color: AppTheme.primaryColor,
+                    ),
                   ),
-                  Flexible(
-                    child: Text(
-                      '今日',
-                      style: context.titleLarge?.copyWith(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
+                  Text(
+                    '今日',
+                    style: context.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  AnimatedOpacity(
+                    opacity: 0,
+                    duration: const Duration(milliseconds: 500),
+                    child: MaterialButton(
+                      onPressed: () {},
+                      elevation: 0,
+                      shape: CircleBorder(
+                        side: BorderSide(
+                          color: AppTheme.primaryColor,
+                          width: 2.w,
+                        ),
+                      ),
+                      child: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 15.sp,
+                        color: AppTheme.primaryColor,
                       ),
                     ),
                   ),
                 ],
               ),
-              TabBar(
-                labelStyle: context.titleMedium?.copyWith(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-                unselectedLabelStyle: context.titleMedium?.copyWith(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-                indicator: BoxDecoration(
+              DecoratedBox(
+                decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      width: 2.w,
-                      color: AppTheme.primaryColor,
+                      width: 1,
+                      color: AppTheme.lightGray,
                     ),
                   ),
                 ),
-                labelPadding: EdgeInsets.zero,
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorPadding: EdgeInsets.only(bottom: 1.h),
-                indicatorColor: AppTheme.primaryColor,
-                controller: tabController,
-                tabs: [
-                  Container(
-                    margin: EdgeInsets.zero,
-                    padding: EdgeInsets.zero,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: AppTheme.lightGray,
-                          width: 1.h,
-                        ),
-                      ),
+                child: TabBar(
+                  indicator: UnderlineTabIndicator(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: AppTheme.primaryColor,
                     ),
-                    child: const Center(child: Tab(text: 'チップ履歴')),
+                    insets: const EdgeInsets.fromLTRB(0.0, 0, 0, -.5),
                   ),
-                  Container(
-                    margin: EdgeInsets.zero,
-                    padding: EdgeInsets.zero,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: AppTheme.lightGray,
-                          width: 1.h,
-                        ),
-                      ),
-                    ),
-                    child: const Center(child: Tab(text: '購入履歴')),
-                  ),
-                  Container(
-                    margin: EdgeInsets.zero,
-                    padding: EdgeInsets.zero,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: AppTheme.lightGray,
-                          width: 1.h,
-                        ),
-                      ),
-                    ),
-                    child: const Center(child: Tab(text: '振込履歴')),
-                  ),
-                ],
+                  labelPadding: EdgeInsets.zero,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorColor: AppTheme.primaryColor,
+                  controller: tabController,
+                  tabs: const [
+                    Tab(text: 'チップ履歴'),
+                    Tab(text: '購入履歴'),
+                    Tab(text: '振込履歴'),
+                  ],
+                ),
               ),
             ],
           ),

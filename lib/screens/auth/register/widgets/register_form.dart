@@ -53,10 +53,8 @@ class RegisterForm extends HookWidget {
             ),
             ButtonCustom(
               "新規登録",
-              width: double.maxFinite,
+              width: double.infinity,
               height: 48.h,
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
               onPressed: () {
                 checkFieldsEmpty.value ? null : register(context);
               },
