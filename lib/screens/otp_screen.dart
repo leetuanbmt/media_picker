@@ -3,6 +3,7 @@ import 'package:pinput/pinput.dart';
 import '../core/config.dart';
 import '../core/models/models.dart';
 import '../routes/app_routes.gr.dart';
+import '../widgets/commons/button_custom.dart';
 import '../widgets/commons/indicators/loading_manager.dart';
 
 @RoutePage()
@@ -11,18 +12,15 @@ class OTPScreen extends StatelessWidget {
   final AuthType authType;
   @override
   Widget build(BuildContext context) {
+    final BoxDecoration decoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(3),
+      border: Border.all(color: AppTheme.box),
+    );
     final theme = PinTheme(
       width: 42.w,
       height: 50.h,
-      textStyle: context.titleMedium!.copyWith(
-        fontSize: 16,
-        fontWeight: FontWeight.w300,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(3),
-        border: Border.all(color: AppTheme.box),
-      ),
+      textStyle: context.bodyMedium,
+      decoration: decoration,
     );
 
     return Scaffold(
@@ -40,26 +38,28 @@ class OTPScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   defaultPinTheme: theme,
                   focusedPinTheme: theme.copyWith(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: AppTheme.primaryColor,
-                      ),
+                    decoration: decoration.copyWith(
+                      border: Border.all(color: AppTheme.primaryColor),
                     ),
                   ),
                   onCompleted: (value) {
-                    sentOTP(context);
+                    sentOTP(context, value);
                   },
                 ),
               ),
             ),
-            const ReSendOTP(),
+            ButtonCustom(
+              "メールを再送する",
+              type: ButtonType.text,
+              onPressed: () {},
+            ),
           ],
         ),
       ),
     );
   }
 
-  void sentOTP(BuildContext context) {
+  void sentOTP(BuildContext context, String val) {
     FocusScope.of(context).unfocus();
     LoadingManager.instance.show(context);
     Future.delayed(1.seconds, () {
@@ -78,25 +78,6 @@ class OTPScreen extends StatelessWidget {
   }
 }
 
-class ReSendOTP extends StatelessWidget {
-  const ReSendOTP({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Text(
-        "メールを再送する",
-        style: context.titleSmall!.copyWith(
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-          color: AppTheme.primaryColor,
-        ),
-      ),
-    );
-  }
-}
-
 class OTPTitle extends StatelessWidget {
   const OTPTitle({super.key});
 
@@ -109,8 +90,7 @@ class OTPTitle extends StatelessWidget {
         ),
         Text(
           "認証コードを入力してください",
-          style: context.titleLarge!.copyWith(
-            fontSize: 20,
+          style: context.titleMedium!.copyWith(
             fontWeight: FontWeight.w600,
             color: AppTheme.blackBold,
           ),
@@ -121,8 +101,7 @@ class OTPTitle extends StatelessWidget {
         Text(
           "メールアドレスに送信した認証コードを入力し、登録\nを完成させましょう！",
           textAlign: TextAlign.center,
-          style: context.titleMedium!.copyWith(
-            fontSize: 14,
+          style: context.bodySmall?.copyWith(
             fontWeight: FontWeight.w300,
             color: AppTheme.fontGrayLead,
           ),

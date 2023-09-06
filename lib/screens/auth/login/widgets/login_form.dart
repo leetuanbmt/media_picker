@@ -1,5 +1,6 @@
 import '../../../../core/config.dart';
 import '../../../../core/models/models.dart';
+import '../../../../core/utilities/preferences.dart';
 import '../../../../routes/app_routes.gr.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/indicators/loading_manager.dart';
@@ -109,6 +110,7 @@ class LoginForm extends HookWidget {
     Future.delayed(1.seconds, () {
       LoadingManager.instance.hide(context);
       WidgetsBinding.instance.endOfFrame.then((value) {
+        Preferences.authenticated = true;
         AutoRouter.of(context).push(OTPRoute(authType: AuthType.login));
       });
     });

@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 
+import '../core/utilities/preferences.dart';
 import 'app_routes.gr.dart';
 
 @AutoRouterConfig()
-class AppRouter extends $AppRouter {
+class AppRouter extends $AppRouter implements AutoRouteGuard {
   @override
   final List<AutoRoute> routes = [
     AutoRoute(
@@ -41,8 +42,20 @@ class AppRouter extends $AppRouter {
     AutoRoute(page: OTPRoute.page),
     AutoRoute(page: RegisterRoute.page),
     AutoRoute(page: SelectAttributeRoute.page),
-    RedirectRoute(path: '/', redirectTo: '/dashboard'),
+    RedirectRoute(path: '*', redirectTo: '/dashboard'),
   ];
+
+  @override
+  void onNavigation(NavigationResolver resolver, StackRouter router) {
+    final authenticated = Preferences.authenticated;
+    if (authenticated || resolver.route.name != DashboardRoute.name) {
+      resolver.next(true);
+    } else {
+      resolver.redirect(
+        LoginRoute(onResult: (didLogin) => resolver.next(didLogin)),
+      );
+    }
+  }
 }
 
 @RoutePage(name: 'HomeTabRoute')

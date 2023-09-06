@@ -1,6 +1,7 @@
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../../core/config.dart';
+import '../../../../../core/utilities/utilities.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../routes/app_routes.gr.dart';
 import '../../point_confirm.dart';
@@ -60,8 +61,9 @@ class ProfileDetail extends StatelessWidget {
           isNext: false,
           textColor: Colors.red,
           onTap: () {
+            Preferences.authenticated = false;
             AutoRouter.of(context).pushAndPopUntil(
-              const LoginRoute(),
+              LoginRoute(),
               predicate: (_) => false,
             );
           },

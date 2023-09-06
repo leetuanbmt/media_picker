@@ -9,8 +9,8 @@ import 'widgets/login_form.dart';
 
 @RoutePage()
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-
+  const LoginScreen({super.key, this.onResult});
+  final Function(bool didLogin)? onResult;
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

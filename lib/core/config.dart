@@ -25,5 +25,4 @@ class AppConfig {
   AppConfig._();
   static const String title = 'Go Tip App';
   static const String baseUrl = 'https://reqres.in/api/';
-  static const String themeColorKey = 'themeColor';
 }

@@ -3,6 +3,7 @@ import '../../core/config.dart';
 enum ButtonType {
   normal,
   outline,
+  text,
 }
 
 class ButtonCustom extends StatelessWidget {
@@ -62,30 +63,49 @@ class ButtonCustom extends StatelessWidget {
 
     Color? titleColor = textColor ??
         (type == ButtonType.outline ? AppTheme.primaryColor : Colors.white);
-
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: bgColor,
-        fixedSize: size,
-        minimumSize: minimumSize,
-        elevation: elevation,
-        tapTargetSize: tapTargetSize,
-        padding: padding,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(radius),
-          side: side,
+    return switch (type) {
+      ButtonType.text => TextButton(
+          style: TextButton.styleFrom(
+            padding: padding,
+            tapTargetSize: tapTargetSize,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(radius),
+            ),
+          ),
+          onPressed: onPressed,
+          child: Text(
+            textContent,
+            style: context.bodyMedium!.copyWith(
+              fontSize: fontSize,
+              color: textColor ?? context.primaryColor,
+              fontWeight: fontWeight,
+            ),
+          ),
         ),
-      ),
-      child: AutoSizeText(
-        textContent,
-        style: context.bodyMedium!.copyWith(
-          fontSize: fontSize,
-          color: titleColor,
-          fontWeight: fontWeight,
-        ),
-        maxLines: 1,
-      ),
-    );
+      _ => ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: bgColor,
+            fixedSize: size,
+            minimumSize: minimumSize,
+            elevation: elevation,
+            tapTargetSize: tapTargetSize,
+            padding: padding,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(radius),
+              side: side,
+            ),
+          ),
+          child: AutoSizeText(
+            textContent,
+            style: context.bodyMedium!.copyWith(
+              fontSize: fontSize,
+              color: titleColor,
+              fontWeight: fontWeight,
+            ),
+            maxLines: 1,
+          ),
+        )
+    };
   }
 }

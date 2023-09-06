@@ -9,23 +9,17 @@ class EditProfileScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final focusNode = useFocusNode();
-    return GestureDetector(
-      onTap: () {
-        focusNode.unfocus();
-      },
-      child: const Scaffold(
-        backgroundColor: AppTheme.background,
-        appBar: AppBarCustom(
-          title: 'プロフィール設定',
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              EditProfileHeader(),
-              EditProfileDetail(),
-            ],
-          ),
+    return const Scaffold(
+      backgroundColor: AppTheme.background,
+      appBar: AppBarCustom(
+        title: 'プロフィール設定',
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            EditProfileHeader(),
+            EditProfileDetail(),
+          ],
         ),
       ),
     );
