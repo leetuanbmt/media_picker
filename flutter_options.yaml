@@ -1,0 +1,12 @@
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/launcher_icon.png"
+flutter_application_id:
+  android:
+    id: "com.gotip.gmo"
+    name: "GoTip"
+  ios:
+    id: "com.gotip.gmo"
+    name: "GoTip"

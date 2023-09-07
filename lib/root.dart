@@ -21,7 +21,7 @@ class RootApp extends StatelessWidget {
             builder: (context, ref, child) {
               final appGlobal = ref.watch(appGlobalProvider);
               return GestureDetector(
-                onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                onTap: FocusManager.instance.primaryFocus?.unfocus,
                 child: MaterialApp.router(
                   title: AppConfig.title,
                   localizationsDelegates: context.localizationDelegates,
@@ -32,7 +32,17 @@ class RootApp extends StatelessWidget {
                   theme: AppTheme.appTheme.copyWith(
                     primaryColor: appGlobal.themeColor,
                   ),
-                  routerConfig: AppNavigator.instance.appRouter.config(),
+                  routerConfig: AppNavigator.instance.appRouter.config(
+                    navigatorObservers: () => [MyObserver()],
+                  ),
+                  builder: (context, child) {
+                    return MediaQuery(
+                      data: MediaQuery.of(context).copyWith(
+                        textScaleFactor: 1.0,
+                      ),
+                      child: child!,
+                    );
+                  },
                 ),
               );
             },
@@ -40,5 +50,22 @@ class RootApp extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class MyObserver extends AutoRouterObserver {
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    Logger.log('New route pushed: ${route.settings.name}');
+  }
+
+  @override
+  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
+    Logger.log('Tab route visited: ${route.name}');
+  }
+
+  @override
+  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
+    Logger.log('Tab route re-visited: ${route.name}');
   }
 }

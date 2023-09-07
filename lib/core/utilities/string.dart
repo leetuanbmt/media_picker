@@ -1,8 +1,9 @@
-class StringUtils {
-  factory StringUtils() {
-    return _instance;
-  }
+class Strings {
+  factory Strings() => _instance;
 
-  StringUtils._internal();
-  static final StringUtils _instance = StringUtils._internal();
+  Strings._internal();
+  static final Strings _instance = Strings._internal();
+
+  static const themeColor = "themeColor";
+  static const authenticated = "authenticated";
 }

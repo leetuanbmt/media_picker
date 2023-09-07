@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../core/config.dart';
@@ -12,12 +13,18 @@ final appProvider = Provider((ref) => AppRepositoriesImpl());
 @riverpod
 class AppGlobal extends _$AppGlobal {
   @override
-  GlobalSetting build() => const GlobalSetting();
+  GlobalSetting build() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    return const GlobalSetting();
+  }
 
   void setColor(Color color) {
     state = state.copyWith(themeColor: color);
     AppTheme.primaryColor = color;
-    Preferences.setInt(AppConfig.themeColorKey, color.value);
+    Preferences.themeColor = color.value;
   }
 }
 

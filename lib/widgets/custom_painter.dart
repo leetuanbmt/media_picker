@@ -40,7 +40,7 @@ class CustomDecorationPainter extends BoxPainter {
       ..color = backgroundColor
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.fill
-      ..strokeWidth = 4.w;
+      ..strokeWidth = 4;
 
     /// background
     canvas.drawRRect(

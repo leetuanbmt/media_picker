@@ -1,117 +1,80 @@
-import 'dart:ui' as ui;
-
 import 'package:pinput/pinput.dart';
 
 import '../core/config.dart';
-import '../gen/assets.gen.dart';
+import '../core/models/models.dart';
 import '../routes/app_routes.gr.dart';
+import '../widgets/commons/button_custom.dart';
+import '../widgets/commons/indicators/loading_manager.dart';
 
 @RoutePage()
 class OTPScreen extends StatelessWidget {
-  const OTPScreen({super.key});
-
+  const OTPScreen({super.key, required this.authType});
+  final AuthType authType;
   @override
   Widget build(BuildContext context) {
-    bool isLoading = false;
-
+    final BoxDecoration decoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(3),
+      border: Border.all(color: AppTheme.box),
+    );
     final theme = PinTheme(
       width: 42.w,
       height: 50.h,
-      textStyle: context.titleMedium!.copyWith(
-        fontSize: 16.sp,
-        fontWeight: FontWeight.w300,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(3.r),
-        border: Border.all(
-          color: AppTheme.box,
-          width: 1.r,
-        ),
-      ),
+      textStyle: context.bodyMedium,
+      decoration: decoration,
     );
 
-    return GestureDetector(
-      onTap: () {
-        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      body: Center(
+        child: Column(
           children: [
-            Center(
-              child: Column(
-                children: [
-                  const OTPTitle(),
-                  SizedBox(
-                    height: 40.h,
-                  ),
-                  SizedBox(
-                    height: 50.h,
-                    width: 226.w,
-                    child: Pinput(
-                      length: 4,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      defaultPinTheme: theme,
-                      focusedPinTheme: theme.copyWith(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: AppTheme.primaryColor,
-                          ),
-                        ),
-                      ),
-                      onCompleted: (value) {
-                        context.router.push(const SelectAttributeRoute());
-                      },
+            const OTPTitle(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 35.h),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 225.w),
+                child: Pinput(
+                  length: 4,
+                  autofocus: true,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  defaultPinTheme: theme,
+                  focusedPinTheme: theme.copyWith(
+                    decoration: decoration.copyWith(
+                      border: Border.all(color: AppTheme.primaryColor),
                     ),
                   ),
-                  SizedBox(
-                    height: 48.h,
-                  ),
-                  const ReSendOTP(),
-                ],
+                  onCompleted: (value) {
+                    sentOTP(context, value);
+                  },
+                ),
               ),
             ),
-            if (isLoading == true) ...[
-              Positioned.fill(
-                child: ColoredBox(
-                  color: Colors.black.withOpacity(0.4),
-                  child: BackdropFilter(
-                    filter: ui.ImageFilter.blur(),
-                  ),
-                ),
-              ),
-              Positioned.fill(
-                child: Center(
-                  child: Assets.iconsIconLoading.svg(
-                    width: 48.w,
-                    height: 48.h,
-                  ),
-                ),
-              ),
-            ],
+            ButtonCustom(
+              "メールを再送する",
+              type: ButtonType.text,
+              onPressed: () {},
+            ),
           ],
         ),
       ),
     );
   }
-}
 
-class ReSendOTP extends StatelessWidget {
-  const ReSendOTP({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Text(
-        "メールを再送する",
-        style: context.titleSmall!.copyWith(
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-          color: AppTheme.primaryColor,
-        ),
-      ),
-    );
+  void sentOTP(BuildContext context, String val) {
+    FocusScope.of(context).unfocus();
+    LoadingManager.instance.show(context);
+    Future.delayed(1.seconds, () {
+      LoadingManager.instance.hide(context);
+      WidgetsBinding.instance.endOfFrame.then((value) {
+        if (authType == AuthType.login) {
+          AutoRouter.of(context).pushAndPopUntil(
+            const HomeRoute(),
+            predicate: (_) => false,
+          );
+        } else {
+          AutoRouter.of(context).push(const SelectAttributeRoute());
+        }
+      });
+    });
   }
 }
 
@@ -127,8 +90,7 @@ class OTPTitle extends StatelessWidget {
         ),
         Text(
           "認証コードを入力してください",
-          style: context.titleLarge!.copyWith(
-            fontSize: 20,
+          style: context.titleMedium!.copyWith(
             fontWeight: FontWeight.w600,
             color: AppTheme.blackBold,
           ),
@@ -139,8 +101,7 @@ class OTPTitle extends StatelessWidget {
         Text(
           "メールアドレスに送信した認証コードを入力し、登録\nを完成させましょう！",
           textAlign: TextAlign.center,
-          style: context.titleMedium!.copyWith(
-            fontSize: 14,
+          style: context.bodySmall?.copyWith(
             fontWeight: FontWeight.w300,
             color: AppTheme.fontGrayLead,
           ),

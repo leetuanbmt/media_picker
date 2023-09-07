@@ -1,5 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'string.dart';
+
 class Preferences {
   factory Preferences() {
     return _instance;
@@ -26,10 +28,6 @@ class Preferences {
   }
 
   static bool getBool(String key) {
-    return preferences.getBool(key)!;
-  }
-
-  static bool getNullableBool(String key) {
     return preferences.getBool(key) ?? false;
   }
 
@@ -81,5 +79,9 @@ class Preferences {
     return preferences.setStringList(key, value);
   }
 
-  static int? get themeColor => getInt('themeColor');
+  static int? get themeColor => getInt(Strings.themeColor);
+  static set themeColor(int? value) => setInt(Strings.themeColor, value!);
+
+  static bool get authenticated => getBool(Strings.authenticated);
+  static set authenticated(bool value) => setBool(Strings.authenticated, value);
 }

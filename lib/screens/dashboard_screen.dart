@@ -31,7 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         SearchRoute(),
         MainRoute(),
         NotificationRoute(),
-        ProfileRoute(),
+        ProfileTabRoute(),
       ],
       transitionBuilder: (context, child, animation) {
         return child;
