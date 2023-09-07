@@ -71,7 +71,7 @@ class LoginForm extends HookWidget {
               Text(
                 '次回から自動でログイン',
                 style: context.bodySmall!.copyWith(
-                  fontSize: 12,
+                  fontSize: 12.sp,
                   color: AppTheme.fontGrayLead,
                   fontWeight: FontWeight.w300,
                 ),
@@ -84,7 +84,7 @@ class LoginForm extends HookWidget {
               "ログイン",
               width: double.maxFinite,
               height: 48.h,
-              fontSize: 15,
+              fontSize: 15.sp,
               fontWeight: FontWeight.w600,
               onPressed: () {
                 checkFieldsEmpty.value

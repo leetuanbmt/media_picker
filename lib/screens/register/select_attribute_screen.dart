@@ -1,9 +1,17 @@
-import '../core/config.dart';
-import '../gen/assets.gen.dart';
+import '../../core/config.dart';
+import '../../gen/assets.gen.dart';
+import '../../routes/app_routes.gr.dart';
+
+enum UserType {
+  creator,
+  fan,
+}
 
 @RoutePage()
 class SelectAttributeScreen extends StatelessWidget {
   const SelectAttributeScreen({super.key});
+
+  static UserType userType = UserType.creator;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +60,10 @@ class SelectAttributeScreen extends StatelessWidget {
               ),
               titleMedium: "クリエイターとして始める",
               titleSmall: "配信者・店舗の方",
+              onTap: () {
+                userType = UserType.creator;
+                context.router.push(const RegisterUserRoute());
+              },
             ),
             SizedBox(
               height: 24.h,
@@ -63,6 +75,10 @@ class SelectAttributeScreen extends StatelessWidget {
               ),
               titleMedium: "ファンとして始める",
               titleSmall: "投げ銭する方",
+              onTap: () {
+                userType = UserType.fan;
+                context.router.push(const RegisterUserRoute());
+              },
             ),
           ],
         ),
@@ -111,7 +127,7 @@ class UserOption extends StatelessWidget {
                   child: Text(
                     titleMedium,
                     style: context.bodyMedium!.copyWith(
-                      fontSize: 15,
+                      fontSize: 15.sp,
                       fontWeight: FontWeight.w600,
                       color: AppTheme.supportColors.last,
                     ),
@@ -120,7 +136,7 @@ class UserOption extends StatelessWidget {
                 Text(
                   titleSmall,
                   style: context.bodySmall!.copyWith(
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                     color: AppTheme.fontGrayLead,
                   ),

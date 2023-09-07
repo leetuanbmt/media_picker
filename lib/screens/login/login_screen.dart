@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = context.bodyMedium!.copyWith(
-      fontSize: 12,
+      fontSize: 12.sp,
       color: AppTheme.fontGrayLead,
     );
     return GestureDetector(

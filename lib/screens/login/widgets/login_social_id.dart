@@ -23,7 +23,7 @@ class LoginBySocial extends StatelessWidget {
         Text(
           'SNSアカウントでログイン',
           style: context.bodyMedium!.copyWith(
-            fontSize: 14,
+            fontSize: 14.sp,
             color: AppTheme.blackBold,
             fontWeight: FontWeight.w600,
           ),
@@ -85,7 +85,7 @@ class LoginByFaceID extends StatelessWidget {
         Text(
           'Face IDでログイン',
           style: context.bodyMedium!.copyWith(
-            fontSize: 14,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w600,
             color: AppTheme.fontBoldLight,
           ),

@@ -18,12 +18,12 @@ class OTPScreen extends StatelessWidget {
       width: 42.w,
       height: 50.h,
       textStyle: context.titleMedium!.copyWith(
-        fontSize: 16,
+        fontSize: 16.sp,
         fontWeight: FontWeight.w300,
       ),
       decoration: BoxDecoration(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: BorderRadius.circular(3.r),
         border: Border.all(
           color: AppTheme.box,
           width: 1.r,
@@ -83,8 +83,8 @@ class OTPScreen extends StatelessWidget {
               Positioned.fill(
                 child: Center(
                   child: Assets.iconsIconLoading.svg(
-                    width: 48,
-                    height: 48,
+                    width: 48.w,
+                    height: 48.h,
                   ),
                 ),
               ),

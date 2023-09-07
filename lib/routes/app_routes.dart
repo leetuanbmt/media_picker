@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 
+import '../core/config.dart';
 import 'app_routes.gr.dart';
 
 @AutoRouterConfig()
@@ -30,6 +31,12 @@ class AppRouter extends $AppRouter {
     AutoRoute(page: OTPRoute.page),
     AutoRoute(page: RegisterRoute.page),
     AutoRoute(page: SelectAttributeRoute.page),
+    AutoRoute(
+      page: RegisterUserRoute.page,
+      children: [
+        AutoRoute(page: RegisterSuccessRoute.page),
+      ],
+    ),
     RedirectRoute(path: '/', redirectTo: '/dashboard'),
   ];
 }
