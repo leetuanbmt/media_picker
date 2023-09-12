@@ -1,14 +1,18 @@
 import '../../../../core/config.dart';
+import '../../../../providers/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
-import 'information.dart';
+import 'user_name.dart';
 
-class RegisterUserInformation extends HookWidget {
-  const RegisterUserInformation({super.key, required this.registerUsername});
+class RegisterUserInformation extends HookConsumerWidget {
+  const RegisterUserInformation({super.key, required this.onNextPage});
+  final VoidCallback onNextPage;
 
-  final bool registerUsername;
+  void registerInformation() {
+    onNextPage();
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final style = context.bodyMedium!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w600,
@@ -23,44 +27,63 @@ class RegisterUserInformation extends HookWidget {
       borderRadius: BorderRadius.circular(4.r),
     );
 
-    final agencyCode = useTextEditingController();
-    final surName = useTextEditingController();
-    final middleName = useTextEditingController();
-    final name = useTextEditingController();
-    final anotherName = useTextEditingController();
-    final phoneNumber = useTextEditingController();
+    final agencyCode = useTextEditingController(
+      text: ref.read(registerProvider).agencyCode.value,
+    );
+    final surName = useTextEditingController(
+      text: ref.read(registerProvider).firstName.value,
+    );
+    final middleName = useTextEditingController(
+      text: ref.read(registerProvider).middleName.value,
+    );
+    final lastName = useTextEditingController(
+      text: ref.read(registerProvider).lastName.value,
+    );
+    final anotherName = useTextEditingController(
+      text: ref.read(registerProvider).anotherName.value,
+    );
+    final phoneNumber = useTextEditingController(
+      text: ref.read(registerProvider).phoneNumber.value,
+    );
     final dateinput = useTextEditingController(text: '選択する');
 
     final List<String> genders = ['Male', 'Female', 'Another'];
     final selectedGender = useState<String?>(null);
 
-    final checkFieldEmpty = useState<bool>(true);
-    final registerUsername = useState<bool>(false);
+    final updateSurName = useValueListenable(surName);
+    final updateMiddleName = useValueListenable(middleName);
+    final updateLastName = useValueListenable(lastName);
+    final updatePhoneNumber = useValueListenable(phoneNumber);
+    final updateDateInput = useValueListenable(dateinput);
 
-    bool areFieldsEmpty() {
-      return surName.text.isEmpty ||
-          middleName.text.isEmpty ||
-          name.text.isEmpty ||
-          phoneNumber.text.isEmpty;
+    void registerInformation() {
+      ref.watch(registerProvider).getInformation(
+            updateSurName.text,
+            updateMiddleName.text,
+            updateLastName.text,
+            updatePhoneNumber.text,
+            updateDateInput.text,
+            selectedGender.value!,
+            anotherName.text,
+            agencyCode.text,
+          );
+      onNextPage();
     }
 
-    useEffect(() {
-      surName.addListener(() {
-        checkFieldEmpty.value = areFieldsEmpty();
-      });
-      middleName.addListener(() {
-        checkFieldEmpty.value = areFieldsEmpty();
-      });
-      name.addListener(() {
-        checkFieldEmpty.value = areFieldsEmpty();
-      });
-      phoneNumber.addListener(() {
-        checkFieldEmpty.value = areFieldsEmpty();
-      });
-      return null;
-    });
-    return registerUsername.value == false
-        ? Column(
+    return Consumer(
+      builder: (context, ref, _) {
+        bool isActiveButton = ref.watch(registerProvider).isValidInformation(
+              updateSurName.text,
+              updateMiddleName.text,
+              updateLastName.text,
+              updatePhoneNumber.text,
+              selectedGender.value ?? '',
+              dateinput.text,
+            );
+
+        return SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Padding(
@@ -109,7 +132,7 @@ class RegisterUserInformation extends HookWidget {
                         child: InputInformation(
                           title: "セイ",
                           hintText: "(例)ヤマダ",
-                          controller: name,
+                          controller: lastName,
                         ),
                       ),
                       SizedBox(
@@ -204,17 +227,11 @@ class RegisterUserInformation extends HookWidget {
                     "次へ",
                     width: 162.w,
                     height: 48.h,
-                    backgroundColor: (checkFieldEmpty.value ||
-                            selectedGender.value == null ||
-                            dateinput.text == '選択する')
-                        ? AppTheme.middleGray
-                        : AppTheme.primaryColor,
+                    backgroundColor: isActiveButton
+                        ? AppTheme.primaryColor
+                        : AppTheme.middleGray,
                     onPressed: () {
-                      (checkFieldEmpty.value ||
-                              selectedGender.value == null ||
-                              dateinput.text == '選択する')
-                          ? null
-                          : registerUsername.value = true;
+                      isActiveButton ? registerInformation() : null;
                     },
                   ),
                 ],
@@ -223,7 +240,9 @@ class RegisterUserInformation extends HookWidget {
                 height: 10.h,
               ),
             ],
-          )
-        : const SizedBox();
+          ),
+        );
+      },
+    );
   }
 }

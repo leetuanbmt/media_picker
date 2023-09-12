@@ -7,8 +7,6 @@ import '../../../routes/app_routes.gr.dart';
 class SelectAttributeScreen extends StatelessWidget {
   const SelectAttributeScreen({super.key});
 
-  static UserType userType = UserType.creator;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,8 +54,8 @@ class SelectAttributeScreen extends StatelessWidget {
               titleMedium: "クリエイターとして始める",
               titleSmall: "配信者・店舗の方",
               onTap: () {
-                userType = UserType.creator;
-                context.router.push(const RegisterUserRoute());
+                context.router
+                    .push(RegisterUserRoute(userType: UserType.creator));
               },
             ),
             SizedBox(
@@ -71,8 +69,7 @@ class SelectAttributeScreen extends StatelessWidget {
               titleMedium: "ファンとして始める",
               titleSmall: "投げ銭する方",
               onTap: () {
-                userType = UserType.fan;
-                context.router.push(const RegisterUserRoute());
+                context.router.push(RegisterUserRoute(userType: UserType.fan));
               },
             ),
           ],

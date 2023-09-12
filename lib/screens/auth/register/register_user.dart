@@ -1,113 +1,104 @@
 import '../../../core/config.dart';
+import '../../../core/models/enum/enum.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../providers/register_provider.dart';
 import 'widgets/bank_account.dart';
 import 'widgets/category.dart';
-import 'widgets/information.dart';
 import 'widgets/usage.dart';
+import 'widgets/user_information.dart';
+import 'widgets/user_name.dart';
 
 @RoutePage()
-class RegisterUserScreen extends StatefulWidget {
-  const RegisterUserScreen({super.key});
+class RegisterUserScreen extends HookConsumerWidget {
+  const RegisterUserScreen({super.key, required this.userType});
+  final UserType userType;
 
-  @override
-  State<RegisterUserScreen> createState() => _RegisterUserScreenState();
-}
-
-class _RegisterUserScreenState extends State<RegisterUserScreen> {
-  final PageController _pageController = PageController(initialPage: 0);
-
-  int _activePage = 2;
-
-  void changePage(int page) {
-    _pageController.animateToPage(
-      page,
+  void changePage(PageController pageController) {
+    pageController.nextPage(
       duration: const Duration(milliseconds: 400),
       curve: Curves.linearToEaseOut,
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    Widget buildPage(index) {
-      switch (index) {
-        case 0:
-          return RegisterInformationScreen(
-            onNextPage: () => changePage(1),
-          );
-        case 1:
-          return RegisterUsageScreen(
-            onNextPage: () => changePage(2),
-          );
-        case 2:
-          return RegisterCategoryScreen(
-            onNextPage: () => changePage(3),
-          );
-        case 3:
-          return RegisterBankAccountScreen(
-            onNextPage: () => changePage(4),
-          );
-        default:
-          return const SizedBox();
-      }
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pageController = usePageController();
+
+    final activePage = useState<int>(0);
+
+    final List<Widget> pageTab = [
+      RegisterUserInformation(
+        onNextPage: () => changePage(pageController),
+      ),
+      RegisterUserName(
+        onNextPage: () => changePage(pageController),
+      ),
+      RegisterUsageScreen(
+        onNextPage: () => changePage(pageController),
+      ),
+      RegisterCategoryScreen(
+        onNextPage: () => changePage(pageController),
+      ),
+      RegisterBankAccountScreen(
+        userType: userType,
+      ),
+    ];
+
+    if (userType == UserType.fan) {
+      pageTab.removeAt(0);
     }
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leadingWidth: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox.square(
-              dimension: 24.w,
-              child: InkWell(
-                onTap: () {
-                  if (_activePage > 2) {
-                    changePage(_activePage - 3);
-                  } else {
-                    context.back();
-                  }
-                },
-                child: Assets.iconsIconArrorLeft.svg(
-                  width: 10.88.w,
-                  height: 18.47.h,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 85.w,
-            ),
-            Wrap(
-              spacing: 16.w,
-              children: [
-                ...List<Widget>.generate(
-                  6,
-                  (index) => SizedBox.square(
-                    dimension: 8,
-                    child: CircleAvatar(
-                      backgroundColor: _activePage == index
-                          ? Colors.white
-                          : const Color(0xffABE0DE),
+        leading: SizedBox.square(
+          dimension: 24.h,
+          child: InkWell(
+            onTap: () {
+              if (activePage.value > 0) {
+                pageController.previousPage(
+                  duration: const Duration(milliseconds: 400),
+                  curve: Curves.linearToEaseOut,
+                );
+              } else {
+                ref.read(registerProvider).clean();
+                context.back();
+              }
+            },
+            child: Assets.iconsIconArrorLeft
+                .svg(width: 10.88.w, height: 18.47.h, fit: BoxFit.scaleDown),
+          ),
+        ),
+        title: Padding(
+          padding: EdgeInsets.only(right: 56.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Wrap(
+                spacing: 16.w,
+                children: [
+                  ...List<Widget>.generate(
+                    pageTab.length,
+                    (index) => SizedBox.square(
+                      dimension: 8,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white
+                            .withOpacity(activePage.value == index ? 1 : 0.7),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
         backgroundColor: AppTheme.primaryColor,
       ),
-      body: PageView.builder(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
+      body: PageView(
+        controller: pageController,
         onPageChanged: (int page) {
-          setState(() {
-            _activePage = page + 2;
-          });
+          activePage.value = page;
         },
-        itemBuilder: (BuildContext context, int index) {
-          return buildPage(index);
-        },
+        children: pageTab,
       ),
     );
   }

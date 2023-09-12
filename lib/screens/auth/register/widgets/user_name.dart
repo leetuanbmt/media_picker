@@ -1,33 +1,40 @@
 import '../../../../core/config.dart';
-import '../../../../core/models/enum/enum.dart';
+
+import '../../../../providers/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
-import '../select_attribute_screen.dart';
-import 'user_information.dart';
 
-class RegisterInformationScreen extends HookWidget {
-  const RegisterInformationScreen({super.key, required this.onNextPage});
-  final Function onNextPage;
+class RegisterUserName extends HookConsumerWidget {
+  const RegisterUserName({super.key, required this.onNextPage});
+  final VoidCallback onNextPage;
+
+  void confirmUsername(BuildContext context, WidgetRef ref, String userName) {
+    ref.watch(registerProvider).changeUserName(userName);
+    FocusScope.of(context).unfocus();
+    onNextPage();
+  }
 
   @override
-  Widget build(BuildContext context) {
-    final userNameController = useTextEditingController();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userNameController = useTextEditingController(
+      text: ref.read(registerProvider).userName.value,
+    );
+
     final checkFieldEmpty = useState<bool>(true);
 
-    useEffect(() {
-      userNameController.addListener(() {
-        checkFieldEmpty.value = userNameController.text.isEmpty;
-      });
-      return null;
-    });
+    final updateUserName = useValueListenable(userNameController);
 
-    final registerUsername = useState<bool>(false);
+    bool isFieldEmpty() {
+      return updateUserName.text.isEmpty;
+    }
 
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: Stack(
-        children: [
-          Column(
+    checkFieldEmpty.value = isFieldEmpty();
+
+    return Consumer(
+      builder: (context, ref, _) {
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Column(
             children: <Widget>[
               SizedBox(
                 height: 32.h,
@@ -47,9 +54,7 @@ class RegisterInformationScreen extends HookWidget {
                 hintText: 'ユーザー名',
                 textController: userNameController,
               ),
-              SizedBox(
-                height: 496.h,
-              ),
+              const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -61,22 +66,20 @@ class RegisterInformationScreen extends HookWidget {
                         ? AppTheme.middleGray
                         : AppTheme.primaryColor,
                     onPressed: () {
-                      checkFieldEmpty.value ? null : onNextPage();
+                      checkFieldEmpty.value
+                          ? null
+                          : confirmUsername(context, ref, updateUserName.text);
                     },
                   ),
                 ],
               ),
+              SizedBox(
+                height: 27.h,
+              ),
             ],
           ),
-          if (SelectAttributeScreen.userType == UserType.creator)
-            ColoredBox(
-              color: Colors.white,
-              child: RegisterUserInformation(
-                registerUsername: registerUsername.value,
-              ),
-            ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
