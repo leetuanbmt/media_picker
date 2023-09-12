@@ -57,6 +57,8 @@ class TextFieldCustom extends StatelessWidget {
         suffixIcon: suffixIcon,
         focusedBorder: border,
         enabledBorder: border,
+        errorBorder: border,
+        focusedErrorBorder: border,
       ),
       onTap: onTap,
     );

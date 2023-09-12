@@ -5,17 +5,17 @@ import '../core/models/register/creator_model.dart';
 import '../core/models/register/fan_model.dart';
 
 class RegisterProvider extends ChangeNotifier {
-  Validator _firstName = Validator('', null);
-  Validator _middleName = Validator('', null);
-  Validator _lastName = Validator('', null);
-  Validator _phoneNumber = Validator('', null);
-  Validator _birthDay = Validator('', null);
-  Validator _gender = Validator('', null);
-  Validator _email = Validator('', null);
-  Validator _password = Validator('', null);
-  Validator _userName = Validator('', null);
-  Validator _anotherName = Validator('', null);
-  Validator _agencyCode = Validator('', null);
+  Validator _firstName = Validator(null, null);
+  Validator _middleName = Validator(null, null);
+  Validator _lastName = Validator(null, null);
+  Validator _phoneNumber = Validator(null, null);
+  Validator _birthDay = Validator(null, null);
+  Validator _gender = Validator(null, null);
+  Validator _email = Validator(null, null);
+  Validator _password = Validator(null, null);
+  Validator _userName = Validator(null, null);
+  Validator _anotherName = Validator(null, null);
+  Validator _agencyCode = Validator(null, null);
   Validator get firstName => _firstName;
   Validator get middleName => _middleName;
   Validator get lastName => _lastName;
@@ -86,8 +86,10 @@ class RegisterProvider extends ChangeNotifier {
   }
 
   void changeEmail(String email) {
-    if (email.contains('@gmail.com') == false) {
-      _email = Validator('', 'Email must have @gmail.com');
+    if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+            .hasMatch(email) ==
+        false) {
+      _email = Validator('', 'Check your email');
     } else if (userEmail.contains(email)) {
       _email = Validator('', 'Email is valid');
     } else {
@@ -109,21 +111,18 @@ class RegisterProvider extends ChangeNotifier {
     if (userEmail.isNotEmpty) {
       _userName = Validator(userName, '');
     }
-    notifyListeners();
   }
 
   void changeUsage(List<String> listUsage) {
     if (listUsage.isNotEmpty) {
       userUsage = listUsage;
     }
-    notifyListeners();
   }
 
   void changeCategory(List<String> listCategory) {
     if (listCategory.isNotEmpty) {
       userCategory = listCategory;
     }
-    notifyListeners();
   }
 
   void registerFan() {
@@ -131,9 +130,9 @@ class RegisterProvider extends ChangeNotifier {
       print(
         FanModel(
           id: 1,
-          email: email.value,
-          password: password.value,
-          userName: userName.value,
+          email: email.value!,
+          password: password.value!,
+          userName: userName.value!,
           listUsage: userUsage,
           listCategory: userCategory,
         ),
@@ -146,14 +145,14 @@ class RegisterProvider extends ChangeNotifier {
       print(
         CreatorModel(
           id: 1,
-          email: email.value,
-          password: password.value,
-          surName: firstName.value,
-          middleName: middleName.value,
-          lastName: lastName.value,
-          birthDay: birthday.value,
-          gender: gender.value,
-          phoneNumber: phoneNumber.value,
+          email: email.value!,
+          password: password.value!,
+          surName: firstName.value!,
+          middleName: middleName.value!,
+          lastName: lastName.value!,
+          birthDay: birthday.value!,
+          gender: gender.value!,
+          phoneNumber: phoneNumber.value!,
           listUsage: userUsage,
           listCategory: userCategory,
           agencyCode: agencyCode.value,
@@ -164,15 +163,15 @@ class RegisterProvider extends ChangeNotifier {
   }
 
   void clean() {
-    firstName.value = '';
-    middleName.value = '';
-    lastName.value = '';
-    birthday.value = '';
-    gender.value = '';
-    phoneNumber.value = '';
-    agencyCode.value = '';
-    anotherName.value = '';
-    userName.value = '';
+    firstName.value = null;
+    middleName.value = null;
+    lastName.value = null;
+    birthday.value = null;
+    gender.value = null;
+    phoneNumber.value = null;
+    agencyCode.value = null;
+    anotherName.value = null;
+    userName.value = null;
     userUsage.clear();
     userCategory.clear();
   }
@@ -183,7 +182,7 @@ final registerProvider = ChangeNotifierProvider<RegisterProvider>((ref) {
 });
 
 class Validator {
-  String value;
+  String? value;
   String? error;
   Validator(this.value, this.error);
 }

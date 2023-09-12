@@ -95,6 +95,7 @@ class RegisterUserScreen extends HookConsumerWidget {
       ),
       body: PageView(
         controller: pageController,
+        physics: const NeverScrollableScrollPhysics(),
         onPageChanged: (int page) {
           activePage.value = page;
         },

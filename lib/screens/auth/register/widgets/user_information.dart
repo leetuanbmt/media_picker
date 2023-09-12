@@ -19,6 +19,12 @@ class RegisterUserInformation extends HookConsumerWidget {
       color: AppTheme.fontBoldLight,
     );
 
+    final dropStyle = context.titleMedium!.copyWith(
+      fontSize: 16.sp,
+      color: AppTheme.blackBold,
+      fontWeight: FontWeight.w300,
+    );
+
     final border = OutlineInputBorder(
       borderSide: const BorderSide(
         width: 1,
@@ -45,16 +51,25 @@ class RegisterUserInformation extends HookConsumerWidget {
     final phoneNumber = useTextEditingController(
       text: ref.read(registerProvider).phoneNumber.value,
     );
-    final dateinput = useTextEditingController(text: '選択する');
+    final dateinput = useTextEditingController(
+      text: ref.read(registerProvider).birthday.value ?? '選択する',
+    );
+    final gender = useTextEditingController(
+      text: ref.read(registerProvider).gender.value,
+    );
 
-    final List<String> genders = ['Male', 'Female', 'Another'];
-    final selectedGender = useState<String?>(null);
+    final List<DropdownMenuEntry<String>> genders = [
+      const DropdownMenuEntry(value: "Male", label: "Male"),
+      const DropdownMenuEntry(value: "Female", label: "Female"),
+      const DropdownMenuEntry(value: "Another", label: "Another"),
+    ];
 
     final updateSurName = useValueListenable(surName);
     final updateMiddleName = useValueListenable(middleName);
     final updateLastName = useValueListenable(lastName);
     final updatePhoneNumber = useValueListenable(phoneNumber);
     final updateDateInput = useValueListenable(dateinput);
+    final updateGender = useValueListenable(gender);
 
     void registerInformation() {
       ref.watch(registerProvider).getInformation(
@@ -63,7 +78,7 @@ class RegisterUserInformation extends HookConsumerWidget {
             updateLastName.text,
             updatePhoneNumber.text,
             updateDateInput.text,
-            selectedGender.value!,
+            updateGender.text,
             anotherName.text,
             agencyCode.text,
           );
@@ -77,7 +92,7 @@ class RegisterUserInformation extends HookConsumerWidget {
               updateMiddleName.text,
               updateLastName.text,
               updatePhoneNumber.text,
-              selectedGender.value ?? '',
+              updateGender.text,
               dateinput.text,
             );
 
@@ -174,39 +189,28 @@ class RegisterUserInformation extends HookConsumerWidget {
                       SizedBox(
                         height: 7.h,
                       ),
-                      DropdownButtonFormField<String>(
-                        value: selectedGender.value,
-                        hint: Text(
-                          '選択する',
-                          style: context.titleMedium!.copyWith(
-                            fontSize: 16.sp,
-                            color: AppTheme.blackBold,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        style: context.titleMedium!.copyWith(
-                          fontSize: 16.sp,
-                          color: AppTheme.blackBold,
-                          fontWeight: FontWeight.w300,
-                        ),
-                        icon: const Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: AppTheme.icon,
-                        ),
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 10.w),
-                          enabledBorder: border,
+                      DropdownMenu<String>(
+                        hintText: '選択する',
+                        textStyle: dropStyle,
+                        width: 343.w,
+                        controller: gender,
+                        inputDecorationTheme: InputDecorationTheme(
+                          constraints: BoxConstraints(maxHeight: 57.h),
                           focusedBorder: border,
+                          enabledBorder: border,
+                          contentPadding: EdgeInsets.only(
+                            left: 12.w,
+                          ),
+                          hintStyle: dropStyle,
                         ),
-                        onChanged: (item) {
-                          selectedGender.value = item;
+                        trailingIcon: const Icon(
+                          color: AppTheme.icon,
+                          Icons.keyboard_arrow_down_rounded,
+                        ),
+                        dropdownMenuEntries: genders,
+                        onSelected: (value) {
+                          gender.text = value!;
                         },
-                        items: genders.map((String gender) {
-                          return DropdownMenuItem<String>(
-                            value: gender,
-                            child: Text(gender),
-                          );
-                        }).toList(),
                       ),
                     ],
                   ),
