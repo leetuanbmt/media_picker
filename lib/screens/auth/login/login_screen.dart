@@ -16,6 +16,7 @@ class LoginScreen extends StatelessWidget {
     return const Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: ClampingScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
@@ -41,55 +42,49 @@ class LoginInformation extends StatelessWidget {
     final style = context.bodySmall!.copyWith(
       color: AppTheme.fontGrayLead,
     );
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: 35.h,
-      ),
-      child: Column(
-        children: [
-          RichText(
-            text: TextSpan(
-              style: style,
-              children: <TextSpan>[
-                const TextSpan(
-                  text: '上記からはじめることで、',
-                  // style: style,
-                ),
-                TextSpan(
-                  text: '利用規約',
-                  style: style.copyWith(color: AppTheme.primaryColor),
-                  recognizer: TapGestureRecognizer()..onTap = () {},
-                ),
-                const TextSpan(
-                  text: 'に同意します。',
-                  // style: style,
-                ),
-              ],
-            ),
+    return Column(
+      children: [
+        HeightBox(30.h),
+        RichText(
+          text: TextSpan(
+            style: style,
+            children: <TextSpan>[
+              const TextSpan(
+                text: '上記からはじめることで、',
+                // style: style,
+              ),
+              TextSpan(
+                text: '利用規約',
+                style: style.copyWith(color: AppTheme.primaryColor),
+                recognizer: TapGestureRecognizer()..onTap = () {},
+              ),
+              const TextSpan(
+                text: 'に同意します。',
+                // style: style,
+              ),
+            ],
           ),
-          SizedBox(
-            height: 20.h,
+        ),
+        SizedBox(height: 20.h),
+        RichText(
+          text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                text: 'アカウントをお持ちでない方',
+                style: style,
+              ),
+              TextSpan(
+                text: '新規登録',
+                style: style.copyWith(color: AppTheme.primaryColor),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    context.router.push(const RegisterRoute());
+                  },
+              ),
+            ],
           ),
-          RichText(
-            text: TextSpan(
-              children: <TextSpan>[
-                TextSpan(
-                  text: 'アカウントをお持ちでない方',
-                  style: style,
-                ),
-                TextSpan(
-                  text: '新規登録',
-                  style: style.copyWith(color: AppTheme.primaryColor),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      context.router.push(const RegisterRoute());
-                    },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -101,7 +96,7 @@ class LoginByFaceID extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 40.h),
+        SizedBox(height: 20.h),
         Text(
           'Face IDでログイン',
           style: context.bodyMedium?.copyWith(
@@ -109,9 +104,7 @@ class LoginByFaceID extends StatelessWidget {
             color: AppTheme.fontBoldLight,
           ),
         ),
-        SizedBox(
-          height: 12.h,
-        ),
+        SizedBox(height: 10.h),
         SocialButton(
           path: Assets.iconsIconFaceId.path,
           onPressed: () {},

@@ -50,13 +50,9 @@ class SocialList extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        SizedBox(
-          height: 18.h,
-        ),
+        SizedBox(height: 20.h),
         Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 90.w,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 90.w),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
