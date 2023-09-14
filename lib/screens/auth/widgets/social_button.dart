@@ -32,13 +32,13 @@ class SocialButton extends StatelessWidget {
 class SocialList extends StatelessWidget {
   const SocialList({
     super.key,
-    this.tapGoogleButton,
-    this.tapFaceBookButton,
-    this.tapTwitterButton,
+    this.loginGoogle,
+    this.loginFacebook,
+    this.loginTwitter,
   });
-  final VoidCallback? tapGoogleButton;
-  final VoidCallback? tapFaceBookButton;
-  final VoidCallback? tapTwitterButton;
+  final Function(BuildContext context)? loginGoogle;
+  final Function(BuildContext context)? loginFacebook;
+  final Function(BuildContext context)? loginTwitter;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,15 +57,15 @@ class SocialList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SocialButton(
-                onPressed: tapTwitterButton,
+                onPressed: () => loginTwitter?.call(context),
                 path: Assets.iconsIconTwitter.path,
               ),
               SocialButton(
-                onPressed: tapGoogleButton,
+                onPressed: () => loginGoogle?.call(context),
                 path: Assets.iconsIconGoogle.path,
               ),
               SocialButton(
-                onPressed: tapFaceBookButton,
+                onPressed: () => loginFacebook?.call(context),
                 path: Assets.iconsIconFacebook.path,
               ),
             ],
