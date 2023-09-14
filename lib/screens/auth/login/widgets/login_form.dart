@@ -26,6 +26,9 @@ class LoginForm extends HookConsumerWidget {
     checkFieldsEmpty.value = areFieldsEmpty();
 
     ref.listen(authProvider, (previous, next) {
+      if (next is ErrorState) {
+        context.toast(next.message);
+      }
       if (next is LoadingState) {
         context.startLoading();
       } else {

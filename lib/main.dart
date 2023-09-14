@@ -23,7 +23,7 @@ void main() async {
   await initService();
   runApp(
     const ProviderScope(
-      observers: [LoggerProvider()],
+      // observers: [LoggerProvider()],
       child: RootApp(),
     ),
   );

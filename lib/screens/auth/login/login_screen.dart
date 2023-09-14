@@ -99,11 +99,12 @@ class LoginInformation extends StatelessWidget {
   }
 }
 
-class LoginByFaceID extends StatelessWidget {
+class LoginByFaceID extends ConsumerWidget {
   const LoginByFaceID({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.read(authProvider.notifier);
     return Column(
       children: [
         SizedBox(height: 20.h),
@@ -117,7 +118,9 @@ class LoginByFaceID extends StatelessWidget {
         SizedBox(height: 10.h),
         SocialButton(
           path: Assets.iconsIconFaceId.path,
-          onPressed: () {},
+          onPressed: () {
+            auth.loginFaceID();
+          },
         ),
       ],
     );

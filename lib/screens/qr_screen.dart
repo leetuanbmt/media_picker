@@ -1,46 +1,12 @@
-import 'dart:async';
-
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:toast/toast.dart';
 
 import '../../core/config.dart';
 import '../../widgets/custom_painter.dart';
 
 @RoutePage()
-class QRScreen extends StatefulWidget {
+class QRScreen extends StatelessWidget {
   const QRScreen({super.key});
-
-  @override
-  State<QRScreen> createState() => _QRScreenState();
-}
-
-class _QRScreenState extends State<QRScreen> {
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  Barcode? result;
-  QRViewController? controller;
-  StreamSubscription? subscription;
-  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    subscription = controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    subscription?.cancel();
-    controller?.dispose();
-    ToastView.dismiss();
-    super.dispose();
-  }
-
-  void onPermissionSet(QRViewController ctrl, bool isPermission) {
-    if (!isPermission) {
-      Toast.show('No Permission');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +41,13 @@ class _QRScreenState extends State<QRScreen> {
             decoration: const CustomDecoration(frameSFactor: .13),
             child: SizedBox.square(
               dimension: 260.h,
-              child: QRView(
-                key: qrKey,
-                onQRViewCreated: _onQRViewCreated,
-                onPermissionSet: onPermissionSet,
+              child: MobileScanner(
+                onDetect: (BarcodeCapture capture) {
+                  Logger.log(capture.barcodes);
+                },
+                onScannerStarted: (arguments) {
+                  Logger.log(arguments);
+                },
               ),
             ),
           ),

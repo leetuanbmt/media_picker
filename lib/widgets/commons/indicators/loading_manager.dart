@@ -14,9 +14,7 @@ class LoadingManager {
   BuildContext? buildContext;
 
   void show(BuildContext context) {
-    if (showLoading) {
-      return;
-    }
+    if (showLoading) return;
     buildContext = context;
     showLoading = true;
 
@@ -34,11 +32,9 @@ class LoadingManager {
   }
 
   void hide(BuildContext context) {
-    if (!showLoading || buildContext == null) {
-      return;
-    }
+    if (!showLoading || buildContext == null) return;
     buildContext = null;
-    Navigator.maybePop(context);
+    Navigator.pop(context);
     showLoading = false;
   }
 }

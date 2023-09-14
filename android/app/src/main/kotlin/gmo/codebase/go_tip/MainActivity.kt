@@ -1,4 +1,4 @@
-package com.example.go_tip_app
+package gmo.codebase.go_tip
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

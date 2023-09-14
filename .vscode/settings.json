@@ -2,6 +2,7 @@
   "cSpell.words": [
     "ARGB",
     "autofocus",
+    "barcodes",
     "gotip",
     "horiz",
     "LTRB",
@@ -11,6 +12,5 @@
     "textiked",
     "unfocus"
   ],
-  "dart.flutterSdkPath": "/Users/tuanvm/Downloads/flutter/bin",
-  
+  "dart.flutterSdkPath": "/Users/tuanvm/Downloads/flutter/bin"
 }
