@@ -52,27 +52,6 @@ class RegisterForm extends HookConsumerWidget {
       [],
     );
 
-    void registerEmailPassword() {
-      FocusScope.of(context).unfocus();
-      ref.read(authProvider).register(
-            context,
-            email: emailController.text,
-            password: passwordController.text,
-          );
-      //     .whenComplete(() {
-      //   context.router.push(
-      //     OTPRoute(authType: AuthType.register),
-      //   );
-      // });
-      // LoadingManager.instance.show(context);
-      // Future.delayed(1.seconds, () {
-      //   LoadingManager.instance.hide(context);
-      //   WidgetsBinding.instance.endOfFrame.then((value) {
-      //     AutoRouter.of(context).push(OTPRoute(authType: AuthType.register));
-      //   });
-      // });
-    }
-
     return Padding(
       padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 45.h),
       child: Form(
@@ -82,7 +61,7 @@ class RegisterForm extends HookConsumerWidget {
               textController: emailController,
               hintText: "メールアドレス",
               keyboardType: TextInputType.emailAddress,
-              errorText: ref.watch(registerProvider).email.error,
+              //errorText: ref.watch(registerProvider).email.error,
             ),
             SizedBox(
               height: 12.h,
@@ -91,7 +70,7 @@ class RegisterForm extends HookConsumerWidget {
               textController: passwordController,
               hintText: 'パスワード（6文字以上の半角英数字）',
               obscureText: true,
-              errorText: ref.watch(registerProvider).password.error,
+              //errorText: ref.watch(registerProvider).password.error,
             ),
             SizedBox(
               height: 28.h,
@@ -103,7 +82,14 @@ class RegisterForm extends HookConsumerWidget {
                   width: double.infinity,
                   height: 48.h,
                   onPressed: () {
-                    checkFieldsEmpty.value ? null : registerEmailPassword();
+                    checkFieldsEmpty.value
+                        ? null
+                        : registerEmailPassword(
+                            context,
+                            emailController,
+                            passwordController,
+                            ref,
+                          );
                   },
                   backgroundColor: checkFieldsEmpty.value
                       ? AppTheme.middleGray
@@ -115,5 +101,31 @@ class RegisterForm extends HookConsumerWidget {
         ),
       ),
     );
+  }
+
+  void registerEmailPassword(
+    BuildContext context,
+    TextEditingController emailController,
+    TextEditingController passwordController,
+    WidgetRef ref,
+  ) {
+    FocusScope.of(context).unfocus();
+    ref.read(registerProvider.notifier).register(
+          context,
+          emailController.text,
+          passwordController.text,
+        );
+    //     .whenComplete(() {
+    //   context.router.push(
+    //     OTPRoute(authType: AuthType.register),
+    //   );
+    // });
+    // LoadingManager.instance.show(context);
+    // Future.delayed(1.seconds, () {
+    //   LoadingManager.instance.hide(context);
+    //   WidgetsBinding.instance.endOfFrame.then((value) {
+    //     AutoRouter.of(context).push(OTPRoute(authType: AuthType.register));
+    //   });
+    // });
   }
 }
