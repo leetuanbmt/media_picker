@@ -61,7 +61,7 @@ class ProfileDetail extends StatelessWidget {
               title: 'ログアウト',
               isNext: false,
               textColor: Colors.red,
-              onTap: ref.read(authProvider).signOut,
+              onTap: ref.read(authProvider.notifier).signOut,
             );
           },
         ),

@@ -8,7 +8,7 @@ part 'base_model.freezed.dart';
 abstract class BaseState<T> with _$BaseState {
   const factory BaseState() = InitialState;
   const factory BaseState.loading() = LoadingState;
-  const factory BaseState.loaded(T user) = SuccessState<T>;
+  const factory BaseState.loaded(T data) = SuccessState<T>;
   const factory BaseState.error({String? message}) = ErrorState;
 }
 

@@ -26,10 +26,11 @@ class LoginScreen extends StatelessWidget {
               const LoginForm(),
               Consumer(
                 builder: (context, ref, child) {
+                  final auth = ref.read(authProvider.notifier);
                   return SocialList(
-                    loginGoogle: ref.read(authProvider).loginGoogle,
-                    loginFacebook: ref.read(authProvider).loginFacebook,
-                    loginTwitter: ref.read(authProvider).loginTwitter,
+                    loginGoogle: auth.loginGoogle,
+                    loginFacebook: auth.loginFacebook,
+                    loginTwitter: auth.loginTwitter,
                   );
                 },
               ),

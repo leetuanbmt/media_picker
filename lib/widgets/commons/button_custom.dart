@@ -1,4 +1,5 @@
 import '../../core/config.dart';
+import 'indicators/loading_indicator.dart';
 
 enum ButtonType {
   normal,
@@ -24,6 +25,7 @@ class ButtonCustom extends StatelessWidget {
     this.tapTargetSize = MaterialTapTargetSize.shrinkWrap,
     this.padding,
     this.fontWeight = FontWeight.w600,
+    this.isLoading = false,
   });
 
   final ButtonType type;
@@ -35,6 +37,7 @@ class ButtonCustom extends StatelessWidget {
   final MaterialTapTargetSize? tapTargetSize;
   final EdgeInsetsGeometry? padding;
   final FontWeight fontWeight;
+  final bool isLoading;
   @override
   Widget build(BuildContext context) {
     Size? size;
@@ -96,15 +99,19 @@ class ButtonCustom extends StatelessWidget {
               side: side,
             ),
           ),
-          child: AutoSizeText(
-            textContent,
-            style: context.bodyMedium!.copyWith(
-              fontSize: fontSize,
-              color: titleColor,
-              fontWeight: fontWeight,
-            ),
-            maxLines: 1,
-          ),
+          child: isLoading
+              ? LoadingIndicator(
+                  color: titleColor,
+                )
+              : AutoSizeText(
+                  textContent,
+                  style: context.bodyMedium!.copyWith(
+                    fontSize: fontSize,
+                    color: titleColor,
+                    fontWeight: fontWeight,
+                  ),
+                  maxLines: 1,
+                ),
         )
     };
   }
