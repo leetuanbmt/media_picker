@@ -1,36 +1,73 @@
 import '../../../../core/config.dart';
-import '../../../../core/models/models.dart';
-import '../../../../core/utilities/preferences.dart';
-import '../../../../routes/app_routes.gr.dart';
+import '../../../../providers/auth_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
-import '../../../../widgets/commons/indicators/loading_manager.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
 
-class LoginForm extends HookWidget {
+class LoginForm extends HookConsumerWidget {
   const LoginForm({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // create a TextEditingController for each field
-    final emailController = useTextEditingController(text: 'example.com');
+    final emailController = useTextEditingController();
 
-    final passwordController = useTextEditingController(text: 'password');
+    final passwordController = useTextEditingController();
 
     // create a ValueNotifier<bool> for each field
     final checkFieldsEmpty = useState<bool>(true);
     // create a ValueNotifier<bool> for each field
-    final toggleValue = useState<bool>(false);
-
-    // listen to changes in the TextEditingController
-    final updateEmail = useValueListenable(emailController);
-    // listen to changes in the TextEditingController
-    final updatePass = useValueListenable(passwordController);
+    final saveAccount = useState<bool>(false);
 
     bool areFieldsEmpty() {
-      return updateEmail.text.isEmpty || updatePass.text.isEmpty;
+      return emailController.text.isEmpty || passwordController.text.isEmpty;
     }
 
     checkFieldsEmpty.value = areFieldsEmpty();
+
+    Logger.log("checkFieldsEmpty.value ${checkFieldsEmpty.value}");
+
+    useEffect(
+      () {
+        emailController.addListener(() {
+          checkFieldsEmpty.value = areFieldsEmpty();
+        });
+        passwordController.addListener(() {
+          checkFieldsEmpty.value = areFieldsEmpty();
+        });
+        final saveEmail = AppConfig.email.getString();
+        final savePassword = AppConfig.password.getString();
+        final checkSaveAccount = AppConfig.checkSaveAccount.getBool();
+        saveAccount.value = checkSaveAccount;
+        if (checkSaveAccount && saveEmail != null && savePassword != null) {
+          emailController.text = saveEmail;
+          passwordController.text = savePassword;
+        }
+
+        return () {
+          emailController.dispose();
+          passwordController.dispose();
+        };
+      },
+      [],
+    );
+
+    void login() {
+      AppConfig.checkSaveAccount.setBool(saveAccount.value);
+      if (saveAccount.value) {
+        AppConfig.email.setString(emailController.text);
+        AppConfig.password.setString(passwordController.text);
+      } else {
+        AppConfig.email.setString("");
+        AppConfig.password.setString("");
+      }
+
+      AppConfig.checkSaveAccount.setBool(saveAccount.value);
+      ref.read(authProvider).login(
+            context,
+            email: emailController.text,
+            password: passwordController.text,
+          );
+    }
 
     return Padding(
       padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 45.h),
@@ -60,17 +97,17 @@ class LoginForm extends HookWidget {
                     dimension: 24.r,
                     child: Checkbox(
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      value: toggleValue.value,
+                      value: saveAccount.value,
                       side: const BorderSide(color: AppTheme.box, width: 3),
                       onChanged: (bool? value) {
-                        toggleValue.value = value!;
+                        saveAccount.value = value!;
                       },
                     ),
                   ),
                   SizedBox(width: 8.w),
                   GestureDetector(
                     onTap: () {
-                      toggleValue.value = toggleValue.value.toggle();
+                      saveAccount.value = saveAccount.value.toggle();
                     },
                     child: Text(
                       '次回から自動でログイン',
@@ -83,16 +120,20 @@ class LoginForm extends HookWidget {
                 ],
               ),
             ),
-            ButtonCustom(
-              "ログイン",
-              height: 48.h,
-              width: double.infinity,
-              onPressed: () {
-                checkFieldsEmpty.value ? null : login(context);
+            Consumer(
+              builder: (context, ref, child) {
+                return ButtonCustom(
+                  "ログイン",
+                  height: 48.h,
+                  width: double.infinity,
+                  onPressed: () {
+                    checkFieldsEmpty.value ? null : login();
+                  },
+                  backgroundColor: checkFieldsEmpty.value
+                      ? AppTheme.middleGray
+                      : AppTheme.primaryColor,
+                );
               },
-              backgroundColor: checkFieldsEmpty.value
-                  ? AppTheme.middleGray
-                  : AppTheme.primaryColor,
             ),
           ],
         ),
@@ -100,15 +141,14 @@ class LoginForm extends HookWidget {
     );
   }
 
-  void login(BuildContext context) {
-    FocusScope.of(context).unfocus();
-    LoadingManager.instance.show(context);
-    Future.delayed(1.seconds, () {
-      LoadingManager.instance.hide(context);
-      WidgetsBinding.instance.endOfFrame.then((value) {
-        Preferences.authenticated = true;
-        AutoRouter.of(context).push(OTPRoute(authType: AuthType.login));
-      });
-    });
-  }
+  // void login(BuildContext context) {
+  //   FocusScope.of(context).unfocus();
+  //   LoadingManager.instance.show(context);
+  //   Future.delayed(1.seconds, () {
+  //     LoadingManager.instance.hide(context);
+  //     WidgetsBinding.instance.endOfFrame.then((value) {
+  //       AutoRouter.of(context).push(OTPRoute(authType: AuthType.login));
+  //     });
+  //   });
+  // }
 }

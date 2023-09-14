@@ -28,4 +28,12 @@ class AppConfig {
   AppConfig._();
   static const String title = 'Go Tip App';
   static const String baseUrl = 'https://reqres.in/api/';
+  static const String twitterConsumerKey = '85AYa4yAaJWikw0lsIQYI1PKI';
+  static const String twitterConsumerSecret =
+      'jLpkhyazdKaVibDEqoQuJFjuxsCyj0Ugzu54vCC9gHHFY1yr77';
+  static const themeColor = "themeColor";
+  static const authenticated = "authenticated";
+  static const email = "email";
+  static const password = "password";
+  static const checkSaveAccount = "checkSaveAccount";
 }

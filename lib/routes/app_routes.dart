@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 
-import '../core/utilities/preferences.dart';
 import 'app_routes.gr.dart';
 
 @AutoRouterConfig()
@@ -47,14 +46,15 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    final authenticated = Preferences.authenticated;
-    if (authenticated || resolver.route.name != DashboardRoute.name) {
-      resolver.next(true);
-    } else {
-      resolver.redirect(
-        LoginRoute(onResult: (didLogin) => resolver.next(didLogin)),
-      );
-    }
+    resolver.next(true);
+    // final authenticated = Preferences.authenticated;
+    // if (authenticated || resolver.route.name != DashboardRoute.name) {
+
+    // } else {
+    //   resolver.redirect(
+    //     LoginRoute(onResult: (didLogin) => resolver.next(didLogin)),
+    //   );
+    // }
   }
 }
 

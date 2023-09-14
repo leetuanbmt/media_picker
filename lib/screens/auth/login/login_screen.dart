@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 
 import '../../../core/config.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../providers/auth_provider.dart';
 import '../../../routes/app_routes.gr.dart';
 import '../widgets/logo.dart';
 import '../widgets/social_button.dart';
@@ -13,19 +14,27 @@ class LoginScreen extends StatelessWidget {
   final Function(bool didLogin)? onResult;
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              AuthLogo(),
-              LoginForm(),
-              SocialList(),
-              LoginByFaceID(),
-              LoginInformation(),
+              const AuthLogo(),
+              const LoginForm(),
+              Consumer(
+                builder: (context, ref, child) {
+                  return SocialList(
+                    loginGoogle: ref.read(authProvider).loginGoogle,
+                    loginFacebook: ref.read(authProvider).loginFacebook,
+                    loginTwitter: ref.read(authProvider).loginTwitter,
+                  );
+                },
+              ),
+              const LoginByFaceID(),
+              const LoginInformation(),
             ],
           ),
         ),

@@ -5,8 +5,8 @@ flutter_launcher_icons:
   image_path: "assets/launcher_icon.png"
 flutter_application_id:
   android:
-    id: "com.gotip.gmo"
+    id: "gmo.codebase.com"
     name: "GoTip"
   ios:
-    id: "com.gotip.gmo"
+    id: "gmo.codebase.com"
     name: "GoTip"
