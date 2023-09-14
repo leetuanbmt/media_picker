@@ -1,7 +1,8 @@
+import 'package:biometric_storage/biometric_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:twitter_login/twitter_login.dart';
+// import 'package:twitter_login/twitter_login.dart';
 
 import '../core/config.dart';
 import '../core/models/models.dart';
@@ -18,13 +19,14 @@ class AuthProvider extends StateNotifier<BaseState> {
   Future<void> login(String email, String password) async {
     try {
       state = const LoadingState();
-      2.seconds.delayed();
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
       state = SuccessState(credential.user);
     } on FirebaseAuthException catch (e) {
+      state = ErrorState(message: e.message);
+    } catch (e) {
       state = ErrorState(message: e.toString());
     }
   }
@@ -43,8 +45,7 @@ class AuthProvider extends StateNotifier<BaseState> {
           await FirebaseAuth.instance.signInWithCredential(credential);
       state = SuccessState(userCredential.user);
     } on FirebaseAuthException catch (e) {
-      state = ErrorState(message: e.toString());
-      Logger.log(e);
+      state = ErrorState(message: e.message);
     }
   }
 
@@ -72,31 +73,47 @@ class AuthProvider extends StateNotifier<BaseState> {
   }
 
   Future<void> loginTwitter(BuildContext context) async {
-    state = const LoadingState();
-    final twitterLogin = TwitterLogin(
-      apiKey: AppConfig.twitterConsumerKey,
-      apiSecretKey: AppConfig.twitterConsumerSecret,
-      redirectURI: 'example://',
-    );
-    final authResult = await twitterLogin.login();
-    switch (authResult.status) {
-      case TwitterLoginStatus.loggedIn:
-        final credential = TwitterAuthProvider.credential(
-          accessToken: authResult.authToken ?? '',
-          secret: authResult.authTokenSecret ?? '',
-        );
-        FirebaseAuth.instance.signInWithCredential(credential);
-        break;
-      case TwitterLoginStatus.cancelledByUser:
-        state = const InitialState();
-        break;
-      case TwitterLoginStatus.error:
-        state = ErrorState(
-          message: 'Login failed with error: ${authResult.errorMessage}',
-        );
-        break;
-      default:
-        state = const InitialState();
+    // state = const LoadingState();
+    // final twitterLogin = TwitterLogin(
+    //   apiKey: AppConfig.twitterConsumerKey,
+    //   apiSecretKey: AppConfig.twitterConsumerSecret,
+    //   redirectURI: 'example://',
+    // );
+    // final authResult = await twitterLogin.login();
+    // switch (authResult.status) {
+    //   case TwitterLoginStatus.loggedIn:
+    //     final credential = TwitterAuthProvider.credential(
+    //       accessToken: authResult.authToken ?? '',
+    //       secret: authResult.authTokenSecret ?? '',
+    //     );
+    //     FirebaseAuth.instance.signInWithCredential(credential);
+    //     break;
+    //   case TwitterLoginStatus.cancelledByUser:
+    //     state = const InitialState();
+    //     break;
+    //   case TwitterLoginStatus.error:
+    //     state = ErrorState(
+    //       message: 'Login failed with error: ${authResult.errorMessage}',
+    //     );
+    //     break;
+    //   default:
+    //     state = const InitialState();
+    // }
+  }
+
+  void loginFaceID() async {
+    final response = await BiometricStorage().canAuthenticate();
+    if (response == CanAuthenticateResponse.success) {
+      final storage = await BiometricStorage().getStorage('login');
+      final credentials = await storage.read();
+      Logger.log(credentials, tag: 'credentials');
+      if (credentials != null) {
+        final email = credentials.split(' ')[0];
+        final password = credentials.split(' ')[1];
+        login(email, password);
+      } else {
+        storage.write('demo@gmail.com 123456@gotip');
+      }
     }
   }
 
