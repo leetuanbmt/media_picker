@@ -28,15 +28,17 @@ class LoadingManager {
         onWillPop: () => Future.value(false),
         child: const Center(child: TurnLoading()),
       ),
-    );
+    ).whenComplete(() {
+      showLoading = false;
+    });
   }
 
   void hide(BuildContext context) {
-    if (!showLoading) {
+    if (!showLoading || buildContext == null) {
       return;
     }
     buildContext = null;
-    Navigator.pop(context);
+    Navigator.maybePop(context);
     showLoading = false;
   }
 }

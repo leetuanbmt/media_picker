@@ -10,5 +10,7 @@
     "screenutil",
     "textiked",
     "unfocus"
-  ]
+  ],
+  "dart.flutterSdkPath": "/Users/tuanvm/Downloads/flutter/bin",
+  
 }

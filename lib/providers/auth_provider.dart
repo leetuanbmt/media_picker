@@ -4,29 +4,28 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:twitter_login/twitter_login.dart';
 
 import '../core/config.dart';
+import '../core/models/models.dart';
 
-final authProvider = Provider<AuthProvider>((ref) => AuthProvider._());
+final authProvider = StateNotifierProvider.autoDispose<AuthProvider, BaseState>(
+  (ref) => AuthProvider(),
+);
 
-class AuthProvider {
-  AuthProvider._();
-  final GoogleSignIn googleSignIn = GoogleSignIn();
-  Future<void> login(
-    BuildContext context, {
-    required String email,
-    required String password,
-  }) async {
-    context.startLoading();
+class AuthProvider extends StateNotifier<BaseState> {
+  AuthProvider() : super(const InitialState());
+
+  final googleSignIn = GoogleSignIn();
+
+  Future<void> login(String email, String password) async {
     try {
+      state = const LoadingState();
+      2.seconds.delayed();
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      Logger.log(credential);
+      state = SuccessState(credential.user);
     } on FirebaseAuthException catch (e) {
-      if (!context.mounted) return;
-      context
-        ..endLoading()
-        ..toast(e.message);
+      state = ErrorState(message: e.toString());
     }
   }
 
@@ -53,6 +52,7 @@ class AuthProvider {
 
   Future<void> loginGoogle(BuildContext context) async {
     try {
+      state = const LoadingState();
       final googleSignInAccount = await googleSignIn.signIn();
       if (googleSignInAccount == null) return;
       final authentication = await googleSignInAccount.authentication;
@@ -60,35 +60,40 @@ class AuthProvider {
         accessToken: authentication.accessToken,
         idToken: authentication.idToken,
       );
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      final userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      state = SuccessState(userCredential.user);
     } on FirebaseAuthException catch (e) {
+      state = ErrorState(message: e.toString());
       Logger.log(e);
     }
   }
 
   Future<void> loginFacebook(BuildContext context) async {
-    final LoginResult result = await FacebookAuth.instance.login();
+    state = const LoadingState();
+    final result = await FacebookAuth.instance.login();
     switch (result.status) {
       case LoginStatus.success:
-        final AccessToken accessToken = result.accessToken!;
+        final accessToken = result.accessToken!;
         final credential = FacebookAuthProvider.credential(accessToken.token);
-        await FirebaseAuth.instance.signInWithCredential(credential);
+        final userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+        state = SuccessState(userCredential.user);
         break;
-
       case LoginStatus.cancelled:
-        if (!context.mounted) return;
-        context.toast('Login cancelled by user.');
+        state = const InitialState();
         break;
       case LoginStatus.failed:
-        if (!context.mounted) return;
-        context.toast('Login failed with error: ${result.message}');
+        ErrorState(message: 'Login failed with error: ${result.message}');
         break;
-
-      default:
+      case LoginStatus.operationInProgress:
+        ErrorState(message: 'Login failed with error: ${result.message}');
+        break;
     }
   }
 
   Future<void> loginTwitter(BuildContext context) async {
+    state = const LoadingState();
     final twitterLogin = TwitterLogin(
       apiKey: AppConfig.twitterConsumerKey,
       apiSecretKey: AppConfig.twitterConsumerSecret,
@@ -104,12 +109,15 @@ class AuthProvider {
         FirebaseAuth.instance.signInWithCredential(credential);
         break;
       case TwitterLoginStatus.cancelledByUser:
-        Logger.log('Login cancelled by user.');
+        state = const InitialState();
         break;
       case TwitterLoginStatus.error:
-        Logger.log('Login error: ${authResult.errorMessage}');
+        state = ErrorState(
+          message: 'Login failed with error: ${authResult.errorMessage}',
+        );
         break;
       default:
+        state = const InitialState();
     }
   }
 
