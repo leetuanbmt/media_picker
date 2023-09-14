@@ -16,39 +16,59 @@ class RegisterUserName extends HookWidget {
   Widget build(BuildContext context) {
     final userNameController = useTextEditingController();
 
-    return HookBuilder(
-      builder: (context) {
-        final checkFieldEmpty = useState<bool>(true);
-        final updateUserName = useValueListenable(userNameController);
-        checkFieldEmpty.value = updateUserName.text.isEmpty;
+    final checkFieldEmpty = useState<bool>(true);
 
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 32.h,
-              ),
-              Text(
-                'ユーザー名を決定しましょう',
-                style: context.titleLarge!.copyWith(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.blackBold,
-                ),
-              ),
-              SizedBox(
-                height: 24.h,
-              ),
-              TextFieldCustom(
-                hintText: 'ユーザー名',
-                textController: userNameController,
-              ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ButtonCustom(
+    bool areFieldsEmpty() {
+      return userNameController.text.isEmpty;
+    }
+
+    checkFieldEmpty.value = areFieldsEmpty();
+
+    Logger.log("checkFieldsEmpty.value ${checkFieldEmpty.value}");
+
+    useEffect(
+      () {
+        void listener() {
+          checkFieldEmpty.value = areFieldsEmpty();
+        }
+
+        userNameController.addListener(listener);
+        return () {
+          userNameController.removeListener(listener);
+        };
+      },
+      [],
+    );
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 32.h,
+          ),
+          Text(
+            'ユーザー名を決定しましょう',
+            style: context.titleLarge!.copyWith(
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w600,
+              color: AppTheme.blackBold,
+            ),
+          ),
+          SizedBox(
+            height: 24.h,
+          ),
+          TextFieldCustom(
+            hintText: 'ユーザー名',
+            textController: userNameController,
+          ),
+          const Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Consumer(
+                builder: (context, ref, child) {
+                  return ButtonCustom(
                     "次へ",
                     height: 48.h,
                     width: 162.w,
@@ -58,16 +78,16 @@ class RegisterUserName extends HookWidget {
                     onPressed: () {
                       checkFieldEmpty.value ? null : confirmUsername(context);
                     },
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 27.h,
+                  );
+                },
               ),
             ],
           ),
-        );
-      },
+          SizedBox(
+            height: 27.h,
+          ),
+        ],
+      ),
     );
   }
 }

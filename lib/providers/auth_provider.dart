@@ -30,6 +30,27 @@ class AuthProvider {
     }
   }
 
+  Future<void> register(
+    BuildContext context, {
+    required String email,
+    required String password,
+  }) async {
+    context.startLoading();
+    try {
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      Logger.log(credential);
+    } on FirebaseAuthException catch (e) {
+      if (!context.mounted) return;
+      context
+        ..endLoading()
+        ..toast(e.message);
+    }
+  }
+
   Future<void> loginGoogle(BuildContext context) async {
     try {
       final googleSignInAccount = await googleSignIn.signIn();

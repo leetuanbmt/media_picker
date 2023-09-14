@@ -2,7 +2,7 @@ import '../../../../core/config.dart';
 import '../../../../core/models/register/fan_model.dart';
 import '../../../../widgets/commons/button_custom.dart';
 
-class RegisterCategoryScreen extends HookWidget {
+class RegisterCategoryScreen extends HookConsumerWidget {
   const RegisterCategoryScreen({super.key, required this.onNextPage});
   final Function onNextPage;
 
@@ -11,7 +11,7 @@ class RegisterCategoryScreen extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     List<String> active = [];
     final categories = useState<List<String>>([...active]);
 
@@ -64,15 +64,19 @@ class RegisterCategoryScreen extends HookWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ButtonCustom(
-                "次へ",
-                height: 48.h,
-                width: 162.w,
-                backgroundColor: categories.value.isEmpty
-                    ? AppTheme.middleGray
-                    : AppTheme.primaryColor,
-                onPressed: () {
-                  categories.value.isEmpty ? null : registerCategory();
+              Consumer(
+                builder: (context, ref, child) {
+                  return ButtonCustom(
+                    "次へ",
+                    height: 48.h,
+                    width: 162.w,
+                    backgroundColor: categories.value.isEmpty
+                        ? AppTheme.middleGray
+                        : AppTheme.primaryColor,
+                    onPressed: () {
+                      categories.value.isEmpty ? null : registerCategory();
+                    },
+                  );
                 },
               ),
             ],

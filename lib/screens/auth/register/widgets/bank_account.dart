@@ -1,6 +1,6 @@
 import '../../../../core/config.dart';
 import '../../../../core/models/models.dart';
-import '../../../../core/utilities/preferences.dart';
+
 import '../../../../routes/app_routes.gr.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import 'register_success.dart';
@@ -14,7 +14,7 @@ class RegisterBankAccountScreen extends HookWidget {
     Future.delayed(2.seconds, () {
       LoadingRegisterSuccess.instance.hide(context);
       WidgetsBinding.instance.endOfFrame.then((value) {
-        Preferences.authenticated = true;
+        //Preferences.authenticated = true;
         AutoRouter.of(context).pushAndPopUntil(
           const HomeRoute(),
           predicate: (_) => false,
