@@ -28,12 +28,12 @@ class LoginForm extends HookConsumerWidget {
 
     useEffect(
       () {
-        emailController.addListener(() {
+        void listener() {
           checkFieldsEmpty.value = areFieldsEmpty();
-        });
-        passwordController.addListener(() {
-          checkFieldsEmpty.value = areFieldsEmpty();
-        });
+        }
+
+        emailController.addListener(listener);
+        passwordController.addListener(listener);
         final saveEmail = AppConfig.email.getString();
         final savePassword = AppConfig.password.getString();
         final checkSaveAccount = AppConfig.checkSaveAccount.getBool();
@@ -44,8 +44,8 @@ class LoginForm extends HookConsumerWidget {
         }
 
         return () {
-          emailController.dispose();
-          passwordController.dispose();
+          emailController.removeListener(listener);
+          passwordController.removeListener(listener);
         };
       },
       [],
