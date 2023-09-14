@@ -29,7 +29,7 @@ class FanModel with _$FanModel {
     '‍📣 店舗',
   ];
 
-  static List<String> listCategorys = [
+  static List<String> listCategories = [
     '🕺 ステージ',
     '🎵 音楽',
     '🔈 メディア',

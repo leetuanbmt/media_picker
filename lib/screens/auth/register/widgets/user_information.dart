@@ -1,9 +1,8 @@
 import '../../../../core/config.dart';
-import '../../../../providers/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import 'user_name.dart';
 
-class RegisterUserInformation extends HookConsumerWidget {
+class RegisterUserInformation extends HookWidget {
   const RegisterUserInformation({super.key, required this.onNextPage});
   final VoidCallback onNextPage;
 
@@ -12,7 +11,7 @@ class RegisterUserInformation extends HookConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final style = context.bodyMedium!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w600,
@@ -33,30 +32,16 @@ class RegisterUserInformation extends HookConsumerWidget {
       borderRadius: BorderRadius.circular(4.r),
     );
 
-    final agencyCode = useTextEditingController(
-      text: ref.read(registerProvider).agencyCode.value,
+    final agencyCode = useTextEditingController();
+    final surName = useTextEditingController();
+    final middleName = useTextEditingController();
+    final lastName = useTextEditingController();
+    final anotherName = useTextEditingController();
+    final phoneNumber = useTextEditingController();
+    final dateInput = useTextEditingController(
+      text: '選択する',
     );
-    final surName = useTextEditingController(
-      text: ref.read(registerProvider).firstName.value,
-    );
-    final middleName = useTextEditingController(
-      text: ref.read(registerProvider).middleName.value,
-    );
-    final lastName = useTextEditingController(
-      text: ref.read(registerProvider).lastName.value,
-    );
-    final anotherName = useTextEditingController(
-      text: ref.read(registerProvider).anotherName.value,
-    );
-    final phoneNumber = useTextEditingController(
-      text: ref.read(registerProvider).phoneNumber.value,
-    );
-    final dateinput = useTextEditingController(
-      text: ref.read(registerProvider).birthday.value ?? '選択する',
-    );
-    final gender = useTextEditingController(
-      text: ref.read(registerProvider).gender.value,
-    );
+    final gender = useTextEditingController();
 
     final List<DropdownMenuEntry<String>> genders = [
       const DropdownMenuEntry(value: "Male", label: "Male"),
@@ -64,37 +49,44 @@ class RegisterUserInformation extends HookConsumerWidget {
       const DropdownMenuEntry(value: "Another", label: "Another"),
     ];
 
-    final updateSurName = useValueListenable(surName);
-    final updateMiddleName = useValueListenable(middleName);
-    final updateLastName = useValueListenable(lastName);
-    final updatePhoneNumber = useValueListenable(phoneNumber);
-    final updateDateInput = useValueListenable(dateinput);
-    final updateGender = useValueListenable(gender);
+    useEffect(
+      () {
+        agencyCode.text;
+        return () {};
+      },
+      [
+        agencyCode.text,
+        surName.value,
+        middleName.value,
+        lastName.value,
+        anotherName.value,
+        phoneNumber.value,
+        dateInput.value,
+        gender.value,
+      ],
+    );
 
-    void registerInformation() {
-      ref.watch(registerProvider).getInformation(
-            updateSurName.text,
-            updateMiddleName.text,
-            updateLastName.text,
-            updatePhoneNumber.text,
-            updateDateInput.text,
-            updateGender.text,
-            anotherName.text,
-            agencyCode.text,
-          );
-      onNextPage();
-    }
+    return HookBuilder(
+      builder: (context) {
+        final updateSurName = useValueListenable(surName);
+        final updateMiddleName = useValueListenable(middleName);
+        final updateLastName = useValueListenable(lastName);
+        final updatePhoneNumber = useValueListenable(phoneNumber);
+        final updateDateInput = useValueListenable(dateInput);
+        final updateGender = useValueListenable(gender);
 
-    return Consumer(
-      builder: (context, ref, _) {
-        bool isActiveButton = ref.watch(registerProvider).isValidInformation(
-              updateSurName.text,
-              updateMiddleName.text,
-              updateLastName.text,
-              updatePhoneNumber.text,
-              updateGender.text,
-              dateinput.text,
-            );
+        final isActiveButton = useState<bool>(true);
+
+        if (updateSurName.text.isNotEmpty &&
+            updateMiddleName.text.isNotEmpty &&
+            updateLastName.text.isNotEmpty &&
+            updatePhoneNumber.text.isNotEmpty &&
+            updateGender.text.isNotEmpty &&
+            updateDateInput.text != '選択する') {
+          isActiveButton.value = true;
+        } else {
+          isActiveButton.value = false;
+        }
 
         return SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -165,7 +157,7 @@ class RegisterUserInformation extends HookConsumerWidget {
                   InputInformation(
                     title: "生年月日",
                     hintText: "選択する",
-                    controller: dateinput,
+                    controller: dateInput,
                     onTap: () async {
                       final DateTime? picked = await showDatePicker(
                         context: context,
@@ -174,7 +166,7 @@ class RegisterUserInformation extends HookConsumerWidget {
                         lastDate: DateTime(2050),
                       );
                       if (picked != null && picked != DateTime.now()) {
-                        dateinput.text =
+                        dateInput.text =
                             DateFormat('yyyy年MM月dd日').format(picked);
                       }
                     },
@@ -231,11 +223,11 @@ class RegisterUserInformation extends HookConsumerWidget {
                     "次へ",
                     width: 162.w,
                     height: 48.h,
-                    backgroundColor: isActiveButton
+                    backgroundColor: isActiveButton.value
                         ? AppTheme.primaryColor
                         : AppTheme.middleGray,
                     onPressed: () {
-                      isActiveButton ? registerInformation() : null;
+                      isActiveButton.value ? registerInformation() : null;
                     },
                   ),
                 ],

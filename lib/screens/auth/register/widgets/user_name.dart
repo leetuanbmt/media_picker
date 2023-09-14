@@ -1,37 +1,27 @@
 import '../../../../core/config.dart';
 
-import '../../../../providers/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
 
-class RegisterUserName extends HookConsumerWidget {
+class RegisterUserName extends HookWidget {
   const RegisterUserName({super.key, required this.onNextPage});
   final VoidCallback onNextPage;
 
-  void confirmUsername(BuildContext context, WidgetRef ref, String userName) {
-    ref.watch(registerProvider).changeUserName(userName);
+  void confirmUsername(BuildContext context) {
     FocusScope.of(context).unfocus();
     onNextPage();
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final userNameController = useTextEditingController(
-      text: ref.read(registerProvider).userName.value,
-    );
+  Widget build(BuildContext context) {
+    final userNameController = useTextEditingController();
 
-    final checkFieldEmpty = useState<bool>(true);
+    return HookBuilder(
+      builder: (context) {
+        final checkFieldEmpty = useState<bool>(true);
+        final updateUserName = useValueListenable(userNameController);
+        checkFieldEmpty.value = updateUserName.text.isEmpty;
 
-    final updateUserName = useValueListenable(userNameController);
-
-    bool isFieldEmpty() {
-      return updateUserName.text.isEmpty;
-    }
-
-    checkFieldEmpty.value = isFieldEmpty();
-
-    return Consumer(
-      builder: (context, ref, _) {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
@@ -66,9 +56,7 @@ class RegisterUserName extends HookConsumerWidget {
                         ? AppTheme.middleGray
                         : AppTheme.primaryColor,
                     onPressed: () {
-                      checkFieldEmpty.value
-                          ? null
-                          : confirmUsername(context, ref, updateUserName.text);
+                      checkFieldEmpty.value ? null : confirmUsername(context);
                     },
                   ),
                 ],

@@ -17,11 +17,6 @@ class RegisterForm extends HookConsumerWidget {
 
     final passwordController = useTextEditingController(text: '');
 
-    // listen to changes in the TextEditingController
-    final updateEmail = useValueListenable(emailController);
-    // listen to changes in the TextEditingController
-    final updatePass = useValueListenable(passwordController);
-
     void registerEmailPassword(BuildContext context) {
       ref.watch(registerProvider).changeEmail(emailController.text);
       ref.watch(registerProvider).changePassword(passwordController.text);
@@ -38,11 +33,19 @@ class RegisterForm extends HookConsumerWidget {
       }
     }
 
-    return Consumer(
-      builder: (context, ref, _) {
-        bool isActiveButton = ref
+    return HookBuilder(
+      builder: (context) {
+        final isActiveButton = useState<bool>(true);
+
+        // listen to changes in the TextEditingController
+        final updateEmail = useValueListenable(emailController);
+        // listen to changes in the TextEditingController
+        final updatePass = useValueListenable(passwordController);
+
+        isActiveButton.value = ref
             .watch(registerProvider)
             .isValidEmailPassword(updateEmail.text, updatePass.text);
+
         return Padding(
           padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 45.h),
           child: Form(
@@ -71,11 +74,13 @@ class RegisterForm extends HookConsumerWidget {
                   width: double.infinity,
                   height: 48.h,
                   onPressed: () {
-                    isActiveButton ? registerEmailPassword(context) : null;
+                    isActiveButton.value
+                        ? registerEmailPassword(context)
+                        : null;
                   },
-                  backgroundColor: isActiveButton == false
-                      ? AppTheme.middleGray
-                      : AppTheme.primaryColor,
+                  backgroundColor: isActiveButton.value
+                      ? AppTheme.primaryColor
+                      : AppTheme.middleGray,
                 ),
               ],
             ),
