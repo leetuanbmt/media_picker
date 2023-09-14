@@ -1,4 +1,6 @@
+import '../../widgets/commons/indicators/loading_manager.dart';
 import '../config.dart';
+import '../utilities/utilities.dart';
 
 extension ContextEx on BuildContext {
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
@@ -80,6 +82,9 @@ extension ContextEx on BuildContext {
   // int get widthPixels => (width * height).toInt();
 
   // int get heightPixels => (height * scale).toInt();
+  void startLoading() => LoadingManager().show(this);
+  void endLoading() => LoadingManager().hide(this);
+  void toast(String? message) => AppUtils.toast(this, message ?? '');
 }
 
 extension GlobalKeyExtension on GlobalKey {

@@ -1,16 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'core/utilities/logger.dart';
 import 'core/utilities/preferences.dart';
+import 'firebase_options.dart';
 import 'root.dart';
 
 Future<void> initService() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     await Preferences.setPreferences();
   } catch (e) {
-    Logger.log(e, tag: 'initService');
+    Logger.log('initService $e', tag: 'initService');
   }
 }
 

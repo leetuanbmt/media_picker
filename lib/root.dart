@@ -24,6 +24,7 @@ class RootApp extends StatelessWidget {
                 onTap: FocusManager.instance.primaryFocus?.unfocus,
                 child: MaterialApp.router(
                   title: AppConfig.title,
+                  key: AppNavigator.globalKey,
                   localizationsDelegates: context.localizationDelegates,
                   supportedLocales: context.supportedLocales,
                   locale: context.locale,
@@ -40,7 +41,7 @@ class RootApp extends StatelessWidget {
                       data: MediaQuery.of(context).copyWith(
                         textScaleFactor: 1.0,
                       ),
-                      child: child!,
+                      child: child ?? const SizedBox(),
                     );
                   },
                 ),
@@ -67,5 +68,11 @@ class MyObserver extends AutoRouterObserver {
   @override
   void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
     Logger.log('Tab route re-visited: ${route.name}');
+  }
+
+  @override
+  void didPop(Route route, Route? previousRoute) {
+    Logger.log('Route popped: ${route.settings.name}');
+    super.didPop(route, previousRoute);
   }
 }

@@ -1,9 +1,8 @@
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../../core/config.dart';
-import '../../../../../core/utilities/utilities.dart';
 import '../../../../../gen/assets.gen.dart';
-import '../../../../../routes/app_routes.gr.dart';
+import '../../../../../providers/auth_provider.dart';
 import '../../point_confirm.dart';
 import '../../usage_guide.dart';
 import 'card_profile.dart';
@@ -56,15 +55,13 @@ class ProfileDetail extends StatelessWidget {
           assetIcon: Assets.iconsIconNotifications.path,
           onTap: () {},
         ),
-        _ProfileItem(
-          title: 'ログアウト',
-          isNext: false,
-          textColor: Colors.red,
-          onTap: () {
-            Preferences.authenticated = false;
-            AutoRouter.of(context).pushAndPopUntil(
-              LoginRoute(),
-              predicate: (_) => false,
+        Consumer(
+          builder: (context, ref, child) {
+            return _ProfileItem(
+              title: 'ログアウト',
+              isNext: false,
+              textColor: Colors.red,
+              onTap: ref.read(authProvider).signOut,
             );
           },
         ),
