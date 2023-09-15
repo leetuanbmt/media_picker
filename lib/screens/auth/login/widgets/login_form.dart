@@ -1,6 +1,5 @@
 import '../../../../core/config.dart';
-import '../../../../core/models/models.dart';
-import '../../../../providers/auth_provider.dart';
+import '../../../../providers/login_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
 
@@ -25,16 +24,6 @@ class LoginForm extends HookConsumerWidget {
 
     checkFieldsEmpty.value = areFieldsEmpty();
 
-    ref.listen(authProvider, (previous, next) {
-      if (next is ErrorState) {
-        context.toast(next.message);
-      }
-      if (next is LoadingState) {
-        context.startLoading();
-      } else {
-        context.endLoading();
-      }
-    });
     useEffect(
       () {
         void listener() {
@@ -149,6 +138,7 @@ class LoginForm extends HookConsumerWidget {
     ValueNotifier<bool> saveAccount,
     WidgetRef ref,
   ) {
+    FocusScope.of(context).unfocus();
     AppConfig.checkSaveAccount.setBool(saveAccount.value);
     if (saveAccount.value) {
       AppConfig.email.setString(emailController.text);
@@ -159,19 +149,10 @@ class LoginForm extends HookConsumerWidget {
     }
 
     AppConfig.checkSaveAccount.setBool(saveAccount.value);
-    ref.read(authProvider.notifier).login(
+    ref.read(loginProvider.notifier).login(
+          context,
           emailController.text,
           passwordController.text,
         );
   }
-  // void login(BuildContext context) {
-  //   FocusScope.of(context).unfocus();
-  //   LoadingManager.instance.show(context);
-  //   Future.delayed(1.seconds, () {
-  //     LoadingManager.instance.hide(context);
-  //     WidgetsBinding.instance.endOfFrame.then((value) {
-  //       AutoRouter.of(context).push(OTPRoute(authType: AuthType.login));
-  //     });
-  //   });
-  // }
 }
