@@ -24,12 +24,12 @@ class RootApp extends StatelessWidget {
                 onTap: FocusManager.instance.primaryFocus?.unfocus,
                 child: MaterialApp.router(
                   title: AppConfig.title,
-                  key: AppNavigator.globalKey,
                   localizationsDelegates: context.localizationDelegates,
                   supportedLocales: context.supportedLocales,
                   locale: context.locale,
                   debugShowCheckedModeBanner: false,
                   showPerformanceOverlay: false,
+                  showSemanticsDebugger: false,
                   theme: AppTheme.appTheme.copyWith(
                     primaryColor: appGlobal.themeColor,
                   ),
@@ -58,16 +58,19 @@ class MyObserver extends AutoRouterObserver {
   @override
   void didPush(Route route, Route? previousRoute) {
     Logger.log('New route pushed: ${route.settings.name}');
+    super.didPush(route, previousRoute);
   }
 
   @override
   void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
     Logger.log('Tab route visited: ${route.name}');
+    super.didInitTabRoute(route, previousRoute);
   }
 
   @override
   void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
     Logger.log('Tab route re-visited: ${route.name}');
+    super.didChangeTabRoute(route, previousRoute);
   }
 
   @override

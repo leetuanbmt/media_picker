@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:toast/toast.dart';
 
 import '../core/config.dart';
 import '../core/models/models.dart';
@@ -25,9 +24,6 @@ class AppGlobal extends StateNotifier<GlobalSetting> {
   AppGlobal() : super(const GlobalSetting()) {
     navigator(FirebaseAuth.instance.currentUser);
     FirebaseAuth.instance.authStateChanges().listen(navigator);
-    WidgetsBinding.instance.endOfFrame.then((value) {
-      ToastContext().init(AppNavigator.globalKey.currentContext!);
-    });
   }
   void navigator(User? user) {
     if (user != null) {

@@ -10,9 +10,11 @@ class AppDialog {
     required String title,
     required Widget child,
     bool barrierDismissible = true,
+    String? name,
   }) {
     showModalBottomSheet(
       context: context,
+      routeSettings: RouteSettings(name: name),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(15.0),
