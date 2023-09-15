@@ -126,12 +126,12 @@ class AppTheme {
           fontWeight: FontWeight.w600,
         ),
       ),
-      // pageTransitionsTheme: const PageTransitionsTheme(
-      //   builders: <TargetPlatform, PageTransitionsBuilder>{
-      //     TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-      //     TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-      //   },
-      // ),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: <TargetPlatform, PageTransitionsBuilder>{
+          TargetPlatform.android: _AndroidCustomPageTransitionBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        },
+      ),
     );
     final TextTheme textTheme = themeData.textTheme;
     return themeData.copyWith(
@@ -168,6 +168,26 @@ class AppTheme {
           fontSize: 20.sp,
           letterSpacing: 0.04.sp,
         ),
+      ),
+    );
+  }
+}
+
+class _AndroidCustomPageTransitionBuilder extends PageTransitionsBuilder {
+  const _AndroidCustomPageTransitionBuilder();
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return FadeTransition(
+      opacity: animation.drive(CurveTween(curve: Curves.easeInOutQuart)),
+      child: ScaleTransition(
+        scale: Tween<double>(begin: 1.1, end: 1).animate(animation),
+        child: child,
       ),
     );
   }

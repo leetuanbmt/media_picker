@@ -20,13 +20,18 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserModel {
-  int get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  @JsonKey(name: 'first_name')
-  String get firstName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'last_name')
-  String get lastName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
+  String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'profile_photo')
   String get avatar => throw _privateConstructorUsedError;
+  int get followers => throw _privateConstructorUsedError;
+  int get follow => throw _privateConstructorUsedError;
+  int get points => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
+  DateTime? get birthday => throw _privateConstructorUsedError;
+  String? get bio => throw _privateConstructorUsedError;
   List<FollowingModel>? get following => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,11 +46,16 @@ abstract class $UserModelCopyWith<$Res> {
       _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
   $Res call(
-      {int id,
+      {String id,
       String email,
-      @JsonKey(name: 'first_name') String firstName,
-      @JsonKey(name: 'last_name') String lastName,
-      String avatar,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'profile_photo') String avatar,
+      int followers,
+      int follow,
+      int points,
+      @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
+      DateTime? birthday,
+      String? bio,
       List<FollowingModel>? following});
 }
 
@@ -64,32 +74,52 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   $Res call({
     Object? id = null,
     Object? email = null,
-    Object? firstName = null,
-    Object? lastName = null,
+    Object? name = null,
     Object? avatar = null,
+    Object? followers = null,
+    Object? follow = null,
+    Object? points = null,
+    Object? birthday = freezed,
+    Object? bio = freezed,
     Object? following = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      firstName: null == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastName: null == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       avatar: null == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
+      followers: null == followers
+          ? _value.followers
+          : followers // ignore: cast_nullable_to_non_nullable
+              as int,
+      follow: null == follow
+          ? _value.follow
+          : follow // ignore: cast_nullable_to_non_nullable
+              as int,
+      points: null == points
+          ? _value.points
+          : points // ignore: cast_nullable_to_non_nullable
+              as int,
+      birthday: freezed == birthday
+          ? _value.birthday
+          : birthday // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
       following: freezed == following
           ? _value.following
           : following // ignore: cast_nullable_to_non_nullable
@@ -106,11 +136,16 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int id,
+      {String id,
       String email,
-      @JsonKey(name: 'first_name') String firstName,
-      @JsonKey(name: 'last_name') String lastName,
-      String avatar,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'profile_photo') String avatar,
+      int followers,
+      int follow,
+      int points,
+      @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
+      DateTime? birthday,
+      String? bio,
       List<FollowingModel>? following});
 }
 
@@ -127,32 +162,52 @@ class __$$_UserModelCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? email = null,
-    Object? firstName = null,
-    Object? lastName = null,
+    Object? name = null,
     Object? avatar = null,
+    Object? followers = null,
+    Object? follow = null,
+    Object? points = null,
+    Object? birthday = freezed,
+    Object? bio = freezed,
     Object? following = freezed,
   }) {
     return _then(_$_UserModel(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      firstName: null == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastName: null == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       avatar: null == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
+      followers: null == followers
+          ? _value.followers
+          : followers // ignore: cast_nullable_to_non_nullable
+              as int,
+      follow: null == follow
+          ? _value.follow
+          : follow // ignore: cast_nullable_to_non_nullable
+              as int,
+      points: null == points
+          ? _value.points
+          : points // ignore: cast_nullable_to_non_nullable
+              as int,
+      birthday: freezed == birthday
+          ? _value.birthday
+          : birthday // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
       following: freezed == following
           ? _value._following
           : following // ignore: cast_nullable_to_non_nullable
@@ -167,9 +222,14 @@ class _$_UserModel extends _UserModel {
   const _$_UserModel(
       {required this.id,
       required this.email,
-      @JsonKey(name: 'first_name') required this.firstName,
-      @JsonKey(name: 'last_name') required this.lastName,
-      required this.avatar,
+      @JsonKey(name: 'name') required this.name,
+      @JsonKey(name: 'profile_photo') required this.avatar,
+      this.followers = 0,
+      this.follow = 0,
+      this.points = 0,
+      @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
+      this.birthday,
+      this.bio,
       final List<FollowingModel>? following})
       : _following = following,
         super._();
@@ -178,17 +238,29 @@ class _$_UserModel extends _UserModel {
       _$$_UserModelFromJson(json);
 
   @override
-  final int id;
+  final String id;
   @override
   final String email;
   @override
-  @JsonKey(name: 'first_name')
-  final String firstName;
+  @JsonKey(name: 'name')
+  final String name;
   @override
-  @JsonKey(name: 'last_name')
-  final String lastName;
-  @override
+  @JsonKey(name: 'profile_photo')
   final String avatar;
+  @override
+  @JsonKey()
+  final int followers;
+  @override
+  @JsonKey()
+  final int follow;
+  @override
+  @JsonKey()
+  final int points;
+  @override
+  @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
+  final DateTime? birthday;
+  @override
+  final String? bio;
   final List<FollowingModel>? _following;
   @override
   List<FollowingModel>? get following {
@@ -201,7 +273,7 @@ class _$_UserModel extends _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, email: $email, firstName: $firstName, lastName: $lastName, avatar: $avatar, following: $following)';
+    return 'UserModel(id: $id, email: $email, name: $name, avatar: $avatar, followers: $followers, follow: $follow, points: $points, birthday: $birthday, bio: $bio, following: $following)';
   }
 
   @override
@@ -211,19 +283,33 @@ class _$_UserModel extends _UserModel {
             other is _$_UserModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.firstName, firstName) ||
-                other.firstName == firstName) &&
-            (identical(other.lastName, lastName) ||
-                other.lastName == lastName) &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            (identical(other.followers, followers) ||
+                other.followers == followers) &&
+            (identical(other.follow, follow) || other.follow == follow) &&
+            (identical(other.points, points) || other.points == points) &&
+            (identical(other.birthday, birthday) ||
+                other.birthday == birthday) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
             const DeepCollectionEquality()
                 .equals(other._following, _following));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, email, firstName, lastName,
-      avatar, const DeepCollectionEquality().hash(_following));
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      email,
+      name,
+      avatar,
+      followers,
+      follow,
+      points,
+      birthday,
+      bio,
+      const DeepCollectionEquality().hash(_following));
 
   @JsonKey(ignore: true)
   @override
@@ -241,11 +327,16 @@ class _$_UserModel extends _UserModel {
 
 abstract class _UserModel extends UserModel {
   const factory _UserModel(
-      {required final int id,
+      {required final String id,
       required final String email,
-      @JsonKey(name: 'first_name') required final String firstName,
-      @JsonKey(name: 'last_name') required final String lastName,
-      required final String avatar,
+      @JsonKey(name: 'name') required final String name,
+      @JsonKey(name: 'profile_photo') required final String avatar,
+      final int followers,
+      final int follow,
+      final int points,
+      @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
+      final DateTime? birthday,
+      final String? bio,
       final List<FollowingModel>? following}) = _$_UserModel;
   const _UserModel._() : super._();
 
@@ -253,17 +344,26 @@ abstract class _UserModel extends UserModel {
       _$_UserModel.fromJson;
 
   @override
-  int get id;
+  String get id;
   @override
   String get email;
   @override
-  @JsonKey(name: 'first_name')
-  String get firstName;
+  @JsonKey(name: 'name')
+  String get name;
   @override
-  @JsonKey(name: 'last_name')
-  String get lastName;
-  @override
+  @JsonKey(name: 'profile_photo')
   String get avatar;
+  @override
+  int get followers;
+  @override
+  int get follow;
+  @override
+  int get points;
+  @override
+  @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
+  DateTime? get birthday;
+  @override
+  String? get bio;
   @override
   List<FollowingModel>? get following;
   @override

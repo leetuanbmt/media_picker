@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 
 import '../../../core/config.dart';
 import '../../../gen/assets.gen.dart';
-import '../../../providers/auth_provider.dart';
 import '../../../providers/login_provider.dart';
 import '../../../routes/app_routes.gr.dart';
 import '../widgets/logo.dart';
@@ -94,7 +93,6 @@ class LoginInformation extends StatelessWidget {
             ],
           ),
         ),
-        HeightBox(30.h),
       ],
     );
   }
@@ -105,7 +103,7 @@ class LoginByFaceID extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final auth = ref.read(authProvider);
+    final login = ref.read(loginProvider.notifier);
     return Column(
       children: [
         SizedBox(height: 20.h),
@@ -119,7 +117,7 @@ class LoginByFaceID extends ConsumerWidget {
         SizedBox(height: 10.h),
         SocialButton(
           path: Assets.iconsIconFaceId.path,
-          onPressed: auth.loginFaceID,
+          onPressed: () => login.loginFaceID(context),
         ),
       ],
     );

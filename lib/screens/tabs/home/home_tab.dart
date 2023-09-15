@@ -1,23 +1,23 @@
 import '../../../core/config.dart';
 import '../../../providers/home_provider.dart';
+import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
 import '../../../widgets/search_app_bar.dart';
-import 'search_screen.dart';
 import 'widgets/list_creator.dart';
 
 @RoutePage()
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBarCustom(
         leading: const QRLeading(),
         searchAppBar: SearchAppBar(
           readOnly: true,
           onTap: () {
-            context.nextPage(const SearchCreatorScreen());
+            AutoRouter.of(context).push(const SearchCreatorRoute());
           },
         ),
       ),

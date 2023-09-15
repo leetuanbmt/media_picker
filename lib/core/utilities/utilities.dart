@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../config.dart';
 
 export 'language.dart';
@@ -16,5 +18,14 @@ class AppUtils {
         textColor: Colors.white,
       );
     });
+  }
+
+  static Timestamp? toJsonTime(DateTime? dateTime) {
+    if (dateTime == null) return null;
+    return Timestamp.fromDate(dateTime);
+  }
+
+  static DateTime? fromJsonTime(Timestamp? timestamp) {
+    return timestamp?.toDate();
   }
 }

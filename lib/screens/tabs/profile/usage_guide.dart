@@ -1,7 +1,6 @@
 import '../../../core/config.dart';
+import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
-import 'usage_flow.dart';
-import 'usage_play.dart';
 
 @RoutePage()
 class UsageGuideScreen extends StatelessWidget {
@@ -33,7 +32,7 @@ class UsageGuideScreen extends StatelessWidget {
                   color: AppTheme.fontGray,
                 ),
                 onTap: () {
-                  context.nextPage(const UsageFlowScreen());
+                  context.navigator(const UsageFlowRoute());
                 },
               ),
             ),
@@ -54,7 +53,7 @@ class UsageGuideScreen extends StatelessWidget {
                   color: AppTheme.fontGray,
                 ),
                 onTap: () {
-                  context.nextPage(const UsagePlayScreen());
+                  context.navigator(const UsagePlayRoute());
                 },
               ),
             ),

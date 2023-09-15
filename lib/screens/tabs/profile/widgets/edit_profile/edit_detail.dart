@@ -1,44 +1,34 @@
 import '../../../../../core/config.dart';
+import '../../../../../core/models/models.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../widgets/commons/theme_picker.dart';
 import 'edit_item.dart';
 
 class EditProfileDetail extends StatelessWidget {
-  const EditProfileDetail({
-    super.key,
-  });
+  const EditProfileDetail({super.key, this.user});
+  final UserModel? user;
 
   @override
   Widget build(BuildContext context) {
+    const borderBio = OutlineInputBorder(
+      borderSide: BorderSide(color: AppTheme.textiked),
+    );
     return Column(
       children: [
-        const EditItem(
+        EditItem(
           title: 'ユーザー名',
-          textContent: 'Kasumi Arimura',
+          textContent: user?.name ?? '',
         ),
         EditItem(
           title: '年齢',
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                '公開',
-                style: context.labelMedium?.copyWith(
-                  fontSize: 14.sp,
-                  color: AppTheme.primaryColor,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Text(
-                '22',
-                style: context.labelMedium?.copyWith(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-            ],
-          ),
+          content: "公開"
+              .richText
+              .textStyle(context.bodyMedium)
+              .color(AppTheme.primaryColor)
+              .end
+              .withTextSpanChildren([
+            " ${user?.old ?? ''}".textSpan.black.make(),
+          ]).make(),
         ),
         EditItem(
           title: 'ユーザー名',
@@ -62,7 +52,7 @@ class EditProfileDetail extends StatelessWidget {
           textContent: 'お笑い,美容',
         ),
         EditItem(
-          title: '年齢',
+          title: '外部リンク',
           content: Row(
             children: [
               const Spacer(),
@@ -121,20 +111,12 @@ class EditProfileDetail extends StatelessWidget {
               ),
               SizedBox(height: 11.h),
               TextFormField(
-                maxLines: 2,
+                minLines: 2,
+                maxLines: 5,
+                initialValue: user?.bio ?? '',
                 decoration: const InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: AppTheme.textiked,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: AppTheme.textiked,
-                    ),
-                  ),
+                  focusedBorder: borderBio,
+                  enabledBorder: borderBio,
                 ),
               ),
               SizedBox(height: 10.h),

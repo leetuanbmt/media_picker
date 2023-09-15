@@ -3,8 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../../core/config.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/firebase_provider.dart';
-import '../../point_confirm.dart';
-import '../../usage_guide.dart';
+import '../../../../../routes/app_routes.gr.dart';
 import 'card_profile.dart';
 
 class ProfileDetail extends StatelessWidget {
@@ -20,7 +19,7 @@ class ProfileDetail extends StatelessWidget {
           title: 'ポイント確認',
           assetIcon: Assets.iconsIcPoint.path,
           onTap: () {
-            context.nextPage(const PointConfirmScreen());
+            context.navigator(const PointConfirmRoute());
           },
         ),
         _ProfileItem(
@@ -42,7 +41,7 @@ class ProfileDetail extends StatelessWidget {
           title: '利用ガイド',
           assetIcon: Assets.iconsIcCreditCard.path,
           onTap: () {
-            context.nextPage(const UsageGuideScreen());
+            context.navigator(const UsageGuideRoute());
           },
         ),
         _ProfileItem(

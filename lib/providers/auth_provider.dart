@@ -1,4 +1,3 @@
-import 'package:biometric_storage/biometric_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
@@ -97,21 +96,5 @@ class AuthProvider {
     //   default:
     //     state = const InitialState();
     // }
-  }
-
-  Future<void> loginFaceID() async {
-    final response = await BiometricStorage().canAuthenticate();
-    if (response == CanAuthenticateResponse.success) {
-      final storage = await BiometricStorage().getStorage('login');
-      final credentials = await storage.read();
-      if (credentials != null) {
-        final email = credentials.split(' ')[0];
-        final password = credentials.split(' ')[1];
-        signInWithEmailAndPassword(email, password);
-      } else {
-        await storage.write('demo@gmail.com 123456@gotip');
-        signInWithEmailAndPassword('demo@gmail.com', '123456@gotip');
-      }
-    }
   }
 }
