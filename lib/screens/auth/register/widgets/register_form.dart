@@ -27,12 +27,6 @@ class RegisterForm extends HookConsumerWidget {
     Logger.log("checkFieldsEmpty.value ${checkFieldsEmpty.value}");
 
     ref.listen(registerProvider, (previous, next) {
-      // if (next is SuccessState) {
-      //   context.router.pushAndPopUntil(
-      //     OTPRoute(authType: AuthType.register),
-      //     predicate: (router) => false,
-      //   );
-      // }
       if (next is ErrorState) {
         context.toast(next.message);
       }
