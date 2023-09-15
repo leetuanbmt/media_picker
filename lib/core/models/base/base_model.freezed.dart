@@ -20,7 +20,7 @@ mixin _$BaseState<T> {
   TResult when<TResult extends Object?>(
     TResult Function() $default, {
     required TResult Function() loading,
-    required TResult Function(T user) loaded,
+    required TResult Function(T data) loaded,
     required TResult Function(String? message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$BaseState<T> {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function()? $default, {
     TResult? Function()? loading,
-    TResult? Function(T user)? loaded,
+    TResult? Function(T data)? loaded,
     TResult? Function(String? message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$BaseState<T> {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function()? $default, {
     TResult Function()? loading,
-    TResult Function(T user)? loaded,
+    TResult Function(T data)? loaded,
     TResult Function(String? message)? error,
     required TResult orElse(),
   }) =>
@@ -126,7 +126,7 @@ class _$InitialState<T> implements InitialState<T> {
   TResult when<TResult extends Object?>(
     TResult Function() $default, {
     required TResult Function() loading,
-    required TResult Function(T user) loaded,
+    required TResult Function(T data) loaded,
     required TResult Function(String? message) error,
   }) {
     return $default();
@@ -137,7 +137,7 @@ class _$InitialState<T> implements InitialState<T> {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function()? $default, {
     TResult? Function()? loading,
-    TResult? Function(T user)? loaded,
+    TResult? Function(T data)? loaded,
     TResult? Function(String? message)? error,
   }) {
     return $default?.call();
@@ -148,7 +148,7 @@ class _$InitialState<T> implements InitialState<T> {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function()? $default, {
     TResult Function()? loading,
-    TResult Function(T user)? loaded,
+    TResult Function(T data)? loaded,
     TResult Function(String? message)? error,
     required TResult orElse(),
   }) {
@@ -240,7 +240,7 @@ class _$LoadingState<T> implements LoadingState<T> {
   TResult when<TResult extends Object?>(
     TResult Function() $default, {
     required TResult Function() loading,
-    required TResult Function(T user) loaded,
+    required TResult Function(T data) loaded,
     required TResult Function(String? message) error,
   }) {
     return loading();
@@ -251,7 +251,7 @@ class _$LoadingState<T> implements LoadingState<T> {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function()? $default, {
     TResult? Function()? loading,
-    TResult? Function(T user)? loaded,
+    TResult? Function(T data)? loaded,
     TResult? Function(String? message)? error,
   }) {
     return loading?.call();
@@ -262,7 +262,7 @@ class _$LoadingState<T> implements LoadingState<T> {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function()? $default, {
     TResult Function()? loading,
-    TResult Function(T user)? loaded,
+    TResult Function(T data)? loaded,
     TResult Function(String? message)? error,
     required TResult orElse(),
   }) {
@@ -320,7 +320,7 @@ abstract class _$$SuccessStateCopyWith<T, $Res> {
           _$SuccessState<T> value, $Res Function(_$SuccessState<T>) then) =
       __$$SuccessStateCopyWithImpl<T, $Res>;
   @useResult
-  $Res call({T user});
+  $Res call({T data});
 }
 
 /// @nodoc
@@ -334,12 +334,12 @@ class __$$SuccessStateCopyWithImpl<T, $Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = freezed,
+    Object? data = freezed,
   }) {
     return _then(_$SuccessState<T>(
-      freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
+      freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
               as T,
     ));
   }
@@ -348,14 +348,14 @@ class __$$SuccessStateCopyWithImpl<T, $Res>
 /// @nodoc
 
 class _$SuccessState<T> implements SuccessState<T> {
-  const _$SuccessState(this.user);
+  const _$SuccessState(this.data);
 
   @override
-  final T user;
+  final T data;
 
   @override
   String toString() {
-    return 'BaseState<$T>.loaded(user: $user)';
+    return 'BaseState<$T>.loaded(data: $data)';
   }
 
   @override
@@ -363,12 +363,12 @@ class _$SuccessState<T> implements SuccessState<T> {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessState<T> &&
-            const DeepCollectionEquality().equals(other.user, user));
+            const DeepCollectionEquality().equals(other.data, data));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(user));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
 
   @JsonKey(ignore: true)
   @override
@@ -381,10 +381,10 @@ class _$SuccessState<T> implements SuccessState<T> {
   TResult when<TResult extends Object?>(
     TResult Function() $default, {
     required TResult Function() loading,
-    required TResult Function(T user) loaded,
+    required TResult Function(T data) loaded,
     required TResult Function(String? message) error,
   }) {
-    return loaded(user);
+    return loaded(data);
   }
 
   @override
@@ -392,10 +392,10 @@ class _$SuccessState<T> implements SuccessState<T> {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function()? $default, {
     TResult? Function()? loading,
-    TResult? Function(T user)? loaded,
+    TResult? Function(T data)? loaded,
     TResult? Function(String? message)? error,
   }) {
-    return loaded?.call(user);
+    return loaded?.call(data);
   }
 
   @override
@@ -403,12 +403,12 @@ class _$SuccessState<T> implements SuccessState<T> {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function()? $default, {
     TResult Function()? loading,
-    TResult Function(T user)? loaded,
+    TResult Function(T data)? loaded,
     TResult Function(String? message)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(user);
+      return loaded(data);
     }
     return orElse();
   }
@@ -452,9 +452,9 @@ class _$SuccessState<T> implements SuccessState<T> {
 }
 
 abstract class SuccessState<T> implements BaseState<T> {
-  const factory SuccessState(final T user) = _$SuccessState<T>;
+  const factory SuccessState(final T data) = _$SuccessState<T>;
 
-  T get user;
+  T get data;
   @JsonKey(ignore: true)
   _$$SuccessStateCopyWith<T, _$SuccessState<T>> get copyWith =>
       throw _privateConstructorUsedError;
@@ -526,7 +526,7 @@ class _$ErrorState<T> implements ErrorState<T> {
   TResult when<TResult extends Object?>(
     TResult Function() $default, {
     required TResult Function() loading,
-    required TResult Function(T user) loaded,
+    required TResult Function(T data) loaded,
     required TResult Function(String? message) error,
   }) {
     return error(message);
@@ -537,7 +537,7 @@ class _$ErrorState<T> implements ErrorState<T> {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function()? $default, {
     TResult? Function()? loading,
-    TResult? Function(T user)? loaded,
+    TResult? Function(T data)? loaded,
     TResult? Function(String? message)? error,
   }) {
     return error?.call(message);
@@ -548,7 +548,7 @@ class _$ErrorState<T> implements ErrorState<T> {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function()? $default, {
     TResult Function()? loading,
-    TResult Function(T user)? loaded,
+    TResult Function(T data)? loaded,
     TResult Function(String? message)? error,
     required TResult orElse(),
   }) {

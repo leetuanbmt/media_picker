@@ -18,7 +18,6 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
@@ -95,6 +94,7 @@ class LoginInformation extends StatelessWidget {
             ],
           ),
         ),
+        HeightBox(30.h),
       ],
     );
   }

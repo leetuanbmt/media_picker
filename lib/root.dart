@@ -22,7 +22,9 @@ class RootApp extends StatelessWidget {
             builder: (context, ref, child) {
               final appGlobal = ref.watch(appGlobalProvider);
               return GestureDetector(
-                onTap: FocusManager.instance.primaryFocus?.unfocus,
+                onTap: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
                 child: MaterialApp.router(
                   title: AppConfig.title,
                   localizationsDelegates: context.localizationDelegates,
