@@ -1,11 +1,8 @@
 import '../../../../core/config.dart';
 
 import '../../../../core/models/models.dart';
-import '../../../../providers/auth_provider.dart';
 import '../../../../providers/register_provider.dart';
-import '../../../../routes/app_routes.gr.dart';
 import '../../../../widgets/commons/button_custom.dart';
-import '../../../../widgets/commons/indicators/loading_manager.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
 
 class RegisterForm extends HookConsumerWidget {
@@ -29,6 +26,23 @@ class RegisterForm extends HookConsumerWidget {
 
     Logger.log("checkFieldsEmpty.value ${checkFieldsEmpty.value}");
 
+    ref.listen(registerProvider, (previous, next) {
+      // if (next is SuccessState) {
+      //   context.router.pushAndPopUntil(
+      //     OTPRoute(authType: AuthType.register),
+      //     predicate: (router) => false,
+      //   );
+      // }
+      if (next is ErrorState) {
+        context.toast(next.message);
+      }
+      if (next is LoadingState) {
+        context.startLoading();
+      } else {
+        context.endLoading();
+      }
+    });
+
     useEffect(
       () {
         void listener() {
@@ -37,12 +51,6 @@ class RegisterForm extends HookConsumerWidget {
 
         emailController.addListener(listener);
         passwordController.addListener(listener);
-        final saveEmail = AppConfig.email.getString();
-        final savePassword = AppConfig.password.getString();
-        if (saveEmail != null && savePassword != null) {
-          emailController.text = saveEmail;
-          passwordController.text = savePassword;
-        }
 
         return () {
           emailController.removeListener(listener);
@@ -61,7 +69,6 @@ class RegisterForm extends HookConsumerWidget {
               textController: emailController,
               hintText: "メールアドレス",
               keyboardType: TextInputType.emailAddress,
-              //errorText: ref.watch(registerProvider).email.error,
             ),
             SizedBox(
               height: 12.h,
@@ -70,7 +77,6 @@ class RegisterForm extends HookConsumerWidget {
               textController: passwordController,
               hintText: 'パスワード（6文字以上の半角英数字）',
               obscureText: true,
-              //errorText: ref.watch(registerProvider).password.error,
             ),
             SizedBox(
               height: 28.h,
@@ -110,22 +116,9 @@ class RegisterForm extends HookConsumerWidget {
     WidgetRef ref,
   ) {
     FocusScope.of(context).unfocus();
-    ref.read(registerProvider.notifier).register(
-          context,
+    ref.watch(registerProvider.notifier).register(
           emailController.text,
           passwordController.text,
         );
-    //     .whenComplete(() {
-    //   context.router.push(
-    //     OTPRoute(authType: AuthType.register),
-    //   );
-    // });
-    // LoadingManager.instance.show(context);
-    // Future.delayed(1.seconds, () {
-    //   LoadingManager.instance.hide(context);
-    //   WidgetsBinding.instance.endOfFrame.then((value) {
-    //     AutoRouter.of(context).push(OTPRoute(authType: AuthType.register));
-    //   });
-    // });
   }
 }
