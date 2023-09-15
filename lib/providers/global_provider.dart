@@ -6,6 +6,8 @@ import '../core/repositories/base_repository.dart';
 import '../core/utilities/navigator.dart';
 import '../core/utilities/utilities.dart';
 
+final loadingProvider = StateProvider<bool>((ref) => false);
+
 final appProvider = Provider((ref) => AppRepositoriesImpl());
 
 final userChange = StreamProvider<User?>(

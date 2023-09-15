@@ -1,56 +1,53 @@
 import 'package:biometric_storage/biometric_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:twitter_login/twitter_login.dart';
 
 import '../core/config.dart';
-import '../core/models/models.dart';
+import '../core/models/base/base_model.dart';
+import 'firebase_provider.dart';
 
-final authProvider = StateNotifierProvider.autoDispose<AuthProvider, BaseState>(
-  (ref) => AuthProvider(),
-);
+final authProvider = Provider((ref) => AuthProvider(ref));
 
-class AuthProvider extends StateNotifier<BaseState> {
-  AuthProvider() : super(const InitialState());
+class AuthProvider {
+  final Ref ref;
 
-  final googleSignIn = GoogleSignIn();
+  AuthProvider(this.ref);
 
-  Future<void> login(String email, String password) async {
+  Future<BaseState> loginGoogle() async {
     try {
-      state = const LoadingState();
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      state = SuccessState(credential.user);
-    } on FirebaseAuthException catch (e) {
-      state = ErrorState(message: e.message);
-    } catch (e) {
-      state = ErrorState(message: e.toString());
-    }
-  }
-
-  Future<void> loginGoogle(BuildContext context) async {
-    try {
-      state = const LoadingState();
+      final googleSignIn = ref.watch(googleProvider);
+      final auth = ref.watch(firebaseAuthProvider);
       final googleSignInAccount = await googleSignIn.signIn();
-      if (googleSignInAccount == null) return;
+      if (googleSignInAccount == null) return const InitialState();
       final authentication = await googleSignInAccount.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: authentication.accessToken,
         idToken: authentication.idToken,
       );
-      final userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
-      state = SuccessState(userCredential.user);
+      final userCredential = await auth.signInWithCredential(credential);
+      return SuccessState(userCredential.user);
     } on FirebaseAuthException catch (e) {
-      state = ErrorState(message: e.message);
+      return ErrorState(message: e.message);
     }
   }
 
-  Future<void> loginFacebook(BuildContext context) async {
-    state = const LoadingState();
+  Future<BaseState> signInWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
+    try {
+      final auth = ref.watch(firebaseAuthProvider);
+      final userCredential = await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return SuccessState(userCredential.user);
+    } on FirebaseAuthException catch (e) {
+      return ErrorState(message: e.message);
+    }
+  }
+
+  Future<BaseState> loginFacebook() async {
     final result = await FacebookAuth.instance.login();
     switch (result.status) {
       case LoginStatus.success:
@@ -58,21 +55,22 @@ class AuthProvider extends StateNotifier<BaseState> {
         final credential = FacebookAuthProvider.credential(accessToken.token);
         final userCredential =
             await FirebaseAuth.instance.signInWithCredential(credential);
-        state = SuccessState(userCredential.user);
-        break;
+        return SuccessState(userCredential.user);
       case LoginStatus.cancelled:
-        state = const InitialState();
-        break;
+        return const InitialState();
       case LoginStatus.failed:
-        ErrorState(message: 'Login failed with error: ${result.message}');
-        break;
+        return ErrorState(
+          message: 'Login failed with error: ${result.message}',
+        );
       case LoginStatus.operationInProgress:
-        ErrorState(message: 'Login failed with error: ${result.message}');
-        break;
+        return ErrorState(
+          message: 'Login failed with error: ${result.message}',
+        );
     }
   }
 
-  Future<void> loginTwitter(BuildContext context) async {
+  Future<BaseState> loginTwitter() async {
+    return const InitialState();
     // state = const LoadingState();
     // final twitterLogin = TwitterLogin(
     //   apiKey: AppConfig.twitterConsumerKey,
@@ -101,7 +99,7 @@ class AuthProvider extends StateNotifier<BaseState> {
     // }
   }
 
-  void loginFaceID() async {
+  Future<void> loginFaceID() async {
     final response = await BiometricStorage().canAuthenticate();
     if (response == CanAuthenticateResponse.success) {
       final storage = await BiometricStorage().getStorage('login');
@@ -109,15 +107,11 @@ class AuthProvider extends StateNotifier<BaseState> {
       if (credentials != null) {
         final email = credentials.split(' ')[0];
         final password = credentials.split(' ')[1];
-        login(email, password);
+        signInWithEmailAndPassword(email, password);
       } else {
         await storage.write('demo@gmail.com 123456@gotip');
-        login('demo@gmail.com', '123456@gotip');
+        signInWithEmailAndPassword('demo@gmail.com', '123456@gotip');
       }
     }
-  }
-
-  void signOut() {
-    FirebaseAuth.instance.signOut();
   }
 }

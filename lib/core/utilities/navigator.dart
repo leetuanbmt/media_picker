@@ -9,6 +9,8 @@ class AppNavigator {
 
   static final AppNavigator instance = AppNavigator._internal();
 
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   // App router
   late final appRouter = AppRouter();
 
