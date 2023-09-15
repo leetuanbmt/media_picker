@@ -7,8 +7,6 @@ class AppNavigator {
 
   AppNavigator._internal();
 
-  static final GlobalKey globalKey = GlobalKey<NavigatorState>();
-
   static final AppNavigator instance = AppNavigator._internal();
 
   // App router

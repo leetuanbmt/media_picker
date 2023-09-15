@@ -10,6 +10,7 @@ class ThemePicker extends HookWidget {
       context,
       title: 'テーマカラーの設定',
       child: const ThemePicker(),
+      name: 'ThemePicker',
     );
   }
 

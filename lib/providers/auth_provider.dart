@@ -106,13 +106,13 @@ class AuthProvider extends StateNotifier<BaseState> {
     if (response == CanAuthenticateResponse.success) {
       final storage = await BiometricStorage().getStorage('login');
       final credentials = await storage.read();
-      Logger.log(credentials, tag: 'credentials');
       if (credentials != null) {
         final email = credentials.split(' ')[0];
         final password = credentials.split(' ')[1];
         login(email, password);
       } else {
-        storage.write('demo@gmail.com 123456@gotip');
+        await storage.write('demo@gmail.com 123456@gotip');
+        login('demo@gmail.com', '123456@gotip');
       }
     }
   }
