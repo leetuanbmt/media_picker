@@ -54,7 +54,7 @@ class CreatorOnlineItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  model?.firstName ?? 'ゆうこ',
+                  model?.name ?? 'ゆうこ',
                   style: context.labelMedium?.copyWith(
                     color: Colors.white,
                     fontSize: 12.sp,

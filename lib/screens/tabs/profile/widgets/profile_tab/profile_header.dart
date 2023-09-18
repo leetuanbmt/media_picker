@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../../../../core/config.dart';
 import '../../../../../core/models/models.dart';
 import '../../../../../widgets/commons/button_custom.dart';
@@ -19,8 +21,8 @@ class ProfileHeader extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 44.r,
-                  backgroundImage: NetworkImage(
-                    user?.avatar ?? 'https://picsum.photos/250?image=9',
+                  backgroundImage: CachedNetworkImageProvider(
+                    user?.avatar ?? '',
                   ),
                 ),
                 SizedBox(width: 12.w),

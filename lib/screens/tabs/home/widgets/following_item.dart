@@ -2,7 +2,6 @@ import '../../../../core/config.dart';
 import '../../../../core/models/creator/creator_model.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/tag_name_custom.dart';
-import '../../../../widgets/commons/theme_picker.dart';
 
 class FollowingItem extends StatelessWidget {
   const FollowingItem({
@@ -36,16 +35,15 @@ class FollowingItem extends StatelessWidget {
             ),
           ),
           TagName(
-            name: model?.firstName ?? 'ゆうこ',
+            name: model?.name ?? 'ゆうこ',
+            isExpanded: true,
           ),
           ButtonCustom(
             'フォローする',
             width: 114.w,
             height: 32.h,
             fontSize: 12,
-            onPressed: () {
-              ThemePicker.show(context);
-            },
+            onPressed: () {},
           ),
         ],
       ),

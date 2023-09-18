@@ -1,9 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../../../core/config.dart';
 import '../../../../core/models/creator/creator_model.dart';
-import '../../../../widgets/commons/category_picker.dart';
 import '../../../../widgets/commons/tag_name_custom.dart';
 
-class CreatorOnlineItem extends StatelessWidget {
+class CreatorOnlineItem extends ConsumerWidget {
   const CreatorOnlineItem({
     super.key,
     this.model,
@@ -12,11 +13,9 @@ class CreatorOnlineItem extends StatelessWidget {
   final CreatorModel? model;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
-      onTap: () {
-        CategoryPicker.show(context);
-      },
+      onTap: () {},
       child: Container(
         width: 126.w,
         margin: EdgeInsets.only(right: 9.w),
@@ -24,9 +23,8 @@ class CreatorOnlineItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.r),
           image: DecorationImage(
-            image: NetworkImage(
-              model?.avatar ??
-                  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80',
+            image: CachedNetworkImageProvider(
+              model?.avatar ?? '',
             ),
             fit: BoxFit.cover,
           ),
@@ -52,8 +50,9 @@ class CreatorOnlineItem extends StatelessWidget {
               ),
             ),
             TagName(
-              name: model?.firstName ?? 'ゆうこ',
+              name: model?.name ?? 'ゆうこ',
               textColor: Colors.white,
+              isExpanded: true,
             ),
           ],
         ),

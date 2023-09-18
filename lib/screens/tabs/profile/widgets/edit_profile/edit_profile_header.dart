@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../../../../core/config.dart';
 import '../../../../../core/models/models.dart';
 
@@ -25,8 +27,8 @@ class EditProfileHeader extends StatelessWidget {
           child: user?.avatar != null
               ? CircleAvatar(
                   radius: 44.r,
-                  backgroundImage: NetworkImage(
-                    user?.avatar ?? 'https://picsum.photos/250?image=9',
+                  backgroundImage: CachedNetworkImageProvider(
+                    user?.avatar ?? '',
                   ),
                 )
               : CircleAvatar(

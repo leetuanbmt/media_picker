@@ -5,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../core/models/models.dart';
 
+typedef Json = Map<String, dynamic>;
+
 final googleProvider = Provider((ref) => GoogleSignIn());
 
 final firebaseAuthProvider =
@@ -30,3 +32,13 @@ final userChangeFirebase =
             : null,
       ),
 );
+
+final chatProvider = StreamProvider.autoDispose<List<UserModel>>((ref) {
+  final currentUid = ref.read(firebaseAuthProvider).currentUser?.uid;
+  return ref.watch(firestoreProvider).collection('users').snapshots().map(
+        (event) => event.docs
+            .map((e) => UserModel.fromJson(e.data()))
+            .where((e) => e.id != currentUid)
+            .toList(),
+      );
+});
