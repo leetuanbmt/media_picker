@@ -2,13 +2,12 @@ import '../core/config.dart';
 import '../core/models/base/base_model.dart';
 import 'auth_provider.dart';
 
-final registerProvider =
-    StateNotifierProvider.autoDispose<RegisterProvider, BaseState>(
-  (ref) => RegisterProvider(ref),
+final registerProvider = ChangeNotifierProvider.autoDispose<RegisterProvider>(
+  (ref) => RegisterProvider(ref)..initialize(),
 );
 
-class RegisterProvider extends StateNotifier<BaseState> {
-  RegisterProvider(this.ref) : super(const InitialState());
+class RegisterProvider extends ChangeNotifier {
+  RegisterProvider(this.ref);
 
   final Ref ref;
 
@@ -22,18 +21,27 @@ class RegisterProvider extends StateNotifier<BaseState> {
 
   String get password => passwordController.text;
 
-  final isEmailValid = ValueNotifier<bool>(false);
-  final isPasswordValid = ValueNotifier<bool>(false);
-  final checkActiveButton = ValueNotifier<bool>(false);
+  bool checkFieldsEmpty = true;
 
-  void checkButton() {
-    isEmailValid.value = email.isNotEmpty;
-    isPasswordValid.value = password.isNotEmpty;
-    if (isEmailValid.value && isPasswordValid.value) {
-      checkActiveButton.value = true;
-    } else {
-      checkActiveButton.value = false;
-    }
+  bool areFieldsEmpty() {
+    return email.isEmpty || password.isEmpty;
+  }
+
+  void listener() {
+    checkFieldsEmpty = areFieldsEmpty();
+    notifyListeners();
+  }
+
+  void initialize() {
+    emailController.addListener(listener);
+    passwordController.addListener(listener);
+  }
+
+  @override
+  void dispose() {
+    emailController.removeListener(listener);
+    passwordController.removeListener(listener);
+    super.dispose();
   }
 
   Future<void> register(
@@ -46,10 +54,12 @@ class RegisterProvider extends StateNotifier<BaseState> {
       checkValidPassword(password);
       if (checkValidPassword(password)) {
         ref.loading(true);
-        state = await auth.createUserWithEmailAndPassword(email, password);
+        final state =
+            await auth.createUserWithEmailAndPassword(email, password);
         ref.loading(false);
-        if (state is ErrorState && context.mounted) {
-          context.toast((state as ErrorState).message);
+        if (!context.mounted) return;
+        if (state is ErrorState) {
+          context.toast((state).message);
         }
       } else {
         context.toast('Password at least 6 characters');

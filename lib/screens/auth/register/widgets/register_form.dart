@@ -11,6 +11,8 @@ class RegisterForm extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final register = ref.read(registerProvider.notifier);
 
+    print('form');
+
     return Padding(
       padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 45.h),
       child: Form(
@@ -20,7 +22,6 @@ class RegisterForm extends ConsumerWidget {
               textController: register.emailController,
               hintText: "メールアドレス",
               keyboardType: TextInputType.emailAddress,
-              onChanged: (_) => register.checkButton(),
             ),
             SizedBox(
               height: 12.h,
@@ -29,35 +30,33 @@ class RegisterForm extends ConsumerWidget {
               textController: register.passwordController,
               hintText: 'パスワード（6文字以上の半角英数字）',
               obscureText: true,
-              onChanged: (_) => register.checkButton(),
             ),
             SizedBox(
               height: 28.h,
             ),
-            ValueListenableBuilder<bool>(
-              valueListenable:
-                  ref.watch(registerProvider.notifier).checkActiveButton,
-              builder: (context, _, __) {
-                final isActive = ref
-                    .watch(registerProvider.notifier)
-                    .checkActiveButton
-                    .value;
+            Consumer(
+              builder: (context, ref, child) {
+                final areFieldsEmpty = ref.watch(
+                  registerProvider.select((value) => value.checkFieldsEmpty),
+                );
+                print('button');
                 return ButtonCustom(
                   "新規登録",
                   width: double.infinity,
                   height: 48.h,
                   onPressed: () {
-                    isActive
-                        ? registerEmailPassword(
+                    areFieldsEmpty
+                        ? null
+                        : registerEmailPassword(
                             context,
                             register.emailController,
                             register.passwordController,
                             ref,
-                          )
-                        : null;
+                          );
                   },
-                  backgroundColor:
-                      isActive ? AppTheme.primaryColor : AppTheme.middleGray,
+                  backgroundColor: areFieldsEmpty
+                      ? AppTheme.middleGray
+                      : AppTheme.primaryColor,
                 );
               },
             ),
