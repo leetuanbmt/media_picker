@@ -45,7 +45,10 @@ class PointConfirmHeader extends HookWidget {
                   ),
                 ),
               ),
-              TabPageSelector(controller: tabController),
+              TabPageSelector(
+                controller: tabController,
+                selectedColor: context.primaryColor,
+              ),
             ],
           ),
         ),

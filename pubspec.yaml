@@ -35,6 +35,9 @@ dependencies:
   mobile_scanner: ^3.4.1
   biometric_storage: ^5.0.0+4
   cloud_firestore: ^4.9.1
+  flutter_local_notifications: ^15.1.1
+  firebase_messaging: ^14.6.7
+  cached_network_image: ^3.2.3
 
   # twitter_login: ^4.4.2
 
@@ -76,6 +79,7 @@ flutter:
     - assets/fonts/Poppins/
     - assets/icons/
     - assets/images/
+    - assets/json/
 
   fonts:
     - family: Poppins

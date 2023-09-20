@@ -1,21 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../../../../core/config.dart';
+import '../../../../../core/models/models.dart';
 import '../../../../../widgets/commons/button_custom.dart';
 import '../../../../../widgets/commons/tag_name_custom.dart';
 import 'card_profile.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({
-    super.key,
-  });
-
+  const ProfileHeader({super.key, this.user});
+  final UserModel? user;
   @override
   Widget build(BuildContext context) {
-    final titleStyle = context.labelSmall?.copyWith(
-      fontSize: 12.sp,
-      color: AppTheme.fontGray3,
-      fontWeight: FontWeight.w300,
-    );
-
     return CardProfile(
       radius: 20.r,
       child: Padding(
@@ -26,23 +21,22 @@ class ProfileHeader extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 44.r,
-                  backgroundImage: const NetworkImage(
-                    'https://picsum.photos/250?image=9',
+                  backgroundImage: CachedNetworkImageProvider(
+                    user?.avatar ?? '',
                   ),
                 ),
                 SizedBox(width: 12.w),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const TagName(
-                      name: 'ユーザー名',
+                    TagName(
+                      name: user?.name ?? '',
                       fontSize: 17,
                     ),
                     Text(
-                      'ID:0000000',
+                      user?.id ?? 'ID:0000000',
                       style: context.labelSmall?.copyWith(
                         color: AppTheme.fontGray3,
-                        fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -50,7 +44,6 @@ class ProfileHeader extends StatelessWidget {
                     ButtonCustom(
                       'ランキング',
                       height: 28.h,
-                      width: 100.w,
                       backgroundColor: const Color(0xff8F3FFC),
                       onPressed: () {},
                     ),
@@ -75,58 +68,59 @@ class ProfileHeader extends StatelessWidget {
             SizedBox(height: 5.h),
             Row(
               children: [
-                Column(
-                  children: [
-                    Text(
-                      'フォロー',
-                      style: titleStyle,
-                    ),
-                    Text(
-                      '0',
-                      style: context.labelSmall?.copyWith(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+                FollowItem(
+                  title: 'フォロー',
+                  subTitle: user?.follow.toCompactCurrency ?? '',
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Column(
-                    children: [
-                      Text(
-                        'フォロワー',
-                        style: titleStyle,
-                      ),
-                      Text(
-                        '0',
-                        style: context.labelSmall?.copyWith(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
+                FollowItem(
+                  title: 'フォロワー',
+                  subTitle: user?.followers.toCompactCurrency ?? '',
+                  padding: EdgeInsets.only(left: 16.w, right: 16.w),
                 ),
-                Column(
-                  children: [
-                    Text(
-                      '獲得ポイント',
-                      style: titleStyle,
-                    ),
-                    Text(
-                      '1000',
-                      style: context.labelSmall?.copyWith(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+                FollowItem(
+                  title: '獲得ポイント',
+                  subTitle: user?.points.toCurrency ?? '',
                 ),
               ],
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class FollowItem extends StatelessWidget {
+  const FollowItem({
+    super.key,
+    required this.title,
+    required this.subTitle,
+    this.padding,
+  });
+  final String title, subTitle;
+  final EdgeInsetsGeometry? padding;
+  @override
+  Widget build(BuildContext context) {
+    final titleStyle = context.bodySmall?.copyWith(
+      color: AppTheme.fontGray3,
+      fontWeight: FontWeight.w300,
+    );
+    return Padding(
+      padding: padding ?? EdgeInsets.zero,
+      child: Column(
+        children: [
+          Text(
+            'フォロワー',
+            style: titleStyle,
+          ),
+          Text(
+            subTitle,
+            style: titleStyle?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: AppTheme.blackBold,
+            ),
+          ),
+        ],
       ),
     );
   }

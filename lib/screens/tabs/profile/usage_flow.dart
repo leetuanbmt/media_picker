@@ -175,10 +175,13 @@ class _BubbleCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: CustomStyleArrow(width: widthText1.w),
+      painter: CustomStyleArrow(
+        width: widthText1.w,
+        color: context.primaryColor,
+      ),
       child: Container(
         decoration: BoxDecoration(
-          color: AppTheme.purple,
+          color: context.primaryColor,
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: const [
             BoxShadow(
@@ -241,12 +244,12 @@ class _UseGuideFlow extends StatelessWidget {
 
 class CustomStyleArrow extends CustomPainter {
   final double width;
-
-  CustomStyleArrow({required this.width});
+  final Color color;
+  const CustomStyleArrow({required this.width, required this.color});
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color = AppTheme.purple
+      ..color = color
       ..strokeWidth = 1
       ..style = PaintingStyle.fill;
 
@@ -268,5 +271,5 @@ class CustomStyleArrow extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }

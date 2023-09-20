@@ -85,6 +85,9 @@ extension ContextEx on BuildContext {
   void startLoading() => LoadingManager().show(this);
   void endLoading() => LoadingManager().hide(this);
   void toast(String? message) => AppUtils.toast(this, message ?? '');
+
+  Future<dynamic> navigator(PageRouteInfo route) =>
+      AutoRouter.of(this).navigate(route);
 }
 
 extension GlobalKeyExtension on GlobalKey {

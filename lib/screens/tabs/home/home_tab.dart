@@ -1,23 +1,24 @@
 import '../../../core/config.dart';
 import '../../../providers/home_provider.dart';
+import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
+import '../../../widgets/commons/indicators/loading_manager.dart';
 import '../../../widgets/search_app_bar.dart';
-import 'search_screen.dart';
 import 'widgets/list_creator.dart';
 
 @RoutePage()
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBarCustom(
         leading: const QRLeading(),
         searchAppBar: SearchAppBar(
           readOnly: true,
           onTap: () {
-            context.nextPage(const SearchCreatorScreen());
+            AutoRouter.of(context).push(const SearchCreatorRoute());
           },
         ),
       ),
@@ -28,45 +29,43 @@ class HomeScreen extends StatelessWidget {
             Consumer(
               builder: (context, ref, _) {
                 final listOnline = ref.watch(creatorOnlineProvider);
-                return listOnline.when(
-                  () => const Text('Initial'),
-                  loading: () => const CircularProgressIndicator.adaptive(),
-                  loaded: (result) {
+                return listOnline.maybeWhen(
+                  data: (result) {
                     return ListCreator(
-                      title: 'オンライン',
+                      title: 'Online',
+                      listCreator: result,
                       onlineList: true,
                       showMore: false,
-                      listCreator: result,
                     );
                   },
-                  error: (error) => Text('Error: $error'),
+                  orElse: () => Dimensions.empty,
                 );
               },
             ),
             Divider(color: AppTheme.surface, thickness: 8.h),
             SizedBox(height: 5.h),
             Consumer(
-              builder: (context, ref, _) {
-                final listFollowing = ref.watch(userFollowingProvider);
-                return listFollowing.when(
-                  () => const Text('Initial'),
-                  loading: () => const CircularProgressIndicator.adaptive(),
-                  loaded: (result) {
-                    return Column(
-                      children: [
-                        ...result
-                            .map(
-                              (e) => ListCreator(
-                                title: e.title,
-                                listCreator: e.listCreator,
-                              ),
-                            )
-                            .toList(),
-                      ],
+              builder: (context, ref, child) {
+                return ref.watch(creatorByCategory).when(
+                      data: (result) {
+                        Logger.log(result);
+                        return Column(
+                          children: [
+                            ...result.entries
+                                .map(
+                                  (e) => ListCreator(
+                                    title: e.key,
+                                    listCreator: e.value,
+                                    showMore: true,
+                                  ),
+                                )
+                                .toList(),
+                          ],
+                        );
+                      },
+                      loading: () => const TurnLoading(),
+                      error: (error, stackTrace) => Text('Error: $error'),
                     );
-                  },
-                  error: (error) => Text('Error: $error'),
-                );
               },
             ),
           ],

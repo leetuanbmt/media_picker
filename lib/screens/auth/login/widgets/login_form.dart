@@ -3,54 +3,14 @@ import '../../../../providers/login_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
 
-class LoginForm extends HookConsumerWidget {
+class LoginForm extends ConsumerWidget {
   const LoginForm({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // create a TextEditingController for each field
-    final emailController = useTextEditingController();
-
-    final passwordController = useTextEditingController();
-
-    // create a ValueNotifier<bool> for each field
-    final checkFieldsEmpty = useState<bool>(true);
-    // create a ValueNotifier<bool> for each field
-    final saveAccount = useState<bool>(false);
-
-    bool areFieldsEmpty() {
-      return emailController.text.isEmpty || passwordController.text.isEmpty;
-    }
-
-    checkFieldsEmpty.value = areFieldsEmpty();
-
-    useEffect(
-      () {
-        void listener() {
-          checkFieldsEmpty.value = areFieldsEmpty();
-        }
-
-        emailController.addListener(listener);
-
-        passwordController.addListener(listener);
-
-        final saveEmail = AppConfig.email.getString();
-        final savePassword = AppConfig.password.getString();
-        final checkSaveAccount = AppConfig.checkSaveAccount.getBool();
-        saveAccount.value = checkSaveAccount;
-        if (checkSaveAccount && saveEmail != null && savePassword != null) {
-          emailController.text = saveEmail;
-          passwordController.text = savePassword;
-        }
-
-        return () {
-          emailController.removeListener(listener);
-          passwordController.removeListener(listener);
-        };
-      },
-      [],
-    );
-
+    final provider = ref.read(loginProvider.notifier);
+    final emailController = provider.emailController;
+    final passwordController = provider.passwordController;
     return Padding(
       padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 45.h),
       child: Form(
@@ -75,22 +35,25 @@ class LoginForm extends HookConsumerWidget {
               ),
               child: Row(
                 children: [
-                  SizedBox.square(
-                    dimension: 24.r,
-                    child: Checkbox(
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      value: saveAccount.value,
-                      side: const BorderSide(color: AppTheme.box, width: 3),
-                      onChanged: (bool? value) {
-                        saveAccount.value = value!;
-                      },
-                    ),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      return SizedBox.square(
+                        dimension: 24.r,
+                        child: Checkbox(
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          value: ref.watch(
+                            loginProvider.select((value) => value.saveAccount),
+                          ),
+                          side: const BorderSide(color: AppTheme.box, width: 3),
+                          onChanged: provider.toggleSaveAccount,
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(width: 8.w),
                   GestureDetector(
-                    onTap: () {
-                      saveAccount.value = saveAccount.value.toggle();
-                    },
+                    onTap: provider.toggleSaveAccount,
                     child: Text(
                       '次回から自動でログイン',
                       style: context.bodySmall!.copyWith(
@@ -102,24 +65,21 @@ class LoginForm extends HookConsumerWidget {
                 ],
               ),
             ),
-            HookBuilder(
-              builder: (context) {
+            Consumer(
+              builder: (context, ref, child) {
+                final checkFieldsEmpty = ref.watch(
+                  loginProvider.select((value) => value.checkFieldsEmpty),
+                );
                 return ButtonCustom(
                   "ログイン",
                   height: 48.h,
                   width: double.infinity,
                   onPressed: () {
-                    checkFieldsEmpty.value
+                    checkFieldsEmpty
                         ? null
-                        : login(
-                            context,
-                            emailController,
-                            passwordController,
-                            saveAccount,
-                            ref,
-                          );
+                        : ref.read(loginProvider.notifier).login(context);
                   },
-                  backgroundColor: checkFieldsEmpty.value
+                  backgroundColor: checkFieldsEmpty
                       ? AppTheme.middleGray
                       : AppTheme.primaryColor,
                 );
@@ -129,30 +89,5 @@ class LoginForm extends HookConsumerWidget {
         ),
       ),
     );
-  }
-
-  void login(
-    BuildContext context,
-    TextEditingController emailController,
-    TextEditingController passwordController,
-    ValueNotifier<bool> saveAccount,
-    WidgetRef ref,
-  ) {
-    FocusScope.of(context).unfocus();
-    AppConfig.checkSaveAccount.setBool(saveAccount.value);
-    if (saveAccount.value) {
-      AppConfig.email.setString(emailController.text);
-      AppConfig.password.setString(passwordController.text);
-    } else {
-      AppConfig.email.setString("");
-      AppConfig.password.setString("");
-    }
-
-    AppConfig.checkSaveAccount.setBool(saveAccount.value);
-    ref.read(loginProvider.notifier).login(
-          context,
-          emailController.text,
-          passwordController.text,
-        );
   }
 }

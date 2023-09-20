@@ -1,32 +1,24 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
+import '../core/config.dart';
 import '../core/models/creator/creator_model.dart';
-import '../core/models/models.dart';
-import '../core/models/user/following_model.dart';
+import 'firebase_provider.dart';
 
-final userFollowingProvider =
-    StateNotifierProvider<UserFollowing, BaseState<List<FollowingModel>>>(
-  (ref) => UserFollowing(),
+final creatorOnlineProvider = StreamProvider.autoDispose<List<CreatorModel>>(
+  (ref) => ref
+      .watch(firestoreProvider)
+      .collection('creators')
+      .where('isOnline', isEqualTo: true)
+      .snapshots()
+      .map(
+        (e) => e.docs.map((e) => CreatorModel.fromJson(e.data())).toList(),
+      ),
 );
-final creatorOnlineProvider =
-    StateNotifierProvider<CreatorOnline, BaseState<List<CreatorModel>>>(
-  (ref) => CreatorOnline(),
+
+final creatorByCategory =
+    StreamProvider.autoDispose<Map<String, List<CreatorModel>>>(
+  (ref) => ref
+      .watch(firestoreProvider)
+      .collection('creators')
+      .snapshots()
+      .map((e) => e.docs.map((e) => CreatorModel.fromJson(e.data())))
+      .map((event) => event.groupBy((element) => element.category)),
 );
-
-class UserFollowing extends StateNotifier<BaseState<List<FollowingModel>>> {
-  UserFollowing() : super(const BaseState()) {
-    getListFollowing();
-  }
-  Future<void> getListFollowing() async {
-    state = BaseState.loaded(UserModel.listFollowing);
-  }
-}
-
-class CreatorOnline extends StateNotifier<BaseState<List<CreatorModel>>> {
-  CreatorOnline() : super(const BaseState()) {
-    getListOnline();
-  }
-  Future<void> getListOnline() async {
-    state = BaseState.loaded(UserModel.listOnline);
-  }
-}

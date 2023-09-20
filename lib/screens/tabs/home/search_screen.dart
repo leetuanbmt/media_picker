@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/config.dart';
 import '../../../core/models/creator/creator_model.dart';
 import '../../../providers/search_provider.dart';
@@ -13,48 +14,44 @@ class SearchCreatorScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final focusNode = useFocusNode();
     final searchController = useTextEditingController();
-    return GestureDetector(
-      onTap: () {
-        focusNode.unfocus();
-      },
-      child: Scaffold(
-        backgroundColor: AppTheme.background,
-        appBar: AppBarCustom(
-          searchAppBar: SearchAppBar(
-            controller: searchController,
-            focusNode: focusNode,
-            onChanged: (String val) {
-              ref.read(searchNotifier.notifier).searchByName(val);
-            },
-          ),
-        ),
-        body: Consumer(
-          builder: (context, ref, _) {
-            final searchList = ref.watch(searchNotifier);
-            return searchList.isEmpty
-                ? const Center(child: Text('No data found'))
-                : Column(
-                    children: [
-                      Expanded(
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) => const Divider(
-                            height: 1,
-                            color: AppTheme.lightGray,
-                          ),
-                          itemCount: searchList.length,
-                          itemBuilder: (context, index) {
-                            return _SearchItem(
-                              model: searchList[index],
-                              name: searchList[index].firstName,
-                              onTap: () {},
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  );
+    return Scaffold(
+      backgroundColor: AppTheme.background,
+      appBar: AppBarCustom(
+        searchAppBar: SearchAppBar(
+          controller: searchController,
+          focusNode: focusNode,
+          onChanged: (String val) {
+            ref.read(searchNotifier.notifier).searchCreator(val);
           },
         ),
+      ),
+      body: Consumer(
+        builder: (context, ref, _) {
+          final searchList = ref.watch(searchNotifier);
+          return searchList.isEmpty
+              ? const Center(child: Text('No data found'))
+              : Column(
+                  children: [
+                    Expanded(
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) => const Divider(
+                          height: 1,
+                          color: AppTheme.lightGray,
+                        ),
+                        itemCount: searchList.length,
+                        itemBuilder: (context, index) {
+                          final creator = searchList[index];
+                          return _SearchItem(
+                            model: creator,
+                            name: creator.name,
+                            onTap: () {},
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                );
+        },
       ),
     );
   }
@@ -78,14 +75,13 @@ class _SearchItem extends StatelessWidget {
         contentPadding: EdgeInsets.fromLTRB(16.w, 16.h, 18.w, 16.h),
         leading: CircleAvatar(
           radius: 30.r,
-          backgroundImage: NetworkImage(
-            model?.avatar ??
-                'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80',
+          backgroundImage: CachedNetworkImageProvider(
+            model?.avatar ?? '',
           ),
         ),
         horizontalTitleGap: 5.w,
         title: Text(
-          model?.firstName ?? 'いちろう',
+          model?.name ?? 'いちろう',
           style: context.titleMedium?.copyWith(
             fontSize: 16.sp,
             fontWeight: FontWeight.w600,
@@ -93,7 +89,7 @@ class _SearchItem extends StatelessWidget {
         ),
         trailing: ButtonCustom(
           'フォロー',
-          height: 33,
+          height: 33.h,
           onPressed: onTap,
         ),
       ),

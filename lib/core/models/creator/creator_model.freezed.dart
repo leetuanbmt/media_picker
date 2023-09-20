@@ -20,13 +20,14 @@ CreatorModel _$CreatorModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CreatorModel {
-  int get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'first_name')
-  String get firstName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'last_name')
-  String get lastName => throw _privateConstructorUsedError;
-  String get avatar => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
+  String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'profile_photo')
+  String get avatar => throw _privateConstructorUsedError;
+  bool get isOnline => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,11 +42,12 @@ abstract class $CreatorModelCopyWith<$Res> {
       _$CreatorModelCopyWithImpl<$Res, CreatorModel>;
   @useResult
   $Res call(
-      {int id,
-      @JsonKey(name: 'first_name') String firstName,
-      @JsonKey(name: 'last_name') String lastName,
-      String avatar,
-      String category});
+      {String id,
+      String email,
+      String category,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'profile_photo') String avatar,
+      bool isOnline});
 }
 
 /// @nodoc
@@ -62,32 +64,37 @@ class _$CreatorModelCopyWithImpl<$Res, $Val extends CreatorModel>
   @override
   $Res call({
     Object? id = null,
-    Object? firstName = null,
-    Object? lastName = null,
-    Object? avatar = null,
+    Object? email = null,
     Object? category = null,
+    Object? name = null,
+    Object? avatar = null,
+    Object? isOnline = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      firstName: null == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
               as String,
-      lastName: null == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
-              as String,
-      avatar: null == avatar
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      avatar: null == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String,
+      isOnline: null == isOnline
+          ? _value.isOnline
+          : isOnline // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -101,11 +108,12 @@ abstract class _$$_CreatorModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
-      @JsonKey(name: 'first_name') String firstName,
-      @JsonKey(name: 'last_name') String lastName,
-      String avatar,
-      String category});
+      {String id,
+      String email,
+      String category,
+      @JsonKey(name: 'name') String name,
+      @JsonKey(name: 'profile_photo') String avatar,
+      bool isOnline});
 }
 
 /// @nodoc
@@ -120,32 +128,37 @@ class __$$_CreatorModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? firstName = null,
-    Object? lastName = null,
-    Object? avatar = null,
+    Object? email = null,
     Object? category = null,
+    Object? name = null,
+    Object? avatar = null,
+    Object? isOnline = null,
   }) {
     return _then(_$_CreatorModel(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      firstName: null == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
               as String,
-      lastName: null == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
-              as String,
-      avatar: null == avatar
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      avatar: null == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String,
+      isOnline: null == isOnline
+          ? _value.isOnline
+          : isOnline // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -155,31 +168,35 @@ class __$$_CreatorModelCopyWithImpl<$Res>
 class _$_CreatorModel extends _CreatorModel {
   const _$_CreatorModel(
       {required this.id,
-      @JsonKey(name: 'first_name') required this.firstName,
-      @JsonKey(name: 'last_name') required this.lastName,
-      required this.avatar,
-      required this.category})
+      required this.email,
+      required this.category,
+      @JsonKey(name: 'name') required this.name,
+      @JsonKey(name: 'profile_photo') required this.avatar,
+      this.isOnline = false})
       : super._();
 
   factory _$_CreatorModel.fromJson(Map<String, dynamic> json) =>
       _$$_CreatorModelFromJson(json);
 
   @override
-  final int id;
+  final String id;
   @override
-  @JsonKey(name: 'first_name')
-  final String firstName;
-  @override
-  @JsonKey(name: 'last_name')
-  final String lastName;
-  @override
-  final String avatar;
+  final String email;
   @override
   final String category;
+  @override
+  @JsonKey(name: 'name')
+  final String name;
+  @override
+  @JsonKey(name: 'profile_photo')
+  final String avatar;
+  @override
+  @JsonKey()
+  final bool isOnline;
 
   @override
   String toString() {
-    return 'CreatorModel(id: $id, firstName: $firstName, lastName: $lastName, avatar: $avatar, category: $category)';
+    return 'CreatorModel(id: $id, email: $email, category: $category, name: $name, avatar: $avatar, isOnline: $isOnline)';
   }
 
   @override
@@ -188,19 +205,19 @@ class _$_CreatorModel extends _CreatorModel {
         (other.runtimeType == runtimeType &&
             other is _$_CreatorModel &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.firstName, firstName) ||
-                other.firstName == firstName) &&
-            (identical(other.lastName, lastName) ||
-                other.lastName == lastName) &&
-            (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            (identical(other.email, email) || other.email == email) &&
             (identical(other.category, category) ||
-                other.category == category));
+                other.category == category) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            (identical(other.isOnline, isOnline) ||
+                other.isOnline == isOnline));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, firstName, lastName, avatar, category);
+      Object.hash(runtimeType, id, email, category, name, avatar, isOnline);
 
   @JsonKey(ignore: true)
   @override
@@ -218,28 +235,31 @@ class _$_CreatorModel extends _CreatorModel {
 
 abstract class _CreatorModel extends CreatorModel {
   const factory _CreatorModel(
-      {required final int id,
-      @JsonKey(name: 'first_name') required final String firstName,
-      @JsonKey(name: 'last_name') required final String lastName,
-      required final String avatar,
-      required final String category}) = _$_CreatorModel;
+      {required final String id,
+      required final String email,
+      required final String category,
+      @JsonKey(name: 'name') required final String name,
+      @JsonKey(name: 'profile_photo') required final String avatar,
+      final bool isOnline}) = _$_CreatorModel;
   const _CreatorModel._() : super._();
 
   factory _CreatorModel.fromJson(Map<String, dynamic> json) =
       _$_CreatorModel.fromJson;
 
   @override
-  int get id;
+  String get id;
   @override
-  @JsonKey(name: 'first_name')
-  String get firstName;
-  @override
-  @JsonKey(name: 'last_name')
-  String get lastName;
-  @override
-  String get avatar;
+  String get email;
   @override
   String get category;
+  @override
+  @JsonKey(name: 'name')
+  String get name;
+  @override
+  @JsonKey(name: 'profile_photo')
+  String get avatar;
+  @override
+  bool get isOnline;
   @override
   @JsonKey(ignore: true)
   _$$_CreatorModelCopyWith<_$_CreatorModel> get copyWith =>

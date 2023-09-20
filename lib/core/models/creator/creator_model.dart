@@ -10,11 +10,12 @@ class CreatorModel with _$CreatorModel {
   const CreatorModel._();
 
   const factory CreatorModel({
-    required int id,
-    @JsonKey(name: 'first_name') required String firstName,
-    @JsonKey(name: 'last_name') required String lastName,
-    required String avatar,
+    required String id,
+    required String email,
     required String category,
+    @JsonKey(name: 'name') required String name,
+    @JsonKey(name: 'profile_photo') required String avatar,
+    @Default(false) bool isOnline,
   }) = _CreatorModel;
 
   factory CreatorModel.fromJson(Map<String, dynamic> json) =>

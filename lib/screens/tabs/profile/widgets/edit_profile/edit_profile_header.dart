@@ -1,8 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../../../../core/config.dart';
+import '../../../../../core/models/models.dart';
 
 class EditProfileHeader extends StatelessWidget {
-  const EditProfileHeader({super.key});
-
+  const EditProfileHeader({super.key, this.user});
+  final UserModel? user;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -21,15 +24,22 @@ class EditProfileHeader extends StatelessWidget {
           ],
         ),
         Center(
-          child: CircleAvatar(
-            radius: 44.r,
-            backgroundColor: AppTheme.lightGray,
-            child: Icon(
-              Icons.camera_alt,
-              color: AppTheme.icon,
-              size: 30.sp,
-            ),
-          ),
+          child: user?.avatar != null
+              ? CircleAvatar(
+                  radius: 44.r,
+                  backgroundImage: CachedNetworkImageProvider(
+                    user?.avatar ?? '',
+                  ),
+                )
+              : CircleAvatar(
+                  radius: 44.r,
+                  backgroundColor: AppTheme.lightGray,
+                  child: Icon(
+                    Icons.camera_alt,
+                    color: AppTheme.icon,
+                    size: 30.sp,
+                  ),
+                ),
         ),
       ],
     );
