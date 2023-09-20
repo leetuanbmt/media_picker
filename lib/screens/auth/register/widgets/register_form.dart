@@ -11,8 +11,6 @@ class RegisterForm extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final register = ref.read(registerProvider.notifier);
 
-    print('form');
-
     return Padding(
       padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 45.h),
       child: Form(
@@ -39,7 +37,6 @@ class RegisterForm extends ConsumerWidget {
                 final areFieldsEmpty = ref.watch(
                   registerProvider.select((value) => value.checkFieldsEmpty),
                 );
-                print('button');
                 return ButtonCustom(
                   "新規登録",
                   width: double.infinity,
