@@ -15,6 +15,7 @@ class TextFieldCustom extends StatelessWidget {
     this.onTap,
     this.readOnly = false,
     this.autofocus = false,
+    this.onChanged,
   });
 
   final TextEditingController? textController;
@@ -26,6 +27,7 @@ class TextFieldCustom extends StatelessWidget {
   final bool? readOnly, autofocus;
   final Widget? suffixIcon;
   final VoidCallback? onTap;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,7 @@ class TextFieldCustom extends StatelessWidget {
         focusedErrorBorder: border,
       ),
       onTap: onTap,
+      onChanged: onChanged,
     );
   }
 }

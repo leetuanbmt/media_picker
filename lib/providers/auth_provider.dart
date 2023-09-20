@@ -47,6 +47,22 @@ class AuthProvider {
     }
   }
 
+  Future<BaseState> createUserWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
+    try {
+      final auth = ref.watch(firebaseAuthProvider);
+      final userCredential = await auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return SuccessState(userCredential.user);
+    } on FirebaseAuthException catch (e) {
+      return ErrorState(message: e.message);
+    }
+  }
+
   Future<BaseState> loginFacebook() async {
     final result = await FacebookAuth.instance.login();
     switch (result.status) {

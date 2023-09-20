@@ -1,17 +1,43 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
 import '../core/config.dart';
 import '../core/models/base/base_model.dart';
+import 'auth_provider.dart';
 
 final registerProvider =
     StateNotifierProvider.autoDispose<RegisterProvider, BaseState>(
-  (ref) => RegisterProvider(),
+  (ref) => RegisterProvider(ref),
 );
 
 class RegisterProvider extends StateNotifier<BaseState> {
-  RegisterProvider() : super(const InitialState());
+  RegisterProvider(this.ref) : super(const InitialState());
+
+  final Ref ref;
+
+  AuthProvider get auth => ref.read(authProvider);
+
+  final emailController = TextEditingController();
+
+  final passwordController = TextEditingController();
+
+  String get email => emailController.text;
+
+  String get password => passwordController.text;
+
+  final isEmailValid = ValueNotifier<bool>(false);
+  final isPasswordValid = ValueNotifier<bool>(false);
+  final checkActiveButton = ValueNotifier<bool>(false);
+
+  void checkButton() {
+    isEmailValid.value = email.isNotEmpty;
+    isPasswordValid.value = password.isNotEmpty;
+    if (isEmailValid.value && isPasswordValid.value) {
+      checkActiveButton.value = true;
+    } else {
+      checkActiveButton.value = false;
+    }
+  }
 
   Future<void> register(
+    BuildContext context,
     String email,
     String password,
   ) async {
@@ -19,24 +45,17 @@ class RegisterProvider extends StateNotifier<BaseState> {
     if (checkEmail(email)) {
       checkValidPassword(password);
       if (checkValidPassword(password)) {
-        try {
-          state = const LoadingState();
-          final credential =
-              await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: email,
-            password: password,
-          );
-          state = SuccessState(credential.user);
-        } on FirebaseAuthException catch (e) {
-          state = ErrorState(message: e.message);
-        } catch (e) {
-          state = ErrorState(message: e.toString());
+        ref.loading(true);
+        state = await auth.createUserWithEmailAndPassword(email, password);
+        ref.loading(false);
+        if (state is ErrorState && context.mounted) {
+          context.toast((state as ErrorState).message);
         }
       } else {
-        state = const ErrorState(message: 'Password at least 6 characters');
+        context.toast('Password at least 6 characters');
       }
     } else {
-      state = const ErrorState(message: 'Check your email');
+      context.toast('Check your email');
     }
   }
 

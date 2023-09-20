@@ -1,58 +1,15 @@
 import '../../../../core/config.dart';
 
-import '../../../../core/models/models.dart';
 import '../../../../providers/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
 
-class RegisterForm extends HookConsumerWidget {
+class RegisterForm extends ConsumerWidget {
   const RegisterForm({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // create a TextEditingController for each field
-    final emailController = useTextEditingController();
-
-    final passwordController = useTextEditingController();
-
-    // create a ValueNotifier<bool> for each field
-    final checkFieldsEmpty = useState<bool>(true);
-
-    bool areFieldsEmpty() {
-      return emailController.text.isEmpty || passwordController.text.isEmpty;
-    }
-
-    checkFieldsEmpty.value = areFieldsEmpty();
-
-    Logger.log("checkFieldsEmpty.value ${checkFieldsEmpty.value}");
-
-    ref.listen(registerProvider, (previous, next) {
-      if (next is ErrorState) {
-        context.toast(next.message);
-      }
-      if (next is LoadingState) {
-        context.startLoading();
-      } else {
-        context.endLoading();
-      }
-    });
-
-    useEffect(
-      () {
-        void listener() {
-          checkFieldsEmpty.value = areFieldsEmpty();
-        }
-
-        emailController.addListener(listener);
-        passwordController.addListener(listener);
-
-        return () {
-          emailController.removeListener(listener);
-          passwordController.removeListener(listener);
-        };
-      },
-      [],
-    );
+    final register = ref.read(registerProvider.notifier);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 45.h),
@@ -60,40 +17,47 @@ class RegisterForm extends HookConsumerWidget {
         child: Column(
           children: [
             TextFieldCustom(
-              textController: emailController,
+              textController: register.emailController,
               hintText: "メールアドレス",
               keyboardType: TextInputType.emailAddress,
+              onChanged: (_) => register.checkButton(),
             ),
             SizedBox(
               height: 12.h,
             ),
             TextFieldCustom(
-              textController: passwordController,
+              textController: register.passwordController,
               hintText: 'パスワード（6文字以上の半角英数字）',
               obscureText: true,
+              onChanged: (_) => register.checkButton(),
             ),
             SizedBox(
               height: 28.h,
             ),
-            Consumer(
-              builder: (context, ref, child) {
+            ValueListenableBuilder<bool>(
+              valueListenable:
+                  ref.watch(registerProvider.notifier).checkActiveButton,
+              builder: (context, _, __) {
+                final isActive = ref
+                    .watch(registerProvider.notifier)
+                    .checkActiveButton
+                    .value;
                 return ButtonCustom(
                   "新規登録",
                   width: double.infinity,
                   height: 48.h,
                   onPressed: () {
-                    checkFieldsEmpty.value
-                        ? null
-                        : registerEmailPassword(
+                    isActive
+                        ? registerEmailPassword(
                             context,
-                            emailController,
-                            passwordController,
+                            register.emailController,
+                            register.passwordController,
                             ref,
-                          );
+                          )
+                        : null;
                   },
-                  backgroundColor: checkFieldsEmpty.value
-                      ? AppTheme.middleGray
-                      : AppTheme.primaryColor,
+                  backgroundColor:
+                      isActive ? AppTheme.primaryColor : AppTheme.middleGray,
                 );
               },
             ),
@@ -111,6 +75,7 @@ class RegisterForm extends HookConsumerWidget {
   ) {
     FocusScope.of(context).unfocus();
     ref.watch(registerProvider.notifier).register(
+          context,
           emailController.text,
           passwordController.text,
         );
