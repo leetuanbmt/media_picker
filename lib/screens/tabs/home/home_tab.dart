@@ -48,7 +48,6 @@ class HomeScreen extends ConsumerWidget {
               builder: (context, ref, child) {
                 return ref.watch(creatorByCategory).when(
                       data: (result) {
-                        Logger.log(result);
                         return Column(
                           children: [
                             ...result.entries

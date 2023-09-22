@@ -7,27 +7,30 @@ import '../../../../widgets/commons/tag_name_custom.dart';
 class CreatorOnlineItem extends ConsumerWidget {
   const CreatorOnlineItem({
     super.key,
-    this.model,
+    this.creator,
+    this.onPressed,
   });
 
-  final CreatorModel? model;
-
+  final CreatorModel? creator;
+  final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
-      onTap: () {},
+      onTap: onPressed,
       child: Container(
         width: 126.w,
         margin: EdgeInsets.only(right: 9.w),
         padding: EdgeInsets.symmetric(vertical: 4.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.r),
-          image: DecorationImage(
-            image: CachedNetworkImageProvider(
-              model?.avatar ?? '',
-            ),
-            fit: BoxFit.cover,
-          ),
+          image: creator?.avatar == null
+              ? null
+              : DecorationImage(
+                  image: CachedNetworkImageProvider(
+                    creator?.avatar ?? '',
+                  ),
+                  fit: BoxFit.cover,
+                ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +44,7 @@ class CreatorOnlineItem extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: Text(
-                model?.category ?? '👗ファッション',
+                creator?.category ?? '👗ファッション',
                 style: context.labelMedium?.copyWith(
                   color: Colors.white,
                   fontSize: 12.sp,
@@ -50,7 +53,7 @@ class CreatorOnlineItem extends ConsumerWidget {
               ),
             ),
             TagName(
-              name: model?.name ?? 'ゆうこ',
+              name: creator?.name ?? 'ゆうこ',
               textColor: Colors.white,
               isExpanded: true,
             ),

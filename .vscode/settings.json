@@ -3,15 +3,23 @@
     "ARGB",
     "autofocus",
     "barcodes",
+    "cameraswitch",
+    "Dtls",
+    "eventify",
     "Firestore",
     "gotip",
     "horiz",
+    "icecandidate",
     "LTRB",
+    "negotiationneeded",
     "pinput",
     "riverpod",
     "screenutil",
+    "Srtp",
     "textiked",
-    "unfocus"
+    "unfocus",
+    "videocam",
+    "webrtc"
   ],
   "dart.flutterSdkPath": "/Users/tuanvm/Downloads/flutter/bin"
 }

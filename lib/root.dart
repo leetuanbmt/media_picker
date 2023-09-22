@@ -2,7 +2,7 @@ import 'core/config.dart';
 import 'core/utilities/language.dart';
 import 'core/utilities/navigator.dart';
 import 'providers/global_provider.dart';
-import 'widgets/commons/indicators/loading_manager.dart';
+import 'screens/video_call/incoming_screen.dart';
 
 class RootApp extends StatelessWidget {
   const RootApp({super.key});
@@ -44,21 +44,7 @@ class RootApp extends StatelessWidget {
                       data: MediaQuery.of(context).copyWith(
                         textScaleFactor: 1.0,
                       ),
-                      child: Stack(
-                        children: [
-                          child ?? const SizedBox(),
-                          Consumer(
-                            builder: (context, ref, child) {
-                              return ref.watch(loadingProvider)
-                                  ? ColoredBox(
-                                      color: Colors.black.withOpacity(0.5),
-                                      child: const TurnLoading(),
-                                    )
-                                  : const SizedBox();
-                            },
-                          ),
-                        ],
-                      ),
+                      child: IncomingWrapperScreen(child!),
                     );
                   },
                 ),

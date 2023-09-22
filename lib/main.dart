@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:media_kit/media_kit.dart';
 
 import 'core/utilities/logger.dart';
 import 'core/utilities/preferences.dart';
@@ -10,6 +11,7 @@ import 'root.dart';
 Future<void> initService() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
+    MediaKit.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );

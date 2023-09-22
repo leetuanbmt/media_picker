@@ -26,6 +26,7 @@ mixin _$UserModel {
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'profile_photo')
   String get avatar => throw _privateConstructorUsedError;
+  UserType get type => throw _privateConstructorUsedError;
   int get followers => throw _privateConstructorUsedError;
   int get follow => throw _privateConstructorUsedError;
   int get points => throw _privateConstructorUsedError;
@@ -50,6 +51,7 @@ abstract class $UserModelCopyWith<$Res> {
       String email,
       @JsonKey(name: 'name') String name,
       @JsonKey(name: 'profile_photo') String avatar,
+      UserType type,
       int followers,
       int follow,
       int points,
@@ -76,6 +78,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? email = null,
     Object? name = null,
     Object? avatar = null,
+    Object? type = null,
     Object? followers = null,
     Object? follow = null,
     Object? points = null,
@@ -100,6 +103,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as UserType,
       followers: null == followers
           ? _value.followers
           : followers // ignore: cast_nullable_to_non_nullable
@@ -140,6 +147,7 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       String email,
       @JsonKey(name: 'name') String name,
       @JsonKey(name: 'profile_photo') String avatar,
+      UserType type,
       int followers,
       int follow,
       int points,
@@ -164,6 +172,7 @@ class __$$_UserModelCopyWithImpl<$Res>
     Object? email = null,
     Object? name = null,
     Object? avatar = null,
+    Object? type = null,
     Object? followers = null,
     Object? follow = null,
     Object? points = null,
@@ -188,6 +197,10 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as UserType,
       followers: null == followers
           ? _value.followers
           : followers // ignore: cast_nullable_to_non_nullable
@@ -224,6 +237,7 @@ class _$_UserModel extends _UserModel {
       required this.email,
       @JsonKey(name: 'name') required this.name,
       @JsonKey(name: 'profile_photo') required this.avatar,
+      required this.type,
       this.followers = 0,
       this.follow = 0,
       this.points = 0,
@@ -247,6 +261,8 @@ class _$_UserModel extends _UserModel {
   @override
   @JsonKey(name: 'profile_photo')
   final String avatar;
+  @override
+  final UserType type;
   @override
   @JsonKey()
   final int followers;
@@ -273,7 +289,7 @@ class _$_UserModel extends _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, email: $email, name: $name, avatar: $avatar, followers: $followers, follow: $follow, points: $points, birthday: $birthday, bio: $bio, following: $following)';
+    return 'UserModel(id: $id, email: $email, name: $name, avatar: $avatar, type: $type, followers: $followers, follow: $follow, points: $points, birthday: $birthday, bio: $bio, following: $following)';
   }
 
   @override
@@ -285,6 +301,7 @@ class _$_UserModel extends _UserModel {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.followers, followers) ||
                 other.followers == followers) &&
             (identical(other.follow, follow) || other.follow == follow) &&
@@ -304,6 +321,7 @@ class _$_UserModel extends _UserModel {
       email,
       name,
       avatar,
+      type,
       followers,
       follow,
       points,
@@ -331,6 +349,7 @@ abstract class _UserModel extends UserModel {
       required final String email,
       @JsonKey(name: 'name') required final String name,
       @JsonKey(name: 'profile_photo') required final String avatar,
+      required final UserType type,
       final int followers,
       final int follow,
       final int points,
@@ -353,6 +372,8 @@ abstract class _UserModel extends UserModel {
   @override
   @JsonKey(name: 'profile_photo')
   String get avatar;
+  @override
+  UserType get type;
   @override
   int get followers;
   @override

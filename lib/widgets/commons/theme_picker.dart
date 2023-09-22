@@ -47,8 +47,12 @@ class ThemePicker extends HookWidget {
               width: context.screenWidth,
               backgroundColor: colorTheme.value,
               onPressed: () {
-                ref.read(appGlobalProvider.notifier).setColor(colorTheme.value);
                 Navigator.of(context).pop();
+                WidgetsBinding.instance.endOfFrame.then(
+                  (value) => ref
+                      .read(appGlobalProvider.notifier)
+                      .setColor(colorTheme.value),
+                );
               },
             );
           },

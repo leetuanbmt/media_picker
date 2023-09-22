@@ -5,6 +5,7 @@ import '../core/models/models.dart';
 import '../core/repositories/base_repository.dart';
 import '../core/utilities/navigator.dart';
 import '../core/utilities/utilities.dart';
+import 'firebase_provider.dart';
 
 final loadingProvider = StateProvider<bool>((ref) => false);
 
@@ -15,7 +16,7 @@ final userChange = StreamProvider<User?>(
 );
 
 final appGlobalProvider = StateNotifierProvider<AppGlobal, GlobalSetting>(
-  (ref) => AppGlobal(),
+  (ref) => AppGlobal(ref),
 );
 
 final colorProvider = StateProvider<Color>(
@@ -23,9 +24,12 @@ final colorProvider = StateProvider<Color>(
 );
 
 class AppGlobal extends StateNotifier<GlobalSetting> {
-  AppGlobal() : super(const GlobalSetting()) {
+  final Ref ref;
+  AppGlobal(this.ref) : super(const GlobalSetting()) {
     navigator(FirebaseAuth.instance.currentUser);
-    FirebaseAuth.instance.authStateChanges().listen(navigator);
+    ref.listen(authStateChangesProvider, (previous, next) {
+      navigator(next.value);
+    });
   }
   void navigator(User? user) {
     if (user != null) {
