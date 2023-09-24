@@ -34,7 +34,7 @@ final userChangeFirebase =
       ),
 );
 
-final chatProvider = StreamProvider.autoDispose<List<UserModel>>((ref) {
+final userListFirestore = StreamProvider.autoDispose<List<UserModel>>((ref) {
   final currentUid = ref.read(firebaseAuthProvider).currentUser?.uid;
   return ref
       .watch(firestoreProvider)

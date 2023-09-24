@@ -1,150 +1,117 @@
-part of webrtc_wrapper;
+// part of webrtc_wrapper;
 
-class Connection extends PeerConnection {
-  String? userId;
-  String? connectionType;
-  String? name;
-  bool? videoEnabled = true;
-  bool? audioEnabled = true;
+// class Connection extends PeerConnection {
+//   String? userId;
+//   String? connectionType;
+//   String? name;
+//   bool? videoEnabled = true;
+//   bool? audioEnabled = true;
 
-  Connection({
-    this.userId,
-    this.connectionType,
-    this.name,
-    this.audioEnabled,
-    this.videoEnabled,
-  });
+//   Connection({
+//     this.userId,
+//     this.connectionType,
+//     this.name,
+//     this.audioEnabled,
+//     this.videoEnabled,
+//   });
 
-  void toggleVideo(bool val) {
-    videoEnabled = val;
-  }
+//   void toggleVideo(bool val) {
+//     videoEnabled = val;
+//   }
 
-  void toggleAudio(bool val) {
-    audioEnabled = val;
-  }
-}
+//   void toggleAudio(bool val) {
+//     audioEnabled = val;
+//   }
+// }
 
-class PeerConnection extends EventEmitter {
-  PeerConnection();
+// class PeerConnection extends EventEmitter {
+//   PeerConnection();
 
-  MediaStream? remoteStream;
+//   RTCVideoRenderer remoteRender = RTCVideoRenderer();
 
-  RTCVideoRenderer remoteRender = RTCVideoRenderer();
+//   RTCPeerConnection? rtcPeerConnection;
 
-  RTCPeerConnection? rtcPeerConnection;
+//   final Map<String, dynamic> configuration = {
+//     'iceServers': [
+//       {
+//         "urls": [
+//           'stun:stun.l.google.com:19302',
+//           'stun:stun1.l.google.com:19302',
+//         ],
+//       }
+//     ],
+//   };
 
-  final Map<String, dynamic> configuration = {
-    'iceServers': [
-      {
-        "urls": [
-          'stun:stun.l.google.com:19302',
-          'stun:stun1.l.google.com:19302',
-        ],
-      }
-    ],
-  };
-  final Map<String, dynamic> loopbackConstraints = {
-    "mandatory": {},
-    "optional": [
-      {"DtlsSrtpKeyAgreement": true},
-    ],
-  };
+//   Future<void> start() async {
+//     remoteRender.initialize();
+//     rtcPeerConnection = await createPeerConnection(configuration);
+//     rtcPeerConnection!.onAddStream = _onAddStream;
+//     rtcPeerConnection!.onRemoveStream = _onRemoveStream;
+//     rtcPeerConnection!.onRenegotiationNeeded = _onRenegotiationNeeded;
+//     rtcPeerConnection!.onIceCandidate = _onIceCandidate;
+//     rtcPeerConnection!.onTrack = _onTrack;
+//   }
 
-  final Map<String, dynamic> offerSdpConstraints = {
-    "mandatory": {
-      "OfferToReceiveAudio": true,
-      "OfferToReceiveVideo": true,
-    },
-    "optional": [],
-  };
+//   void _onTrack(RTCTrackEvent event) {
+//     if (event.track.kind == 'video') {
+//       remoteRender.srcObject = event.streams[0];
+//       emit(StringPayload.userJoin);
+//       Logger.log('user-joined');
+//     }
+//   }
 
-  Future<void> start() async {
-    remoteRender.initialize();
-    rtcPeerConnection = await createPeerConnection(
-      configuration,
-      loopbackConstraints,
-    );
-    rtcPeerConnection!.onAddStream = _onAddStream;
-    rtcPeerConnection!.onRemoveStream = _onRemoveStream;
-    rtcPeerConnection!.onRenegotiationNeeded = _onRenegotiationNeeded;
-    rtcPeerConnection!.onIceCandidate = _onIceCandidate;
-    rtcPeerConnection!.onTrack = _onTrack;
-  }
+//   void _onAddStream(MediaStream stream) {
+//     remoteRender.srcObject = stream;
+//     emit(StringPayload.userJoin);
+//   }
 
-  void _onTrack(RTCTrackEvent event) {
-    if (event.track.kind == 'video') {
-      remoteRender.srcObject = event.streams[0];
-      emit('user-joined');
-      Logger.log('user-joined');
-    }
-  }
+//   void _onRemoveStream(MediaStream stream) {
+//     remoteRender.srcObject = null;
+//     emit(StringPayload.userLeft);
+//   }
 
-  void _onAddStream(MediaStream stream) {
-    remoteStream = stream;
-    remoteRender.srcObject = stream;
-  }
+//   void _onRenegotiationNeeded() {
+//     emit('negotiationneeded');
+//   }
 
-  void _onRemoveStream(MediaStream stream) {
-    remoteStream = null;
-    remoteRender.srcObject = null;
-    Logger.log('user-left');
-    emit('user-left');
-  }
+//   void _onIceCandidate(RTCIceCandidate candidate) {
+//     emit(StringPayload.candidate, null, candidate);
+//   }
 
-  void _onRenegotiationNeeded() {
-    emit('negotiationneeded');
-  }
+//   Future<RTCSessionDescription?> createOffer() async {
+//     try {
+//       final sdp = await rtcPeerConnection!.createOffer();
+//       await rtcPeerConnection!.setLocalDescription(sdp);
+//       return sdp;
+//     } catch (error) {
+//       Logger.log(error);
+//     }
+//     return null;
+//   }
 
-  void _onIceCandidate(RTCIceCandidate candidate) {
-    emit('candidate', null, candidate);
-  }
+//   Future<RTCSessionDescription> createAnswer() async {
+//     final sdp = await rtcPeerConnection!.createAnswer();
+//     await rtcPeerConnection!.setLocalDescription(sdp);
+//     return sdp;
+//   }
 
-  Future<RTCSessionDescription?> createOffer() async {
-    try {
-      final RTCSessionDescription sdp = await rtcPeerConnection!.createOffer(
-        offerSdpConstraints,
-      );
-      await rtcPeerConnection!.setLocalDescription(sdp);
-      return sdp;
-    } catch (error) {
-      Logger.log(error);
-    }
-    return null;
-  }
+//   Future<void> setSdp(RTCSessionDescription sdp) async {
+//     if (rtcPeerConnection != null) {
+//       await rtcPeerConnection!.setRemoteDescription(sdp);
+//     }
+//   }
 
-  Future<void> setOfferSdp(RTCSessionDescription sdp) async {
-    if (rtcPeerConnection != null) {
-      await rtcPeerConnection!.setRemoteDescription(sdp);
-    }
-  }
+//   Future<void> setCandidate(RTCIceCandidate candidate) async {
+//     if (rtcPeerConnection != null) {
+//       await rtcPeerConnection!.addCandidate(candidate);
+//     }
+//   }
 
-  Future<RTCSessionDescription> createAnswer() async {
-    final RTCSessionDescription sdp = await rtcPeerConnection!.createAnswer(
-      offerSdpConstraints,
-    );
-    await rtcPeerConnection!.setLocalDescription(sdp);
-    return sdp;
-  }
-
-  Future<void> setAnswerSdp(RTCSessionDescription sdp) async {
-    if (rtcPeerConnection != null) {
-      await rtcPeerConnection!.setRemoteDescription(sdp);
-    }
-  }
-
-  Future<void> setCandidate(RTCIceCandidate candidate) async {
-    if (rtcPeerConnection != null) {
-      await rtcPeerConnection!.addCandidate(candidate);
-    }
-  }
-
-  void close() {
-    if (rtcPeerConnection != null) {
-      rtcPeerConnection!.close();
-      rtcPeerConnection = null;
-    }
-    remoteRender.dispose();
-
-    remoteStream = null;
-  }
-}
+//   void close() {
+//     if (rtcPeerConnection != null) {
+//       rtcPeerConnection!.close();
+//       rtcPeerConnection = null;
+//     }
+//     remoteRender.dispose();
+//   }
+// }

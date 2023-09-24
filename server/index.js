@@ -16,12 +16,20 @@ IO.use((socket, next) => {
 });
 
 IO.on("connection", (socket) => {
-  console.log(socket.user, "Connected");
+
+  console.log(socket.user, "Connected to socket");
+
   socket.join(socket.user);
 
   socket.on("makeCall", (data) => {
+
+    
     let calleeId = data.calleeId;
+
     let sdpOffer = data.sdpOffer;
+    
+    console.log(calleeId, "makeCall");
+
 
     socket.to(calleeId).emit("newCall", {
       callerId: socket.user,
@@ -35,21 +43,27 @@ IO.on("connection", (socket) => {
   });
 
   socket.on("answerCall", (data) => {
+
     let callerId = data.callerId;
-    let sdpAnswer = data.sdpAnswer;
+
+    let sdpOffer = data.sdpOffer;
+
 
     socket.to(callerId).emit("callAnswered", {
-      callee: socket.user,
-      sdpAnswer: sdpAnswer,
+      callerId: socket.user,
+      sdpOffer: sdpOffer,
     });
   });
 
-  socket.on("IceCandidate", (data) => {
+  socket.on("iceCandidate", (data) => {
+
     let calleeId = data.calleeId;
+
     let iceCandidate = data.iceCandidate;
 
-    socket.to(calleeId).emit("IceCandidate", {
-      sender: socket.user,
+
+    socket.to(calleeId).emit("iceCandidate", {
+      calleeId: socket.user,
       iceCandidate: iceCandidate,
     });
   });

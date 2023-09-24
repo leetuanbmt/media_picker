@@ -18,6 +18,7 @@ class SocketNotify extends ChangeNotifier {
       if (next.value != null) {
         initialize();
       } else {
+        Logger.log("Socket disconnect");
         socket?.disconnect();
         socket = null;
       }
@@ -35,25 +36,16 @@ class SocketNotify extends ChangeNotifier {
 
   void initialize() async {
     callerID = ref.read(firebaseAuthProvider).currentUser?.uid;
-    Logger.log("callerID: $callerID");
     if (callerID == null) return;
     socket = io(AppConfig.websocketUrl, {
       "transports": ['websocket'],
       "query": {"callerId": callerID},
     });
+    socket!.onConnect((data) => Logger.log("Socket connected"));
+    socket!.onError((data) => Logger.log(data));
+    socket!.on(SocketEvent.newCall, incomingCall);
 
-    socket!.on("newCall", (data) {
-      try {
-        incomingSDPOffer = OfferSdpData.fromJson(data);
-        callStatus = CallStatus.incoming;
-        isComingCall = true;
-        notifyListeners();
-      } catch (e) {
-        Logger.log(e);
-      }
-    });
-
-    socket!.on("callEnded", (data) {
+    socket!.on(SocketEvent.callEnded, (data) {
       incomingSDPOffer = null;
       isComingCall = false;
       callStatus = CallStatus.none;
@@ -62,10 +54,18 @@ class SocketNotify extends ChangeNotifier {
     socket!.connect();
   }
 
+  void incomingCall(dynamic data) {
+    Logger.log(data);
+    incomingSDPOffer = OfferSdpData.fromJson(data);
+    callStatus = CallStatus.incoming;
+    isComingCall = true;
+    notifyListeners();
+  }
+
   void acceptCall() {
     AppNavigator.instance.appRouter.navigate(
       CallRoute(
-        callerId: incomingSDPOffer!.callerId!,
+        callerId: incomingSDPOffer!.callerId,
         calleeId: callerID!,
         offer: incomingSDPOffer?.sdpOffer,
       ),
@@ -77,7 +77,7 @@ class SocketNotify extends ChangeNotifier {
   }
 
   void endCall() {
-    socket!.emit("endCall", incomingSDPOffer);
+    socket!.emit(SocketEvent.callEnded, incomingSDPOffer);
     isComingCall = false;
     notifyListeners();
   }

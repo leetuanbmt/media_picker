@@ -1,12 +1,15 @@
 library webrtc_wrapper;
 
+import 'dart:async';
+
 import 'package:eventify/eventify.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../core/utilities/logger.dart';
-part 'peer_connection.dart';
+part 'string_payload.dart';
 part 'payload_data.dart';
+// part 'transport.dart';
 
 class WebRtcWrapper extends EventEmitter {
   WebRtcWrapper({
@@ -14,27 +17,25 @@ class WebRtcWrapper extends EventEmitter {
     required this.calleeId,
     required this.callerId,
     this.name,
-    this.maxRetryCount = 3,
-    this.autoConnect = true,
     this.offer,
   });
   RTCSessionDescription? offer;
   String callerId, calleeId;
-  List<Connection> connections = [];
-  bool joined = false;
-  bool connected = false;
   String? name;
-  bool? videoEnabled = true;
-  bool? audioEnabled = true;
-  int? maxRetryCount;
-  bool? autoConnect;
+  bool videoEnabled = true;
+  bool audioEnabled = true;
+  bool isFrontCameraSelected = true;
   Socket socket;
 
-  MediaStream? localStream;
+  late MediaStream localStream;
 
-  Connection? connection;
+  late RTCPeerConnection _connection;
 
   final localRender = RTCVideoRenderer();
+
+  final remoteRender = RTCVideoRenderer();
+
+  List<RTCIceCandidate> candidates = [];
 
   final Map<String, dynamic> configuration = {
     'iceServers': [
@@ -46,187 +47,140 @@ class WebRtcWrapper extends EventEmitter {
       }
     ],
   };
-  final Map<String, dynamic> loopbackConstraints = {
-    "mandatory": {},
-    "optional": [
-      {"DtlsSrtpKeyAgreement": true},
-    ],
-  };
-
-  final Map<String, dynamic> offerSdpConstraints = {
-    "mandatory": {
-      "OfferToReceiveAudio": true,
-      "OfferToReceiveVideo": true,
-    },
-    "optional": [],
-  };
-
-  Future<Connection?> initialize() async {
-    // create connection by caller
-
-    final localUser = UserJoinedData(userId: callerId, name: name);
-
-    connection = await createConnection(localUser);
-    await setLocalStream();
-    if (offer != null) {
-      // listen to ice candidate
-      socket.on("IceCandidate", setIceCandidate);
-
-      final sdp = OfferSdpData(callerId: callerId, sdpOffer: offer);
-      // send offer sdp to callee
-      _sendAnswerSdp(sdp);
-    } else {
-      // listen to call answered
-      socket.on("callAnswered", callAnswered);
-      // send offer sdp to callee
-
-      _sendOfferSdp(calleeId);
-    }
-
-    return connection;
-  }
-
-  Future<void> callAnswered(dynamic data) async {
-    Logger.log(data);
-    final OfferSdpData offerSdpData = OfferSdpData.fromJson(data);
-    final connection = await createConnection(data);
-    await connection?.setOfferSdp(offerSdpData.sdpOffer!);
-  }
-
-  bool isAudioOn = true, isVideoOn = true, isFrontCameraSelected = true;
-
-  Future<void> setLocalStream() async {
-    localRender.initialize();
-    localStream = await navigator.mediaDevices.getUserMedia({
-      'audio': isAudioOn,
-      'video': isVideoOn
-          ? {'facingMode': isFrontCameraSelected ? 'user' : 'environment'}
-          : false,
-    });
-
-    localStream!.getTracks().forEach((track) {
-      connection?.rtcPeerConnection?.addTrack(track, localStream!);
-    });
-
-    localRender.srcObject = localStream;
-  }
-
   void sendMessage(String type, dynamic data) {
     socket.emit(type, data);
   }
 
-  void _sendAnswerSdp(OfferSdpData offerSdpData) async {
-    final connection = getConnection(offerSdpData.callerId);
-    if (connection != null) {
-      await connection.setOfferSdp(offerSdpData.sdpOffer!);
+  Future<void> initialize() async {
+    try {
+      // setup Peer Connection
+      localRender.initialize();
 
-      final answerSdp = await connection.createAnswer();
+      remoteRender.initialize();
 
-      sendMessage('answerCall', {
+      // create peer connection
+      _connection = await createPeerConnection(configuration);
+
+      // listen for remotePeer mediaTrack event
+      _connection.onTrack = _onTrack;
+
+// get localStream
+      localStream = await navigator.mediaDevices.getUserMedia({
+        'audio': audioEnabled,
+        'video': videoEnabled
+            ? {'facingMode': isFrontCameraSelected ? 'user' : 'environment'}
+            : false,
+      });
+
+// add mediaTrack to peerConnection
+      localStream.getTracks().forEach((track) {
+        _connection.addTrack(track, localStream);
+      });
+
+      // set source for local video renderer
+      localRender.srcObject = localStream;
+
+      emit(StringPayload.userJoin);
+
+      listenMessage();
+    } catch (e) {
+      Logger.log(e);
+    }
+  }
+
+  Future<void> listenMessage() async {
+    // for Incoming call
+    if (offer != null) {
+      // send iceCandidate generated to remote peer over signalling
+      _connection.onIceCandidate = _onIceCandidate;
+
+      // listen for local iceCandidate and add it to the list of IceCandidate
+      socket.on(SocketEvent.iceCandidate, setIceCandidate);
+
+      // create SDP Answer
+      final sdp = OfferSdpData(callerId: callerId, sdpOffer: offer!);
+
+      // set SDP offer as remoteDescription for peerConnection
+      await _connection.setRemoteDescription(sdp.sdpOffer);
+
+      // create SDP Answer
+      final answer = await _connection.createAnswer();
+
+      // set SDP answer as localDescription for peerConnection
+      await _connection.setLocalDescription(answer);
+      sendMessage(SocketEvent.answerCall, {
         'callerId': callerId,
-        'sdpAnswer': answerSdp.toMap(),
+        'sdpOffer': answer.toMap(),
+      });
+    } else {
+      // for Outgoing call
+
+      // listen for local iceCandidate and add it to the list of IceCandidate
+
+      _connection.onIceCandidate = (candidate) => candidates.add(candidate);
+
+      // listen for callAnswered event
+      socket.on(SocketEvent.callAnswered, callAnswered);
+
+      // create SDP Offer
+      final offer = await _connection.createOffer();
+
+      // set SDP offer as localDescription for peerConnection
+      await _connection.setLocalDescription(offer);
+
+      // make a call to remote peer over signalling
+      sendMessage(SocketEvent.makeCall, {
+        'calleeId': calleeId,
+        "sdpOffer": offer.toMap(),
       });
     }
   }
 
-  void _sendOfferSdp(String otherUserId) async {
-    final connection = getConnection(otherUserId);
-    if (connection != null) {
-      final sdp = await connection.createOffer();
-      sendMessage('makeCall', {
-        'calleeId': otherUserId,
-        "sdpOffer": sdp?.toMap(),
-      });
-    }
-  }
-
-  void setIceCandidate(dynamic data) async {
-    final dataCandidate = IceCandidateData.fromJson(data);
-    final connection = getConnection(dataCandidate.calleeId!);
-    await connection?.setCandidate(dataCandidate.candidate!);
-  }
-
-  Connection? getConnection(String? userId) {
-    final find = connections.where((e) => e.userId == userId);
-    if (find.isNotEmpty) {
-      return find.first;
-    }
-    return null;
-  }
-
-  void sendIceCandidate(String otherUserId, RTCIceCandidate candidate) {
-    sendMessage('IceCandidate', {
-      "calleeId": otherUserId,
+  void sendIceCandidate(RTCIceCandidate candidate) {
+    sendMessage(SocketEvent.iceCandidate, {
+      "calleeId": calleeId,
       "iceCandidate": candidate.toMap(),
     });
   }
 
-  Future<Connection?>? createConnection(UserJoinedData data) async {
-    final connection = Connection(
-      connectionType: 'incoming',
-      userId: data.userId,
-      name: data.name,
-      audioEnabled: true,
-      videoEnabled: true,
-    );
+  void callAnswered(dynamic data) async {
+    final sdpOffer = OfferSdpData.fromJson(data);
+    // set SDP answer as remoteDescription for peerConnection
+    await _connection.setRemoteDescription(sdpOffer.sdpOffer);
 
-    connection.on('user-joined', null, (ev, context) {
-      Logger.log('user-joined');
-      emit('user-joined');
-    });
-    connection.on('user-left', null, (ev, context) {
-      Logger.log('user-left');
-      emit('user-left');
-    });
-    connection.on('candidate', null, (ev, context) {
-      Logger.log('candidate');
-      sendIceCandidate(connection.userId!, ev.eventData as RTCIceCandidate);
-    });
-
-    connections.add(connection);
-    await connection.start();
-    return connection;
+    // send iceCandidate generated to remote peer over signalling
+    for (var element in candidates) {
+      sendIceCandidate(element);
+    }
   }
 
-  bool toggleVideo() {
-    if (localStream == null) return false;
-    final videoTrack = localStream!.getVideoTracks()[0];
-    final bool videoEnabled = videoTrack.enabled = !videoTrack.enabled;
-    this.videoEnabled = videoEnabled;
-    emit('video-toggle', null, {
-      'userId': calleeId,
-      'videoEnabled': videoEnabled,
-    });
-    return videoEnabled;
+  void setIceCandidate(dynamic data) {
+    Logger.log('setIceCandidate $data');
+    final candidate = IceCandidateData.fromJson(data);
+    _connection.addCandidate(candidate.candidate);
   }
 
-  bool toggleAudio() {
-    if (localStream == null) return false;
-    final audioTrack = localStream!.getAudioTracks()[0];
-    final bool audioEnabled = audioTrack.enabled = !audioTrack.enabled;
-    this.audioEnabled = audioEnabled;
+  void _onTrack(RTCTrackEvent event) {
+    if (event.streams.isEmpty) return;
+    remoteRender.srcObject = event.streams.first;
+    emit(StringPayload.userJoin);
+  }
 
-    emit('audio-toggle', null, {
-      'userId': calleeId,
-      'audioEnabled': audioEnabled,
+  void _onIceCandidate(RTCIceCandidate candidate) {
+    sendMessage(SocketEvent.iceCandidate, {
+      "calleeId": calleeId,
+      "iceCandidate": candidate.toMap(),
     });
-    return audioEnabled;
   }
 
   void close() {
-    for (var connection in connections) {
-      connection.close();
+    try {
+      remoteRender.dispose();
+      localRender.dispose();
+      localStream.dispose();
+      _connection.dispose();
+    } catch (e) {
+      Logger.log(e);
     }
-    localRender.dispose();
-    localStream?.dispose();
-    connections = [];
-    connected = false;
-    joined = false;
-  }
-
-  void reset() {
-    connections = [];
-    joined = false;
-    connected = false;
   }
 }
