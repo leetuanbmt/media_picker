@@ -128,7 +128,7 @@ class AppTheme {
       ),
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: <TargetPlatform, PageTransitionsBuilder>{
-          TargetPlatform.android: _AndroidCustomPageTransitionBuilder(),
+          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
         },
       ),
@@ -173,22 +173,22 @@ class AppTheme {
   }
 }
 
-class _AndroidCustomPageTransitionBuilder extends PageTransitionsBuilder {
-  const _AndroidCustomPageTransitionBuilder();
-  @override
-  Widget buildTransitions<T>(
-    PageRoute<T> route,
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    return FadeTransition(
-      opacity: animation.drive(CurveTween(curve: Curves.easeInOutQuart)),
-      child: ScaleTransition(
-        scale: Tween<double>(begin: 1.1, end: 1).animate(animation),
-        child: child,
-      ),
-    );
-  }
-}
+// class _AndroidCustomPageTransitionBuilder extends PageTransitionsBuilder {
+//   const _AndroidCustomPageTransitionBuilder();
+//   @override
+//   Widget buildTransitions<T>(
+//     PageRoute<T> route,
+//     BuildContext context,
+//     Animation<double> animation,
+//     Animation<double> secondaryAnimation,
+//     Widget child,
+//   ) {
+//     return FadeTransition(
+//       opacity: animation.drive(CurveTween(curve: Curves.easeInOutQuart)),
+//       child: ScaleTransition(
+//         scale: Tween<double>(begin: 1.1, end: 1).animate(animation),
+//         child: child,
+//       ),
+//     );
+//   }
+// }

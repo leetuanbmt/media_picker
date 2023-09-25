@@ -1,8 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
-
 import '../../../../../core/config.dart';
 import '../../../../../core/models/models.dart';
 import '../../../../../widgets/commons/button_custom.dart';
+import '../../../../../widgets/commons/cache_image.dart';
 import '../../../../../widgets/commons/tag_name_custom.dart';
 import 'card_profile.dart';
 
@@ -11,19 +10,22 @@ class ProfileHeader extends StatelessWidget {
   final UserModel? user;
   @override
   Widget build(BuildContext context) {
+    final isFan = user?.type == UserType.fan;
     return CardProfile(
       radius: 20.r,
       child: Padding(
-        padding: EdgeInsets.all(13.r),
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 10.h,
+        ),
         child: Column(
           children: [
             Row(
               children: [
-                CircleAvatar(
-                  radius: 44.r,
-                  backgroundImage: CachedNetworkImageProvider(
-                    user?.avatar ?? '',
-                  ),
+                CacheImage(
+                  radius: 100,
+                  dimension: 88.r,
+                  image: user?.avatar,
                 ),
                 SizedBox(width: 12.w),
                 Column(
@@ -41,31 +43,52 @@ class ProfileHeader extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 6.h),
-                    ButtonCustom(
-                      'ランキング',
-                      height: 28.h,
-                      backgroundColor: const Color(0xff8F3FFC),
-                      onPressed: () {},
-                    ),
+                    if (isFan)
+                      Row(
+                        children: [
+                          const _TagCustom(
+                            title: '配信',
+                            color: Color(0xff44D0CB),
+                          ),
+                          SizedBox(width: 3.w),
+                          const _TagCustom(
+                            title: 'カテゴリ',
+                            color: Color(0xff7B8AFF),
+                          ),
+                        ],
+                      )
+                    else
+                      ButtonCustom(
+                        'ランキング',
+                        height: 28.h,
+                        backgroundColor: const Color(0xff8F3FFC),
+                        onPressed: () {},
+                      ),
                   ],
                 ),
               ],
             ),
-            SizedBox(height: 12.h),
-            Row(
-              children: [
-                const _TagCustom(
-                  title: '配信',
-                  color: Color(0xff44D0CB),
+            if (!isFan) ...[
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10.h,
                 ),
-                SizedBox(width: 3.w),
-                const _TagCustom(
-                  title: 'カテゴリ',
-                  color: Color(0xff7B8AFF),
+                child: Row(
+                  children: [
+                    const _TagCustom(
+                      title: '配信',
+                      color: Color(0xff44D0CB),
+                    ),
+                    SizedBox(width: 3.w),
+                    const _TagCustom(
+                      title: 'カテゴリ',
+                      color: Color(0xff7B8AFF),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            SizedBox(height: 5.h),
+              ),
+            ] else
+              SizedBox(height: 16.h),
             Row(
               children: [
                 FollowItem(

@@ -1,59 +1,83 @@
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../../core/config.dart';
+import '../../../../../core/models/models.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/firebase_provider.dart';
 import '../../../../../routes/app_routes.gr.dart';
 import 'card_profile.dart';
 
 class ProfileDetail extends StatelessWidget {
-  const ProfileDetail({
-    super.key,
-  });
-
+  const ProfileDetail({super.key, this.userType});
+  final UserType? userType;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _ProfileItem(
-          title: 'ポイント確認',
-          assetIcon: Assets.iconsIcPoint.path,
-          onTap: () {
-            context.navigator(const PointConfirmRoute());
-          },
-        ),
-        _ProfileItem(
-          title: 'お支払い設定',
-          assetIcon: Assets.iconsIcCreditCard1.path,
-          onTap: () {},
-        ),
-        _ProfileItem(
-          title: '口座情報設定',
-          assetIcon: Assets.iconsIcBalance.path,
-          onTap: () {},
-        ),
-        _ProfileItem(
-          title: 'よくある質問',
-          assetIcon: Assets.iconsIcQna.path,
-          onTap: () {},
-        ),
-        _ProfileItem(
-          title: '利用ガイド',
-          assetIcon: Assets.iconsIcCreditCard.path,
-          onTap: () {
-            context.navigator(const UsageGuideRoute());
-          },
-        ),
-        _ProfileItem(
-          title: '配信予定の告知',
-          assetIcon: Assets.iconsIcComment.path,
-          onTap: () {},
-        ),
-        _ProfileItem(
-          title: '通知設定',
-          assetIcon: Assets.iconsIconNotifications.path,
-          onTap: () {},
-        ),
+        if (userType == UserType.fan) ...[
+          _ProfileItem(
+            title: 'ポイント確認',
+            assetIcon: Assets.iconsPointOutline.path,
+            onTap: () {
+              context.navigator(const PointConfirmRoute());
+            },
+          ),
+          _ProfileItem(
+            title: '利用ガイド',
+            assetIcon: Assets.iconsUsageGuideOutline.path,
+            onTap: () {},
+          ),
+          _ProfileItem(
+            title: '通知設定',
+            assetIcon: Assets.iconsNotifyOutline.path,
+            onTap: () {},
+          ),
+          _ProfileItem(
+            title: 'クリエータになる',
+            assetIcon: Assets.iconsRefreshOutline.path,
+            onTap: () {},
+          ),
+        ] else ...[
+          _ProfileItem(
+            title: 'ポイント確認',
+            assetIcon: Assets.iconsIcPoint.path,
+            onTap: () {
+              context.navigator(const PointConfirmRoute());
+            },
+          ),
+          _ProfileItem(
+            title: 'お支払い設定',
+            assetIcon: Assets.iconsIcCreditCard1.path,
+            onTap: () {},
+          ),
+          _ProfileItem(
+            title: '口座情報設定',
+            assetIcon: Assets.iconsIcBalance.path,
+            onTap: () {},
+          ),
+          _ProfileItem(
+            title: 'よくある質問',
+            assetIcon: Assets.iconsIcQna.path,
+            onTap: () {},
+          ),
+          _ProfileItem(
+            title: '利用ガイド',
+            assetIcon: Assets.iconsIcCreditCard.path,
+            onTap: () {
+              context.navigator(const UsageGuideRoute());
+            },
+          ),
+          _ProfileItem(
+            title: '配信予定の告知',
+            assetIcon: Assets.iconsIcComment.path,
+            onTap: () {},
+          ),
+          _ProfileItem(
+            title: '通知設定',
+            assetIcon: Assets.iconsIconNotifications.path,
+            onTap: () {},
+          ),
+        ],
         Consumer(
           builder: (context, ref, child) {
             return _ProfileItem(
@@ -75,13 +99,13 @@ class _ProfileItem extends StatelessWidget {
     this.assetIcon,
     this.onTap,
     this.isNext = true,
-    this.textColor,
+    this.textColor = const Color(0xff140F26),
   });
   final String title;
   final String? assetIcon;
   final VoidCallback? onTap;
   final bool isNext;
-  final Color? textColor;
+  final Color textColor;
   @override
   Widget build(BuildContext context) {
     Widget? leading, trailing;

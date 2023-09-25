@@ -17,6 +17,7 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
           children: [
             AutoRoute(page: HomeRoute.page, initial: true),
             AutoRoute(page: SearchCreatorRoute.page),
+            AutoRoute(page: ListUserRoute.page),
           ],
         ),
         AutoRoute(
@@ -30,7 +31,14 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
             AutoRoute(page: UsagePlayRoute.page),
           ],
         ),
-        AutoRoute(page: SearchRoute.page),
+        AutoRoute(
+          page: SearchTabRoute.page,
+          children: [
+            AutoRoute(initial: true, page: SearchRoute.page),
+            AutoRoute(page: SearchCreatorRoute.page),
+            AutoRoute(page: ListUserRoute.page),
+          ],
+        ),
         AutoRoute(page: MainRoute.page),
         AutoRoute(page: NotificationRoute.page),
       ],
@@ -40,6 +48,7 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
     AutoRoute(page: OTPRoute.page),
     AutoRoute(page: RegisterRoute.page),
     AutoRoute(page: SelectAttributeRoute.page),
+    AutoRoute(page: CallRoute.page),
     RedirectRoute(path: '*', redirectTo: '/dashboard'),
   ];
 
@@ -65,4 +74,9 @@ class HomeTab extends AutoRouter {
 @RoutePage(name: 'ProfileTabRoute')
 class ProfileTab extends AutoRouter {
   const ProfileTab({super.key});
+}
+
+@RoutePage(name: 'SearchTabRoute')
+class SearchTab extends AutoRouter {
+  const SearchTab({super.key});
 }

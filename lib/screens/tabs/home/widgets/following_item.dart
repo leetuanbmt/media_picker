@@ -1,16 +1,14 @@
 import '../../../../core/config.dart';
 import '../../../../core/models/creator/creator_model.dart';
 import '../../../../widgets/commons/button_custom.dart';
+import '../../../../widgets/commons/cache_image.dart';
 import '../../../../widgets/commons/tag_name_custom.dart';
 
 class FollowingItem extends StatelessWidget {
-  const FollowingItem({
-    super.key,
-    this.model,
-  });
+  const FollowingItem({super.key, this.creator, this.onPressed});
 
-  final CreatorModel? model;
-
+  final CreatorModel? creator;
+  final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,23 +25,21 @@ class FollowingItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CircleAvatar(
-            radius: 32.r,
-            backgroundImage: NetworkImage(
-              model?.avatar ??
-                  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80',
-            ),
+          CacheImage(
+            image: creator?.avatar,
+            radius: 100.r,
+            dimension: 64.w,
           ),
-          TagName(
-            name: model?.name ?? 'ゆうこ',
-            isExpanded: true,
+          Flexible(
+            child: TagName(
+              name: creator?.name ?? 'ゆうこ',
+              isExpanded: true,
+            ),
           ),
           ButtonCustom(
             'フォローする',
-            width: 114.w,
             height: 32.h,
-            fontSize: 12,
-            onPressed: () {},
+            onPressed: onPressed,
           ),
         ],
       ),

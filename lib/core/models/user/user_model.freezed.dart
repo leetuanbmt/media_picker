@@ -26,6 +26,7 @@ mixin _$UserModel {
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'profile_photo')
   String get avatar => throw _privateConstructorUsedError;
+  UserType get type => throw _privateConstructorUsedError;
   int get followers => throw _privateConstructorUsedError;
   int get follow => throw _privateConstructorUsedError;
   int get points => throw _privateConstructorUsedError;
@@ -33,6 +34,7 @@ mixin _$UserModel {
   DateTime? get birthday => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
   List<FollowingModel>? get following => throw _privateConstructorUsedError;
+  bool get isOnline => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,13 +52,15 @@ abstract class $UserModelCopyWith<$Res> {
       String email,
       @JsonKey(name: 'name') String name,
       @JsonKey(name: 'profile_photo') String avatar,
+      UserType type,
       int followers,
       int follow,
       int points,
       @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
       DateTime? birthday,
       String? bio,
-      List<FollowingModel>? following});
+      List<FollowingModel>? following,
+      bool isOnline});
 }
 
 /// @nodoc
@@ -76,12 +80,14 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? email = null,
     Object? name = null,
     Object? avatar = null,
+    Object? type = null,
     Object? followers = null,
     Object? follow = null,
     Object? points = null,
     Object? birthday = freezed,
     Object? bio = freezed,
     Object? following = freezed,
+    Object? isOnline = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -100,6 +106,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as UserType,
       followers: null == followers
           ? _value.followers
           : followers // ignore: cast_nullable_to_non_nullable
@@ -124,6 +134,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.following
           : following // ignore: cast_nullable_to_non_nullable
               as List<FollowingModel>?,
+      isOnline: null == isOnline
+          ? _value.isOnline
+          : isOnline // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -140,13 +154,15 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       String email,
       @JsonKey(name: 'name') String name,
       @JsonKey(name: 'profile_photo') String avatar,
+      UserType type,
       int followers,
       int follow,
       int points,
       @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
       DateTime? birthday,
       String? bio,
-      List<FollowingModel>? following});
+      List<FollowingModel>? following,
+      bool isOnline});
 }
 
 /// @nodoc
@@ -164,12 +180,14 @@ class __$$_UserModelCopyWithImpl<$Res>
     Object? email = null,
     Object? name = null,
     Object? avatar = null,
+    Object? type = null,
     Object? followers = null,
     Object? follow = null,
     Object? points = null,
     Object? birthday = freezed,
     Object? bio = freezed,
     Object? following = freezed,
+    Object? isOnline = null,
   }) {
     return _then(_$_UserModel(
       id: null == id
@@ -188,6 +206,10 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as UserType,
       followers: null == followers
           ? _value.followers
           : followers // ignore: cast_nullable_to_non_nullable
@@ -212,6 +234,10 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value._following
           : following // ignore: cast_nullable_to_non_nullable
               as List<FollowingModel>?,
+      isOnline: null == isOnline
+          ? _value.isOnline
+          : isOnline // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -224,13 +250,15 @@ class _$_UserModel extends _UserModel {
       required this.email,
       @JsonKey(name: 'name') required this.name,
       @JsonKey(name: 'profile_photo') required this.avatar,
+      required this.type,
       this.followers = 0,
       this.follow = 0,
       this.points = 0,
       @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
       this.birthday,
       this.bio,
-      final List<FollowingModel>? following})
+      final List<FollowingModel>? following,
+      this.isOnline = false})
       : _following = following,
         super._();
 
@@ -247,6 +275,8 @@ class _$_UserModel extends _UserModel {
   @override
   @JsonKey(name: 'profile_photo')
   final String avatar;
+  @override
+  final UserType type;
   @override
   @JsonKey()
   final int followers;
@@ -272,8 +302,12 @@ class _$_UserModel extends _UserModel {
   }
 
   @override
+  @JsonKey()
+  final bool isOnline;
+
+  @override
   String toString() {
-    return 'UserModel(id: $id, email: $email, name: $name, avatar: $avatar, followers: $followers, follow: $follow, points: $points, birthday: $birthday, bio: $bio, following: $following)';
+    return 'UserModel(id: $id, email: $email, name: $name, avatar: $avatar, type: $type, followers: $followers, follow: $follow, points: $points, birthday: $birthday, bio: $bio, following: $following, isOnline: $isOnline)';
   }
 
   @override
@@ -285,6 +319,7 @@ class _$_UserModel extends _UserModel {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.followers, followers) ||
                 other.followers == followers) &&
             (identical(other.follow, follow) || other.follow == follow) &&
@@ -293,7 +328,9 @@ class _$_UserModel extends _UserModel {
                 other.birthday == birthday) &&
             (identical(other.bio, bio) || other.bio == bio) &&
             const DeepCollectionEquality()
-                .equals(other._following, _following));
+                .equals(other._following, _following) &&
+            (identical(other.isOnline, isOnline) ||
+                other.isOnline == isOnline));
   }
 
   @JsonKey(ignore: true)
@@ -304,12 +341,14 @@ class _$_UserModel extends _UserModel {
       email,
       name,
       avatar,
+      type,
       followers,
       follow,
       points,
       birthday,
       bio,
-      const DeepCollectionEquality().hash(_following));
+      const DeepCollectionEquality().hash(_following),
+      isOnline);
 
   @JsonKey(ignore: true)
   @override
@@ -331,13 +370,15 @@ abstract class _UserModel extends UserModel {
       required final String email,
       @JsonKey(name: 'name') required final String name,
       @JsonKey(name: 'profile_photo') required final String avatar,
+      required final UserType type,
       final int followers,
       final int follow,
       final int points,
       @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
       final DateTime? birthday,
       final String? bio,
-      final List<FollowingModel>? following}) = _$_UserModel;
+      final List<FollowingModel>? following,
+      final bool isOnline}) = _$_UserModel;
   const _UserModel._() : super._();
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -354,6 +395,8 @@ abstract class _UserModel extends UserModel {
   @JsonKey(name: 'profile_photo')
   String get avatar;
   @override
+  UserType get type;
+  @override
   int get followers;
   @override
   int get follow;
@@ -366,6 +409,8 @@ abstract class _UserModel extends UserModel {
   String? get bio;
   @override
   List<FollowingModel>? get following;
+  @override
+  bool get isOnline;
   @override
   @JsonKey(ignore: true)
   _$$_UserModelCopyWith<_$_UserModel> get copyWith =>

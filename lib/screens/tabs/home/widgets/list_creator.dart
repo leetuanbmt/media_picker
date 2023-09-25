@@ -1,5 +1,7 @@
 import '../../../../core/config.dart';
 import '../../../../core/models/creator/creator_model.dart';
+import '../../../../routes/app_routes.gr.dart';
+import '../../../../widgets/commons/category_picker.dart';
 import 'creator_online_item.dart';
 import 'following_item.dart';
 
@@ -54,7 +56,14 @@ class ListCreator extends StatelessWidget {
                       color: AppTheme.primaryColor,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.navigator(
+                      ListUserRoute(
+                        items: listCreator,
+                        title: title,
+                      ),
+                    );
+                  },
                 ),
               ),
           ],
@@ -67,8 +76,16 @@ class ListCreator extends StatelessWidget {
             itemCount: listCreator.length,
             itemBuilder: (context, index) {
               return onlineList
-                  ? CreatorOnlineItem(model: listCreator[index])
-                  : FollowingItem(model: listCreator[index]);
+                  ? CreatorOnlineItem(
+                      creator: listCreator[index],
+                      onPressed: () {},
+                    )
+                  : FollowingItem(
+                      creator: listCreator[index],
+                      onPressed: () {
+                        CategoryPicker.show(context);
+                      },
+                    );
             },
           ),
         ),
