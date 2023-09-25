@@ -1,5 +1,6 @@
 import '../core/config.dart';
 import '../core/models/creator/creator_model.dart';
+import '../core/utilities/utilities.dart';
 import 'firebase_provider.dart';
 
 final searchNotifier =
@@ -15,7 +16,10 @@ class SearchNotifier extends StateNotifier<List<CreatorModel>> {
   List<CreatorModel> items = [];
 
   void initialize() async {
-    final list = await ref.read(firestoreProvider).collection('creators').get();
+    final list = await ref
+        .read(firestoreProvider)
+        .collection(DbCollection.creators)
+        .get();
     items = list.docs.map((e) => CreatorModel.fromJson(e.data())).toList();
     state = items;
   }

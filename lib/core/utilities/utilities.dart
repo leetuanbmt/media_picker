@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../config.dart';
 
+export 'db_helper.dart';
 export 'language.dart';
 export 'logger.dart';
 export 'preferences.dart';

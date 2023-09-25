@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../core/config.dart';
 import '../core/models/models.dart';
+import '../core/utilities/utilities.dart';
 
 typedef Json = Map<String, dynamic>;
 
@@ -16,8 +17,9 @@ final firestoreProvider =
     Provider<FirebaseFirestore>((ref) => FirebaseFirestore.instance);
 
 final userFirestoreProvider =
-    Provider.autoDispose.family<DocumentReference, String>(
-  (ref, uid) => ref.watch(firestoreProvider).collection('users').doc(uid),
+    Provider.autoDispose.family<DocumentReference, String?>(
+  (ref, uid) =>
+      ref.watch(firestoreProvider).collection(DbCollection.users).doc(uid),
 );
 
 final authStateChangesProvider = StreamProvider<User?>(
@@ -25,20 +27,31 @@ final authStateChangesProvider = StreamProvider<User?>(
 );
 
 final userChangeFirebase =
-    StreamProvider.autoDispose.family<UserModel?, String>(
+    StreamProvider.autoDispose.family<UserModel?, String?>(
   (ref, uid) => ref.watch(userFirestoreProvider(uid)).snapshots().map(
-        (event) => event.exists
-            ? UserModel.fromJson(event.data() as Map<String, dynamic>)
-            : null,
+        (event) =>
+            event.exists ? UserModel.fromJson(event.data() as Json) : null,
       ),
 );
 
-final chatProvider = StreamProvider.autoDispose<List<UserModel>>((ref) {
+final userListFirestore = StreamProvider.autoDispose<List<UserModel>>((ref) {
   final currentUid = ref.read(firebaseAuthProvider).currentUser?.uid;
-  return ref.watch(firestoreProvider).collection('users').snapshots().map(
+  return ref
+      .watch(firestoreProvider)
+      .collection(DbCollection.users)
+      .snapshots()
+      .map(
         (event) => event.docs
             .map((e) => UserModel.fromJson(e.data()))
             .where((e) => e.id != currentUid)
             .toList(),
       );
+});
+
+final categoriesProvider = FutureProvider<List<String>>((ref) async {
+  final categories = await ref
+      .watch(firestoreProvider)
+      .collection(DbCollection.categories)
+      .get();
+  return categories.docs.map((e) => e.data()['title'] as String).toList();
 });

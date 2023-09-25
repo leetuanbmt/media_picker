@@ -1,7 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
-
 import '../../../../../core/config.dart';
 import '../../../../../core/models/models.dart';
+import '../../../../../widgets/commons/cache_image.dart';
 
 class EditProfileHeader extends StatelessWidget {
   const EditProfileHeader({super.key, this.user});
@@ -24,22 +23,11 @@ class EditProfileHeader extends StatelessWidget {
           ],
         ),
         Center(
-          child: user?.avatar != null
-              ? CircleAvatar(
-                  radius: 44.r,
-                  backgroundImage: CachedNetworkImageProvider(
-                    user?.avatar ?? '',
-                  ),
-                )
-              : CircleAvatar(
-                  radius: 44.r,
-                  backgroundColor: AppTheme.lightGray,
-                  child: Icon(
-                    Icons.camera_alt,
-                    color: AppTheme.icon,
-                    size: 30.sp,
-                  ),
-                ),
+          child: CacheImage(
+            image: user?.avatar,
+            radius: 100.r,
+            dimension: 88.w,
+          ),
         ),
       ],
     );
