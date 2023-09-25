@@ -25,6 +25,7 @@ class UserModel with _$UserModel {
     DateTime? birthday,
     String? bio,
     List<FollowingModel>? following,
+    @Default(false) bool isOnline,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

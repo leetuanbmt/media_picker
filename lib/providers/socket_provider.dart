@@ -34,7 +34,10 @@ class SocketNotify extends ChangeNotifier {
 
   bool isComingCall = false;
 
+  bool get isSocketConnected => socket?.connected ?? false;
+
   void initialize() async {
+    if (isSocketConnected) return;
     callerID = ref.read(firebaseAuthProvider).currentUser?.uid;
     if (callerID == null) return;
     socket = io(AppConfig.websocketUrl, {
@@ -55,7 +58,6 @@ class SocketNotify extends ChangeNotifier {
   }
 
   void incomingCall(dynamic data) {
-    Logger.log(data);
     incomingSDPOffer = OfferSdpData.fromJson(data);
     callStatus = CallStatus.incoming;
     isComingCall = true;

@@ -34,6 +34,7 @@ mixin _$UserModel {
   DateTime? get birthday => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
   List<FollowingModel>? get following => throw _privateConstructorUsedError;
+  bool get isOnline => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -58,7 +59,8 @@ abstract class $UserModelCopyWith<$Res> {
       @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
       DateTime? birthday,
       String? bio,
-      List<FollowingModel>? following});
+      List<FollowingModel>? following,
+      bool isOnline});
 }
 
 /// @nodoc
@@ -85,6 +87,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? birthday = freezed,
     Object? bio = freezed,
     Object? following = freezed,
+    Object? isOnline = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -131,6 +134,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.following
           : following // ignore: cast_nullable_to_non_nullable
               as List<FollowingModel>?,
+      isOnline: null == isOnline
+          ? _value.isOnline
+          : isOnline // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -154,7 +161,8 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
       DateTime? birthday,
       String? bio,
-      List<FollowingModel>? following});
+      List<FollowingModel>? following,
+      bool isOnline});
 }
 
 /// @nodoc
@@ -179,6 +187,7 @@ class __$$_UserModelCopyWithImpl<$Res>
     Object? birthday = freezed,
     Object? bio = freezed,
     Object? following = freezed,
+    Object? isOnline = null,
   }) {
     return _then(_$_UserModel(
       id: null == id
@@ -225,6 +234,10 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value._following
           : following // ignore: cast_nullable_to_non_nullable
               as List<FollowingModel>?,
+      isOnline: null == isOnline
+          ? _value.isOnline
+          : isOnline // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -244,7 +257,8 @@ class _$_UserModel extends _UserModel {
       @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
       this.birthday,
       this.bio,
-      final List<FollowingModel>? following})
+      final List<FollowingModel>? following,
+      this.isOnline = false})
       : _following = following,
         super._();
 
@@ -288,8 +302,12 @@ class _$_UserModel extends _UserModel {
   }
 
   @override
+  @JsonKey()
+  final bool isOnline;
+
+  @override
   String toString() {
-    return 'UserModel(id: $id, email: $email, name: $name, avatar: $avatar, type: $type, followers: $followers, follow: $follow, points: $points, birthday: $birthday, bio: $bio, following: $following)';
+    return 'UserModel(id: $id, email: $email, name: $name, avatar: $avatar, type: $type, followers: $followers, follow: $follow, points: $points, birthday: $birthday, bio: $bio, following: $following, isOnline: $isOnline)';
   }
 
   @override
@@ -310,7 +328,9 @@ class _$_UserModel extends _UserModel {
                 other.birthday == birthday) &&
             (identical(other.bio, bio) || other.bio == bio) &&
             const DeepCollectionEquality()
-                .equals(other._following, _following));
+                .equals(other._following, _following) &&
+            (identical(other.isOnline, isOnline) ||
+                other.isOnline == isOnline));
   }
 
   @JsonKey(ignore: true)
@@ -327,7 +347,8 @@ class _$_UserModel extends _UserModel {
       points,
       birthday,
       bio,
-      const DeepCollectionEquality().hash(_following));
+      const DeepCollectionEquality().hash(_following),
+      isOnline);
 
   @JsonKey(ignore: true)
   @override
@@ -356,7 +377,8 @@ abstract class _UserModel extends UserModel {
       @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
       final DateTime? birthday,
       final String? bio,
-      final List<FollowingModel>? following}) = _$_UserModel;
+      final List<FollowingModel>? following,
+      final bool isOnline}) = _$_UserModel;
   const _UserModel._() : super._();
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -387,6 +409,8 @@ abstract class _UserModel extends UserModel {
   String? get bio;
   @override
   List<FollowingModel>? get following;
+  @override
+  bool get isOnline;
   @override
   @JsonKey(ignore: true)
   _$$_UserModelCopyWith<_$_UserModel> get copyWith =>
