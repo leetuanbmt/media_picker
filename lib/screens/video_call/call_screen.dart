@@ -24,8 +24,6 @@ class CallScreen extends ConsumerStatefulWidget {
 }
 
 class _CallScreenState extends ConsumerState<CallScreen> {
-  late final socket = ref.watch(socketProvider).socket;
-
   WebRtcWrapper? webRtcWrapper;
 
   bool isAudioOn = true, isVideoOn = true, isFrontCameraSelected = true;
@@ -36,10 +34,10 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   void initState() {
     WidgetsBinding.instance.endOfFrame.then((value) {
       webRtcWrapper = WebRtcWrapper(
-        socket: socket!,
         callerId: widget.callerId,
         calleeId: widget.calleeId,
         offer: widget.offer,
+        transport: ref.read(socketProvider.notifier).transport,
       );
       joinMeeting();
     });
@@ -57,10 +55,11 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   }
 
   @override
-  void dispose() {
+  void deactivate() {
     ref.read(socketProvider).endCall();
     webRtcWrapper?.close();
-    super.dispose();
+
+    super.deactivate();
   }
 
   void dragUpdate(DragUpdateDetails details) {
@@ -132,7 +131,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
                   children: [
                     IconButton(
                       icon: Icon(isAudioOn ? Icons.mic : Icons.mic_off),
-                      onPressed: _toggleMic,
+                      onPressed: _toggleAudio,
                     ),
                     IconButton(
                       icon: const Icon(Icons.call_end),
@@ -144,9 +143,10 @@ class _CallScreenState extends ConsumerState<CallScreen> {
                       onPressed: _switchCamera,
                     ),
                     IconButton(
-                      icon:
-                          Icon(isVideoOn ? Icons.videocam : Icons.videocam_off),
-                      onPressed: _toggleCamera,
+                      icon: Icon(
+                        isVideoOn ? Icons.videocam : Icons.videocam_off,
+                      ),
+                      onPressed: _toggleVideo,
                     ),
                   ],
                 ),
@@ -159,12 +159,25 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   }
 
   _leaveCall() {
+    webRtcWrapper?.close();
     Navigator.of(context).pop();
   }
 
-  _toggleMic() {}
+  _toggleAudio() {
+    setState(() {
+      isAudioOn = webRtcWrapper?.toggleAudio() ?? false;
+    });
+  }
 
-  _toggleCamera() {}
+  _toggleVideo() {
+    setState(() {
+      isVideoOn = webRtcWrapper?.toggleVideo() ?? false;
+    });
+  }
 
-  _switchCamera() {}
+  _switchCamera() {
+    setState(() {
+      isFrontCameraSelected = webRtcWrapper?.switchCamera() ?? false;
+    });
+  }
 }

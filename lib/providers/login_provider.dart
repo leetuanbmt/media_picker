@@ -47,6 +47,7 @@ class LoginProvider extends ChangeNotifier {
     final saveEmail = AppConfig.email.getString();
     final savePassword = AppConfig.password.getString();
     final checkSaveAccount = AppConfig.checkSaveAccount.getBool();
+    checkFieldsEmpty = areFieldsEmpty();
     saveAccount = checkSaveAccount;
     // check save account and set value for email and password
     if (checkSaveAccount && saveEmail != null && savePassword != null) {

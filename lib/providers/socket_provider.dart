@@ -1,30 +1,14 @@
-import 'package:socket_io_client/socket_io_client.dart';
-
 import '../core/config.dart';
 import '../core/models/enum/enum.dart';
 import '../core/utilities/navigator.dart';
 import '../routes/app_routes.gr.dart';
 import '../screens/video_call/webrtc_wrapper/webrtc_wrapper.dart';
-import 'firebase_provider.dart';
+import 'transport.dart';
 
-final socketProvider = ChangeNotifierProvider((ref) => SocketNotify(ref));
+final socketProvider = ChangeNotifierProvider((ref) => SocketNotify());
 
 class SocketNotify extends ChangeNotifier {
-  ProviderSubscription? subscription;
-  final Ref ref;
-  SocketNotify(this.ref) {
-    initialize();
-    subscription = ref.listen(authStateChangesProvider, (previous, next) {
-      if (next.value != null) {
-        initialize();
-      } else {
-        Logger.log("Socket disconnect");
-        socket?.disconnect();
-        socket = null;
-      }
-    });
-  }
-  Socket? socket;
+  Transport? transport;
 
   CallStatus callStatus = CallStatus.none;
 
@@ -34,27 +18,34 @@ class SocketNotify extends ChangeNotifier {
 
   bool isComingCall = false;
 
-  bool get isSocketConnected => socket?.connected ?? false;
+  bool get isConnecting => transport?.isConnecting ?? false;
 
-  void initialize() async {
-    if (isSocketConnected) return;
-    callerID = ref.read(firebaseAuthProvider).currentUser?.uid;
-    if (callerID == null) return;
-    socket = io(AppConfig.websocketUrl, {
-      "transports": ['websocket'],
-      "query": {"callerId": callerID},
+  void initSocket(String callerID) {
+    this.callerID = callerID;
+    transport = Transport(
+      url: AppConfig.websocketUrl,
+      callerID: callerID,
+    );
+    transport?.connect();
+    listenMessage();
+  }
+
+  void disconnect() {
+    Logger.log('Transport closed');
+    transport?.close();
+    transport = null;
+  }
+
+  void listenMessage() {
+    transport?.on(SocketEvent.newCall, null, (ev, context) {
+      incomingCall(ev.eventData);
     });
-    socket!.onConnect((data) => Logger.log("Socket connected"));
-    socket!.onError((data) => Logger.log(data));
-    socket!.on(SocketEvent.newCall, incomingCall);
-
-    socket!.on(SocketEvent.callEnded, (data) {
+    transport?.on(SocketEvent.callEnded, null, (ev, context) {
       incomingSDPOffer = null;
       isComingCall = false;
       callStatus = CallStatus.none;
       notifyListeners();
     });
-    socket!.connect();
   }
 
   void incomingCall(dynamic data) {
@@ -79,15 +70,8 @@ class SocketNotify extends ChangeNotifier {
   }
 
   void endCall() {
-    socket!.emit(SocketEvent.callEnded, incomingSDPOffer);
+    transport?.send(SocketEvent.callEnded, incomingSDPOffer);
     isComingCall = false;
     notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    socket?.disconnect();
-    subscription?.close();
-    super.dispose();
   }
 }

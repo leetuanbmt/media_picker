@@ -20,6 +20,8 @@ class AppNavigator {
   // Current context
 
   static goToLogin() {
+    if (instance.currentRouter.name == LoginRoute.name) return;
+
     instance.appRouter.pushAndPopUntil(
       LoginRoute(),
       predicate: (route) => false,
@@ -27,6 +29,7 @@ class AppNavigator {
   }
 
   static goToDashboard() {
+    if (instance.currentRouter.name == DashboardRoute.name) return;
     instance.appRouter.pushAndPopUntil(
       const DashboardRoute(),
       predicate: (route) => false,

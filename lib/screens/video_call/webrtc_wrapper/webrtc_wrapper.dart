@@ -4,28 +4,29 @@ import 'dart:async';
 
 import 'package:eventify/eventify.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../core/utilities/logger.dart';
+import '../../../providers/transport.dart';
 part 'string_payload.dart';
 part 'payload_data.dart';
 // part 'transport.dart';
 
 class WebRtcWrapper extends EventEmitter {
   WebRtcWrapper({
-    required this.socket,
     required this.calleeId,
     required this.callerId,
     this.name,
     this.offer,
+    this.transport,
   });
+
   RTCSessionDescription? offer;
   String callerId, calleeId;
   String? name;
   bool videoEnabled = true;
   bool audioEnabled = true;
   bool isFrontCameraSelected = true;
-  Socket socket;
+  Transport? transport;
 
   late MediaStream localStream;
 
@@ -48,7 +49,7 @@ class WebRtcWrapper extends EventEmitter {
     ],
   };
   void sendMessage(String type, dynamic data) {
-    socket.emit(type, data);
+    transport?.send(type, data);
   }
 
   Future<void> initialize() async {
@@ -95,7 +96,9 @@ class WebRtcWrapper extends EventEmitter {
       _connection.onIceCandidate = _onIceCandidate;
 
       // listen for local iceCandidate and add it to the list of IceCandidate
-      socket.on(SocketEvent.iceCandidate, setIceCandidate);
+      transport?.on(SocketEvent.iceCandidate, null, (ev, context) {
+        setIceCandidate(ev.eventData);
+      });
 
       // create SDP Answer
       final sdp = OfferSdpData(callerId: callerId, sdpOffer: offer!);
@@ -120,7 +123,10 @@ class WebRtcWrapper extends EventEmitter {
       _connection.onIceCandidate = (candidate) => candidates.add(candidate);
 
       // listen for callAnswered event
-      socket.on(SocketEvent.callAnswered, callAnswered);
+      // socket.on(SocketEvent.callAnswered, callAnswered);
+      transport?.on(SocketEvent.callAnswered, null, (ev, context) {
+        callAnswered(ev.eventData);
+      });
 
       // create SDP Offer
       final offer = await _connection.createOffer();
@@ -171,6 +177,27 @@ class WebRtcWrapper extends EventEmitter {
       "calleeId": calleeId,
       "iceCandidate": candidate.toMap(),
     });
+  }
+
+  bool toggleAudio() {
+    audioEnabled = !audioEnabled;
+    localStream.getAudioTracks().forEach((track) {
+      track.enabled = audioEnabled;
+    });
+    return audioEnabled;
+  }
+
+  bool toggleVideo() {
+    videoEnabled = !videoEnabled;
+    localStream.getVideoTracks().forEach((track) {
+      track.enabled = videoEnabled;
+    });
+    return videoEnabled;
+  }
+
+  bool switchCamera() {
+    isFrontCameraSelected = !isFrontCameraSelected;
+    return isFrontCameraSelected;
   }
 
   void close() {

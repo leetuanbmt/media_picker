@@ -1,4 +1,4 @@
-let port = process.env.PORT || 1991;
+let port = process.env.PORT || 1995;
 
 let IO = require("socket.io")(port, {
   cors: {
@@ -23,12 +23,10 @@ IO.on("connection", (socket) => {
 
   socket.on("makeCall", (data) => {
 
-    
+
     let calleeId = data.calleeId;
 
     let sdpOffer = data.sdpOffer;
-    
-    console.log(calleeId, "makeCall");
 
 
     socket.to(calleeId).emit("newCall", {
@@ -67,4 +65,10 @@ IO.on("connection", (socket) => {
       iceCandidate: iceCandidate,
     });
   });
+
+  socket.on("disconnect", () => {
+    socket.leave(socket.user);
+    console.log(socket.user, "Disconnected from socket");
+  });
+
 });
