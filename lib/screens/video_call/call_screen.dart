@@ -159,7 +159,6 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   }
 
   _leaveCall() {
-    webRtcWrapper?.close();
     Navigator.of(context).pop();
   }
 

@@ -26,6 +26,7 @@ class WebRtcWrapper extends EventEmitter {
   bool videoEnabled = true;
   bool audioEnabled = true;
   bool isFrontCameraSelected = true;
+  bool isClose = false;
   Transport? transport;
 
   late MediaStream localStream;
@@ -201,7 +202,9 @@ class WebRtcWrapper extends EventEmitter {
   }
 
   void close() {
+    if (isClose) return;
     try {
+      isClose = true;
       remoteRender.dispose();
       localRender.dispose();
       localStream.dispose();
