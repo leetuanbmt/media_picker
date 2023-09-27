@@ -1,14 +1,15 @@
 import '../../../core/config.dart';
 import '../../../core/models/enum/enum.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../providers/register_provider.dart';
 import 'widgets/bank_account.dart';
 import 'widgets/category.dart';
-import 'widgets/usage.dart';
+import 'widgets/topic.dart';
 import 'widgets/user_information.dart';
 import 'widgets/user_name.dart';
 
 @RoutePage()
-class RegisterUserScreen extends HookWidget {
+class RegisterUserScreen extends HookConsumerWidget {
   const RegisterUserScreen({super.key, required this.userType});
   final UserType userType;
 
@@ -20,7 +21,7 @@ class RegisterUserScreen extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final pageController = usePageController(initialPage: 0);
 
     final List<Widget> pageTab = [
@@ -30,7 +31,7 @@ class RegisterUserScreen extends HookWidget {
       RegisterUserName(
         onNextPage: () => changePage(pageController),
       ),
-      RegisterUsageScreen(
+      RegisterTopicScreen(
         onNextPage: () => changePage(pageController),
       ),
       RegisterCategoryScreen(
@@ -64,6 +65,7 @@ class RegisterUserScreen extends HookWidget {
                       curve: Curves.linearToEaseOut,
                     );
                   } else {
+                    ref.read(registerProvider).refresh(userType);
                     context.back();
                   }
                 },

@@ -35,7 +35,8 @@ class RegisterForm extends ConsumerWidget {
             Consumer(
               builder: (context, ref, child) {
                 final areFieldsEmpty = ref.watch(
-                  registerProvider.select((value) => value.checkFieldsEmpty),
+                  registerProvider
+                      .select((value) => value.checkEmailPasswordEmpty),
                 );
                 return ButtonCustom(
                   "新規登録",
@@ -70,7 +71,7 @@ class RegisterForm extends ConsumerWidget {
     WidgetRef ref,
   ) {
     FocusScope.of(context).unfocus();
-    ref.watch(registerProvider.notifier).register(
+    ref.read(registerProvider.notifier).checkEmailPassword(
           context,
           emailController.text,
           passwordController.text,

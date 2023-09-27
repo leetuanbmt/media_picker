@@ -1,8 +1,9 @@
 import '../../../../core/config.dart';
+import '../../../../providers/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import 'user_name.dart';
 
-class RegisterUserInformation extends HookConsumerWidget {
+class RegisterUserInformation extends ConsumerWidget {
   const RegisterUserInformation({super.key, required this.onNextPage});
   final VoidCallback onNextPage;
 
@@ -12,6 +13,8 @@ class RegisterUserInformation extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final register = ref.read(registerProvider.notifier);
+
     final style = context.bodyMedium!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w600,
@@ -38,58 +41,6 @@ class RegisterUserInformation extends HookConsumerWidget {
       const DropdownMenuEntry(value: "Another", label: "Another"),
     ];
 
-    // create a TextEditingController for each field
-    final agencyCodeController = useTextEditingController();
-    final firstNameController = useTextEditingController();
-    final middleNameController = useTextEditingController();
-    final lastNameController = useTextEditingController();
-    final anotherNameController = useTextEditingController();
-    final phoneNumberController = useTextEditingController();
-    final genderController = useTextEditingController();
-    final dateInputController = useTextEditingController(
-      text: '選択する',
-    );
-
-    // create a ValueNotifier<bool> for each field
-    final checkFieldsEmpty = useState<bool>(true);
-
-    bool areFieldsEmpty() {
-      return firstNameController.text.isEmpty ||
-          middleNameController.text.isEmpty ||
-          lastNameController.text.isEmpty ||
-          genderController.text.isEmpty ||
-          phoneNumberController.text.isEmpty ||
-          dateInputController.text == '選択する';
-    }
-
-    checkFieldsEmpty.value = areFieldsEmpty();
-
-    Logger.log("checkFieldsEmpty.value ${checkFieldsEmpty.value}");
-
-    useEffect(
-      () {
-        void listener() {
-          checkFieldsEmpty.value = areFieldsEmpty();
-        }
-
-        firstNameController.addListener(listener);
-        middleNameController.addListener(listener);
-        lastNameController.addListener(listener);
-        genderController.addListener(listener);
-        dateInputController.addListener(listener);
-        phoneNumberController.addListener(listener);
-        return () {
-          firstNameController.removeListener(listener);
-          middleNameController.removeListener(listener);
-          lastNameController.removeListener(listener);
-          genderController.removeListener(listener);
-          dateInputController.removeListener(listener);
-          phoneNumberController.removeListener(listener);
-        };
-      },
-      [],
-    );
-
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
@@ -112,7 +63,7 @@ class RegisterUserInformation extends HookConsumerWidget {
               InputInformation(
                 title: '代理店コード（お持ちの方）',
                 hintText: '0000000000',
-                controller: agencyCodeController,
+                controller: register.agencyCodeController,
               ),
               Row(
                 children: [
@@ -120,7 +71,7 @@ class RegisterUserInformation extends HookConsumerWidget {
                     child: InputInformation(
                       title: "姓",
                       hintText: "(例)山田",
-                      controller: firstNameController,
+                      controller: register.firstNameController,
                     ),
                   ),
                   SizedBox(
@@ -130,7 +81,7 @@ class RegisterUserInformation extends HookConsumerWidget {
                     child: InputInformation(
                       title: "姓",
                       hintText: "(例)太郎",
-                      controller: middleNameController,
+                      controller: register.middleNameController,
                     ),
                   ),
                 ],
@@ -141,7 +92,7 @@ class RegisterUserInformation extends HookConsumerWidget {
                     child: InputInformation(
                       title: "セイ",
                       hintText: "(例)ヤマダ",
-                      controller: lastNameController,
+                      controller: register.lastNameController,
                     ),
                   ),
                   SizedBox(
@@ -151,7 +102,7 @@ class RegisterUserInformation extends HookConsumerWidget {
                     child: InputInformation(
                       title: "メイ",
                       hintText: "(例)タロウ",
-                      controller: anotherNameController,
+                      controller: register.anotherNameController,
                     ),
                   ),
                 ],
@@ -159,7 +110,7 @@ class RegisterUserInformation extends HookConsumerWidget {
               InputInformation(
                 title: "生年月日",
                 hintText: "選択する",
-                controller: dateInputController,
+                controller: register.dateInputController,
                 onTap: () async {
                   final DateTime? picked = await showDatePicker(
                     context: context,
@@ -168,7 +119,7 @@ class RegisterUserInformation extends HookConsumerWidget {
                     lastDate: DateTime(2050),
                   );
                   if (picked != null && picked != DateTime.now()) {
-                    dateInputController.text =
+                    register.dateInputController.text =
                         DateFormat('yyyy年MM月dd日').format(picked);
                   }
                 },
@@ -187,7 +138,7 @@ class RegisterUserInformation extends HookConsumerWidget {
                     hintText: '選択する',
                     textStyle: dropStyle,
                     width: 343.w,
-                    controller: genderController,
+                    controller: register.genderController,
                     inputDecorationTheme: InputDecorationTheme(
                       constraints: BoxConstraints(maxHeight: 57.h),
                       focusedBorder: border,
@@ -203,7 +154,7 @@ class RegisterUserInformation extends HookConsumerWidget {
                     ),
                     dropdownMenuEntries: genders,
                     onSelected: (value) {
-                      genderController.text = value!;
+                      register.genderController.text = value!;
                     },
                   ),
                 ],
@@ -211,7 +162,7 @@ class RegisterUserInformation extends HookConsumerWidget {
               InputInformation(
                 title: "電話番号",
                 hintText: "09011112222",
-                controller: phoneNumberController,
+                controller: register.phoneNumberController,
               ),
             ],
           ),
@@ -223,15 +174,19 @@ class RegisterUserInformation extends HookConsumerWidget {
             children: [
               Consumer(
                 builder: (context, ref, child) {
+                  final isDisableButton = ref.watch(
+                    registerProvider
+                        .select((value) => value.checkInformationEmpty),
+                  );
                   return ButtonCustom(
                     "次へ",
                     width: 162.w,
                     height: 48.h,
-                    backgroundColor: checkFieldsEmpty.value
+                    backgroundColor: isDisableButton
                         ? AppTheme.middleGray
                         : AppTheme.primaryColor,
                     onPressed: () {
-                      checkFieldsEmpty.value ? null : registerInformation();
+                      isDisableButton ? null : onNextPage();
                     },
                   );
                 },

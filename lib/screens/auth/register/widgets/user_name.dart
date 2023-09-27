@@ -1,9 +1,10 @@
 import '../../../../core/config.dart';
 
+import '../../../../providers/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
 
-class RegisterUserName extends HookWidget {
+class RegisterUserName extends ConsumerWidget {
   const RegisterUserName({super.key, required this.onNextPage});
   final VoidCallback onNextPage;
 
@@ -13,32 +14,8 @@ class RegisterUserName extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final userNameController = useTextEditingController();
-
-    final checkFieldEmpty = useState<bool>(true);
-
-    bool areFieldsEmpty() {
-      return userNameController.text.isEmpty;
-    }
-
-    checkFieldEmpty.value = areFieldsEmpty();
-
-    Logger.log("checkFieldsEmpty.value ${checkFieldEmpty.value}");
-
-    useEffect(
-      () {
-        void listener() {
-          checkFieldEmpty.value = areFieldsEmpty();
-        }
-
-        userNameController.addListener(listener);
-        return () {
-          userNameController.removeListener(listener);
-        };
-      },
-      [],
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final register = ref.read(registerProvider.notifier);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -60,7 +37,7 @@ class RegisterUserName extends HookWidget {
           ),
           TextFieldCustom(
             hintText: 'ユーザー名',
-            textController: userNameController,
+            textController: register.userNameController,
           ),
           const Spacer(),
           Row(
@@ -68,15 +45,19 @@ class RegisterUserName extends HookWidget {
             children: [
               Consumer(
                 builder: (context, ref, child) {
+                  final isDisableButton = ref.watch(
+                    registerProvider
+                        .select((value) => value.checkUsernameEmpty),
+                  );
                   return ButtonCustom(
                     "次へ",
                     height: 48.h,
                     width: 162.w,
-                    backgroundColor: checkFieldEmpty.value
+                    backgroundColor: isDisableButton
                         ? AppTheme.middleGray
                         : AppTheme.primaryColor,
                     onPressed: () {
-                      checkFieldEmpty.value ? null : confirmUsername(context);
+                      isDisableButton ? null : confirmUsername(context);
                     },
                   );
                 },

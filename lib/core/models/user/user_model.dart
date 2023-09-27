@@ -18,6 +18,8 @@ class UserModel with _$UserModel {
     @JsonKey(name: 'name') required String name,
     @JsonKey(name: 'profile_photo') required String avatar,
     required UserType type,
+    required List<String> listTopic,
+    required List<String> listCategory,
     @Default(0) int followers,
     @Default(0) int follow,
     @Default(0) int points,
@@ -26,6 +28,13 @@ class UserModel with _$UserModel {
     String? bio,
     List<FollowingModel>? following,
     @Default(false) bool isOnline,
+    String? firstName,
+    String? middleName,
+    String? lastName,
+    String? anotherName,
+    String? agencyCode,
+    String? phoneNumber,
+    String? gender,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

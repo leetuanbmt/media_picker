@@ -1,20 +1,20 @@
 import '../../../../core/config.dart';
-import '../../../../core/models/register/fan_model.dart';
+import '../../../../providers/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 
-class RegisterUsageScreen extends HookConsumerWidget {
-  const RegisterUsageScreen({super.key, required this.onNextPage});
+class RegisterTopicScreen extends ConsumerWidget {
+  const RegisterTopicScreen({super.key, required this.onNextPage});
 
   final VoidCallback onNextPage;
 
-  void registerUsage() {
-    onNextPage();
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<String> active = [];
-    final categories = useState<List<String>>([...active]);
+    final register = ref.watch(registerProvider.notifier);
+
+    List<String> listTopic = [
+      '‍🎤 配信',
+      '‍📣 店舗',
+    ];
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -36,27 +36,29 @@ class RegisterUsageScreen extends HookConsumerWidget {
           ),
           Wrap(
             spacing: 8.w,
-            children: FanModel.listUsages
+            children: listTopic
                 .map(
-                  (e) => ButtonCustom(
-                    e,
-                    fontSize: 18.sp,
-                    height: 48.h,
-                    width: 108.w,
-                    onPressed: () {
-                      if (categories.value.contains(e)) {
-                        categories.value = [...categories.value..remove(e)];
-                      } else {
-                        categories.value = [...categories.value..add(e)];
-                      }
+                  (e) => Consumer(
+                    builder: (context, ref, child) {
+                      final isSelected = ref.watch(
+                        registerProvider
+                            .select((value) => value.checkUsageActive(e)),
+                      );
+                      return ButtonCustom(
+                        e,
+                        fontSize: 18.sp,
+                        height: 48.h,
+                        width: 108.w,
+                        onPressed: () {
+                          register.updateUsage(e);
+                        },
+                        type:
+                            isSelected ? ButtonType.normal : ButtonType.outline,
+                        textColor: isSelected ? Colors.white : null,
+                        borderWidth: 2.w,
+                        padding: EdgeInsets.all(10.r),
+                      );
                     },
-                    type: categories.value.contains(e)
-                        ? ButtonType.normal
-                        : ButtonType.outline,
-                    textColor:
-                        categories.value.contains(e) ? Colors.white : null,
-                    borderWidth: 2.w,
-                    padding: EdgeInsets.all(10.r),
                   ),
                 )
                 .toList(),
@@ -67,15 +69,18 @@ class RegisterUsageScreen extends HookConsumerWidget {
             children: [
               Consumer(
                 builder: (context, ref, child) {
+                  final isActiveButton = ref.watch(
+                    registerProvider.select((value) => value.checkUsageEmpty),
+                  );
                   return ButtonCustom(
                     "次へ",
                     height: 48.h,
                     width: 162.w,
-                    backgroundColor: categories.value.isEmpty
+                    backgroundColor: isActiveButton
                         ? AppTheme.middleGray
                         : AppTheme.primaryColor,
                     onPressed: () {
-                      categories.value.isEmpty ? null : registerUsage();
+                      isActiveButton ? null : onNextPage();
                     },
                   );
                 },

@@ -27,6 +27,8 @@ mixin _$UserModel {
   @JsonKey(name: 'profile_photo')
   String get avatar => throw _privateConstructorUsedError;
   UserType get type => throw _privateConstructorUsedError;
+  List<String> get listTopic => throw _privateConstructorUsedError;
+  List<String> get listCategory => throw _privateConstructorUsedError;
   int get followers => throw _privateConstructorUsedError;
   int get follow => throw _privateConstructorUsedError;
   int get points => throw _privateConstructorUsedError;
@@ -35,6 +37,13 @@ mixin _$UserModel {
   String? get bio => throw _privateConstructorUsedError;
   List<FollowingModel>? get following => throw _privateConstructorUsedError;
   bool get isOnline => throw _privateConstructorUsedError;
+  String? get firstName => throw _privateConstructorUsedError;
+  String? get middleName => throw _privateConstructorUsedError;
+  String? get lastName => throw _privateConstructorUsedError;
+  String? get anotherName => throw _privateConstructorUsedError;
+  String? get agencyCode => throw _privateConstructorUsedError;
+  String? get phoneNumber => throw _privateConstructorUsedError;
+  String? get gender => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,6 +62,8 @@ abstract class $UserModelCopyWith<$Res> {
       @JsonKey(name: 'name') String name,
       @JsonKey(name: 'profile_photo') String avatar,
       UserType type,
+      List<String> listTopic,
+      List<String> listCategory,
       int followers,
       int follow,
       int points,
@@ -60,7 +71,14 @@ abstract class $UserModelCopyWith<$Res> {
       DateTime? birthday,
       String? bio,
       List<FollowingModel>? following,
-      bool isOnline});
+      bool isOnline,
+      String? firstName,
+      String? middleName,
+      String? lastName,
+      String? anotherName,
+      String? agencyCode,
+      String? phoneNumber,
+      String? gender});
 }
 
 /// @nodoc
@@ -81,6 +99,8 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? name = null,
     Object? avatar = null,
     Object? type = null,
+    Object? listTopic = null,
+    Object? listCategory = null,
     Object? followers = null,
     Object? follow = null,
     Object? points = null,
@@ -88,6 +108,13 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? bio = freezed,
     Object? following = freezed,
     Object? isOnline = null,
+    Object? firstName = freezed,
+    Object? middleName = freezed,
+    Object? lastName = freezed,
+    Object? anotherName = freezed,
+    Object? agencyCode = freezed,
+    Object? phoneNumber = freezed,
+    Object? gender = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -110,6 +137,14 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as UserType,
+      listTopic: null == listTopic
+          ? _value.listTopic
+          : listTopic // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      listCategory: null == listCategory
+          ? _value.listCategory
+          : listCategory // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       followers: null == followers
           ? _value.followers
           : followers // ignore: cast_nullable_to_non_nullable
@@ -138,6 +173,34 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.isOnline
           : isOnline // ignore: cast_nullable_to_non_nullable
               as bool,
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      middleName: freezed == middleName
+          ? _value.middleName
+          : middleName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      anotherName: freezed == anotherName
+          ? _value.anotherName
+          : anotherName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agencyCode: freezed == agencyCode
+          ? _value.agencyCode
+          : agencyCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -155,6 +218,8 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       @JsonKey(name: 'name') String name,
       @JsonKey(name: 'profile_photo') String avatar,
       UserType type,
+      List<String> listTopic,
+      List<String> listCategory,
       int followers,
       int follow,
       int points,
@@ -162,7 +227,14 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       DateTime? birthday,
       String? bio,
       List<FollowingModel>? following,
-      bool isOnline});
+      bool isOnline,
+      String? firstName,
+      String? middleName,
+      String? lastName,
+      String? anotherName,
+      String? agencyCode,
+      String? phoneNumber,
+      String? gender});
 }
 
 /// @nodoc
@@ -181,6 +253,8 @@ class __$$_UserModelCopyWithImpl<$Res>
     Object? name = null,
     Object? avatar = null,
     Object? type = null,
+    Object? listTopic = null,
+    Object? listCategory = null,
     Object? followers = null,
     Object? follow = null,
     Object? points = null,
@@ -188,6 +262,13 @@ class __$$_UserModelCopyWithImpl<$Res>
     Object? bio = freezed,
     Object? following = freezed,
     Object? isOnline = null,
+    Object? firstName = freezed,
+    Object? middleName = freezed,
+    Object? lastName = freezed,
+    Object? anotherName = freezed,
+    Object? agencyCode = freezed,
+    Object? phoneNumber = freezed,
+    Object? gender = freezed,
   }) {
     return _then(_$_UserModel(
       id: null == id
@@ -210,6 +291,14 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as UserType,
+      listTopic: null == listTopic
+          ? _value._listTopic
+          : listTopic // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      listCategory: null == listCategory
+          ? _value._listCategory
+          : listCategory // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       followers: null == followers
           ? _value.followers
           : followers // ignore: cast_nullable_to_non_nullable
@@ -238,6 +327,34 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.isOnline
           : isOnline // ignore: cast_nullable_to_non_nullable
               as bool,
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      middleName: freezed == middleName
+          ? _value.middleName
+          : middleName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      anotherName: freezed == anotherName
+          ? _value.anotherName
+          : anotherName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agencyCode: freezed == agencyCode
+          ? _value.agencyCode
+          : agencyCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -251,6 +368,8 @@ class _$_UserModel extends _UserModel {
       @JsonKey(name: 'name') required this.name,
       @JsonKey(name: 'profile_photo') required this.avatar,
       required this.type,
+      required final List<String> listTopic,
+      required final List<String> listCategory,
       this.followers = 0,
       this.follow = 0,
       this.points = 0,
@@ -258,8 +377,17 @@ class _$_UserModel extends _UserModel {
       this.birthday,
       this.bio,
       final List<FollowingModel>? following,
-      this.isOnline = false})
-      : _following = following,
+      this.isOnline = false,
+      this.firstName,
+      this.middleName,
+      this.lastName,
+      this.anotherName,
+      this.agencyCode,
+      this.phoneNumber,
+      this.gender})
+      : _listTopic = listTopic,
+        _listCategory = listCategory,
+        _following = following,
         super._();
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
@@ -277,6 +405,22 @@ class _$_UserModel extends _UserModel {
   final String avatar;
   @override
   final UserType type;
+  final List<String> _listTopic;
+  @override
+  List<String> get listTopic {
+    if (_listTopic is EqualUnmodifiableListView) return _listTopic;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_listTopic);
+  }
+
+  final List<String> _listCategory;
+  @override
+  List<String> get listCategory {
+    if (_listCategory is EqualUnmodifiableListView) return _listCategory;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_listCategory);
+  }
+
   @override
   @JsonKey()
   final int followers;
@@ -304,10 +448,24 @@ class _$_UserModel extends _UserModel {
   @override
   @JsonKey()
   final bool isOnline;
+  @override
+  final String? firstName;
+  @override
+  final String? middleName;
+  @override
+  final String? lastName;
+  @override
+  final String? anotherName;
+  @override
+  final String? agencyCode;
+  @override
+  final String? phoneNumber;
+  @override
+  final String? gender;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, email: $email, name: $name, avatar: $avatar, type: $type, followers: $followers, follow: $follow, points: $points, birthday: $birthday, bio: $bio, following: $following, isOnline: $isOnline)';
+    return 'UserModel(id: $id, email: $email, name: $name, avatar: $avatar, type: $type, listTopic: $listTopic, listCategory: $listCategory, followers: $followers, follow: $follow, points: $points, birthday: $birthday, bio: $bio, following: $following, isOnline: $isOnline, firstName: $firstName, middleName: $middleName, lastName: $lastName, anotherName: $anotherName, agencyCode: $agencyCode, phoneNumber: $phoneNumber, gender: $gender)';
   }
 
   @override
@@ -320,6 +478,10 @@ class _$_UserModel extends _UserModel {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality()
+                .equals(other._listTopic, _listTopic) &&
+            const DeepCollectionEquality()
+                .equals(other._listCategory, _listCategory) &&
             (identical(other.followers, followers) ||
                 other.followers == followers) &&
             (identical(other.follow, follow) || other.follow == follow) &&
@@ -330,25 +492,48 @@ class _$_UserModel extends _UserModel {
             const DeepCollectionEquality()
                 .equals(other._following, _following) &&
             (identical(other.isOnline, isOnline) ||
-                other.isOnline == isOnline));
+                other.isOnline == isOnline) &&
+            (identical(other.firstName, firstName) ||
+                other.firstName == firstName) &&
+            (identical(other.middleName, middleName) ||
+                other.middleName == middleName) &&
+            (identical(other.lastName, lastName) ||
+                other.lastName == lastName) &&
+            (identical(other.anotherName, anotherName) ||
+                other.anotherName == anotherName) &&
+            (identical(other.agencyCode, agencyCode) ||
+                other.agencyCode == agencyCode) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
+            (identical(other.gender, gender) || other.gender == gender));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      email,
-      name,
-      avatar,
-      type,
-      followers,
-      follow,
-      points,
-      birthday,
-      bio,
-      const DeepCollectionEquality().hash(_following),
-      isOnline);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        email,
+        name,
+        avatar,
+        type,
+        const DeepCollectionEquality().hash(_listTopic),
+        const DeepCollectionEquality().hash(_listCategory),
+        followers,
+        follow,
+        points,
+        birthday,
+        bio,
+        const DeepCollectionEquality().hash(_following),
+        isOnline,
+        firstName,
+        middleName,
+        lastName,
+        anotherName,
+        agencyCode,
+        phoneNumber,
+        gender
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -371,6 +556,8 @@ abstract class _UserModel extends UserModel {
       @JsonKey(name: 'name') required final String name,
       @JsonKey(name: 'profile_photo') required final String avatar,
       required final UserType type,
+      required final List<String> listTopic,
+      required final List<String> listCategory,
       final int followers,
       final int follow,
       final int points,
@@ -378,7 +565,14 @@ abstract class _UserModel extends UserModel {
       final DateTime? birthday,
       final String? bio,
       final List<FollowingModel>? following,
-      final bool isOnline}) = _$_UserModel;
+      final bool isOnline,
+      final String? firstName,
+      final String? middleName,
+      final String? lastName,
+      final String? anotherName,
+      final String? agencyCode,
+      final String? phoneNumber,
+      final String? gender}) = _$_UserModel;
   const _UserModel._() : super._();
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -397,6 +591,10 @@ abstract class _UserModel extends UserModel {
   @override
   UserType get type;
   @override
+  List<String> get listTopic;
+  @override
+  List<String> get listCategory;
+  @override
   int get followers;
   @override
   int get follow;
@@ -411,6 +609,20 @@ abstract class _UserModel extends UserModel {
   List<FollowingModel>? get following;
   @override
   bool get isOnline;
+  @override
+  String? get firstName;
+  @override
+  String? get middleName;
+  @override
+  String? get lastName;
+  @override
+  String? get anotherName;
+  @override
+  String? get agencyCode;
+  @override
+  String? get phoneNumber;
+  @override
+  String? get gender;
   @override
   @JsonKey(ignore: true)
   _$$_UserModelCopyWith<_$_UserModel> get copyWith =>

@@ -1,19 +1,34 @@
 import '../../../../core/config.dart';
-import '../../../../core/models/register/fan_model.dart';
+import '../../../../providers/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 
-class RegisterCategoryScreen extends HookConsumerWidget {
+class RegisterCategoryScreen extends ConsumerWidget {
   const RegisterCategoryScreen({super.key, required this.onNextPage});
   final Function onNextPage;
 
-  void registerCategory() {
-    onNextPage();
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<String> active = [];
-    final categories = useState<List<String>>([...active]);
+    final register = ref.watch(registerProvider.notifier);
+
+    List<String> listCategories = [
+      '🕺 ステージ',
+      '🎵 音楽',
+      '🔈 メディア',
+      '😂 お笑い',
+      '🎭 演技',
+      '🎩 コスプレ',
+      '📚 漫画',
+      '🎮 ゲーム',
+      '🤡 アニメ',
+      '💅 美容',
+      '⚾️ スポーツ',
+      '🎨 アート',
+      '👗 ファッション',
+      '👥 コミュニティ',
+      '🤝 チャリティ',
+      '📊 経済',
+      '‍🎓 教育',
+    ];
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -37,25 +52,27 @@ class RegisterCategoryScreen extends HookConsumerWidget {
           Wrap(
             spacing: 4.w,
             runSpacing: 12.h,
-            children: FanModel.listCategories
+            children: listCategories
                 .map(
-                  (e) => ButtonCustom(
-                    e,
-                    fontSize: 15.sp,
-                    onPressed: () {
-                      if (categories.value.contains(e)) {
-                        categories.value = [...categories.value..remove(e)];
-                      } else {
-                        categories.value = [...categories.value..add(e)];
-                      }
+                  (e) => Consumer(
+                    builder: (context, ref, child) {
+                      final isSelected = ref.watch(
+                        registerProvider
+                            .select((value) => value.checkCategoryActive(e)),
+                      );
+                      return ButtonCustom(
+                        e,
+                        fontSize: 15.sp,
+                        onPressed: () {
+                          register.updateCategory(e);
+                        },
+                        type:
+                            isSelected ? ButtonType.normal : ButtonType.outline,
+                        textColor: isSelected ? Colors.white : null,
+                        borderWidth: 2.w,
+                        padding: EdgeInsets.all(10.r),
+                      );
                     },
-                    type: categories.value.contains(e)
-                        ? ButtonType.normal
-                        : ButtonType.outline,
-                    textColor:
-                        categories.value.contains(e) ? Colors.white : null,
-                    borderWidth: 2.w,
-                    padding: EdgeInsets.all(10.r),
                   ),
                 )
                 .toList(),
@@ -66,15 +83,19 @@ class RegisterCategoryScreen extends HookConsumerWidget {
             children: [
               Consumer(
                 builder: (context, ref, child) {
+                  final isActiveButton = ref.watch(
+                    registerProvider
+                        .select((value) => value.checkCategoryEmpty),
+                  );
                   return ButtonCustom(
                     "次へ",
                     height: 48.h,
                     width: 162.w,
-                    backgroundColor: categories.value.isEmpty
+                    backgroundColor: isActiveButton
                         ? AppTheme.middleGray
                         : AppTheme.primaryColor,
                     onPressed: () {
-                      categories.value.isEmpty ? null : registerCategory();
+                      isActiveButton ? null : onNextPage();
                     },
                   );
                 },

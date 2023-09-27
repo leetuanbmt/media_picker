@@ -1,30 +1,15 @@
 import '../../../../core/config.dart';
 import '../../../../core/models/models.dart';
 
-import '../../../../routes/app_routes.gr.dart';
+import '../../../../providers/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
-import 'register_success.dart';
 
-class RegisterBankAccountScreen extends HookWidget {
+class RegisterBankAccountScreen extends ConsumerWidget {
   const RegisterBankAccountScreen({super.key, required this.userType});
   final UserType userType;
 
-  void register(BuildContext context) {
-    LoadingRegisterSuccess.instance.show(context);
-    Future.delayed(2.seconds, () {
-      LoadingRegisterSuccess.instance.hide(context);
-      WidgetsBinding.instance.endOfFrame.then((value) {
-        //Preferences.authenticated = true;
-        AutoRouter.of(context).pushAndPopUntil(
-          const HomeRoute(),
-          predicate: (_) => false,
-        );
-      });
-    });
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Center(
@@ -75,7 +60,7 @@ class RegisterBankAccountScreen extends HookWidget {
                   type: ButtonType.outline,
                   borderWidth: 2,
                   onPressed: () {
-                    register(context);
+                    ref.watch(registerProvider).register(context, userType);
                   },
                 ),
               ],
