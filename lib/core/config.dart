@@ -36,5 +36,5 @@ class AppConfig {
   static const email = "email";
   static const password = "password";
   static const checkSaveAccount = "checkSaveAccount";
-  static const websocketUrl = 'http://10.1.15.65:1995';
+  static const websocketUrl = 'ws://10.1.15.65:1995';
 }

@@ -70,7 +70,7 @@ class SocketNotify extends ChangeNotifier {
   }
 
   void endCall() {
-    transport?.send(SocketEvent.callEnded, incomingSDPOffer);
+    transport?.send(SocketEvent.callEnded, incomingSDPOffer?.toJson());
     isComingCall = false;
     notifyListeners();
   }
