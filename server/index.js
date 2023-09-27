@@ -25,6 +25,8 @@ server.on("connection", (socket, req) => {
       const calleeId = data.calleeId;
       const sdpOffer = data.sdpOffer;
 
+      console.log("makeCall", calleeId);
+
       const calleeSocket = connections.get(calleeId);
 
       if (calleeSocket) {

@@ -41,20 +41,21 @@ class Transport extends EventEmitter {
   }
 
   void listenEvents(dynamic event) {
-    Logger.log(event);
+    final data = jsonDecode(event);
     try {
-      switch (event["type"]) {
+      Logger.log(data.runtimeType);
+      switch (data["type"]) {
         case SocketEvent.newCall:
-          emit(SocketEvent.callEnded, event["data"]);
+          emit(SocketEvent.newCall, null, data["data"]);
           break;
         case SocketEvent.callEnded:
-          emit(SocketEvent.callEnded, event["data"]);
+          emit(SocketEvent.callEnded, null, data["data"]);
           break;
         case SocketEvent.callAnswered:
-          emit(SocketEvent.callAnswered, event["data"]);
+          emit(SocketEvent.callAnswered, null, data["data"]);
           break;
         case SocketEvent.iceCandidate:
-          emit(SocketEvent.iceCandidate, event["data"]);
+          emit(SocketEvent.iceCandidate, null, data["data"]);
           break;
         default:
       }
@@ -66,7 +67,7 @@ class Transport extends EventEmitter {
   void send(String type, dynamic data) {
     final Map<String, dynamic> payload = {"type": type};
     if (data != null) {
-      payload["data"] = data;
+      payload.addAll(data);
     }
     socket?.send(jsonEncode(payload));
   }
