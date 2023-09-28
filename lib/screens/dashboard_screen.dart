@@ -2,6 +2,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../core/config.dart';
 import '../gen/assets.gen.dart';
+import '../providers/firebase_provider.dart';
+import '../providers/socket_provider.dart';
 import '../routes/app_routes.gr.dart';
 
 class TabItem {
@@ -15,8 +17,29 @@ class TabItem {
 }
 
 @RoutePage()
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
+
+  @override
+  ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends ConsumerState<DashboardScreen> {
+  String get currentUser =>
+      ref.read(firebaseAuthProvider).currentUser?.uid ?? '';
+
+  @override
+  void initState() {
+    ref.read(socketProvider.notifier).initSocket(currentUser);
+
+    super.initState();
+  }
+
+  @override
+  void deactivate() {
+    ref.read(socketProvider.notifier).disconnect();
+    super.deactivate();
+  }
 
   @override
   Widget build(BuildContext context) {

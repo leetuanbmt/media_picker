@@ -43,9 +43,10 @@ dependencies:
   media_kit_libs_video: ^1.0.1
   media_kit_video: ^1.1.8
   media_kit: ^1.1.7
-  socket_io_client: ^2.0.3+1
+  # socket_io_client: ^2.0.3+1
   flutter_webrtc: ^0.9.42+hotfix.1
   eventify: ^1.0.1
+  web_socket_client: ^0.1.0
 
   # twitter_login: ^4.4.2
 

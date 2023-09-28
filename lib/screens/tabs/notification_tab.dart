@@ -15,6 +15,7 @@ class NotificationScreen extends ConsumerWidget {
     final callerID = ref.read(firebaseAuthProvider).currentUser?.uid;
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: AppTheme.lightStatusBar,
         backgroundColor: AppTheme.primaryColor,
         title: const Text('Notification'),
       ),
