@@ -9,76 +9,63 @@ import 'widgets/user_information.dart';
 import 'widgets/user_name.dart';
 
 @RoutePage()
-class RegisterUserScreen extends HookConsumerWidget {
+class RegisterUserScreen extends ConsumerWidget {
   const RegisterUserScreen({super.key, required this.userType});
   final UserType userType;
 
-  void changePage(PageController pageController) {
-    pageController.nextPage(
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.linearToEaseOut,
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pageController = usePageController(initialPage: 0);
+    final register = ref.watch(registerProvider);
 
     final List<Widget> pageTab = [
       RegisterUserInformation(
-        onNextPage: () => changePage(pageController),
+        onNextPage: () => register.changePage(),
       ),
       RegisterUserName(
-        onNextPage: () => changePage(pageController),
+        onNextPage: () => register.changePage(),
       ),
       RegisterTopicScreen(
-        onNextPage: () => changePage(pageController),
+        onNextPage: () => register.changePage(),
       ),
       RegisterCategoryScreen(
-        onNextPage: () => changePage(pageController),
+        onNextPage: () => register.changePage(),
       ),
       RegisterBankAccountScreen(
         userType: userType,
       ),
     ];
+    if (userType == UserType.fan) {
+      pageTab.removeAt(0);
+    }
 
-    useEffect(() {
-      if (userType == UserType.fan) {
-        pageTab.removeAt(0);
-      }
-      return null;
-    });
-
-    return HookBuilder(
-      builder: (context) {
-        final activePage = useState<int>(0);
-
-        return Scaffold(
-          appBar: AppBar(
-            leading: SizedBox.square(
-              dimension: 24.h,
-              child: InkWell(
-                onTap: () {
-                  if (activePage.value > 0) {
-                    pageController.previousPage(
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.linearToEaseOut,
-                    );
-                  } else {
-                    ref.read(registerProvider).refresh(userType);
-                    context.back();
-                  }
-                },
-                child: Assets.iconsIconArrowLeft.svg(
-                  width: 10.88.w,
-                  height: 18.47.h,
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: SizedBox.square(
+          dimension: 24.h,
+          child: InkWell(
+            onTap: () {
+              if (register.activePage > 0) {
+                register.pageController.previousPage(
+                  duration: const Duration(milliseconds: 400),
+                  curve: Curves.linearToEaseOut,
+                );
+              } else {
+                ref.read(registerProvider).refresh(userType);
+                context.back();
+              }
+            },
+            child: Assets.iconsIconArrowLeft.svg(
+              width: 10.88.w,
+              height: 18.47.h,
+              fit: BoxFit.scaleDown,
             ),
-            title: Padding(
-              padding: EdgeInsets.only(right: 56.w),
-              child: Row(
+          ),
+        ),
+        title: Padding(
+          padding: EdgeInsets.only(right: 56.w),
+          child: Consumer(
+            builder: (context, ref, child) {
+              return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Wrap(
@@ -90,7 +77,7 @@ class RegisterUserScreen extends HookConsumerWidget {
                           dimension: 8,
                           child: CircleAvatar(
                             backgroundColor: Colors.white.withOpacity(
-                              activePage.value == index ? 1 : 0.7,
+                              register.activePage == index ? 1 : 0.7,
                             ),
                           ),
                         ),
@@ -98,20 +85,20 @@ class RegisterUserScreen extends HookConsumerWidget {
                     ],
                   ),
                 ],
-              ),
-            ),
-            backgroundColor: AppTheme.primaryColor,
-          ),
-          body: PageView(
-            controller: pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            onPageChanged: (int page) {
-              activePage.value = page;
+              );
             },
-            children: pageTab.map((e) => _KeepAliveTab(child: e)).toList(),
           ),
-        );
-      },
+        ),
+        backgroundColor: AppTheme.primaryColor,
+      ),
+      body: PageView(
+        controller: register.pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        onPageChanged: (int page) {
+          register.changeActivePage(page);
+        },
+        children: pageTab.map((e) => _KeepAliveTab(child: e)).toList(),
+      ),
     );
   }
 }

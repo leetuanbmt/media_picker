@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../core/config.dart';
 import '../core/models/models.dart';
@@ -65,6 +64,24 @@ class RegisterProvider extends ChangeNotifier {
     }
   }
 
+  // register user
+
+  final pageController = PageController(initialPage: 0);
+
+  int activePage = 0;
+
+  void changeActivePage(int page) {
+    activePage = page;
+    notifyListeners();
+  }
+
+  void changePage() {
+    pageController.nextPage(
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.linearToEaseOut,
+    );
+  }
+
   // register screen
 
   final emailController = TextEditingController();
@@ -88,12 +105,8 @@ class RegisterProvider extends ChangeNotifier {
 
   Future<void> checkEmailPassword(
     BuildContext context,
-    String email,
-    String password,
   ) async {
-    checkValidEmail(email);
     if (checkValidEmail(email)) {
-      checkValidPassword(password);
       if (checkValidPassword(password)) {
         ref.loading(true);
         List<String> userEmail = [];
@@ -250,13 +263,10 @@ class RegisterProvider extends ChangeNotifier {
   ) async {
     try {
       ref.loading(true);
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      final currentUser = userCredential.user!.uid;
-
+      await ref
+          .watch(authProvider)
+          .createUserWithEmailAndPassword(email, password);
+      final currentUser = ref.watch(firebaseAuthProvider).currentUser!.uid;
       await createUser(currentUser, userType).whenComplete(() {
         ref.loading(false);
       });

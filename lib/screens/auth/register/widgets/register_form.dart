@@ -47,8 +47,6 @@ class RegisterForm extends ConsumerWidget {
                         ? null
                         : registerEmailPassword(
                             context,
-                            register.emailController,
-                            register.passwordController,
                             ref,
                           );
                   },
@@ -66,15 +64,11 @@ class RegisterForm extends ConsumerWidget {
 
   void registerEmailPassword(
     BuildContext context,
-    TextEditingController emailController,
-    TextEditingController passwordController,
     WidgetRef ref,
   ) {
     FocusScope.of(context).unfocus();
     ref.read(registerProvider.notifier).checkEmailPassword(
           context,
-          emailController.text,
-          passwordController.text,
         );
   }
 }
