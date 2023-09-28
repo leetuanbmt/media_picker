@@ -12,7 +12,8 @@ class Transport extends EventEmitter {
 
   WebSocket? socket;
 
-  bool get isConnecting => socket?.connection is Connection;
+  bool get isConnecting =>
+      (socket?.connection is Connected) || (socket?.connection is Reconnected);
 
   Transport({
     required this.url,
@@ -29,33 +30,25 @@ class Transport extends EventEmitter {
     socket?.connection.listen((event) {
       Logger.log(event);
     });
-    // socket = io.io(url, <String, dynamic>{
-    //   'transports': ['websocket'],
-    //   "query": {"callerId": callerID},
-    // });
-    // socket?.onConnect((data) => Logger.log('Connect: ${socket?.id}'));
-    // socket?.onDisconnect((data) => Logger.log('Disconnect: $data'));
-    // socket?.onConnectError((data) => Logger.log(data));
-    // socket?.connect();
-    // listenEvents();
   }
 
   void listenEvents(dynamic event) {
-    final data = jsonDecode(event);
+    final json = jsonDecode(event) as Map<String, dynamic>;
+    final type = json["type"];
+    final data = json["data"] as Map<String, dynamic>;
     try {
-      Logger.log(data.runtimeType);
-      switch (data["type"]) {
+      switch (type) {
         case SocketEvent.newCall:
-          emit(SocketEvent.newCall, null, data["data"]);
+          emit(SocketEvent.newCall, null, data);
           break;
         case SocketEvent.callEnded:
-          emit(SocketEvent.callEnded, null, data["data"]);
+          emit(SocketEvent.callEnded, null, data);
           break;
         case SocketEvent.callAnswered:
-          emit(SocketEvent.callAnswered, null, data["data"]);
+          emit(SocketEvent.callAnswered, null, data);
           break;
         case SocketEvent.iceCandidate:
-          emit(SocketEvent.iceCandidate, null, data["data"]);
+          emit(SocketEvent.iceCandidate, null, data);
           break;
         default:
       }
