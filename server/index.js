@@ -1,70 +1,90 @@
-let port = process.env.PORT || 1991;
+const WebSocket = require("ws");
 
-let IO = require("socket.io")(port, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
+const port = process.env.PORT || 1995;
+const server = new WebSocket.Server({ port });
+const url = require("url");
+server.on("listening", () => {
+  console.log("WebSocket server listening on port", port);
 });
 
-IO.use((socket, next) => {
-  if (socket.handshake.query) {
-    let callerId = socket.handshake.query.callerId;
-    socket.user = callerId;
-    next();
-  }
-});
+const connections = new Map();
 
-IO.on("connection", (socket) => {
+server.on("connection", (socket, req) => {
+  const queryObject = url.parse(req.url, true).query;
 
-  console.log(socket.user, "Connected to socket");
+  socket.user = queryObject.callerId;
 
-  socket.join(socket.user);
+  connections.set(socket.user, socket);
 
-  socket.on("makeCall", (data) => {
+  console.log("New connection", socket.user);
 
-    
-    let calleeId = data.calleeId;
+  socket.on("message", (message) => {
+    const data = JSON.parse(message);
 
-    let sdpOffer = data.sdpOffer;
-    
-    console.log(calleeId, "makeCall");
+    if (data.type === "makeCall") {
+      const calleeId = data.calleeId;
+      const sdpOffer = data.sdpOffer;
 
+      console.log("makeCall", calleeId);
 
-    socket.to(calleeId).emit("newCall", {
-      callerId: socket.user,
-      sdpOffer: sdpOffer,
-    });
+      const calleeSocket = connections.get(calleeId);
+
+      if (calleeSocket) {
+        calleeSocket.send(
+          JSON.stringify({
+            type: "newCall",
+            data: {
+              callerId: socket.user,
+              sdpOffer: sdpOffer,
+            },
+          })
+        );
+      }
+    } else if (data.type === "endCall") {
+      const callerId = data.callerId;
+      const callerSocket = connections.get(callerId);
+      if (callerSocket) {
+        callerSocket.send(
+          JSON.stringify({ type: "callEnded", data: { callerId: socket.user } })
+        );
+      }
+    } else if (data.type === "answerCall") {
+      const callerId = data.callerId;
+      const sdpOffer = data.sdpOffer;
+
+      const callerSocket = connections.get(callerId);
+      if (callerSocket) {
+        callerSocket.send(
+          JSON.stringify({
+            type: "callAnswered",
+            data: {
+              callerId: socket.user,
+              sdpOffer: sdpOffer,
+            },
+          })
+        );
+      }
+    } else if (data.type === "iceCandidate") {
+      const calleeId = data.calleeId;
+      const iceCandidate = data.iceCandidate;
+
+      const calleeSocket = connections.get(calleeId);
+      if (calleeSocket) {
+        calleeSocket.send(
+          JSON.stringify({
+            type: "iceCandidate",
+            data: {
+              calleeId: socket.user,
+              iceCandidate: iceCandidate,
+            },
+          })
+        );
+      }
+    }
   });
 
-  socket.on("endCall", (data) => {
-    let callerId = data.callerId;
-    socket.to(callerId).emit("callEnded");
-  });
-
-  socket.on("answerCall", (data) => {
-
-    let callerId = data.callerId;
-
-    let sdpOffer = data.sdpOffer;
-
-
-    socket.to(callerId).emit("callAnswered", {
-      callerId: socket.user,
-      sdpOffer: sdpOffer,
-    });
-  });
-
-  socket.on("iceCandidate", (data) => {
-
-    let calleeId = data.calleeId;
-
-    let iceCandidate = data.iceCandidate;
-
-
-    socket.to(calleeId).emit("iceCandidate", {
-      calleeId: socket.user,
-      iceCandidate: iceCandidate,
-    });
+  socket.on("close", () => {
+    console.log("Connection closed");
+    connections.delete(socket.user);
   });
 });

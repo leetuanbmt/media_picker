@@ -25,12 +25,18 @@ final colorProvider = StateProvider<Color>(
 
 class AppGlobal extends StateNotifier<GlobalSetting> {
   final Ref ref;
+
   AppGlobal(this.ref) : super(const GlobalSetting()) {
+    initialize();
+  }
+
+  void initialize() {
     navigator(FirebaseAuth.instance.currentUser);
     ref.listen(authStateChangesProvider, (previous, next) {
       navigator(next.value);
     });
   }
+
   void navigator(User? user) {
     if (user != null) {
       AppNavigator.goToDashboard();
