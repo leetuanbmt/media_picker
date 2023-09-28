@@ -257,8 +257,9 @@ class RegisterProvider extends ChangeNotifier {
       );
       final currentUser = userCredential.user!.uid;
 
-      await createUser(currentUser, userType);
-      ref.loading(false);
+      await createUser(currentUser, userType).whenComplete(() {
+        ref.loading(false);
+      });
     } catch (e) {
       ref.loading(false);
       if (!context.mounted) return;
@@ -267,30 +268,53 @@ class RegisterProvider extends ChangeNotifier {
   }
 
   Future<void> createUser(String id, UserType userType) async {
-    final user = UserModel(
-      id: id,
-      email: email,
-      name: username,
-      avatar:
-          'https://static-00.iconduck.com/assets.00/avatar-default-symbolic-icon-2048x1949-pq9uiebg.png',
-      type: userType,
-      listTopic: listUsage,
-      listCategory: listCategory,
-      followers: 0,
-      follow: 0,
-      points: 0,
-      bio: '',
-      birthday: dateInput.toDate(),
-      following: [],
-      isOnline: false,
-      firstName: firstName,
-      middleName: middleName,
-      lastName: lastName,
-      agencyCode: agencyCode,
-      anotherName: anotherName,
-      gender: gender,
-      phoneNumber: phoneNumber,
-    );
+    DateTime? dateTime;
+    if (userType == UserType.creator) {
+      DateFormat dateFormat = DateFormat('yyyy年MM月dd日');
+      dateTime = dateFormat.parse(dateInput);
+    }
+
+    final user = userType == UserType.creator
+        ? UserModel(
+            id: id,
+            email: email,
+            name: username,
+            avatar:
+                'https://static-00.iconduck.com/assets.00/avatar-default-symbolic-icon-2048x1949-pq9uiebg.png',
+            type: userType,
+            listTopic: listUsage,
+            listCategory: listCategory,
+            followers: 0,
+            follow: 0,
+            points: 0,
+            bio: '',
+            birthday: dateTime,
+            following: [],
+            isOnline: false,
+            firstName: firstName,
+            middleName: middleName,
+            lastName: lastName,
+            agencyCode: agencyCode,
+            anotherName: anotherName,
+            gender: gender,
+            phoneNumber: phoneNumber,
+          )
+        : UserModel(
+            id: id,
+            email: email,
+            name: username,
+            avatar:
+                'https://static-00.iconduck.com/assets.00/avatar-default-symbolic-icon-2048x1949-pq9uiebg.png',
+            type: userType,
+            listTopic: listUsage,
+            listCategory: listCategory,
+            followers: 0,
+            follow: 0,
+            points: 0,
+            bio: '',
+            following: [],
+            isOnline: false,
+          );
 
     await ref
         .watch(firestoreProvider)
