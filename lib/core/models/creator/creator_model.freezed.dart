@@ -100,11 +100,11 @@ class _$CreatorModelCopyWithImpl<$Res, $Val extends CreatorModel>
 }
 
 /// @nodoc
-abstract class _$$_CreatorModelCopyWith<$Res>
+abstract class _$$CreatorModelImplCopyWith<$Res>
     implements $CreatorModelCopyWith<$Res> {
-  factory _$$_CreatorModelCopyWith(
-          _$_CreatorModel value, $Res Function(_$_CreatorModel) then) =
-      __$$_CreatorModelCopyWithImpl<$Res>;
+  factory _$$CreatorModelImplCopyWith(
+          _$CreatorModelImpl value, $Res Function(_$CreatorModelImpl) then) =
+      __$$CreatorModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -117,11 +117,11 @@ abstract class _$$_CreatorModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CreatorModelCopyWithImpl<$Res>
-    extends _$CreatorModelCopyWithImpl<$Res, _$_CreatorModel>
-    implements _$$_CreatorModelCopyWith<$Res> {
-  __$$_CreatorModelCopyWithImpl(
-      _$_CreatorModel _value, $Res Function(_$_CreatorModel) _then)
+class __$$CreatorModelImplCopyWithImpl<$Res>
+    extends _$CreatorModelCopyWithImpl<$Res, _$CreatorModelImpl>
+    implements _$$CreatorModelImplCopyWith<$Res> {
+  __$$CreatorModelImplCopyWithImpl(
+      _$CreatorModelImpl _value, $Res Function(_$CreatorModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -134,7 +134,7 @@ class __$$_CreatorModelCopyWithImpl<$Res>
     Object? avatar = null,
     Object? isOnline = null,
   }) {
-    return _then(_$_CreatorModel(
+    return _then(_$CreatorModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -165,8 +165,8 @@ class __$$_CreatorModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CreatorModel extends _CreatorModel {
-  const _$_CreatorModel(
+class _$CreatorModelImpl extends _CreatorModel {
+  const _$CreatorModelImpl(
       {required this.id,
       required this.email,
       required this.category,
@@ -175,8 +175,8 @@ class _$_CreatorModel extends _CreatorModel {
       this.isOnline = false})
       : super._();
 
-  factory _$_CreatorModel.fromJson(Map<String, dynamic> json) =>
-      _$$_CreatorModelFromJson(json);
+  factory _$CreatorModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreatorModelImplFromJson(json);
 
   @override
   final String id;
@@ -203,7 +203,7 @@ class _$_CreatorModel extends _CreatorModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CreatorModel &&
+            other is _$CreatorModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.category, category) ||
@@ -222,12 +222,12 @@ class _$_CreatorModel extends _CreatorModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CreatorModelCopyWith<_$_CreatorModel> get copyWith =>
-      __$$_CreatorModelCopyWithImpl<_$_CreatorModel>(this, _$identity);
+  _$$CreatorModelImplCopyWith<_$CreatorModelImpl> get copyWith =>
+      __$$CreatorModelImplCopyWithImpl<_$CreatorModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CreatorModelToJson(
+    return _$$CreatorModelImplToJson(
       this,
     );
   }
@@ -240,11 +240,11 @@ abstract class _CreatorModel extends CreatorModel {
       required final String category,
       @JsonKey(name: 'name') required final String name,
       @JsonKey(name: 'profile_photo') required final String avatar,
-      final bool isOnline}) = _$_CreatorModel;
+      final bool isOnline}) = _$CreatorModelImpl;
   const _CreatorModel._() : super._();
 
   factory _CreatorModel.fromJson(Map<String, dynamic> json) =
-      _$_CreatorModel.fromJson;
+      _$CreatorModelImpl.fromJson;
 
   @override
   String get id;
@@ -262,6 +262,6 @@ abstract class _CreatorModel extends CreatorModel {
   bool get isOnline;
   @override
   @JsonKey(ignore: true)
-  _$$_CreatorModelCopyWith<_$_CreatorModel> get copyWith =>
+  _$$CreatorModelImplCopyWith<_$CreatorModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

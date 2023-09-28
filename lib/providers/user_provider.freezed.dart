@@ -78,11 +78,11 @@ class _$UserResultStateCopyWithImpl<$Res, $Val extends UserResultState>
 }
 
 /// @nodoc
-abstract class _$$_UserResultStateCopyWith<$Res>
+abstract class _$$UserResultStateImplCopyWith<$Res>
     implements $UserResultStateCopyWith<$Res> {
-  factory _$$_UserResultStateCopyWith(
-          _$_UserResultState value, $Res Function(_$_UserResultState) then) =
-      __$$_UserResultStateCopyWithImpl<$Res>;
+  factory _$$UserResultStateImplCopyWith(_$UserResultStateImpl value,
+          $Res Function(_$UserResultStateImpl) then) =
+      __$$UserResultStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -92,11 +92,11 @@ abstract class _$$_UserResultStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_UserResultStateCopyWithImpl<$Res>
-    extends _$UserResultStateCopyWithImpl<$Res, _$_UserResultState>
-    implements _$$_UserResultStateCopyWith<$Res> {
-  __$$_UserResultStateCopyWithImpl(
-      _$_UserResultState _value, $Res Function(_$_UserResultState) _then)
+class __$$UserResultStateImplCopyWithImpl<$Res>
+    extends _$UserResultStateCopyWithImpl<$Res, _$UserResultStateImpl>
+    implements _$$UserResultStateImplCopyWith<$Res> {
+  __$$UserResultStateImplCopyWithImpl(
+      _$UserResultStateImpl _value, $Res Function(_$UserResultStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +106,7 @@ class __$$_UserResultStateCopyWithImpl<$Res>
     Object? isLoadMore = null,
     Object? data = null,
   }) {
-    return _then(_$_UserResultState(
+    return _then(_$UserResultStateImpl(
       total: null == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
@@ -125,15 +125,15 @@ class __$$_UserResultStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UserResultState implements _UserResultState {
-  const _$_UserResultState(
+class _$UserResultStateImpl implements _UserResultState {
+  const _$UserResultStateImpl(
       {@JsonKey(name: "total_pages") required this.total,
       this.isLoadMore = false,
       required final List<UserModel> data})
       : _data = data;
 
-  factory _$_UserResultState.fromJson(Map<String, dynamic> json) =>
-      _$$_UserResultStateFromJson(json);
+  factory _$UserResultStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserResultStateImplFromJson(json);
 
   @override
   @JsonKey(name: "total_pages")
@@ -158,7 +158,7 @@ class _$_UserResultState implements _UserResultState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UserResultState &&
+            other is _$UserResultStateImpl &&
             (identical(other.total, total) || other.total == total) &&
             (identical(other.isLoadMore, isLoadMore) ||
                 other.isLoadMore == isLoadMore) &&
@@ -173,12 +173,13 @@ class _$_UserResultState implements _UserResultState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UserResultStateCopyWith<_$_UserResultState> get copyWith =>
-      __$$_UserResultStateCopyWithImpl<_$_UserResultState>(this, _$identity);
+  _$$UserResultStateImplCopyWith<_$UserResultStateImpl> get copyWith =>
+      __$$UserResultStateImplCopyWithImpl<_$UserResultStateImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UserResultStateToJson(
+    return _$$UserResultStateImplToJson(
       this,
     );
   }
@@ -188,10 +189,10 @@ abstract class _UserResultState implements UserResultState {
   const factory _UserResultState(
       {@JsonKey(name: "total_pages") required final int total,
       final bool isLoadMore,
-      required final List<UserModel> data}) = _$_UserResultState;
+      required final List<UserModel> data}) = _$UserResultStateImpl;
 
   factory _UserResultState.fromJson(Map<String, dynamic> json) =
-      _$_UserResultState.fromJson;
+      _$UserResultStateImpl.fromJson;
 
   @override
   @JsonKey(name: "total_pages")
@@ -202,6 +203,6 @@ abstract class _UserResultState implements UserResultState {
   List<UserModel> get data;
   @override
   @JsonKey(ignore: true)
-  _$$_UserResultStateCopyWith<_$_UserResultState> get copyWith =>
+  _$$UserResultStateImplCopyWith<_$UserResultStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
