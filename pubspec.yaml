@@ -47,6 +47,8 @@ dependencies:
   flutter_webrtc: ^0.9.42+hotfix.1
   eventify: ^1.0.1
   web_socket_client: ^0.1.0
+  floor: ^1.4.2
+  audioplayers: ^5.1.0
 
   # twitter_login: ^4.4.2
 
@@ -62,6 +64,7 @@ dev_dependencies:
   flutter_gen_runner: ^5.3.1
   riverpod_generator: ^2.2.6
   flutter_application_id: ^2.0.0-dev
+  floor_generator: ^1.4.2
 
 dependency_overrides:
   analyzer: ^6.2.0
@@ -89,6 +92,7 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/json/
+    - assets/sounds/ringtone.mp3
 
   fonts:
     - family: Poppins

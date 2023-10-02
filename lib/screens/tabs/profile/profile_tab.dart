@@ -1,8 +1,7 @@
 import '../../../core/config.dart';
-import '../../../providers/firebase_provider.dart';
+import '../../../providers/user_provider.dart';
 import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
-import '../../../widgets/commons/indicators/loading_manager.dart';
 import 'widgets/profile_tab/profile_detail.dart';
 import 'widgets/profile_tab/profile_header.dart';
 
@@ -35,22 +34,12 @@ class ProfileScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Consumer(
           builder: (context, ref, child) {
-            // current user id from firebase
-            final userId = ref.read(firebaseAuthProvider).currentUser?.uid;
-
-            // get user from firebase by userId
-            final userState = ref.watch(userChangeFirebase(userId));
-
-            return userState.maybeWhen(
-              data: (user) {
-                return Column(
-                  children: [
-                    ProfileHeader(user: user),
-                    ProfileDetail(userType: user?.type),
-                  ],
-                );
-              },
-              orElse: () => const TurnLoading(),
+            final user = ref.watch(userProvider.select((value) => value.user));
+            return Column(
+              children: [
+                ProfileHeader(user: user),
+                ProfileDetail(userType: user?.type),
+              ],
             );
           },
         ),

@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "ARGB",
+    "audioplayers",
     "autofocus",
     "barcodes",
     "cameraswitch",
@@ -17,6 +18,7 @@
     "screenutil",
     "Srtp",
     "textiked",
+    "timeepoch",
     "unfocus",
     "videocam",
     "webrtc"
