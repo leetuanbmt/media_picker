@@ -49,6 +49,7 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
     AutoRoute(page: RegisterRoute.page),
     AutoRoute(page: SelectAttributeRoute.page),
     AutoRoute(page: CallRoute.page),
+    AutoRoute(page: PickupRoute.page),
     RedirectRoute(path: '*', redirectTo: '/dashboard'),
   ];
 

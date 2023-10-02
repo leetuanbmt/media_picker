@@ -1,41 +1,98 @@
-import 'package:dio/dio.dart';
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../core/config.dart';
+import '../core/models/call/call.dart';
 import '../core/models/models.dart';
+import '../core/utilities/navigator.dart';
+import '../core/utilities/utilities.dart';
+import '../routes/app_routes.gr.dart';
+import 'firebase_provider.dart';
 import 'global_provider.dart';
 import 'paginator_provider.dart';
 
 part 'user_provider.g.dart';
 part 'user_provider.freezed.dart';
 
-final userProvider = FutureProvider.autoDispose.family<UserModel, String>(
-  (ref, userId) async {
-    // create a cancel token to cancel request
-    final cancelToken = CancelToken();
+final userProvider = ChangeNotifierProvider((ref) => UserProvider(ref));
+// FutureProvider.autoDispose.family<UserModel, String>(
+//   (ref, userId) async {
+//     // create a cancel token to cancel request
+//     final cancelToken = CancelToken();
 
-    // cancel request when the provider is disposed
-    ref.onDispose(() => cancelToken.cancel());
+//     // cancel request when the provider is disposed
+//     ref.onDispose(() => cancelToken.cancel());
 
-    // access the provider above
-    final repository = ref.watch(appProvider);
+//     // access the provider above
+//     final repository = ref.watch(appProvider);
 
-    // use it to return a Future
-    final result = await repository.fetchUserInfo(
-      userId: userId,
-      cancelToken: cancelToken,
-    );
-    return result.when(
-      success: (data) {
-        return data;
-      },
-      failure: (error) {
-        throw error.message ?? 'Error';
-      },
-    );
-  },
-);
+//     // use it to return a Future
+//     final result = await repository.fetchUserInfo(
+//       userId: userId,
+//       cancelToken: cancelToken,
+//     );
+//     return result.when(
+//       success: (data) {
+//         return data;
+//       },
+//       failure: (error) {
+//         throw error.message ?? 'Error';
+//       },
+//     );
+//   },
+// );
+
+class UserProvider with ChangeNotifier {
+  UserProvider(this.ref);
+
+  final Ref ref;
+
+  UserModel? user;
+
+  StreamSubscription? _userSubscription;
+  StreamSubscription? _callListen;
+  initialize() {
+    final userId = ref.read(firebaseAuthProvider).currentUser?.uid;
+    if (userId != null) {
+      _userSubscription = ref
+          .firestore()
+          .collection(DbCollection.users)
+          .doc(userId)
+          .snapshots()
+          .listen((event) {
+        if (event.exists) {
+          user = UserModel.fromJson(event.data() as Json);
+          notifyListeners();
+        }
+      });
+      _callListen = ref
+          .firestore()
+          .collection(DbCollection.calls)
+          .doc(userId)
+          .snapshots()
+          .listen(listenPickup);
+    }
+  }
+
+  void listenPickup(DocumentSnapshot? snapshot) {
+    if (snapshot != null && snapshot.exists && snapshot.data() != null) {
+      final call = Call.fromJson(snapshot.data()! as Json);
+      if (!call.hasDialled) {
+        AppNavigator.instance.appRouter.navigate(PickupRoute(call: call));
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _callListen?.cancel();
+    _userSubscription?.cancel();
+    super.dispose();
+  }
+}
 
 @freezed
 class UserResultState with _$UserResultState {

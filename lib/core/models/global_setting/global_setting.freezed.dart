@@ -63,22 +63,22 @@ class _$GlobalSettingCopyWithImpl<$Res, $Val extends GlobalSetting>
 }
 
 /// @nodoc
-abstract class _$$_GlobalSettingCopyWith<$Res>
+abstract class _$$GlobalSettingImplCopyWith<$Res>
     implements $GlobalSettingCopyWith<$Res> {
-  factory _$$_GlobalSettingCopyWith(
-          _$_GlobalSetting value, $Res Function(_$_GlobalSetting) then) =
-      __$$_GlobalSettingCopyWithImpl<$Res>;
+  factory _$$GlobalSettingImplCopyWith(
+          _$GlobalSettingImpl value, $Res Function(_$GlobalSettingImpl) then) =
+      __$$GlobalSettingImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Color? themeColor, String? fontFamily});
 }
 
 /// @nodoc
-class __$$_GlobalSettingCopyWithImpl<$Res>
-    extends _$GlobalSettingCopyWithImpl<$Res, _$_GlobalSetting>
-    implements _$$_GlobalSettingCopyWith<$Res> {
-  __$$_GlobalSettingCopyWithImpl(
-      _$_GlobalSetting _value, $Res Function(_$_GlobalSetting) _then)
+class __$$GlobalSettingImplCopyWithImpl<$Res>
+    extends _$GlobalSettingCopyWithImpl<$Res, _$GlobalSettingImpl>
+    implements _$$GlobalSettingImplCopyWith<$Res> {
+  __$$GlobalSettingImplCopyWithImpl(
+      _$GlobalSettingImpl _value, $Res Function(_$GlobalSettingImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_GlobalSettingCopyWithImpl<$Res>
     Object? themeColor = freezed,
     Object? fontFamily = freezed,
   }) {
-    return _then(_$_GlobalSetting(
+    return _then(_$GlobalSettingImpl(
       themeColor: freezed == themeColor
           ? _value.themeColor
           : themeColor // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_GlobalSettingCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_GlobalSetting implements _GlobalSetting {
-  const _$_GlobalSetting({this.themeColor, this.fontFamily});
+class _$GlobalSettingImpl implements _GlobalSetting {
+  const _$GlobalSettingImpl({this.themeColor, this.fontFamily});
 
   @override
   final Color? themeColor;
@@ -119,7 +119,7 @@ class _$_GlobalSetting implements _GlobalSetting {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_GlobalSetting &&
+            other is _$GlobalSettingImpl &&
             (identical(other.themeColor, themeColor) ||
                 other.themeColor == themeColor) &&
             (identical(other.fontFamily, fontFamily) ||
@@ -132,13 +132,14 @@ class _$_GlobalSetting implements _GlobalSetting {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_GlobalSettingCopyWith<_$_GlobalSetting> get copyWith =>
-      __$$_GlobalSettingCopyWithImpl<_$_GlobalSetting>(this, _$identity);
+  _$$GlobalSettingImplCopyWith<_$GlobalSettingImpl> get copyWith =>
+      __$$GlobalSettingImplCopyWithImpl<_$GlobalSettingImpl>(this, _$identity);
 }
 
 abstract class _GlobalSetting implements GlobalSetting {
   const factory _GlobalSetting(
-      {final Color? themeColor, final String? fontFamily}) = _$_GlobalSetting;
+      {final Color? themeColor,
+      final String? fontFamily}) = _$GlobalSettingImpl;
 
   @override
   Color? get themeColor;
@@ -146,6 +147,6 @@ abstract class _GlobalSetting implements GlobalSetting {
   String? get fontFamily;
   @override
   @JsonKey(ignore: true)
-  _$$_GlobalSettingCopyWith<_$_GlobalSetting> get copyWith =>
+  _$$GlobalSettingImplCopyWith<_$GlobalSettingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -86,11 +86,11 @@ class _$HistoryModelCopyWithImpl<$Res, $Val extends HistoryModel>
 }
 
 /// @nodoc
-abstract class _$$_HistoryModelCopyWith<$Res>
+abstract class _$$HistoryModelImplCopyWith<$Res>
     implements $HistoryModelCopyWith<$Res> {
-  factory _$$_HistoryModelCopyWith(
-          _$_HistoryModel value, $Res Function(_$_HistoryModel) then) =
-      __$$_HistoryModelCopyWithImpl<$Res>;
+  factory _$$HistoryModelImplCopyWith(
+          _$HistoryModelImpl value, $Res Function(_$HistoryModelImpl) then) =
+      __$$HistoryModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,11 +102,11 @@ abstract class _$$_HistoryModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_HistoryModelCopyWithImpl<$Res>
-    extends _$HistoryModelCopyWithImpl<$Res, _$_HistoryModel>
-    implements _$$_HistoryModelCopyWith<$Res> {
-  __$$_HistoryModelCopyWithImpl(
-      _$_HistoryModel _value, $Res Function(_$_HistoryModel) _then)
+class __$$HistoryModelImplCopyWithImpl<$Res>
+    extends _$HistoryModelCopyWithImpl<$Res, _$HistoryModelImpl>
+    implements _$$HistoryModelImplCopyWith<$Res> {
+  __$$HistoryModelImplCopyWithImpl(
+      _$HistoryModelImpl _value, $Res Function(_$HistoryModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +118,7 @@ class __$$_HistoryModelCopyWithImpl<$Res>
     Object? date = null,
     Object? type = null,
   }) {
-    return _then(_$_HistoryModel(
+    return _then(_$HistoryModelImpl(
       suffix: null == suffix
           ? _value.suffix
           : suffix // ignore: cast_nullable_to_non_nullable
@@ -145,8 +145,8 @@ class __$$_HistoryModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_HistoryModel implements _HistoryModel {
-  const _$_HistoryModel(
+class _$HistoryModelImpl implements _HistoryModel {
+  const _$HistoryModelImpl(
       {this.suffix = '',
       required this.title,
       required this.point,
@@ -175,7 +175,7 @@ class _$_HistoryModel implements _HistoryModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_HistoryModel &&
+            other is _$HistoryModelImpl &&
             (identical(other.suffix, suffix) || other.suffix == suffix) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.point, point) || other.point == point) &&
@@ -190,8 +190,8 @@ class _$_HistoryModel implements _HistoryModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HistoryModelCopyWith<_$_HistoryModel> get copyWith =>
-      __$$_HistoryModelCopyWithImpl<_$_HistoryModel>(this, _$identity);
+  _$$HistoryModelImplCopyWith<_$HistoryModelImpl> get copyWith =>
+      __$$HistoryModelImplCopyWithImpl<_$HistoryModelImpl>(this, _$identity);
 }
 
 abstract class _HistoryModel implements HistoryModel {
@@ -200,7 +200,7 @@ abstract class _HistoryModel implements HistoryModel {
       required final String title,
       required final int point,
       required final DateTime date,
-      final HistoryType type}) = _$_HistoryModel;
+      final HistoryType type}) = _$HistoryModelImpl;
 
   @override
   String get suffix;
@@ -214,6 +214,6 @@ abstract class _HistoryModel implements HistoryModel {
   HistoryType get type;
   @override
   @JsonKey(ignore: true)
-  _$$_HistoryModelCopyWith<_$_HistoryModel> get copyWith =>
+  _$$HistoryModelImplCopyWith<_$HistoryModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

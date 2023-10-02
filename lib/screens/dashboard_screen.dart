@@ -2,8 +2,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../core/config.dart';
 import '../gen/assets.gen.dart';
-import '../providers/firebase_provider.dart';
-import '../providers/socket_provider.dart';
+import '../providers/user_provider.dart';
 import '../routes/app_routes.gr.dart';
 
 class TabItem {
@@ -25,20 +24,10 @@ class DashboardScreen extends ConsumerStatefulWidget {
 }
 
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
-  String get currentUser =>
-      ref.read(firebaseAuthProvider).currentUser?.uid ?? '';
-
   @override
   void initState() {
-    ref.read(socketProvider.notifier).initSocket(currentUser);
-
+    ref.read(userProvider.notifier).initialize();
     super.initState();
-  }
-
-  @override
-  void deactivate() {
-    ref.read(socketProvider.notifier).disconnect();
-    super.deactivate();
   }
 
   @override

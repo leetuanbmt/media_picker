@@ -68,22 +68,22 @@ class _$FollowingModelCopyWithImpl<$Res, $Val extends FollowingModel>
 }
 
 /// @nodoc
-abstract class _$$_FollowingModelCopyWith<$Res>
+abstract class _$$FollowingModelImplCopyWith<$Res>
     implements $FollowingModelCopyWith<$Res> {
-  factory _$$_FollowingModelCopyWith(
-          _$_FollowingModel value, $Res Function(_$_FollowingModel) then) =
-      __$$_FollowingModelCopyWithImpl<$Res>;
+  factory _$$FollowingModelImplCopyWith(_$FollowingModelImpl value,
+          $Res Function(_$FollowingModelImpl) then) =
+      __$$FollowingModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String title, List<CreatorModel> listCreator});
 }
 
 /// @nodoc
-class __$$_FollowingModelCopyWithImpl<$Res>
-    extends _$FollowingModelCopyWithImpl<$Res, _$_FollowingModel>
-    implements _$$_FollowingModelCopyWith<$Res> {
-  __$$_FollowingModelCopyWithImpl(
-      _$_FollowingModel _value, $Res Function(_$_FollowingModel) _then)
+class __$$FollowingModelImplCopyWithImpl<$Res>
+    extends _$FollowingModelCopyWithImpl<$Res, _$FollowingModelImpl>
+    implements _$$FollowingModelImplCopyWith<$Res> {
+  __$$FollowingModelImplCopyWithImpl(
+      _$FollowingModelImpl _value, $Res Function(_$FollowingModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$_FollowingModelCopyWithImpl<$Res>
     Object? title = null,
     Object? listCreator = null,
   }) {
-    return _then(_$_FollowingModel(
+    return _then(_$FollowingModelImpl(
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -107,14 +107,14 @@ class __$$_FollowingModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_FollowingModel extends _FollowingModel {
-  const _$_FollowingModel(
+class _$FollowingModelImpl extends _FollowingModel {
+  const _$FollowingModelImpl(
       {required this.title, required final List<CreatorModel> listCreator})
       : _listCreator = listCreator,
         super._();
 
-  factory _$_FollowingModel.fromJson(Map<String, dynamic> json) =>
-      _$$_FollowingModelFromJson(json);
+  factory _$FollowingModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FollowingModelImplFromJson(json);
 
   @override
   final String title;
@@ -135,7 +135,7 @@ class _$_FollowingModel extends _FollowingModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FollowingModel &&
+            other is _$FollowingModelImpl &&
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality()
                 .equals(other._listCreator, _listCreator));
@@ -149,12 +149,13 @@ class _$_FollowingModel extends _FollowingModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FollowingModelCopyWith<_$_FollowingModel> get copyWith =>
-      __$$_FollowingModelCopyWithImpl<_$_FollowingModel>(this, _$identity);
+  _$$FollowingModelImplCopyWith<_$FollowingModelImpl> get copyWith =>
+      __$$FollowingModelImplCopyWithImpl<_$FollowingModelImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_FollowingModelToJson(
+    return _$$FollowingModelImplToJson(
       this,
     );
   }
@@ -163,11 +164,11 @@ class _$_FollowingModel extends _FollowingModel {
 abstract class _FollowingModel extends FollowingModel {
   const factory _FollowingModel(
       {required final String title,
-      required final List<CreatorModel> listCreator}) = _$_FollowingModel;
+      required final List<CreatorModel> listCreator}) = _$FollowingModelImpl;
   const _FollowingModel._() : super._();
 
   factory _FollowingModel.fromJson(Map<String, dynamic> json) =
-      _$_FollowingModel.fromJson;
+      _$FollowingModelImpl.fromJson;
 
   @override
   String get title;
@@ -175,6 +176,6 @@ abstract class _FollowingModel extends FollowingModel {
   List<CreatorModel> get listCreator;
   @override
   @JsonKey(ignore: true)
-  _$$_FollowingModelCopyWith<_$_FollowingModel> get copyWith =>
+  _$$FollowingModelImplCopyWith<_$FollowingModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
