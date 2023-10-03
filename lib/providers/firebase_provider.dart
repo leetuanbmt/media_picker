@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../core/config.dart';
+import '../core/models/call_history/call_history.dart';
 import '../core/models/models.dart';
 import '../core/utilities/utilities.dart';
 
@@ -54,4 +55,19 @@ final categoriesProvider = FutureProvider<List<String>>((ref) async {
       .collection(DbCollection.categories)
       .get();
   return categories.docs.map((e) => e.data()['title'] as String).toList();
+});
+
+final callHistoryProvider = StreamProvider.autoDispose((ref) {
+  final currentUid = ref.read(firebaseAuthProvider).currentUser?.uid;
+  return ref
+      .watch(firestoreProvider)
+      .collection(DbCollection.users)
+      .doc(currentUid)
+      .collection(DbCollection.callHistories)
+      .orderBy(DbKey.callTime, descending: true)
+      .snapshots()
+      .map(
+        (event) =>
+            event.docs.map((e) => CallHistory.fromJson(e.data())).toList(),
+      );
 });

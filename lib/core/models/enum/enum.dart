@@ -11,9 +11,18 @@ enum UserType {
 }
 
 enum CallStatus {
-  incoming,
-  calling,
-  onCall,
-  ended,
-  none,
+  calling('calling'),
+  missed('missed'),
+  ringing('ringing'),
+  rejected('rejected'),
+  inCall('inCall'),
+  ended('ended');
+
+  final String value;
+
+  const CallStatus(this.value);
+
+  static CallStatus fromString(String value) {
+    return CallStatus.values.firstWhere((e) => e.value == value);
+  }
 }

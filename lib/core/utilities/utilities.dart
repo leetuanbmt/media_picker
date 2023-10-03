@@ -29,4 +29,10 @@ class AppUtils {
   static DateTime? fromJsonTime(Timestamp? timestamp) {
     return timestamp?.toDate();
   }
+
+  static String formatDuration(Duration duration) {
+    return <int>[duration.inMinutes, duration.inSeconds]
+        .map((int e) => e.remainder(60).toString().padLeft(2, "0"))
+        .join(':');
+  }
 }

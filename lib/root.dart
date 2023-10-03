@@ -2,7 +2,7 @@ import 'core/config.dart';
 import 'core/utilities/language.dart';
 import 'core/utilities/navigator.dart';
 import 'providers/global_provider.dart';
-import 'screens/video_call/incoming_screen.dart';
+import 'screens/calling_screen/incoming_screen.dart';
 
 class RootApp extends StatelessWidget {
   const RootApp({super.key});

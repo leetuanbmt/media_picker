@@ -26,7 +26,7 @@ class CacheImage extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
         ),
-        child: image == null ? const ItemLoading() : null,
+        child: image == null ? ItemLoading(radius: radius) : null,
       ),
     );
   }
