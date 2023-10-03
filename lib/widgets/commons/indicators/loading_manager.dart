@@ -57,7 +57,10 @@ class TurnLoading extends HookWidget {
             child: child,
           );
         },
-        child: Assets.iconsIconLoading.svg(),
+        child: SizedBox.square(
+          dimension: 50.r,
+          child: Assets.iconsIconLoading.svg(),
+        ),
       ),
     );
   }
