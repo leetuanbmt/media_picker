@@ -23,6 +23,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
   bool isCallMissed = true;
   String get currentUser =>
       ref.read(firebaseAuthProvider).currentUser?.uid ?? '';
+  ProviderSubscription? _callStream;
 
   void addToLocalStorage({required CallStatus callStatus}) {
     final call = CallHistory(
@@ -60,7 +61,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
 
   @override
   void initState() {
-    ref.listenManual(callStream(currentUser), (previous, next) {
+    _callStream = ref.listenManual(callStream(currentUser), (previous, next) {
       if (next.value != null && !next.value!.exists) {
         Navigator.pop(context);
       }
@@ -73,6 +74,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
     if (isCallMissed) {
       addToLocalStorage(callStatus: CallStatus.missed);
     }
+    _callStream?.close();
     super.deactivate();
   }
 

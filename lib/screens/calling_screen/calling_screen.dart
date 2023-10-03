@@ -66,7 +66,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   // play local ringtone
   final _player = AudioPlayer();
   Timer? _timer;
-
+  ProviderSubscription? _callStream;
   @override
   void initState() {
     initRenderers();
@@ -97,7 +97,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
 
     openUserMedia();
     setHistoryCall();
-    ref.listenManual(
+    _callStream = ref.listenManual(
         callStream(call.hasDialled ? call.callerId : call.receiverId),
         (previous, next) {
       if (next.value == null || !next.value!.exists) {
@@ -244,6 +244,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   @override
   void deactivate() {
     _stopStream();
+    _callStream?.close();
     super.deactivate();
   }
 
