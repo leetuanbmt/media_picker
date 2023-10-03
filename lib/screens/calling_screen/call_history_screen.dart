@@ -5,6 +5,7 @@ import '../../providers/firebase_provider.dart';
 import '../../widgets/commons/cache_image.dart';
 import '../../widgets/commons/indicators/loading_manager.dart';
 
+@RoutePage()
 class CallHistoryScreen extends ConsumerWidget {
   const CallHistoryScreen({super.key});
 
@@ -16,7 +17,6 @@ class CallHistoryScreen extends ConsumerWidget {
       ),
       body: ref.watch(callHistoryProvider).maybeWhen(
             data: (histories) {
-              Logger.log(histories.length);
               return ListView.builder(
                 itemCount: histories.length,
                 itemBuilder: (BuildContext context, int index) {
