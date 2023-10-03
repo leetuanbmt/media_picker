@@ -97,6 +97,13 @@ class _CallScreenState extends ConsumerState<CallScreen> {
 
     openUserMedia();
     setHistoryCall();
+    ref.listenManual(
+        callStream(call.hasDialled ? call.callerId : call.receiverId),
+        (previous, next) {
+      if (next.value == null || !next.value!.exists) {
+        _stopStream();
+      }
+    });
     super.initState();
   }
 
@@ -242,12 +249,6 @@ class _CallScreenState extends ConsumerState<CallScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(callStream(call.hasDialled ? call.callerId : call.receiverId),
-        (previous, next) {
-      if (next.value == null || !next.value!.exists) {
-        _stopStream();
-      }
-    });
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(

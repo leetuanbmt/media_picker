@@ -59,6 +59,16 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
   }
 
   @override
+  void initState() {
+    ref.listenManual(callStream(currentUser), (previous, next) {
+      if (next.value != null && !next.value!.exists) {
+        Navigator.pop(context);
+      }
+    });
+    super.initState();
+  }
+
+  @override
   void deactivate() {
     if (isCallMissed) {
       addToLocalStorage(callStatus: CallStatus.missed);
@@ -68,11 +78,6 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(callStream(currentUser), (previous, next) {
-      if (next.value != null && !next.value!.exists) {
-        Navigator.pop(context);
-      }
-    });
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(
