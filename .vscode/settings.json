@@ -1,0 +1,27 @@
+{
+  "cSpell.words": [
+    "ARGB",
+    "audioplayers",
+    "autofocus",
+    "barcodes",
+    "cameraswitch",
+    "Dtls",
+    "eventify",
+    "Firestore",
+    "gotip",
+    "horiz",
+    "icecandidate",
+    "LTRB",
+    "negotiationneeded",
+    "pinput",
+    "riverpod",
+    "screenutil",
+    "Srtp",
+    "textiked",
+    "timeepoch",
+    "unfocus",
+    "videocam",
+    "webrtc"
+  ],
+  "dart.flutterSdkPath": "/Users/tuanvm/Downloads/flutter/bin"
+}
