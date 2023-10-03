@@ -21,8 +21,4 @@ abstract class RestClient {
     @Query("per_page") int perPage,
     @CancelRequest() CancelToken? cancelToken,
   );
-  @POST("register")
-  Future<dynamic> registerUser(
-    @CancelRequest() CancelToken? cancelToken,
-  );
 }
