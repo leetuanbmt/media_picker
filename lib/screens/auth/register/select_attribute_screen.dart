@@ -1,5 +1,7 @@
-import '../core/config.dart';
-import '../gen/assets.gen.dart';
+import '../../../core/config.dart';
+import '../../../core/models/enum/enum.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../routes/app_routes.gr.dart';
 
 @RoutePage()
 class SelectAttributeScreen extends StatelessWidget {
@@ -23,7 +25,7 @@ class SelectAttributeScreen extends StatelessWidget {
                 'ユーザー属性の選択',
                 style: context.headlineSmall!.copyWith(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: 24.sp,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -51,6 +53,10 @@ class SelectAttributeScreen extends StatelessWidget {
               ),
               titleMedium: "クリエイターとして始める",
               titleSmall: "配信者・店舗の方",
+              onTap: () {
+                context.router
+                    .push(RegisterUserRoute(userType: UserType.creator));
+              },
             ),
             SizedBox(
               height: 24.h,
@@ -62,6 +68,9 @@ class SelectAttributeScreen extends StatelessWidget {
               ),
               titleMedium: "ファンとして始める",
               titleSmall: "投げ銭する方",
+              onTap: () {
+                context.router.push(RegisterUserRoute(userType: UserType.fan));
+              },
             ),
           ],
         ),

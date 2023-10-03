@@ -11,6 +11,11 @@ class TextFieldCustom extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.errorText,
     this.textAlign = TextAlign.start,
+    this.suffixIcon,
+    this.onTap,
+    this.readOnly = false,
+    this.autofocus = false,
+    this.onChanged,
   });
 
   final TextEditingController? textController;
@@ -19,6 +24,10 @@ class TextFieldCustom extends StatelessWidget {
   final String? hintText, errorText;
   final TextInputType keyboardType;
   final TextAlign textAlign;
+  final bool? readOnly, autofocus;
+  final Widget? suffixIcon;
+  final VoidCallback? onTap;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +48,22 @@ class TextFieldCustom extends StatelessWidget {
       textAlign: textAlign,
       keyboardType: keyboardType,
       obscureText: obscureText,
+      autofocus: autofocus!,
       obscuringCharacter: '●',
+      readOnly: readOnly!,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.only(left: 10.w),
         hintText: hintText,
         errorText: errorText,
         hintStyle: style.copyWith(color: AppTheme.fontGray),
+        suffixIcon: suffixIcon,
         focusedBorder: border,
         enabledBorder: border,
+        errorBorder: border,
+        focusedErrorBorder: border,
       ),
+      onTap: onTap,
+      onChanged: onChanged,
     );
   }
 }
