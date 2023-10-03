@@ -46,9 +46,9 @@ class ProfileHeader extends StatelessWidget {
                     if (isFan)
                       Row(
                         children: [
-                          const _TagCustom(
+                          _TagCustom(
                             title: '配信',
-                            color: Color(0xff44D0CB),
+                            color: context.primaryColor,
                           ),
                           SizedBox(width: 3.w),
                           const _TagCustom(
@@ -75,9 +75,9 @@ class ProfileHeader extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    const _TagCustom(
+                    _TagCustom(
                       title: '配信',
-                      color: Color(0xff44D0CB),
+                      color: context.primaryColor,
                     ),
                     SizedBox(width: 3.w),
                     const _TagCustom(

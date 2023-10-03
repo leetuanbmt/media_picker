@@ -15,7 +15,6 @@ class NotificationScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: AppTheme.lightStatusBar,
-        backgroundColor: AppTheme.primaryColor,
         title: const Text('Notification'),
         actions: [
           IconButton(

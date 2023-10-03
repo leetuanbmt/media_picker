@@ -23,13 +23,14 @@ Future<void> initService() async {
 }
 
 void main() async {
-  await initService();
   runZonedGuarded(() async {
     await SentryFlutter.init(
       (options) {
         options.dsn = AppConfig.sentryDsn;
       },
     );
+    await initService();
+
     runApp(
       const ProviderScope(
         // observers: [LoggerProvider()],
