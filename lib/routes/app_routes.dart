@@ -18,6 +18,7 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
             AutoRoute(page: HomeRoute.page, initial: true),
             AutoRoute(page: SearchCreatorRoute.page),
             AutoRoute(page: ListUserRoute.page),
+            AutoRoute(page: MyProfileRoute.page),
           ],
         ),
         AutoRoute(
