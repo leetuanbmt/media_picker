@@ -55,11 +55,6 @@ class UserInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.labelMedium!.copyWith(
-      fontSize: 12.sp,
-      fontWeight: FontWeight.w600,
-      color: Colors.white,
-    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -94,35 +89,20 @@ class UserInformation extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          Text(
-                            'フォロー',
-                            style: style,
-                          ),
-                          Text(
-                            creator.follow.toString(),
-                            style: style,
-                          ),
+                          _textItem(context, "フォロー"),
+                          _textItem(context, creator.follow.toString()),
                         ],
                       ),
                       Column(
                         children: [
-                          Text(
-                            'フォロワー',
-                            style: style,
-                          ),
-                          Text(
-                            creator.followers.toString(),
-                            style: style,
-                          ),
+                          _textItem(context, 'フォロワー'),
+                          _textItem(context, creator.followers.toString()),
                         ],
                       ),
                       Column(
                         children: [
                           Assets.iconsIconApp.svg(height: 17.h),
-                          Text(
-                            '${creator.points}pt',
-                            style: style,
-                          ),
+                          _textItem(context, '${creator.points}pt'),
                         ],
                       ),
                     ],
@@ -143,13 +123,28 @@ class UserInformation extends StatelessWidget {
           ),
           child: Text(
             creator.category,
-            style: style.copyWith(color: AppTheme.primaryColor),
+            style: context.labelMedium!.copyWith(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              color: AppTheme.primaryColor,
+            ),
           ),
         ),
         SizedBox(
           height: 9.4.h,
         ),
       ],
+    );
+  }
+
+  Widget _textItem(BuildContext context, String value) {
+    return Text(
+      value,
+      style: context.labelMedium!.copyWith(
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w600,
+        color: Colors.white,
+      ),
     );
   }
 }
@@ -210,7 +205,7 @@ class UserBio extends ConsumerWidget {
               ),
           ],
         ),
-        if (!ref.watch(myPageProvider).isBlocked)
+        if (!myPage.isBlocked)
           Center(
             child: IconButton(
               onPressed: () {

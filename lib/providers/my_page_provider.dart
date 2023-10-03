@@ -17,6 +17,12 @@ class MyPageProvider extends ChangeNotifier {
 
   bool isBlocked = false;
 
+  bool isDelaySetting = false;
+
+  bool isAutoSetting = false;
+
+  int coinSelected = -1;
+
   final blockController = TextEditingController();
 
   String get blockContent => blockController.text;
@@ -45,7 +51,20 @@ class MyPageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void showOptions(BuildContext context) {}
+  void changeDelaySetting(bool value) {
+    isDelaySetting = value;
+    notifyListeners();
+  }
+
+  void changeAutoSetting(bool value) {
+    isAutoSetting = value;
+    notifyListeners();
+  }
+
+  void chooseCoin(int value) {
+    coinSelected = value;
+    notifyListeners();
+  }
 }
 
 final userRankingProvider = FutureProvider<List<String>>((ref) async {

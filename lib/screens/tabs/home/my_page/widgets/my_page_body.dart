@@ -15,7 +15,7 @@ class DeviceConnected extends StatelessWidget {
   Widget build(BuildContext context) {
     List<String> deviceConnected = ['ぬいぐるみ', '扇風機'];
 
-    final style = context.titleMedium!.copyWith(
+    final style = context.titleSmall!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w400,
     );
@@ -45,8 +45,7 @@ class DeviceConnected extends StatelessWidget {
           ),
           Text(
             '接続中の機器',
-            style: context.titleLarge!.copyWith(
-              fontSize: 14.sp,
+            style: style.copyWith(
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -63,7 +62,7 @@ class DeviceConnected extends StatelessWidget {
                 SizedBox(
                   height: 9.h,
                 ),
-                ...List.generate(2, (index) {
+                ...List.generate(deviceConnected.length, (index) {
                   return Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 16.04.w,
@@ -78,7 +77,6 @@ class DeviceConnected extends StatelessWidget {
                               dimension: 24.r,
                               child: SvgPicture.asset(
                                 Assets.iconsIconWifi.path,
-                                fit: BoxFit.contain,
                               ),
                             ),
                             SizedBox(

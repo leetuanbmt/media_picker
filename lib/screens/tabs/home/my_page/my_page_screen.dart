@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
-
 import '../../../../core/config.dart';
 import '../../../../core/models/creator/creator_model.dart';
-import '../../../../gen/assets.gen.dart';
 import '../../../../providers/my_page_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
-import '../../../../widgets/dialogs.dart';
+import 'widgets/my_page_app_bar.dart';
 import 'widgets/my_page_body.dart';
 import 'widgets/my_page_footer.dart';
 import 'widgets/user_information.dart';
@@ -18,158 +15,19 @@ class MyProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final style = context.titleMedium!.copyWith(
-      fontSize: 20.sp,
-      fontWeight: FontWeight.w400,
-      color: const Color(0xffEB5757),
-    );
-
     final myPage = ref.watch(myPageProvider);
 
+    final style = context.titleSmall!.copyWith(
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w600,
+    );
     return Scaffold(
-      backgroundColor: AppTheme.primaryColor.withOpacity(0.05),
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
-        leading: SizedBox.square(
-          dimension: 32.h,
-          child: InkWell(
-            onTap: () {
-              context.back();
-            },
-            child: Assets.iconsIconBackArrow.svg(
-              width: 8.w,
-              height: 15.11.h,
-              fit: BoxFit.scaleDown,
-            ),
-          ),
-        ),
+        leading: const MyPageLeading(),
         actions: [
-          Container(
-            height: 31.63.h,
-            width: 106.w,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(30.r),
-              ),
-              color: AppTheme.pink,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Assets.iconsIconOnline.svg(
-                  height: 16.81.h,
-                  width: 15.w,
-                ),
-                SizedBox(
-                  width: 6.w,
-                ),
-                Text(
-                  'オンライン',
-                  style: context.labelMedium!.copyWith(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              showCupertinoModalPopup(
-                context: context,
-                builder: (ctx) {
-                  return CupertinoActionSheet(
-                    title: Text(
-                      'ユーザーを報告する',
-                      style: style,
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                          AppDialog.showAppBottomSheet(
-                            context,
-                            title: 'ユーザーの報告',
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 110.h,
-                                  width: 343.w,
-                                  child: TextField(
-                                    maxLines: 5,
-                                    decoration: InputDecoration(
-                                      hintText: 'ユーザーの違反行為などを報告',
-                                      hintStyle: context.titleSmall!.copyWith(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w300,
-                                        color: AppTheme.boxFont,
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(3.r),
-                                        ),
-                                        borderSide: BorderSide(
-                                          width: 1.r,
-                                          color: AppTheme.box,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(3.r)),
-                                        borderSide: BorderSide(
-                                          width: 1.r,
-                                          color: AppTheme.box,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 32.h,
-                                ),
-                                ButtonCustom(
-                                  '報告する',
-                                  height: 48.h,
-                                  width: 327.w,
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    myPage.blockUser();
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'ブロックする',
-                          style: style.copyWith(
-                            color: const Color(0xff007AFF),
-                          ),
-                        ),
-                      ),
-                    ],
-                    cancelButton: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        'Cancel',
-                        style: style.copyWith(
-                          color: const Color(0xff007AFF),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              );
-            },
-            icon: const Icon(
-              Icons.more_horiz,
-              color: Colors.white,
-              size: 30,
-            ),
-          ),
+          const UserOnline(),
+          MyPageAction(myPage: myPage),
         ],
         backgroundColor: AppTheme.primaryColor,
       ),
@@ -230,6 +88,7 @@ class MyProfileScreen extends ConsumerWidget {
                               ),
                             )
                           : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const DeviceConnected(),
                                 SizedBox(
@@ -254,9 +113,7 @@ class MyProfileScreen extends ConsumerWidget {
                                 ),
                                 Text(
                                   'ユーザーランキング',
-                                  style: context.titleMedium!.copyWith(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
+                                  style: style.copyWith(
                                     color: AppTheme.blackBold,
                                   ),
                                 ),
@@ -269,9 +126,7 @@ class MyProfileScreen extends ConsumerWidget {
                                 ),
                                 Text(
                                   '告知',
-                                  style: context.titleMedium!.copyWith(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400,
+                                  style: style.copyWith(
                                     color: AppTheme.fontGray3,
                                   ),
                                 ),
@@ -311,7 +166,7 @@ class MyProfileScreen extends ConsumerWidget {
                 ),
               ],
             ),
-            myPage.isBlocked ? const SizedBox() : const MyPageFooter(),
+            if (!myPage.isBlocked) const MyPageFooter(),
           ],
         ),
       ),
