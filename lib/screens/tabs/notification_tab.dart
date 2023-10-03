@@ -1,9 +1,9 @@
 import '../../core/config.dart';
-import '../../core/utilities/navigator.dart';
+import '../../providers/call_provider.dart';
 import '../../providers/firebase_provider.dart';
-import '../../routes/app_routes.gr.dart';
 import '../../widgets/commons/cache_image.dart';
 import '../../widgets/commons/indicators/loading_manager.dart';
+import '../calling_screen/call_history_screen.dart';
 
 @RoutePage()
 class NotificationScreen extends ConsumerWidget {
@@ -12,12 +12,19 @@ class NotificationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncUser = ref.watch(userListFirestore);
-    final callerID = ref.read(firebaseAuthProvider).currentUser?.uid;
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: AppTheme.lightStatusBar,
         backgroundColor: AppTheme.primaryColor,
         title: const Text('Notification'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.history),
+            onPressed: () {
+              context.nextPage(const CallHistoryScreen());
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: asyncUser.maybeWhen(
@@ -47,12 +54,7 @@ class NotificationScreen extends ConsumerWidget {
                 trailing: IconButton(
                   icon: const Icon(Icons.call),
                   onPressed: () {
-                    AppNavigator.instance.appRouter.navigate(
-                      CallRoute(
-                        callerId: callerID!,
-                        calleeId: user.id,
-                      ),
-                    );
+                    ref.read(callUtils).dial(user);
                   },
                 ),
               );
