@@ -18,7 +18,7 @@ class SearchScreen extends StatelessWidget {
         searchAppBar: SearchAppBar(
           readOnly: true,
           onTap: () {
-            AutoRouter.of(context).push(const SearchCreatorRoute());
+            context.navigator(const SearchCreatorRoute());
           },
         ),
       ),

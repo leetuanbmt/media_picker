@@ -66,7 +66,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   // play local ringtone
   final _player = AudioPlayer();
   Timer? _timer;
-
+  ProviderSubscription? _callStream;
   @override
   void initState() {
     initRenderers();
@@ -97,6 +97,13 @@ class _CallScreenState extends ConsumerState<CallScreen> {
 
     openUserMedia();
     setHistoryCall();
+    _callStream = ref.listenManual(
+        callStream(call.hasDialled ? call.callerId : call.receiverId),
+        (previous, next) {
+      if (next.value == null || !next.value!.exists) {
+        _stopStream();
+      }
+    });
     super.initState();
   }
 
@@ -237,17 +244,12 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   @override
   void deactivate() {
     _stopStream();
+    _callStream?.close();
     super.deactivate();
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(callStream(call.hasDialled ? call.callerId : call.receiverId),
-        (previous, next) {
-      if (next.value == null || !next.value!.exists) {
-        _stopStream();
-      }
-    });
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(

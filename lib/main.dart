@@ -1,9 +1,10 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:media_kit/media_kit.dart';
+import 'dart:async';
 
-import 'core/utilities/logger.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:media_kit/media_kit.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
+import 'core/config.dart';
 import 'core/utilities/preferences.dart';
 import 'firebase_options.dart';
 import 'root.dart';
@@ -22,13 +23,23 @@ Future<void> initService() async {
 }
 
 void main() async {
-  await initService();
-  runApp(
-    const ProviderScope(
-      // observers: [LoggerProvider()],
-      child: RootApp(),
-    ),
-  );
+  runZonedGuarded(() async {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = AppConfig.sentryDsn;
+      },
+    );
+    await initService();
+
+    runApp(
+      const ProviderScope(
+        // observers: [LoggerProvider()],
+        child: RootApp(),
+      ),
+    );
+  }, (exception, stackTrace) async {
+    await Sentry.captureException(exception, stackTrace: stackTrace);
+  });
 }
 
 class LoggerProvider extends ProviderObserver {

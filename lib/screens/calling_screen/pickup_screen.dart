@@ -23,6 +23,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
   bool isCallMissed = true;
   String get currentUser =>
       ref.read(firebaseAuthProvider).currentUser?.uid ?? '';
+  ProviderSubscription? _callStream;
 
   void addToLocalStorage({required CallStatus callStatus}) {
     final call = CallHistory(
@@ -59,20 +60,26 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
   }
 
   @override
+  void initState() {
+    _callStream = ref.listenManual(callStream(currentUser), (previous, next) {
+      if (next.value != null && !next.value!.exists) {
+        Navigator.pop(context);
+      }
+    });
+    super.initState();
+  }
+
+  @override
   void deactivate() {
     if (isCallMissed) {
       addToLocalStorage(callStatus: CallStatus.missed);
     }
+    _callStream?.close();
     super.deactivate();
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(callStream(currentUser), (previous, next) {
-      if (next.value != null && !next.value!.exists) {
-        Navigator.pop(context);
-      }
-    });
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(
