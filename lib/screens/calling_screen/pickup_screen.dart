@@ -1,12 +1,15 @@
-import '../core/config.dart';
-import '../core/models/call/call.dart';
-import '../core/models/call_history/call_history.dart';
-import '../core/models/enum/enum.dart';
-import '../core/utilities/utilities.dart';
-import '../providers/call_provider.dart';
-import '../providers/firebase_provider.dart';
-import '../routes/app_routes.gr.dart';
-import '../widgets/commons/cache_image.dart';
+import 'dart:async';
+
+import '../../core/config.dart';
+import '../../core/models/call/call.dart';
+import '../../core/models/call_history/call_history.dart';
+import '../../core/models/enum/enum.dart';
+import '../../core/utilities/utilities.dart';
+import '../../providers/call_provider.dart';
+import '../../providers/firebase_provider.dart';
+import '../../routes/app_routes.gr.dart';
+import '../../widgets/commons/cache_image.dart';
+import 'widgets/dial_button.dart';
 
 @RoutePage()
 class PickupScreen extends ConsumerStatefulWidget {
@@ -20,10 +23,6 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
   bool isCallMissed = true;
   String get currentUser =>
       ref.read(firebaseAuthProvider).currentUser?.uid ?? '';
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void addToLocalStorage({required CallStatus callStatus}) {
     final call = CallHistory(
@@ -69,6 +68,11 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(callStream(currentUser), (previous, next) {
+      if (next.value != null && !next.value!.exists) {
+        Navigator.pop(context);
+      }
+    });
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(
@@ -111,7 +115,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
                       onTap: () async {
                         isCallMissed = false;
                         addToLocalStorage(callStatus: CallStatus.rejected);
-                        ref.read(callProvider.notifier).endCall(widget.call);
+                        ref.read(callUtils).endCall(widget.call);
                         Navigator.pop(context);
                       },
                     ),
@@ -130,38 +134,6 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class DialButton extends StatelessWidget {
-  const DialButton({
-    super.key,
-    required this.icon,
-    required this.color,
-    required this.onTap,
-    this.iconColor = Colors.white,
-  });
-
-  final IconData icon;
-  final Color color, iconColor;
-  final VoidCallback onTap;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color,
-        ),
-        child: Icon(
-          icon,
-          color: iconColor,
-          size: 30,
         ),
       ),
     );

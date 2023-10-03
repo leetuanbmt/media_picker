@@ -13,8 +13,8 @@ import '../../core/utilities/utilities.dart';
 import '../../providers/call_provider.dart';
 import '../../providers/firebase_provider.dart';
 import '../../widgets/commons/cache_image.dart';
-import '../pickup_screen.dart';
 import 'peer_connection.dart';
+import 'widgets/dial_button.dart';
 
 // https://gist.github.com/yetithefoot/7592580
 
@@ -69,8 +69,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
 
   @override
   void initState() {
-    _localRenderer.initialize();
-    _remoteRenderer.initialize();
+    initRenderers();
     // init call history model;
     callHistory = CallHistory(
       callerId: call.callerId,
@@ -96,9 +95,14 @@ class _CallScreenState extends ConsumerState<CallScreen> {
         .snapshots()
         .listen(listenStatusCall);
 
-    setHistoryCall();
     openUserMedia();
+    setHistoryCall();
     super.initState();
+  }
+
+  void initRenderers() async {
+    await _localRenderer.initialize();
+    await _remoteRenderer.initialize();
   }
 
   _playCallingTone() async {
@@ -180,17 +184,6 @@ class _CallScreenState extends ConsumerState<CallScreen> {
       Logger.log("Joining room ${widget.call.channelId}");
       _peerConnection.joinRoom(widget.call.channelId);
     }
-    endCallHandler();
-  }
-
-  void endCallHandler() {
-    final currentUser = ref.read(firebaseAuthProvider).currentUser?.uid;
-    ref.watch(callStream(currentUser!)).whenData((snapshot) {
-      if (snapshot == null || !snapshot.exists) {
-        Navigator.pop(context);
-        _stopStream();
-      }
-    });
   }
 
   _startTimerNow() {
@@ -249,6 +242,12 @@ class _CallScreenState extends ConsumerState<CallScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(callStream(call.hasDialled ? call.callerId : call.receiverId),
+        (previous, next) {
+      if (next.value == null || !next.value!.exists) {
+        _stopStream();
+      }
+    });
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(
@@ -379,7 +378,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
       return;
     }
     _stopStream();
-    ref.read(callProvider).endCall(widget.call);
+    ref.read(callUtils).endCall(widget.call);
     DateTime now = DateTime.now();
     await callerCollection.set(
       {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../core/config.dart';
@@ -14,12 +16,10 @@ final callStream = StreamProvider.autoDispose.family<DocumentSnapshot?, String>(
   },
 );
 
-final callProvider = ChangeNotifierProvider<CallProvider>((ref) {
-  return CallProvider(ref);
-});
+final callUtils = Provider<CallUtils>((ref) => CallUtils(ref));
 
-class CallProvider extends ChangeNotifier {
-  CallProvider(this.ref);
+class CallUtils {
+  CallUtils(this.ref);
   final Ref ref;
 
   CollectionReference get callCollection =>
