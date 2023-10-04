@@ -9,6 +9,7 @@ part 'call_history.freezed.dart';
 
 @freezed
 class CallHistory with _$CallHistory {
+  const CallHistory._();
   const factory CallHistory({
     required String callerId,
     required String callerName,
@@ -17,6 +18,7 @@ class CallHistory with _$CallHistory {
     required String receiverName,
     required String receiverPic,
     required String channelId,
+    required String currentUser,
     required bool hasDialled,
     required bool isCallMissed,
     required DateTime callTime,

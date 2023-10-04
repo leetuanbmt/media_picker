@@ -198,8 +198,16 @@ class PeerConnection {
   ) async {
     final stream = await navigator.mediaDevices.getUserMedia(
       {
-        'video': true,
         'audio': false,
+        'video': {
+          'mandatory': {
+            'minWidth': '1920',
+            'minHeight': '1080',
+            'minFrameRate': '60',
+          },
+          'facingMode': 'user',
+          'optional': [],
+        },
       },
     );
 

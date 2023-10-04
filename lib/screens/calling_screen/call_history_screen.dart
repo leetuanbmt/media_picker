@@ -36,7 +36,7 @@ class CallHistoryScreen extends ConsumerWidget {
   }
 }
 
-class CallHistoryItem extends StatelessWidget {
+class CallHistoryItem extends ConsumerWidget {
   const CallHistoryItem({
     super.key,
     required this.history,
@@ -45,12 +45,19 @@ class CallHistoryItem extends StatelessWidget {
   final CallHistory history;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentUser = ref.watch(firebaseAuthProvider).currentUser?.uid ?? '';
+    String avatar = currentUser == history.callerId
+        ? history.receiverPic
+        : history.callerPic;
+    String name = currentUser == history.callerId
+        ? history.receiverName
+        : history.callerName;
     return ListTile(
       leading: Stack(
         children: [
           CacheImage(
-            image: history.hasDialled ? history.receiverPic : history.callerPic,
+            image: avatar,
             dimension: 50,
             radius: 100,
           ),
@@ -62,7 +69,7 @@ class CallHistoryItem extends StatelessWidget {
         ],
       ),
       title: Text(
-        history.hasDialled ? history.receiverName : history.callerName,
+        name,
         style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
