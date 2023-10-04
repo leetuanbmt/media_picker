@@ -1,7 +1,6 @@
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../../core/config.dart';
-import '../../../../../core/models/creator/creator_model.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../widgets/commons/button_custom.dart';
@@ -278,8 +277,7 @@ class UserNotification extends StatelessWidget {
 }
 
 class ListRankingUser extends ConsumerWidget {
-  const ListRankingUser({super.key, required this.creator});
-  final CreatorModel creator;
+  const ListRankingUser({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

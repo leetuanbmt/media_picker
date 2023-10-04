@@ -25,9 +25,9 @@ class MyProfileScreen extends ConsumerWidget {
       backgroundColor: AppTheme.background,
       appBar: AppBar(
         leading: const MyPageLeading(),
-        actions: [
-          const UserOnline(),
-          MyPageAction(myPage: myPage),
+        actions: const [
+          UserOnline(),
+          MyPageAction(),
         ],
         backgroundColor: AppTheme.primaryColor,
       ),
@@ -120,7 +120,7 @@ class MyProfileScreen extends ConsumerWidget {
                                 SizedBox(
                                   height: 11.h,
                                 ),
-                                ListRankingUser(creator: creator),
+                                const ListRankingUser(),
                                 SizedBox(
                                   height: 20.h,
                                 ),
@@ -149,7 +149,7 @@ class MyProfileScreen extends ConsumerWidget {
                                       ),
                                       UserNotification(
                                         date: '12',
-                                        month: '5',
+                                        month: '6',
                                         time: '18:00',
                                         content: '鬼合戦フェスタ',
                                       ),

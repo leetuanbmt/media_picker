@@ -21,12 +21,19 @@ class MyPageProvider extends ChangeNotifier {
 
   bool isAutoSetting = false;
 
+  bool isSaveSetting = false;
+
   int coinSelected = -1;
 
   final blockController = TextEditingController();
+  final delayController = TextEditingController(text: '5秒');
+  final autoController = TextEditingController(text: '5回');
+  final coinInputController = TextEditingController();
 
   String get blockContent => blockController.text;
-
+  String get settingItem => delayController.text;
+  String get autoItem => autoController.text;
+  String get coinInput => coinInputController.text;
   void showBio() {
     showAllBio = !showAllBio;
     notifyListeners();
@@ -63,6 +70,11 @@ class MyPageProvider extends ChangeNotifier {
 
   void chooseCoin(int value) {
     coinSelected = value;
+    notifyListeners();
+  }
+
+  void changeSaveSetting(bool value) {
+    isSaveSetting = value;
     notifyListeners();
   }
 }

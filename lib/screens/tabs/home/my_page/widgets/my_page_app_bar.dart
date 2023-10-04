@@ -69,16 +69,15 @@ class UserOnline extends StatelessWidget {
   }
 }
 
-class MyPageAction extends StatelessWidget {
+class MyPageAction extends ConsumerWidget {
   const MyPageAction({
     super.key,
-    required this.myPage,
   });
 
-  final MyPageProvider myPage;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final myPage = ref.watch(myPageProvider);
+
     final style = context.titleMedium!.copyWith(
       fontSize: 20.sp,
       fontWeight: FontWeight.w400,
