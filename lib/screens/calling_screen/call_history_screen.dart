@@ -1,6 +1,7 @@
 import '../../core/config.dart';
 import '../../core/models/call_history/call_history.dart';
 import '../../core/utilities/utilities.dart';
+import '../../providers/call_provider.dart';
 import '../../providers/firebase_provider.dart';
 import '../../widgets/commons/cache_image.dart';
 import '../../widgets/commons/indicators/loading_manager.dart';
@@ -36,21 +37,20 @@ class CallHistoryScreen extends ConsumerWidget {
   }
 }
 
-class CallHistoryItem extends StatelessWidget {
-  const CallHistoryItem({
-    super.key,
-    required this.history,
-  });
-
+class CallHistoryItem extends ConsumerWidget {
+  const CallHistoryItem({super.key, required this.history});
   final CallHistory history;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    Logger.log(history.hasDialled);
+    final uid = history.hasDialled ? history.receiverId : history.callerId;
+    final image = history.hasDialled ? history.receiverPic : history.callerPic;
+    final name = history.hasDialled ? history.receiverName : history.callerName;
     return ListTile(
       leading: Stack(
         children: [
           CacheImage(
-            image: history.hasDialled ? history.receiverPic : history.callerPic,
+            image: image,
             dimension: 50,
             radius: 100,
           ),
@@ -62,9 +62,8 @@ class CallHistoryItem extends StatelessWidget {
         ],
       ),
       title: Text(
-        history.hasDialled ? history.receiverName : history.callerName,
-        style: const TextStyle(
-          fontSize: 16,
+        name,
+        style: context.titleMedium?.copyWith(
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -81,14 +80,23 @@ class CallHistoryItem extends StatelessWidget {
               size: 15,
               color: history.started == null
                   ? Colors.redAccent
-                  : AppTheme.primaryColor,
+                  : const Color(0xff47C3BE),
             ),
             Dimensions.width10,
             Text(history.callTime.format('MMMM d, hh:mm')),
           ],
         ),
       ),
-      trailing: const Icon(Icons.video_call),
+      trailing: IconButton(
+        icon: const Icon(Icons.call),
+        onPressed: () {
+          ref.read(callUtils).dial(
+                receiverId: uid,
+                receiverName: name,
+                receiverPic: image,
+              );
+        },
+      ),
     );
   }
 }

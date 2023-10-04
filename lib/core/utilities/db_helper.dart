@@ -7,6 +7,7 @@ class DbKey {
   static const String ended = 'ended';
   static const String started = 'started';
   static const String callTime = 'callTime';
+  static const String type = 'type';
 }
 
 class DbCollection {
@@ -16,6 +17,9 @@ class DbCollection {
   static const String creators = 'creators';
   static const String calls = 'calls';
   static const String callHistories = 'callHistories';
+  static const String rooms = 'rooms';
+  static const String callerCandidates = 'callerCandidates';
+  static const String calleeCandidates = 'calleeCandidates';
 }
 
 // dao/person_dao.dart

@@ -35,28 +35,29 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
       receiverPic: widget.call.receiverPic,
       channelId: widget.call.channelId,
       hasDialled: widget.call.hasDialled,
-      isCallMissed: isCallMissed,
       callTime: DateTime.now(),
-      callStatus: callStatus,
-      type: 'incoming',
+      type: DbKey.incoming,
     );
 
     // add call to local storage
+
     ref
         .read(firestoreProvider)
         .collection(DbCollection.users)
         .doc(call.callerId)
         .collection(DbCollection.callHistories)
         .doc(widget.call.timeepoch.toString())
-        .set(call.toJson());
+        .set(call.copyWith(hasDialled: true).toJson());
 
-    ref
-        .read(firestoreProvider)
-        .collection(DbCollection.users)
-        .doc(call.receiverId)
-        .collection(DbCollection.callHistories)
-        .doc(widget.call.timeepoch.toString())
-        .set(call.toJson());
+    if (!isCallMissed) {
+      ref
+          .read(firestoreProvider)
+          .collection(DbCollection.users)
+          .doc(call.receiverId)
+          .collection(DbCollection.callHistories)
+          .doc(widget.call.timeepoch.toString())
+          .set(call.copyWith(hasDialled: false).toJson());
+    }
   }
 
   @override
@@ -95,14 +96,14 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
               const SizedBox(height: 50),
               Center(
                 child: CacheImage(
-                  image: widget.call.receiverPic,
+                  image: widget.call.callerPic,
                   radius: 100,
                   dimension: context.screenWidth * 0.5,
                 ),
               ),
               const SizedBox(height: 15),
               Text(
-                widget.call.receiverName,
+                widget.call.callerName,
                 style: context.headlineMedium?.copyWith(
                   color: context.primary,
                   fontWeight: FontWeight.w600,
