@@ -1,6 +1,7 @@
 import '../../core/config.dart';
 import '../../core/models/call_history/call_history.dart';
 import '../../core/utilities/utilities.dart';
+import '../../providers/call_provider.dart';
 import '../../providers/firebase_provider.dart';
 import '../../widgets/commons/cache_image.dart';
 import '../../widgets/commons/indicators/loading_manager.dart';
@@ -53,6 +54,7 @@ class CallHistoryItem extends ConsumerWidget {
     String name = currentUser == history.callerId
         ? history.receiverName
         : history.callerName;
+    Logger.log(history.started);
     return ListTile(
       leading: Stack(
         children: [
@@ -88,14 +90,29 @@ class CallHistoryItem extends ConsumerWidget {
               size: 15,
               color: history.started == null
                   ? Colors.redAccent
-                  : AppTheme.primaryColor,
+                  : const Color(0xff47C3BE),
             ),
             Dimensions.width10,
             Text(history.callTime.format('MMMM d, hh:mm')),
           ],
         ),
       ),
-      trailing: const Icon(Icons.video_call),
+      trailing: IconButton(
+        icon: const Icon(Icons.call),
+        onPressed: () {
+          ref.read(callUtils).dial(
+                receiverId: currentUser == history.callerId
+                    ? history.receiverId
+                    : history.callerId,
+                receiverName: currentUser == history.callerId
+                    ? history.receiverName
+                    : history.callerName,
+                receiverPic: currentUser == history.callerId
+                    ? history.receiverPic
+                    : history.callerPic,
+              );
+        },
+      ),
     );
   }
 }

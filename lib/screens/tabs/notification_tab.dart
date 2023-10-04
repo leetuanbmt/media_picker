@@ -53,7 +53,11 @@ class NotificationScreen extends ConsumerWidget {
                 trailing: IconButton(
                   icon: const Icon(Icons.call),
                   onPressed: () {
-                    ref.read(callUtils).dial(user);
+                    ref.read(callUtils).dial(
+                          receiverId: user.id,
+                          receiverName: user.name,
+                          receiverPic: user.avatar,
+                        );
                   },
                 ),
               );

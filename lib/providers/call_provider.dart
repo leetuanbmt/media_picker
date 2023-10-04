@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../core/config.dart';
 import '../core/models/call/call.dart';
-import '../core/models/models.dart';
 import '../core/utilities/db_helper.dart';
 import '../core/utilities/navigator.dart';
 import '../routes/app_routes.gr.dart';
@@ -25,16 +24,20 @@ class CallUtils {
   CollectionReference get callCollection =>
       ref.firestore().collection(DbCollection.calls);
 
-  void dial(UserModel receiver) async {
+  void dial({
+    required String receiverId,
+    required String receiverName,
+    required String receiverPic,
+  }) async {
     final caller = ref.read(userProvider.notifier).user;
     final call = Call(
       channelId: DateTime.now().millisecondsSinceEpoch.toString(),
       callerId: caller!.id,
       callerName: caller.name,
       callerPic: caller.avatar,
-      receiverId: receiver.id,
-      receiverName: receiver.name,
-      receiverPic: receiver.avatar,
+      receiverId: receiverId,
+      receiverName: receiverName,
+      receiverPic: receiverPic,
       hasDialled: true,
       timeepoch: DateTime.now().millisecondsSinceEpoch,
     );
