@@ -187,7 +187,7 @@ class UserBio extends ConsumerWidget {
                       ? 1
                       : (myPage.showAllBio ? maxLines.toInt() : 2),
             ),
-            if (!myPage.showAllBio && maxLines > 1)
+            if (!myPage.showAllBio && maxLines > 1 && !myPage.isBlocked)
               Container(
                 width: double.infinity,
                 height: 18.h,

@@ -62,7 +62,7 @@ class MyProfileScreen extends ConsumerWidget {
                               child: Column(
                                 children: [
                                   SizedBox(
-                                    height: 32.h,
+                                    height: 56.h,
                                   ),
                                   Text(
                                     '${creator.name} さんはブロック\nされています',

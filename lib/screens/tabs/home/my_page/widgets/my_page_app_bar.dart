@@ -154,7 +154,7 @@ class MyPageAction extends StatelessWidget {
               ],
               cancelButton: TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.of(ctx).pop();
                 },
                 child: Text(
                   'Cancel',
