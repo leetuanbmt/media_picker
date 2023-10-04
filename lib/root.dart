@@ -2,7 +2,7 @@ import 'core/config.dart';
 import 'core/utilities/language.dart';
 import 'core/utilities/navigator.dart';
 import 'providers/global_provider.dart';
-import 'screens/calling_screen/incoming_screen.dart';
+import 'screens/calling_screen/loading_wrapper_screen.dart';
 
 class RootApp extends StatelessWidget {
   const RootApp({super.key});
@@ -45,7 +45,7 @@ class RootApp extends StatelessWidget {
                       data: MediaQuery.of(context).copyWith(
                         textScaleFactor: 1.0,
                       ),
-                      child: IncomingWrapperScreen(child!),
+                      child: LoadingWrapperScreen(child!),
                     );
                   },
                 ),
