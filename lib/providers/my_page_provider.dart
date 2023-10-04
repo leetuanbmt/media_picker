@@ -77,6 +77,16 @@ class MyPageProvider extends ChangeNotifier {
     isSaveSetting = value;
     notifyListeners();
   }
+
+  void changeAutoValue() {
+    autoController.text;
+    notifyListeners();
+  }
+
+  void changeDelayValue() {
+    delayController.text;
+    notifyListeners();
+  }
 }
 
 final userRankingProvider = FutureProvider<List<String>>((ref) async {

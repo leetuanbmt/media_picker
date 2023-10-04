@@ -311,6 +311,9 @@ class CoinBottomSheet extends ConsumerWidget {
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                width: 5.34.w,
+                              ),
                               Text(
                                 'pt',
                                 style: style.copyWith(
@@ -345,6 +348,9 @@ class CoinBottomSheet extends ConsumerWidget {
                           (value) {
                             myPage.changeDelaySetting(value);
                           },
+                        ),
+                        SizedBox(
+                          width: 9.w,
                         ),
                         SwitchButtonSetting(
                           'オート設定',
@@ -540,7 +546,12 @@ class SettingBottomSheet extends ConsumerWidget {
               '設定する',
               height: 48.h,
               width: 327.w,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop();
+                typeSetting == 'Delay'
+                    ? myPage.changeDelayValue()
+                    : myPage.changeAutoValue();
+              },
             ),
           ],
         ),
