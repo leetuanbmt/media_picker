@@ -178,7 +178,6 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   }
 
   Future<void> openUserMedia() async {
-    await _peerConnection.openUserMedia();
     _peerConnection
       ..onAddRemoteStream = ((stream) {
         _remoteRenderer.srcObject = stream;
@@ -187,7 +186,8 @@ class _CallScreenState extends ConsumerState<CallScreen> {
       ..onAddLocalStream = ((stream) {
         _localRenderer.srcObject = stream;
         setState(() {});
-      });
+      })
+      ..openUserMedia();
   }
 
   void joinRoom() async {
@@ -218,8 +218,9 @@ class _CallScreenState extends ConsumerState<CallScreen> {
     isStopStream = true;
     _localRenderer.dispose();
     _remoteRenderer.dispose();
-    _peerConnection.dispose();
-    _peerConnection.leaveRoom(roomId);
+    _peerConnection
+      ..leaveRoom(roomId)
+      ..close();
   }
 
   void dragUpdate(DragUpdateDetails details) {
@@ -287,6 +288,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
                     width: 120.w,
                     clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(.5),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: RTCVideoView(
@@ -338,7 +340,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
                   _leaveCall();
                 },
                 onToggleAudio: _toggleAudio,
-                onToggleVideo: _switchCamera,
+                onSwitchCamera: _switchCamera,
               ),
             ),
           ],

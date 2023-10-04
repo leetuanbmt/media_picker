@@ -6,6 +6,7 @@
     "barcodes",
     "cameraswitch",
     "Dtls",
+    "Emittable",
     "eventify",
     "Firestore",
     "gotip",

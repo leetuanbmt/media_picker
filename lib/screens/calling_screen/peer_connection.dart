@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eventify/eventify.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 import '../../core/utilities/db_helper.dart';
@@ -9,7 +8,7 @@ import '../../core/utilities/logger.dart';
 
 typedef StreamStateCallback = void Function(MediaStream stream);
 
-class PeerConnection extends EventEmitter {
+class PeerConnection {
   Map<String, dynamic> configuration = {
     'iceServers': [
       {
@@ -299,7 +298,7 @@ class PeerConnection extends EventEmitter {
     });
   }
 
-  void dispose() {
+  void close() {
     peerConnection?.close();
     peerConnection = null;
     for (var element in _subscriptions) {
