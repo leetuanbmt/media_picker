@@ -7,6 +7,7 @@ class DbKey {
   static const String ended = 'ended';
   static const String started = 'started';
   static const String callTime = 'callTime';
+  static const String type = 'type';
 }
 
 class DbCollection {
