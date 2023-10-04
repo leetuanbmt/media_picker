@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../utilities/utilities.dart';
-import '../enum/enum.dart';
 
 part 'call_history.g.dart';
 part 'call_history.freezed.dart';
@@ -18,11 +17,8 @@ class CallHistory with _$CallHistory {
     required String receiverName,
     required String receiverPic,
     required String channelId,
-    required String currentUser,
     required bool hasDialled,
-    required bool isCallMissed,
     required DateTime callTime,
-    required CallStatus callStatus,
     required String type,
     @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
     DateTime? started,

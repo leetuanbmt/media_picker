@@ -92,10 +92,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
       receiverPic: call.receiverPic,
       channelId: call.channelId,
       hasDialled: call.hasDialled,
-      isCallMissed: false,
       callTime: DateTime.now(),
-      callStatus: CallStatus.calling,
-      currentUser: currentUserId,
       type: DbKey.outgoing,
     );
 
@@ -126,10 +123,14 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   }
 
   void setHistoryCall() {
-    if (widget.call.hasDialled) {
+    if (call.hasDialled) {
       _playCallingTone();
-      callerCollection.set(callHistory.toJson());
-      receiverCollection.set(callHistory.toJson());
+      callerCollection.set(
+        callHistory.copyWith(hasDialled: true, type: DbKey.outgoing).toJson(),
+      );
+      receiverCollection.set(
+        callHistory.copyWith(hasDialled: false, type: DbKey.incoming).toJson(),
+      );
     } else {
       receiverCollection.set(
         {

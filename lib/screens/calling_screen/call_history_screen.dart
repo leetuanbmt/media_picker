@@ -38,28 +38,19 @@ class CallHistoryScreen extends ConsumerWidget {
 }
 
 class CallHistoryItem extends ConsumerWidget {
-  const CallHistoryItem({
-    super.key,
-    required this.history,
-  });
-
+  const CallHistoryItem({super.key, required this.history});
   final CallHistory history;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentUser = ref.watch(firebaseAuthProvider).currentUser?.uid ?? '';
-    String avatar = currentUser == history.callerId
-        ? history.receiverPic
-        : history.callerPic;
-    String name = currentUser == history.callerId
-        ? history.receiverName
-        : history.callerName;
-    Logger.log(history.started);
+    Logger.log(history.hasDialled);
+    final uid = history.hasDialled ? history.receiverId : history.callerId;
+    final image = history.hasDialled ? history.receiverPic : history.callerPic;
+    final name = history.hasDialled ? history.receiverName : history.callerName;
     return ListTile(
       leading: Stack(
         children: [
           CacheImage(
-            image: avatar,
+            image: image,
             dimension: 50,
             radius: 100,
           ),
@@ -72,8 +63,7 @@ class CallHistoryItem extends ConsumerWidget {
       ),
       title: Text(
         name,
-        style: const TextStyle(
-          fontSize: 16,
+        style: context.titleMedium?.copyWith(
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -101,15 +91,9 @@ class CallHistoryItem extends ConsumerWidget {
         icon: const Icon(Icons.call),
         onPressed: () {
           ref.read(callUtils).dial(
-                receiverId: currentUser == history.callerId
-                    ? history.receiverId
-                    : history.callerId,
-                receiverName: currentUser == history.callerId
-                    ? history.receiverName
-                    : history.callerName,
-                receiverPic: currentUser == history.callerId
-                    ? history.receiverPic
-                    : history.callerPic,
+                receiverId: uid,
+                receiverName: name,
+                receiverPic: image,
               );
         },
       ),

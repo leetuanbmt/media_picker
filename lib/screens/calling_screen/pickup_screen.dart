@@ -35,10 +35,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
       receiverPic: widget.call.receiverPic,
       channelId: widget.call.channelId,
       hasDialled: widget.call.hasDialled,
-      isCallMissed: isCallMissed,
-      currentUser: currentUser,
       callTime: DateTime.now(),
-      callStatus: callStatus,
       type: DbKey.incoming,
     );
 
@@ -50,7 +47,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
         .doc(call.callerId)
         .collection(DbCollection.callHistories)
         .doc(widget.call.timeepoch.toString())
-        .set(call.toJson());
+        .set(call.copyWith(hasDialled: true).toJson());
 
     if (!isCallMissed) {
       ref
@@ -59,7 +56,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
           .doc(call.receiverId)
           .collection(DbCollection.callHistories)
           .doc(widget.call.timeepoch.toString())
-          .set(call.toJson());
+          .set(call.copyWith(hasDialled: false).toJson());
     }
   }
 
