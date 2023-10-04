@@ -15,9 +15,9 @@ class LoginProvider extends ChangeNotifier {
 
   AuthProvider get auth => ref.read(authProvider);
 
-  final emailController = TextEditingController(text: 'tuanbmt@gmail.com');
+  final emailController = TextEditingController();
 
-  final passwordController = TextEditingController(text: '123456');
+  final passwordController = TextEditingController();
 
   bool checkFieldsEmpty = true;
 

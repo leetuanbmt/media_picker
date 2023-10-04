@@ -22,6 +22,7 @@ class RootApp extends StatelessWidget {
             builder: (context, ref, child) {
               final appGlobal = ref.watch(appGlobalProvider);
               return GestureDetector(
+                behavior: HitTestBehavior.opaque,
                 onTap: () {
                   FocusManager.instance.primaryFocus?.unfocus();
                 },

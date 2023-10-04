@@ -23,6 +23,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
   bool isCallMissed = true;
   String get currentUser =>
       ref.read(firebaseAuthProvider).currentUser?.uid ?? '';
+  ProviderSubscription? _callStream;
 
   void addToLocalStorage({required CallStatus callStatus}) {
     final call = CallHistory(
@@ -35,12 +36,14 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
       channelId: widget.call.channelId,
       hasDialled: widget.call.hasDialled,
       isCallMissed: isCallMissed,
+      currentUser: currentUser,
       callTime: DateTime.now(),
       callStatus: callStatus,
-      type: 'incoming',
+      type: DbKey.incoming,
     );
 
     // add call to local storage
+
     ref
         .read(firestoreProvider)
         .collection(DbCollection.users)
@@ -49,13 +52,25 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
         .doc(widget.call.timeepoch.toString())
         .set(call.toJson());
 
-    ref
-        .read(firestoreProvider)
-        .collection(DbCollection.users)
-        .doc(call.receiverId)
-        .collection(DbCollection.callHistories)
-        .doc(widget.call.timeepoch.toString())
-        .set(call.toJson());
+    if (!isCallMissed) {
+      ref
+          .read(firestoreProvider)
+          .collection(DbCollection.users)
+          .doc(call.receiverId)
+          .collection(DbCollection.callHistories)
+          .doc(widget.call.timeepoch.toString())
+          .set(call.toJson());
+    }
+  }
+
+  @override
+  void initState() {
+    _callStream = ref.listenManual(callStream(currentUser), (previous, next) {
+      if (next.value != null && !next.value!.exists) {
+        Navigator.pop(context);
+      }
+    });
+    super.initState();
   }
 
   @override
@@ -63,16 +78,12 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
     if (isCallMissed) {
       addToLocalStorage(callStatus: CallStatus.missed);
     }
+    _callStream?.close();
     super.deactivate();
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(callStream(currentUser), (previous, next) {
-      if (next.value != null && !next.value!.exists) {
-        Navigator.pop(context);
-      }
-    });
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(
@@ -88,14 +99,14 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
               const SizedBox(height: 50),
               Center(
                 child: CacheImage(
-                  image: widget.call.receiverPic,
+                  image: widget.call.callerPic,
                   radius: 100,
                   dimension: context.screenWidth * 0.5,
                 ),
               ),
               const SizedBox(height: 15),
               Text(
-                widget.call.receiverName,
+                widget.call.callerName,
                 style: context.headlineMedium?.copyWith(
                   color: context.primary,
                   fontWeight: FontWeight.w600,

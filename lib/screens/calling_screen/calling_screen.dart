@@ -34,7 +34,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   bool isAudioOn = true, isVideoOn = true, isFrontCameraSelected = true;
   bool _isAlreadyEndedCall = false;
   bool isStopStream = false;
-  final position = ValueNotifier<Offset>(const Offset(20, 20));
+  final position = ValueNotifier<Offset>(const Offset(20, 100));
   final _peerConnection = PeerConnection();
   final _localRenderer = RTCVideoRenderer();
   final _remoteRenderer = RTCVideoRenderer();
@@ -48,6 +48,8 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   late CallHistory callHistory;
 
   final duration = ValueNotifier(Duration.zero);
+
+  String get uidListen => call.hasDialled ? call.receiverId : call.callerId;
 
   late final callerCollection = FirebaseFirestore.instance
       .collection(DbCollection.users)
@@ -66,7 +68,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   // play local ringtone
   final _player = AudioPlayer();
   Timer? _timer;
-
+  ProviderSubscription? _callStream;
   @override
   void initState() {
     initRenderers();
@@ -83,26 +85,29 @@ class _CallScreenState extends ConsumerState<CallScreen> {
       isCallMissed: false,
       callTime: DateTime.now(),
       callStatus: CallStatus.calling,
-      type: 'outgoing',
+      currentUser: currentUserId,
+      type: DbKey.outgoing,
     );
 
     _callStatus = ref
         .read(firestoreProvider)
         .collection(DbCollection.users)
-        .doc(call.hasDialled ? call.callerId : call.receiverId)
+        .doc(uidListen)
         .collection(DbCollection.callHistories)
         .doc(call.timeepoch.toString())
         .snapshots()
         .listen(listenStatusCall);
 
     openUserMedia();
+
     setHistoryCall();
+
     super.initState();
   }
 
-  void initRenderers() async {
-    await _localRenderer.initialize();
-    await _remoteRenderer.initialize();
+  void initRenderers() {
+    _localRenderer.initialize();
+    _remoteRenderer.initialize();
   }
 
   _playCallingTone() async {
@@ -112,21 +117,14 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   void setHistoryCall() {
     if (widget.call.hasDialled) {
       _playCallingTone();
-      callerCollection.set(callHistory.toJson(), SetOptions(merge: true));
-      receiverCollection.set(
-        callHistory
-            .copyWith(
-              type: DbKey.incoming,
-              callStatus: CallStatus.missed,
-            )
-            .toJson(),
-        SetOptions(merge: true),
-      );
+      callerCollection.set(callHistory.toJson());
+      receiverCollection.set(callHistory.toJson());
     } else {
       receiverCollection.set(
         {
           DbKey.started: DateTime.now(),
           DbKey.callStatus: CallStatus.inCall.value,
+          DbKey.type: DbKey.incoming,
         },
         SetOptions(merge: true),
       );
@@ -134,6 +132,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
         {
           DbKey.started: DateTime.now(),
           DbKey.callStatus: CallStatus.inCall.value,
+          DbKey.type: DbKey.outgoing,
         },
         SetOptions(merge: true),
       );
@@ -150,11 +149,12 @@ class _CallScreenState extends ConsumerState<CallScreen> {
           _startTimerNow();
           break;
         case CallStatus.ended:
-          _timer?.cancel();
-          break;
         case CallStatus.rejected:
+        case CallStatus.missed:
+          _timer?.cancel();
           _stopStream();
           break;
+
         default:
       }
     }
@@ -223,12 +223,13 @@ class _CallScreenState extends ConsumerState<CallScreen> {
       case CallStatus.calling:
         return call.hasDialled ? 'Connecting...' : 'Calling...';
       case CallStatus.ringing:
-      case CallStatus.missed:
         return 'Ringing...';
       case CallStatus.rejected:
         return 'Call Rejected';
       case CallStatus.ended:
         return 'Call Ended ${AppUtils.formatDuration(duration.value)}';
+      case CallStatus.missed:
+        return 'Call Ended';
       default:
         return '';
     }
@@ -237,132 +238,126 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   @override
   void deactivate() {
     _stopStream();
+    _callStream?.close();
+
     super.deactivate();
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(callStream(call.hasDialled ? call.callerId : call.receiverId),
-        (previous, next) {
-      if (next.value == null || !next.value!.exists) {
-        _stopStream();
-      }
-    });
+    Logger.log('Call status: $callStatus');
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(
         body: SafeArea(
-          child: Column(
+          child: Stack(
+            alignment: Alignment.center,
             children: [
-              if (inCall)
-                Expanded(
-                  child: Stack(
-                    children: [
-                      RTCVideoView(
-                        _remoteRenderer,
+              if (inCall) ...[
+                RTCVideoView(
+                  _remoteRenderer,
+                  objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+                ),
+                AnimatedBuilder(
+                  animation: position,
+                  builder: (_, Widget? child) {
+                    return AnimatedPositioned(
+                      right: position.value.dx,
+                      bottom: position.value.dy,
+                      duration: Duration.zero,
+                      child: child!,
+                    );
+                  },
+                  child: GestureDetector(
+                    onPanUpdate: dragUpdate,
+                    child: Container(
+                      height: 150.h,
+                      width: 120.w,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: RTCVideoView(
+                        _localRenderer,
+                        mirror: isFrontCameraSelected,
                         objectFit:
                             RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
                       ),
-                      AnimatedBuilder(
-                        animation: position,
-                        builder: (_, Widget? child) {
-                          return AnimatedPositioned(
-                            right: position.value.dx,
-                            bottom: position.value.dy,
-                            duration: Duration.zero,
-                            child: child!,
-                          );
-                        },
-                        child: GestureDetector(
-                          onPanUpdate: dragUpdate,
-                          child: Container(
-                            height: 150.h,
-                            width: 120.w,
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: RTCVideoView(
-                              _localRenderer,
-                              mirror: isFrontCameraSelected,
-                              objectFit: RTCVideoViewObjectFit
-                                  .RTCVideoViewObjectFitCover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              else
-                Expanded(
-                  child: Column(
-                    children: [
-                      SizedBox(height: context.screenHeight * .1),
-                      CacheImage(
-                        image:
-                            call.hasDialled ? call.callerPic : call.receiverPic,
-                        dimension: context.screenWidth * .5,
-                        radius: 100,
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        call.hasDialled ? call.callerName : call.receiverName,
-                        style: context.headlineMedium?.copyWith(
-                          color: context.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        status,
-                        style: context.bodyMedium?.copyWith(
-                          color: context.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    if (inCall)
-                      DialButton(
-                        icon: isAudioOn
-                            ? Icons.volume_mute_rounded
-                            : Icons.volume_off_sharp,
-                        iconColor: Colors.black,
-                        color: Colors.black.withOpacity(.2),
-                        onTap: _toggleAudio,
-                      ),
-                    DialButton(
-                      icon: callStatus == CallStatus.ended ||
-                              callStatus == CallStatus.rejected
-                          ? Icons.close
-                          : Icons.call,
-                      iconColor: Colors.white,
-                      color: callStatus == CallStatus.ended ||
-                              callStatus == CallStatus.rejected
-                          ? Colors.black.withOpacity(.2)
-                          : Colors.redAccent,
-                      onTap: () {
-                        _isAlreadyEndedCall = callStatus == CallStatus.ended ||
-                            callStatus == CallStatus.rejected;
-                        _leaveCall();
-                      },
                     ),
-                    if (inCall)
-                      DialButton(
-                        icon: Icons.switch_camera,
-                        color: Colors.black.withOpacity(.2),
-                        iconColor: Colors.black,
-                        onTap: _switchCamera,
+                  ),
+                ),
+              ] else
+                Column(
+                  children: [
+                    SizedBox(height: context.screenHeight * .1),
+                    CacheImage(
+                      image:
+                          call.hasDialled ? call.receiverPic : call.callerPic,
+                      dimension: context.screenWidth * .5,
+                      radius: 100,
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      call.hasDialled ? call.receiverName : call.callerName,
+                      style: context.headlineMedium?.copyWith(
+                        color: context.primary,
+                        fontWeight: FontWeight.w600,
                       ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      status,
+                      style: context.bodyMedium?.copyWith(
+                        color: context.primary,
+                      ),
+                    ),
                   ],
+                ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      if (inCall)
+                        DialButton(
+                          icon: isAudioOn
+                              ? Icons.volume_mute_rounded
+                              : Icons.volume_off_sharp,
+                          iconColor: Colors.black,
+                          color: Colors.white.withOpacity(.5),
+                          onTap: _toggleAudio,
+                        ),
+                      DialButton(
+                        icon: callStatus == CallStatus.ended ||
+                                callStatus == CallStatus.rejected
+                            ? Icons.close
+                            : Icons.call,
+                        iconColor: Colors.white,
+                        color: callStatus == CallStatus.ended ||
+                                callStatus == CallStatus.rejected
+                            ? Colors.black.withOpacity(.5)
+                            : Colors.redAccent,
+                        onTap: () {
+                          _isAlreadyEndedCall =
+                              callStatus == CallStatus.ended ||
+                                  callStatus == CallStatus.rejected ||
+                                  callStatus == CallStatus.missed;
+                          _leaveCall();
+                        },
+                      ),
+                      if (inCall)
+                        DialButton(
+                          icon: Icons.switch_camera,
+                          color: Colors.white.withOpacity(.5),
+                          iconColor: Colors.black,
+                          onTap: _switchCamera,
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ],

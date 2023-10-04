@@ -1,9 +1,9 @@
 import '../../core/config.dart';
 import '../../providers/call_provider.dart';
 import '../../providers/firebase_provider.dart';
+import '../../routes/app_routes.gr.dart';
 import '../../widgets/commons/cache_image.dart';
 import '../../widgets/commons/indicators/loading_manager.dart';
-import '../calling_screen/call_history_screen.dart';
 
 @RoutePage()
 class NotificationScreen extends ConsumerWidget {
@@ -15,13 +15,12 @@ class NotificationScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: AppTheme.lightStatusBar,
-        backgroundColor: AppTheme.primaryColor,
         title: const Text('Notification'),
         actions: [
           IconButton(
             icon: const Icon(Icons.history),
             onPressed: () {
-              context.nextPage(const CallHistoryScreen());
+              context.pushRoute(const CallHistoryRoute());
             },
           ),
         ],

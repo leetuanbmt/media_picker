@@ -5,14 +5,14 @@ import '../core/config.dart';
 class AppDialog {
   AppDialog._();
 
-  static void showAppBottomSheet(
+  static Future<T?> showAppBottomSheet<T>(
     BuildContext context, {
     required String title,
     required Widget child,
     bool barrierDismissible = true,
     String? name,
   }) {
-    showModalBottomSheet(
+    return showModalBottomSheet(
       context: context,
       routeSettings: RouteSettings(name: name),
       shape: const RoundedRectangleBorder(

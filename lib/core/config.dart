@@ -37,4 +37,6 @@ class AppConfig {
   static const password = "password";
   static const checkSaveAccount = "checkSaveAccount";
   static const websocketUrl = 'ws://10.1.15.65:1995';
+  static const sentryDsn =
+      'https://06c3a5a03ab9c5a100fba6dab6efade8@o4505984183369728.ingest.sentry.io/4505984184352768';
 }

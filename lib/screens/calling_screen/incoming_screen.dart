@@ -1,8 +1,10 @@
+import 'dart:ui';
+
 import '../../core/config.dart';
 import '../../providers/global_provider.dart';
 import '../../widgets/commons/indicators/loading_manager.dart';
 
-class IncomingWrapperScreen extends ConsumerWidget {
+class IncomingWrapperScreen extends HookConsumerWidget {
   const IncomingWrapperScreen(this.child, {super.key});
   final Widget child;
   @override
@@ -25,131 +27,45 @@ class IncomingWrapperScreen extends ConsumerWidget {
   }
 }
 
-// class IncomingWidget extends ConsumerWidget {
-//   const IncomingWidget({super.key});
+class BlurWidget extends HookWidget {
+  const BlurWidget({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final state = useAppLifecycleState();
+    final visibility = useState(0);
+    useEffect(
+      () {
+        if (state == AppLifecycleState.resumed) {
+          visibility.value = 0;
+        } else {
+          visibility.value = 1;
+        }
+        return null;
+      },
+      [state],
+    );
+    return AnimatedBuilder(
+      animation: visibility,
+      builder: (_, __) {
+        return Visibility(
+          visible: visibility.value != 0,
+          child: _Blur(blur: 20, opacity: 0.5 * visibility.value),
+        );
+      },
+    );
+  }
+}
 
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final incomingSDPOffer = ref.watch(
-//       socketProvider.select((value) => value.incomingSDPOffer!),
-//     );
-
-//     return Scaffold(
-//       body: SizedBox(
-//         width: double.infinity,
-//         height: double.infinity,
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             CacheImage(
-//               image:
-//                   'https://phunuvietnam.mediacdn.vn/179072216278405120/2022/11/4/edogawa-conan--166754179290680712885.jpg',
-//               dimension: context.screenWidth * .4,
-//               radius: 100,
-//             ),
-//             HeightBox(10.h),
-//             "Incoming Call from ${incomingSDPOffer.callerId}"
-//                 .text
-//                 .color(context.primaryColor)
-//                 .size(24.sp)
-//                 .italic
-//                 .make(),
-//             HeightBox(context.screenHeight * .3),
-//             const ButtonCall(),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class ButtonCall extends ConsumerWidget {
-//   const ButtonCall({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final status = ref.watch(
-//       socketProvider.select((value) => value.callStatus),
-//     );
-//     switch (status) {
-//       case CallStatus.calling:
-//         return Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//           children: [
-//             _buildButton(
-//               context,
-//               icon: Icons.call_end,
-//               color: Colors.red,
-//               onPressed: () {
-//                 ref.read(socketProvider.notifier).endCall();
-//               },
-//             ),
-//             _buildButton(
-//               context,
-//               icon: Icons.call,
-//               color: Colors.green,
-//               onPressed: () {
-//                 ref.read(socketProvider.notifier).acceptCall();
-//               },
-//             ),
-//           ],
-//         );
-//       case CallStatus.incoming:
-//         return Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//           children: [
-//             _buildButton(
-//               context,
-//               icon: Icons.call_end,
-//               color: Colors.red,
-//               onPressed: () {
-//                 ref.read(socketProvider.notifier).endCall();
-//               },
-//             ),
-//             _buildButton(
-//               context,
-//               icon: Icons.call,
-//               color: Colors.green,
-//               onPressed: () {
-//                 ref.read(socketProvider.notifier).acceptCall();
-//               },
-//             ),
-//           ],
-//         );
-
-//       default:
-//         return _buildButton(
-//           context,
-//           icon: Icons.call_end,
-//           color: Colors.red,
-//           onPressed: () {
-//             ref.read(socketProvider.notifier).endCall();
-//           },
-//         );
-//     }
-//   }
-
-//   _buildButton(
-//     BuildContext context, {
-//     IconData? icon,
-//     VoidCallback? onPressed,
-//     Color? color,
-//   }) =>
-//       DecoratedBox(
-//         decoration: BoxDecoration(
-//           shape: BoxShape.circle,
-//           color: color,
-//           boxShadow: [
-//             BoxShadow(
-//               color: Colors.black.withOpacity(0.2),
-//               blurRadius: 10,
-//               offset: const Offset(0, 5),
-//             ),
-//           ],
-//         ),
-//         child: IconButton(
-//           onPressed: onPressed,
-//           icon: Icon(icon, color: Colors.white, size: 40.sp),
-//         ),
-//       );
-// }
+class _Blur extends StatelessWidget {
+  const _Blur({required this.blur, required this.opacity});
+  final double blur, opacity;
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+        child: Container(color: Colors.black.withOpacity(opacity)),
+      ),
+    );
+  }
+}

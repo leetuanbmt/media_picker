@@ -49,6 +49,7 @@ dependencies:
   web_socket_client: ^0.1.0
   floor: ^1.4.2
   audioplayers: ^5.1.0
+  sentry_flutter: ^7.10.1
 
   # twitter_login: ^4.4.2
 
