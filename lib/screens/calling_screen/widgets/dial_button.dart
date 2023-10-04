@@ -5,13 +5,13 @@ class DialButton extends StatelessWidget {
     super.key,
     required this.icon,
     required this.color,
-    required this.onTap,
+    this.onTap,
     this.iconColor = Colors.white,
   });
 
   final IconData icon;
   final Color color, iconColor;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -22,11 +22,7 @@ class DialButton extends StatelessWidget {
           shape: BoxShape.circle,
           color: color,
         ),
-        child: Icon(
-          icon,
-          color: iconColor,
-          size: 30,
-        ),
+        child: Icon(icon, color: iconColor, size: 30.r),
       ),
     );
   }

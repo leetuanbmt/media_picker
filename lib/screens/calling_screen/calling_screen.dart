@@ -13,8 +13,8 @@ import '../../core/utilities/utilities.dart';
 import '../../providers/call_provider.dart';
 import '../../providers/firebase_provider.dart';
 import '../../widgets/commons/cache_image.dart';
+import 'controls.dart';
 import 'peer_connection.dart';
-import 'widgets/dial_button.dart';
 
 // https://gist.github.com/yetithefoot/7592580
 
@@ -32,11 +32,17 @@ class _CallScreenState extends ConsumerState<CallScreen> {
       ref.read(firebaseAuthProvider).currentUser?.uid ?? '';
 
   bool isAudioOn = true, isVideoOn = true, isFrontCameraSelected = true;
+
   bool _isAlreadyEndedCall = false;
+
   bool isStopStream = false;
+
   final position = ValueNotifier<Offset>(const Offset(20, 100));
+
   final _peerConnection = PeerConnection();
+
   final _localRenderer = RTCVideoRenderer();
+
   final _remoteRenderer = RTCVideoRenderer();
 
   StreamSubscription? _callStreamSubscription;
@@ -46,6 +52,8 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   CallStatus callStatus = CallStatus.calling;
 
   late CallHistory callHistory;
+
+  String get roomId => call.channelId;
 
   final duration = ValueNotifier(Duration.zero);
 
@@ -68,7 +76,9 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   // play local ringtone
   final _player = AudioPlayer();
   Timer? _timer;
+
   ProviderSubscription? _callStream;
+
   @override
   void initState() {
     initRenderers();
@@ -98,9 +108,10 @@ class _CallScreenState extends ConsumerState<CallScreen> {
         .snapshots()
         .listen(listenStatusCall);
 
-    openUserMedia();
-
-    setHistoryCall();
+    openUserMedia().whenComplete(() {
+      joinRoom();
+      setHistoryCall();
+    });
 
     super.initState();
   }
@@ -166,23 +177,26 @@ class _CallScreenState extends ConsumerState<CallScreen> {
     }
   }
 
-  void openUserMedia() async {
-    await _peerConnection.openUserMedia(_localRenderer, _remoteRenderer);
-    _peerConnection.onAddRemoteStream = ((stream) {
-      _remoteRenderer.srcObject = stream;
-      setState(() {});
-    });
-    checkCallStatus();
-    setState(() {});
+  Future<void> openUserMedia() async {
+    await _peerConnection.openUserMedia();
+    _peerConnection
+      ..onAddRemoteStream = ((stream) {
+        _remoteRenderer.srcObject = stream;
+        setState(() {});
+      })
+      ..onAddLocalStream = ((stream) {
+        _localRenderer.srcObject = stream;
+        setState(() {});
+      });
   }
 
-  void checkCallStatus() async {
-    // check if caller or receiver
+  void joinRoom() async {
+    // If you are the caller, create a room
     if (widget.call.hasDialled) {
-      _peerConnection.createRoom(widget.call.channelId);
+      _peerConnection.createRoom(roomId);
     } else {
-      Logger.log("Joining room ${widget.call.channelId}");
-      _peerConnection.joinRoom(widget.call.channelId);
+      // If you are the receiver, join the room
+      _peerConnection.joinRoom(roomId);
     }
   }
 
@@ -205,7 +219,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
     _localRenderer.dispose();
     _remoteRenderer.dispose();
     _peerConnection.dispose();
-    _peerConnection.hangUp(_localRenderer);
+    _peerConnection.leaveRoom(roomId);
   }
 
   void dragUpdate(DragUpdateDetails details) {
@@ -239,129 +253,95 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   void deactivate() {
     _stopStream();
     _callStream?.close();
-
     super.deactivate();
   }
 
   @override
   Widget build(BuildContext context) {
-    Logger.log('Call status: $callStatus');
+    Logger.log("status: $callStatus");
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(
-        body: SafeArea(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              if (inCall) ...[
-                RTCVideoView(
-                  _remoteRenderer,
-                  objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-                ),
-                AnimatedBuilder(
-                  animation: position,
-                  builder: (_, Widget? child) {
-                    return AnimatedPositioned(
-                      right: position.value.dx,
-                      bottom: position.value.dy,
-                      duration: Duration.zero,
-                      child: child!,
-                    );
-                  },
-                  child: GestureDetector(
-                    onPanUpdate: dragUpdate,
-                    child: Container(
-                      height: 150.h,
-                      width: 120.w,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: RTCVideoView(
-                        _localRenderer,
-                        mirror: isFrontCameraSelected,
-                        objectFit:
-                            RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-                      ),
+        body: Stack(
+          alignment: Alignment.center,
+          children: [
+            if (inCall) ...[
+              RTCVideoView(
+                _remoteRenderer,
+                objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+              ),
+              AnimatedBuilder(
+                animation: position,
+                builder: (_, Widget? child) {
+                  return AnimatedPositioned(
+                    right: position.value.dx,
+                    bottom: position.value.dy,
+                    duration: Duration.zero,
+                    child: child!,
+                  );
+                },
+                child: GestureDetector(
+                  onPanUpdate: dragUpdate,
+                  child: Container(
+                    height: 150.h,
+                    width: 120.w,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  ),
-                ),
-              ] else
-                Column(
-                  children: [
-                    SizedBox(height: context.screenHeight * .1),
-                    CacheImage(
-                      image:
-                          call.hasDialled ? call.receiverPic : call.callerPic,
-                      dimension: context.screenWidth * .5,
-                      radius: 100,
+                    child: RTCVideoView(
+                      _localRenderer,
+                      mirror: isFrontCameraSelected,
+                      objectFit:
+                          RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
                     ),
-                    const SizedBox(height: 20),
-                    Text(
-                      call.hasDialled ? call.receiverName : call.callerName,
-                      style: context.headlineMedium?.copyWith(
-                        color: context.primary,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      status,
-                      style: context.bodyMedium?.copyWith(
-                        color: context.primary,
-                      ),
-                    ),
-                  ],
-                ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 20,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      if (inCall)
-                        DialButton(
-                          icon: isAudioOn
-                              ? Icons.volume_mute_rounded
-                              : Icons.volume_off_sharp,
-                          iconColor: Colors.black,
-                          color: Colors.white.withOpacity(.5),
-                          onTap: _toggleAudio,
-                        ),
-                      DialButton(
-                        icon: callStatus == CallStatus.ended ||
-                                callStatus == CallStatus.rejected
-                            ? Icons.close
-                            : Icons.call,
-                        iconColor: Colors.white,
-                        color: callStatus == CallStatus.ended ||
-                                callStatus == CallStatus.rejected
-                            ? Colors.black.withOpacity(.5)
-                            : Colors.redAccent,
-                        onTap: () {
-                          _isAlreadyEndedCall =
-                              callStatus == CallStatus.ended ||
-                                  callStatus == CallStatus.rejected ||
-                                  callStatus == CallStatus.missed;
-                          _leaveCall();
-                        },
-                      ),
-                      if (inCall)
-                        DialButton(
-                          icon: Icons.switch_camera,
-                          color: Colors.white.withOpacity(.5),
-                          iconColor: Colors.black,
-                          onTap: _switchCamera,
-                        ),
-                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ] else
+              Column(
+                children: [
+                  SizedBox(height: context.screenHeight * .1),
+                  CacheImage(
+                    image: call.hasDialled ? call.receiverPic : call.callerPic,
+                    dimension: context.screenWidth * .5,
+                    radius: 100,
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    call.hasDialled ? call.receiverName : call.callerName,
+                    style: context.headlineMedium?.copyWith(
+                      color: context.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    status,
+                    style: context.bodyMedium?.copyWith(
+                      color: context.primary,
+                    ),
+                  ),
+                ],
+              ),
+            SafeArea(
+              top: false,
+              child: Controls(
+                callStatus: callStatus,
+                isAudioOn: isAudioOn,
+                isVideoOn: isVideoOn,
+                isFrontCameraSelected: isFrontCameraSelected,
+                onEndCall: () {
+                  _isAlreadyEndedCall = callStatus == CallStatus.ended ||
+                      callStatus == CallStatus.rejected ||
+                      callStatus == CallStatus.missed;
+                  _leaveCall();
+                },
+                onToggleAudio: _toggleAudio,
+                onToggleVideo: _switchCamera,
+              ),
+            ),
+          ],
         ),
       ),
     );

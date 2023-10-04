@@ -4,8 +4,8 @@ import '../../core/config.dart';
 import '../../providers/global_provider.dart';
 import '../../widgets/commons/indicators/loading_manager.dart';
 
-class IncomingWrapperScreen extends HookConsumerWidget {
-  const IncomingWrapperScreen(this.child, {super.key});
+class LoadingWrapperScreen extends HookConsumerWidget {
+  const LoadingWrapperScreen(this.child, {super.key});
   final Widget child;
   @override
   Widget build(BuildContext context, WidgetRef ref) {

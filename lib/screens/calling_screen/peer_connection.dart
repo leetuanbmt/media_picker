@@ -1,17 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eventify/eventify.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
+import '../../core/utilities/db_helper.dart';
 import '../../core/utilities/logger.dart';
 
 typedef StreamStateCallback = void Function(MediaStream stream);
 
-class PeerConnection {
-  factory PeerConnection() => _instance;
-  PeerConnection._internal();
-  static final PeerConnection _instance = PeerConnection._internal();
-
+class PeerConnection extends EventEmitter {
   Map<String, dynamic> configuration = {
     'iceServers': [
       {
@@ -24,17 +22,19 @@ class PeerConnection {
   };
 
   RTCPeerConnection? peerConnection;
+
   MediaStream? localStream;
+
   MediaStream? remoteStream;
-  String? roomId;
-  String? currentRoomText;
-  StreamStateCallback? onAddRemoteStream;
+
+  StreamStateCallback? onAddRemoteStream, onAddLocalStream;
+
   final List<StreamSubscription> _subscriptions = [];
+
   Future<String> createRoom(String roomId) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    DocumentReference roomRef = db.collection('rooms').doc(roomId);
 
-    Logger.log('Create PeerConnection with configuration: $configuration');
+    DocumentReference roomRef = db.collection(DbCollection.rooms).doc(roomId);
 
     peerConnection = await createPeerConnection(configuration);
 
@@ -45,10 +45,11 @@ class PeerConnection {
     });
 
     // Code for collecting ICE candidates below
-    final callerCandidatesCollection = roomRef.collection('callerCandidates');
+    final callerCandidatesCollection = roomRef.collection(
+      DbCollection.callerCandidates,
+    );
 
     peerConnection?.onIceCandidate = (RTCIceCandidate candidate) {
-      Logger.log('Got candidate: ${candidate.toMap()}');
       callerCandidatesCollection.add(candidate.toMap());
     };
     // Finish Code for collecting ICE candidate
@@ -62,7 +63,6 @@ class PeerConnection {
 
     await roomRef.set(roomWithOffer);
     Logger.log('New room created with SDK offer. Room ID: $roomId');
-    currentRoomText = 'Current room is $roomId - You are the caller!';
     // Created a Room
 
     peerConnection?.onTrack = (RTCTrackEvent event) {
@@ -94,8 +94,10 @@ class PeerConnection {
     // Listening for remote session description above
 
     // Listen for remote Ice candidates below
-    final candidateAsync =
-        roomRef.collection('calleeCandidates').snapshots().listen((snapshot) {
+    final candidateAsync = roomRef
+        .collection(DbCollection.calleeCandidates)
+        .snapshots()
+        .listen((snapshot) {
       for (var change in snapshot.docChanges) {
         if (change.type == DocumentChangeType.added) {
           Map<String, dynamic> data = change.doc.data() as Map<String, dynamic>;
@@ -116,9 +118,14 @@ class PeerConnection {
     return roomId;
   }
 
+  void addTracks(MediaStream stream) {
+    stream.getTracks().forEach((track) {
+      peerConnection?.addTrack(track, stream);
+    });
+  }
+
   Future<void> joinRoom(String roomId) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    Logger.log(roomId);
     final DocumentReference roomRef = db.collection('rooms').doc(roomId);
     final roomSnapshot = await roomRef.get();
     Logger.log('Got room ${roomSnapshot.exists}');
@@ -134,7 +141,9 @@ class PeerConnection {
       });
 
       // Code for collecting ICE candidates below
-      var calleeCandidatesCollection = roomRef.collection('calleeCandidates');
+      var calleeCandidatesCollection =
+          roomRef.collection(DbCollection.calleeCandidates);
+
       peerConnection!.onIceCandidate = (RTCIceCandidate? candidate) {
         if (candidate == null) {
           Logger.log('onIceCandidate: complete!');
@@ -173,8 +182,10 @@ class PeerConnection {
       // Finished creating SDP answer
 
       // Listening for remote ICE candidates below
-      final candidateAsync =
-          roomRef.collection('callerCandidates').snapshots().listen((snapshot) {
+      final candidateAsync = roomRef
+          .collection(DbCollection.callerCandidates)
+          .snapshots()
+          .listen((snapshot) {
         for (var document in snapshot.docChanges) {
           final data = document.doc.data() as Map<String, dynamic>;
           Logger.log(data);
@@ -192,11 +203,8 @@ class PeerConnection {
     }
   }
 
-  Future<void> openUserMedia(
-    RTCVideoRenderer localVideo,
-    RTCVideoRenderer remoteVideo,
-  ) async {
-    final stream = await navigator.mediaDevices.getUserMedia(
+  Future<void> openUserMedia() async {
+    localStream = await navigator.mediaDevices.getUserMedia(
       {
         'audio': false,
         'video': {
@@ -210,19 +218,13 @@ class PeerConnection {
         },
       },
     );
-
-    localVideo.srcObject = stream;
-    localStream = stream;
-
-    // remoteVideo.srcObject = await createLocalMediaStream('key');
+    onAddLocalStream?.call(localStream!);
   }
 
-  Future<void> hangUp(RTCVideoRenderer localVideo) async {
-    List<MediaStreamTrack> tracks = localVideo.srcObject!.getTracks();
-    for (var track in tracks) {
-      track.stop();
+  Future<void> leaveRoom(String? roomId) async {
+    if (localStream != null) {
+      localStream!.getTracks().forEach((track) => track.stop());
     }
-
     if (remoteStream != null) {
       remoteStream!.getTracks().forEach((track) => track.stop());
     }
@@ -230,14 +232,15 @@ class PeerConnection {
 
     if (roomId != null) {
       final db = FirebaseFirestore.instance;
-      final roomRef = db.collection('rooms').doc(roomId);
+      final roomRef = db.collection(DbCollection.rooms).doc(roomId);
       final calleeCandidates =
-          await roomRef.collection('calleeCandidates').get();
+          await roomRef.collection(DbCollection.calleeCandidates).get();
       for (final document in calleeCandidates.docs) {
         document.reference.delete();
       }
 
-      var callerCandidates = await roomRef.collection('callerCandidates').get();
+      var callerCandidates =
+          await roomRef.collection(DbCollection.callerCandidates).get();
       for (final document in callerCandidates.docs) {
         document.reference.delete();
       }
@@ -246,6 +249,7 @@ class PeerConnection {
     }
 
     localStream!.dispose();
+
     remoteStream?.dispose();
   }
 
