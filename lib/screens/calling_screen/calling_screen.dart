@@ -127,9 +127,11 @@ class _CallScreenState extends ConsumerState<CallScreen> {
       _playCallingTone();
       callerCollection.set(
         callHistory.copyWith(hasDialled: true, type: DbKey.outgoing).toJson(),
+        SetOptions(merge: true),
       );
       receiverCollection.set(
         callHistory.copyWith(hasDialled: false, type: DbKey.incoming).toJson(),
+        SetOptions(merge: true),
       );
     } else {
       receiverCollection.set(

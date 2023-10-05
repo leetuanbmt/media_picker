@@ -31,7 +31,6 @@ class AppGlobal extends StateNotifier<GlobalSetting> {
   }
 
   void initialize() {
-    navigator(FirebaseAuth.instance.currentUser);
     ref.listen(authStateChangesProvider, (previous, next) {
       navigator(next.value);
     });

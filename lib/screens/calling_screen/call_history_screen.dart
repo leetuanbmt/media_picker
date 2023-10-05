@@ -16,8 +16,13 @@ class CallHistoryScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Call History'),
       ),
-      body: ref.watch(callHistoryProvider).maybeWhen(
+      body: ref.watch(callHistoryProvider).when(
             data: (histories) {
+              if (histories.isEmpty) {
+                return const Center(
+                  child: Text('No call history'),
+                );
+              }
               return ListView.builder(
                 itemCount: histories.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -26,13 +31,15 @@ class CallHistoryScreen extends ConsumerWidget {
                 },
               );
             },
-            error: (error, stackTrace) {
-              return Center(
-                child: Text(error.toString()),
-              );
-            },
-            orElse: () => const TurnLoading(),
+            loading: () => const TurnLoading(),
+            error: errorWidget,
           ),
+    );
+  }
+
+  Widget errorWidget(Object error, Object stackTrace) {
+    return Center(
+      child: Text(error.toString()),
     );
   }
 }
@@ -42,7 +49,6 @@ class CallHistoryItem extends ConsumerWidget {
   final CallHistory history;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Logger.log(history.hasDialled);
     final uid = history.hasDialled ? history.receiverId : history.callerId;
     final image = history.hasDialled ? history.receiverPic : history.callerPic;
     final name = history.hasDialled ? history.receiverName : history.callerName;

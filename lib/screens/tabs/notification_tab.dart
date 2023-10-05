@@ -14,7 +14,6 @@ class NotificationScreen extends ConsumerWidget {
     final asyncUser = ref.watch(userListFirestore);
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: AppTheme.lightStatusBar,
         title: const Text('Notification'),
         actions: [
           IconButton(
