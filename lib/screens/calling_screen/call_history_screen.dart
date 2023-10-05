@@ -15,12 +15,39 @@ class CallHistoryScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Call History'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () async {
+              try {
+                final authState = ref.watch(authStateChangesProvider);
+                final res = await ref
+                    .read(firestoreProvider)
+                    .collection(DbCollection.users)
+                    .doc(authState.value?.uid)
+                    .collection(DbCollection.callHistories)
+                    .get();
+                for (var element in res.docs) {
+                  element.reference.delete();
+                }
+              } catch (e) {
+                Logger.log(e);
+              }
+            },
+          ),
+        ],
       ),
       body: ref.watch(callHistoryProvider).when(
             data: (histories) {
               if (histories.isEmpty) {
-                return const Center(
-                  child: Text('No call history'),
+                return Center(
+                  child: Text(
+                    'No call history',
+                    style: context.titleMedium?.copyWith(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey,
+                    ),
+                  ),
                 );
               }
               return ListView.builder(
