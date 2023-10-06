@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../core/config.dart';
 import '../../core/models/call/call.dart';
@@ -90,10 +91,15 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              CachedNetworkImage(
-                imageUrl: widget.call.callerPic,
-                fit: BoxFit.cover,
-              ),
+              kIsWeb
+                  ? Image.network(
+                      widget.call.callerPic,
+                      fit: BoxFit.cover,
+                    )
+                  : CachedNetworkImage(
+                      imageUrl: widget.call.callerPic,
+                      fit: BoxFit.cover,
+                    ),
               Column(
                 children: <Widget>[
                   SizedBox(height: context.screenHeight * .2),

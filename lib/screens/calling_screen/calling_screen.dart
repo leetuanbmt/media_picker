@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../core/config.dart';
@@ -234,10 +235,12 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   }
 
   @override
-  void dispose() {
+  void deactivate() {
+    _stopStream();
+    _callStream?.close();
     _callStatus?.cancel();
     _callStreamSubscription?.cancel();
-    super.dispose();
+    super.deactivate();
   }
 
   _stopStream() {
@@ -251,7 +254,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   }
 
   void dragUpdate(DragUpdateDetails details) {
-    final appBarHeight = kTextTabBarHeight + MediaQuery.of(context).padding.top;
+    final appBarHeight = kTextTabBarHeight + context.screenPadding.top;
     final minWidth = context.screenWidth - 120.w;
     final minHeight = context.screenHeight - 150.h - appBarHeight.h;
     position.value = Offset(
@@ -278,13 +281,6 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   }
 
   @override
-  void deactivate() {
-    _stopStream();
-    _callStream?.close();
-    super.deactivate();
-  }
-
-  @override
   Widget build(BuildContext context) {
     Logger.log("status: $callStatus");
     return WillPopScope(
@@ -294,10 +290,16 @@ class _CallScreenState extends ConsumerState<CallScreen> {
           fit: StackFit.expand,
           // alignment: Alignment.center,
           children: [
-            CachedNetworkImage(
-              imageUrl: call.hasDialled ? call.receiverPic : call.callerPic,
-              fit: BoxFit.cover,
-            ),
+            kIsWeb
+                ? Image.network(
+                    call.hasDialled ? call.receiverPic : call.callerPic,
+                    fit: BoxFit.cover,
+                  )
+                : CachedNetworkImage(
+                    imageUrl:
+                        call.hasDialled ? call.receiverPic : call.callerPic,
+                    fit: BoxFit.cover,
+                  ),
             Container(
               color: Colors.black.withOpacity(.5),
               child: Column(

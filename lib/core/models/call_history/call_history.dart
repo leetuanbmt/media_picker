@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../extensions/date_extension.dart';
 import '../../utilities/utilities.dart';
 
 part 'call_history.g.dart';
@@ -28,4 +29,14 @@ class CallHistory with _$CallHistory {
 
   factory CallHistory.fromJson(Map<String, dynamic> json) =>
       _$CallHistoryFromJson(json);
+
+  String get name => hasDialled ? receiverName : callerName;
+  String get image => hasDialled ? receiverPic : callerPic;
+  String get uid => hasDialled ? receiverId : callerId;
+
+  String get time => callTime.format('MMMM d, hh:mm');
+
+  String get totalCall => started != null && ended != null
+      ? '${started!.format('hh:mm')} - ${ended!.format('hh:mm')}'
+      : 'Missed Call';
 }

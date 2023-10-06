@@ -1,6 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-
+import '../../core/config.dart';
 import 'shimmer.dart';
 
 class CacheImage extends StatelessWidget {
@@ -22,7 +20,7 @@ class CacheImage extends StatelessWidget {
           image: image == null
               ? null
               : DecorationImage(
-                  image: CachedNetworkImageProvider(image ?? ''),
+                  image: context.imageProvider(image),
                   fit: BoxFit.cover,
                 ),
         ),

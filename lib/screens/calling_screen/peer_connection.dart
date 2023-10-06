@@ -74,6 +74,7 @@ class PeerConnection {
       Logger.log('Got updated room: ${snapshot.data()}');
 
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+
       if (peerConnection?.getRemoteDescription() != null &&
           data['answer'] != null) {
         var answer = RTCSessionDescription(
@@ -197,13 +198,9 @@ class PeerConnection {
       {
         'audio': false,
         'video': {
-          'mandatory': {
-            'minWidth': '1920',
-            'minHeight': '1080',
-            'minFrameRate': '60',
-          },
-          'facingMode': 'user',
-          'optional': [],
+          "frameRate": "30",
+          "width": "1280",
+          "height": "720",
         },
       },
     );
@@ -211,34 +208,28 @@ class PeerConnection {
     onAddLocalStream?.call(localStream!);
   }
 
-  Future<void> leaveRoom(String? roomId) async {
-    if (localStream != null) {
-      localStream!.getTracks().forEach((track) => track.stop());
-    }
-    if (remoteStream != null) {
-      remoteStream!.getTracks().forEach((track) => track.stop());
-    }
-    if (peerConnection != null) peerConnection!.close();
+  Future<void> leaveRoom(String roomId) async {
+    localStream?.getTracks().forEach((track) => track.stop());
+    remoteStream?.getTracks().forEach((track) => track.stop());
+    peerConnection?.close();
 
-    if (roomId != null) {
-      final db = FirebaseFirestore.instance;
-      final roomRef = db.collection(DbCollection.rooms).doc(roomId);
-      final calleeCandidates =
-          await roomRef.collection(DbCollection.calleeCandidates).get();
-      for (final document in calleeCandidates.docs) {
-        document.reference.delete();
-      }
-
-      var callerCandidates =
-          await roomRef.collection(DbCollection.callerCandidates).get();
-      for (final document in callerCandidates.docs) {
-        document.reference.delete();
-      }
-
-      await roomRef.delete();
+    final db = FirebaseFirestore.instance;
+    final roomRef = db.collection(DbCollection.rooms).doc(roomId);
+    final calleeCandidates =
+        await roomRef.collection(DbCollection.calleeCandidates).get();
+    for (final document in calleeCandidates.docs) {
+      document.reference.delete();
     }
 
-    localStream!.dispose();
+    var callerCandidates =
+        await roomRef.collection(DbCollection.callerCandidates).get();
+    for (final document in callerCandidates.docs) {
+      document.reference.delete();
+    }
+
+    await roomRef.delete();
+
+    localStream?.dispose();
 
     remoteStream?.dispose();
   }
