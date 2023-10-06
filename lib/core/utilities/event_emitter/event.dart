@@ -145,7 +145,7 @@ abstract class EventsListenable<T> extends Disposable {
 
   // convenience method to listen & filter a specific event type
   CancelListenFunc on<E>(
-    FutureOr<void> Function(E) then, {
+    FutureOr<void> Function(E event) then, {
     bool Function(E)? filter,
   }) =>
       listen((event) async {

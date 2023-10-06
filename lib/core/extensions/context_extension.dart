@@ -1,3 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
+
+import '../../gen/assets.gen.dart';
 import '../../widgets/commons/indicators/loading_manager.dart';
 import '../config.dart';
 import '../utilities/utilities.dart';
@@ -88,6 +92,16 @@ extension ContextEx on BuildContext {
 
   Future<dynamic> navigator(PageRouteInfo route) =>
       AutoRouter.of(this).navigate(route);
+
+  ImageProvider imageProvider(String? image) {
+    if (image == null) {
+      return AssetImage(Assets.imagesFan.path);
+    } else {
+      return kIsWeb
+          ? NetworkImage(image)
+          : CachedNetworkImageProvider(image) as ImageProvider;
+    }
+  }
 }
 
 extension GlobalKeyExtension on GlobalKey {

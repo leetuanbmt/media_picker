@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
+
 import '../../core/config.dart';
 import '../../core/models/call/call.dart';
 import '../../core/models/call_history/call_history.dart';
@@ -8,7 +11,6 @@ import '../../core/utilities/utilities.dart';
 import '../../providers/call_provider.dart';
 import '../../providers/firebase_provider.dart';
 import '../../routes/app_routes.gr.dart';
-import '../../widgets/commons/cache_image.dart';
 import 'widgets/dial_button.dart';
 
 @RoutePage()
@@ -35,10 +37,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
       receiverPic: widget.call.receiverPic,
       channelId: widget.call.channelId,
       hasDialled: widget.call.hasDialled,
-      isCallMissed: isCallMissed,
-      currentUser: currentUser,
       callTime: DateTime.now(),
-      callStatus: callStatus,
       type: DbKey.incoming,
     );
 
@@ -50,7 +49,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
         .doc(call.callerId)
         .collection(DbCollection.callHistories)
         .doc(widget.call.timeepoch.toString())
-        .set(call.toJson());
+        .set(call.copyWith(hasDialled: true).toJson());
 
     if (!isCallMissed) {
       ref
@@ -59,7 +58,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
           .doc(call.receiverId)
           .collection(DbCollection.callHistories)
           .doc(widget.call.timeepoch.toString())
-          .set(call.toJson());
+          .set(call.copyWith(hasDialled: false).toJson());
     }
   }
 
@@ -88,60 +87,68 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
       onWillPop: () => Future.value(false),
       child: Scaffold(
         body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: context.screenHeight * .1),
-              Text(
-                "Incoming...",
-                style: TextStyle(fontSize: 30, color: context.primary),
-              ),
-              const SizedBox(height: 50),
-              Center(
-                child: CacheImage(
-                  image: widget.call.callerPic,
-                  radius: 100,
-                  dimension: context.screenWidth * 0.5,
-                ),
-              ),
-              const SizedBox(height: 15),
-              Text(
-                widget.call.callerName,
-                style: context.headlineMedium?.copyWith(
-                  color: context.primary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 25,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    DialButton(
-                      icon: Icons.call_end,
-                      color: Colors.red,
-                      onTap: () async {
-                        isCallMissed = false;
-                        addToLocalStorage(callStatus: CallStatus.rejected);
-                        ref.read(callUtils).endCall(widget.call);
-                        Navigator.pop(context);
-                      },
+          top: false,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              kIsWeb
+                  ? Image.network(
+                      widget.call.callerPic,
+                      fit: BoxFit.cover,
+                    )
+                  : CachedNetworkImage(
+                      imageUrl: widget.call.callerPic,
+                      fit: BoxFit.cover,
                     ),
-                    DialButton(
-                      icon: Icons.call,
-                      color: Colors.green,
-                      onTap: () async {
-                        isCallMissed = false;
-                        addToLocalStorage(callStatus: CallStatus.inCall);
-                        AutoRouter.of(context)
-                            .replace(CallRoute(call: widget.call));
-                      },
+              Column(
+                children: <Widget>[
+                  SizedBox(height: context.screenHeight * .2),
+                  Text(
+                    widget.call.callerName,
+                    style: context.headlineMedium?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Cuộc gọi đến",
+                    style: context.bodyMedium?.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 25,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        DialButton(
+                          icon: Icons.call_end,
+                          color: Colors.red,
+                          onTap: () async {
+                            isCallMissed = false;
+                            addToLocalStorage(callStatus: CallStatus.rejected);
+                            ref.read(callUtils).endCall(widget.call);
+                            Navigator.pop(context);
+                          },
+                        ),
+                        DialButton(
+                          icon: Icons.call,
+                          color: Colors.green,
+                          onTap: () async {
+                            isCallMissed = false;
+                            addToLocalStorage(callStatus: CallStatus.inCall);
+                            AutoRouter.of(context)
+                                .replace(CallRoute(call: widget.call));
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

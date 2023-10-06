@@ -1,6 +1,5 @@
 import '../../core/config.dart';
 import '../../providers/firebase_provider.dart';
-import '../../providers/home_provider.dart';
 import '../../routes/app_routes.gr.dart';
 import '../../widgets/commons/app_bar_custom.dart';
 import '../../widgets/search_app_bar.dart';

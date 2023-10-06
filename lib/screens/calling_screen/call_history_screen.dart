@@ -1,6 +1,7 @@
 import '../../core/config.dart';
 import '../../core/models/call_history/call_history.dart';
 import '../../core/utilities/utilities.dart';
+import '../../providers/call_provider.dart';
 import '../../providers/firebase_provider.dart';
 import '../../widgets/commons/cache_image.dart';
 import '../../widgets/commons/indicators/loading_manager.dart';
@@ -14,50 +15,65 @@ class CallHistoryScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Call History'),
-      ),
-      body: ref.watch(callHistoryProvider).maybeWhen(
-            data: (histories) {
-              return ListView.builder(
-                itemCount: histories.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final history = histories[index];
-                  return CallHistoryItem(history: history);
-                },
-              );
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () async {
+              try {
+                final authState = ref.watch(authStateChangesProvider);
+                final res = await ref
+                    .read(firestoreProvider)
+                    .collection(DbCollection.users)
+                    .doc(authState.value?.uid)
+                    .collection(DbCollection.callHistories)
+                    .get();
+                for (var element in res.docs) {
+                  element.reference.delete();
+                }
+              } catch (e) {
+                Logger.log(e);
+              }
             },
-            error: (error, stackTrace) {
-              return Center(
-                child: Text(error.toString()),
-              );
-            },
-            orElse: () => const TurnLoading(),
           ),
+        ],
+      ),
+      body: SafeArea(
+        child: RefreshIndicator.adaptive(
+          onRefresh: () async {
+            return ref.refresh(callHistoryProvider);
+          },
+          child: ref.watch(callHistoryProvider).when(
+                data: (histories) {
+                  if (histories.isEmpty) {
+                    return context.buildEmptyList('No call history');
+                  }
+                  return ListView.builder(
+                    itemCount: histories.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final history = histories[index];
+                      return CallHistoryItem(history: history);
+                    },
+                  );
+                },
+                loading: () => const TurnLoading(),
+                error: context.buildError,
+              ),
+        ),
+      ),
     );
   }
 }
 
 class CallHistoryItem extends ConsumerWidget {
-  const CallHistoryItem({
-    super.key,
-    required this.history,
-  });
-
+  const CallHistoryItem({super.key, required this.history});
   final CallHistory history;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentUser = ref.watch(firebaseAuthProvider).currentUser?.uid ?? '';
-    String avatar = currentUser == history.callerId
-        ? history.receiverPic
-        : history.callerPic;
-    String name = currentUser == history.callerId
-        ? history.receiverName
-        : history.callerName;
     return ListTile(
       leading: Stack(
         children: [
           CacheImage(
-            image: avatar,
+            image: history.image,
             dimension: 50,
             radius: 100,
           ),
@@ -69,33 +85,43 @@ class CallHistoryItem extends ConsumerWidget {
         ],
       ),
       title: Text(
-        name,
-        style: const TextStyle(
-          fontSize: 16,
+        history.name,
+        style: context.titleMedium?.copyWith(
           fontWeight: FontWeight.w600,
         ),
       ),
-      subtitle: Padding(
-        padding: const EdgeInsets.only(top: 3),
-        child: Row(
-          children: [
-            Icon(
-              history.type == DbKey.incoming
-                  ? (history.started == null
-                      ? Icons.call_missed
-                      : Icons.call_received)
-                  : Icons.call_made_rounded,
-              size: 15,
-              color: history.started == null
-                  ? Colors.redAccent
-                  : AppTheme.primaryColor,
+      subtitle: Row(
+        children: [
+          Icon(
+            history.type == DbKey.incoming
+                ? (history.started == null
+                    ? Icons.call_missed
+                    : Icons.call_received)
+                : Icons.call_made_rounded,
+            size: 15,
+            color: history.started == null
+                ? Colors.redAccent
+                : const Color(0xff47C3BE),
+          ),
+          Dimensions.width5,
+          Text(
+            history.time,
+            style: context.labelMedium?.copyWith(
+              color: AppTheme.fontGrayLead,
             ),
-            Dimensions.width10,
-            Text(history.callTime.format('MMMM d, hh:mm')),
-          ],
-        ),
+          ),
+        ],
       ),
-      trailing: const Icon(Icons.video_call),
+      trailing: IconButton(
+        icon: const Icon(Icons.call),
+        onPressed: () {
+          ref.read(callUtils).dial(
+                receiverId: history.uid,
+                receiverName: history.name,
+                receiverPic: history.image,
+              );
+        },
+      ),
     );
   }
 }

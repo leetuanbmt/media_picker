@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../../core/config.dart';
 import '../../../../../core/models/models.dart';
 import '../../../../../gen/assets.gen.dart';
-import '../../../../../providers/firebase_provider.dart';
+import '../../../../../providers/user_provider.dart';
 import '../../../../../routes/app_routes.gr.dart';
 import 'card_profile.dart';
 
@@ -84,7 +84,7 @@ class ProfileDetail extends StatelessWidget {
               title: 'ログアウト',
               isNext: false,
               textColor: Colors.red,
-              onTap: ref.read(firebaseAuthProvider).signOut,
+              onTap: ref.read(userProvider.notifier).signOut,
             );
           },
         ),

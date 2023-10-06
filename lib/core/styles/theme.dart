@@ -99,6 +99,7 @@ class AppTheme {
         scrolledUnderElevation: 0,
         backgroundColor: primaryColor,
         centerTitle: true,
+        systemOverlayStyle: lightStatusBar,
         iconTheme: const IconThemeData(color: Colors.white),
         titleTextStyle: const TextStyle(
           fontWeight: FontWeight.bold,

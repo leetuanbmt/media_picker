@@ -11,7 +11,6 @@ class ListUserScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: AppTheme.lightStatusBar,
         title: Text(title),
       ),
       body: SafeArea(

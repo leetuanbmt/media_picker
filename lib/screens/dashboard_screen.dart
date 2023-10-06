@@ -31,6 +31,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 
   @override
+  void deactivate() {
+    ref.read(userProvider.notifier).stopStream();
+    super.deactivate();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
       routes: const [

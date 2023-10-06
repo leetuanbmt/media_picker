@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-
 import '../../../../core/config.dart';
 import '../../../../core/models/creator/creator_model.dart';
 import '../../../../widgets/commons/tag_name_custom.dart';
@@ -26,9 +24,7 @@ class CreatorOnlineItem extends ConsumerWidget {
           image: creator?.avatar == null
               ? null
               : DecorationImage(
-                  image: CachedNetworkImageProvider(
-                    creator?.avatar ?? '',
-                  ),
+                  image: context.imageProvider(creator?.avatar ?? ''),
                   fit: BoxFit.cover,
                 ),
         ),
