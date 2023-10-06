@@ -1,4 +1,5 @@
 import '../../core/config.dart';
+import '../../core/models/user/user_model.dart';
 import '../../providers/call_provider.dart';
 import '../../providers/firebase_provider.dart';
 import '../../routes/app_routes.gr.dart';
@@ -11,10 +12,9 @@ class NotificationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final asyncUser = ref.watch(userListFirestore);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notification'),
+        title: Text(context.tr(LocaleKeys.notification)),
         actions: [
           IconButton(
             icon: const Icon(Icons.history),
@@ -25,45 +25,67 @@ class NotificationScreen extends ConsumerWidget {
         ],
       ),
       body: SafeArea(
-        child: asyncUser.maybeWhen(
-          data: (data) => ListView.builder(
-            itemCount: data.length,
-            itemBuilder: (BuildContext context, int index) {
-              final user = data[index];
-              return ListTile(
-                leading: CacheImage(
-                  image: user.avatar,
-                  dimension: 50,
-                  radius: 100,
-                ),
-                title: Text(
-                  user.name,
-                  style: context.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                subtitle: Text(
-                  user.email,
-                  style: context.labelMedium?.copyWith(
-                    fontStyle: FontStyle.italic,
-                    color: AppTheme.fontGrayLead,
-                  ),
-                ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.call),
-                  onPressed: () {
-                    ref.read(callUtils).dial(
-                          receiverId: user.id,
-                          receiverName: user.name,
-                          receiverPic: user.avatar,
-                        );
+        child: RefreshIndicator.adaptive(
+          onRefresh: () async {
+            return ref.refresh(userListFirestore);
+          },
+          child: ref.watch(userListFirestore).maybeWhen(
+                data: (data) => ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final user = data[index];
+                    return _UserItem(user: user);
                   },
                 ),
-              );
-            },
-          ),
-          orElse: () => const TurnLoading(),
+                orElse: () => const TurnLoading(),
+              ),
         ),
+      ),
+    );
+  }
+}
+
+class _UserItem extends StatelessWidget {
+  const _UserItem({this.user});
+
+  final UserModel? user;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: CacheImage(
+        image: user?.avatar,
+        dimension: 50,
+        radius: 100,
+      ),
+      title: Text(
+        user?.name ?? '',
+        style: context.titleMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      subtitle: Text(
+        user?.email ?? '',
+        style: context.labelMedium?.copyWith(
+          fontStyle: FontStyle.italic,
+          color: AppTheme.fontGrayLead,
+        ),
+      ),
+      trailing: Consumer(
+        builder: (context, ref, child) {
+          return IconButton(
+            icon: const Icon(Icons.call),
+            onPressed: user == null
+                ? null
+                : () {
+                    ref.read(callUtils).dial(
+                          receiverId: user!.id,
+                          receiverName: user!.name,
+                          receiverPic: user!.avatar,
+                        );
+                  },
+          );
+        },
       ),
     );
   }

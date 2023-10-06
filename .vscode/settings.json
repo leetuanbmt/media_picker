@@ -29,5 +29,15 @@
     "videocam",
     "webrtc"
   ],
-  "dart.flutterSdkPath": "/Users/tuanvm/Downloads/flutter/bin"
+  "dart.flutterSdkPath": "/Users/tuanvm/Downloads/flutter/bin",
+  "cSpell.ignorePaths": [
+    "lib/generated",
+    "assets/locales/vi.json",
+    "package-lock.json",
+    "node_modules",
+    "vscode-extension",
+    ".git/objects",
+    ".vscode",
+    ".vscode-insiders"
+  ]
 }

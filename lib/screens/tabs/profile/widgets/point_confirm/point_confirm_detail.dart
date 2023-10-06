@@ -28,13 +28,14 @@ class PointConfirmDetail extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: ButtonCustom(
-                    '今月',
+                    context.tr(LocaleKeys.toDay),
                     onPressed: () {},
                     fontSize: 12.sp,
                     type: ButtonType.outline,
                     height: 23.h,
-                    width: 46.w,
-                    padding: EdgeInsets.zero,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                    ),
                     borderWidth: 2,
                   ),
                 ),
@@ -58,7 +59,7 @@ class PointConfirmDetail extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '今日',
+                    context.tr(LocaleKeys.thisMonth),
                     style: context.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -105,10 +106,10 @@ class PointConfirmDetail extends StatelessWidget {
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicatorColor: AppTheme.primaryColor,
                   controller: tabController,
-                  tabs: const [
-                    Tab(text: 'チップ履歴'),
-                    Tab(text: '購入履歴'),
-                    Tab(text: '振込履歴'),
+                  tabs: [
+                    Tab(text: context.tr(LocaleKeys.chipHistory)),
+                    Tab(text: context.tr(LocaleKeys.purchaseHistory)),
+                    Tab(text: context.tr(LocaleKeys.transferHistory)),
                   ],
                 ),
               ),

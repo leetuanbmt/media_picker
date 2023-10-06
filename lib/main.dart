@@ -52,7 +52,7 @@ class LoggerProvider extends ProviderObserver {
     ProviderContainer container,
   ) {
     Logger.log(
-      '[${provider.name ?? provider.runtimeType}] value: $newValue',
+      '[${provider.name ?? provider.runtimeType}]',
       tag: "didUpdateProvider",
     );
   }

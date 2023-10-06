@@ -112,7 +112,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    "Cuộc gọi đến",
+                    context.tr(LocaleKeys.callVideo_incomingCall),
                     style: context.bodyMedium?.copyWith(
                       color: Colors.white,
                     ),

@@ -78,11 +78,11 @@ class _BottomNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     final tabs = [
       TabItem(
-        title: 'ホーム',
+        title: context.tr(LocaleKeys.home),
         image: Assets.iconsIconHome.path,
       ),
       TabItem(
-        title: '探す',
+        title: context.tr(LocaleKeys.search),
         image: Assets.iconsIconSearch.path,
       ),
       TabItem(
@@ -90,11 +90,11 @@ class _BottomNavigation extends StatelessWidget {
         image: Assets.iconsIconApp.path,
       ),
       TabItem(
-        title: 'お知らせ',
+        title: context.tr(LocaleKeys.notification),
         image: Assets.iconsIconNotifications.path,
       ),
       TabItem(
-        title: 'マイページ',
+        title: context.tr(LocaleKeys.myPage),
         image: Assets.iconsIconPerson.path,
       ),
     ];
@@ -168,6 +168,7 @@ class _BottomTabItem extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
                 maxLines: 1,
+                minFontSize: 8,
               ),
             ],
           ),
@@ -191,7 +192,7 @@ class _MainTabCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Material(
         color: context.primaryColor,
         shape: const CircleBorder(),

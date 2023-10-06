@@ -1,7 +1,9 @@
 import '../../../../../core/config.dart';
 import '../../../../../core/models/models.dart';
+import '../../../../../core/utilities/utilities.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../widgets/commons/theme_picker.dart';
+import '../../language.dart';
 import 'edit_item.dart';
 
 class EditProfileDetail extends StatelessWidget {
@@ -16,12 +18,13 @@ class EditProfileDetail extends StatelessWidget {
     return Column(
       children: [
         EditItem(
-          title: 'ユーザー名',
+          title: context.tr(LocaleKeys.username),
           textContent: user?.name ?? '',
         ),
         EditItem(
-          title: '年齢',
-          content: "公開"
+          title: context.tr(LocaleKeys.age),
+          content: LocaleKeys.release
+              .tr()
               .richText
               .textStyle(context.bodyMedium)
               .color(AppTheme.primaryColor)
@@ -31,7 +34,7 @@ class EditProfileDetail extends StatelessWidget {
           ]).make(),
         ),
         EditItem(
-          title: 'ユーザー名',
+          title: context.tr(LocaleKeys.themeColor),
           content: Align(
             alignment: Alignment.centerRight,
             child: Container(
@@ -47,12 +50,19 @@ class EditProfileDetail extends StatelessWidget {
             ThemePicker.show(context);
           },
         ),
-        const EditItem(
-          title: 'カテゴリ',
+        EditItem(
+          title: context.tr(LocaleKeys.category),
           textContent: 'お笑い,美容',
         ),
         EditItem(
-          title: '外部リンク',
+          title: context.tr(LocaleKeys.language),
+          textContent: context.tr(AppLanguage.currentLanguageValue),
+          onTap: () {
+            context.nextPage(const LanguageScreen());
+          },
+        ),
+        EditItem(
+          title: context.tr(LocaleKeys.externLink),
           content: Row(
             children: [
               const Spacer(),
@@ -103,7 +113,7 @@ class EditProfileDetail extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '自己紹介文',
+                context.tr(LocaleKeys.selfIntroduction),
                 style: context.bodyMedium?.copyWith(
                   color: AppTheme.fontGrayLead,
                   fontWeight: FontWeight.w300,

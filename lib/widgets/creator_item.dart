@@ -23,9 +23,8 @@ class CreatorItem extends StatelessWidget {
           fontWeight: FontWeight.w600,
         ),
       ),
-      //  index.isOdd ? 'フォロワー' : 'フォロー中',
       trailing: ButtonCustom(
-        'フォロー',
+        context.tr(LocaleKeys.follow),
         height: 33.h,
         onPressed: onPressed,
       ),

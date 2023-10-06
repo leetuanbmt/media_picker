@@ -18,8 +18,8 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.background,
-      appBar: const AppBarCustom(
-        title: '利用の流れ',
+      appBar: AppBarCustom(
+        title: context.tr(LocaleKeys.usageFlow),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
@@ -34,7 +34,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                   padding: EdgeInsets.only(bottom: 3.h),
                   child: RichText(
                     text: TextSpan(
-                      text: 'ファン',
+                      text: context.tr(LocaleKeys.fan),
                       style: context.titleMedium?.copyWith(
                         color: AppTheme.pink,
                         fontSize: 20.sp,
@@ -42,7 +42,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                       ),
                       children: [
                         TextSpan(
-                          text: 'として楽しむ',
+                          text: context.tr(LocaleKeys.enjoyAs),
                           style: context.titleMedium?.copyWith(
                             fontSize: 15.sp,
                             color: Colors.black,
@@ -57,20 +57,21 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
             ),
             SizedBox(height: 6.h),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _UseGuideFlow(
-                  title: 'ポイント\nを購入',
+                  title: context.tr(LocaleKeys.buyPoints),
                   color: AppTheme.pink1,
                   image: Assets.imagesFlowStep1.image(),
                 ),
                 _UseGuideFlow(
-                  title: 'クリエーター\nを探す',
+                  title: context.tr(LocaleKeys.findCreators),
                   color: AppTheme.pink1,
                   image: Assets.imagesFlowStep2.image(),
                 ),
                 _UseGuideFlow(
-                  title: '投げ銭して\n機器を動かす',
+                  title: context.tr(LocaleKeys.donateMoney),
                   color: AppTheme.pink1,
                   image: Assets.imagesFlowStep3.image(),
                 ),
@@ -85,7 +86,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                   });
                 },
                 child: Text(
-                  '番外編 コントロールリクエスト',
+                  context.tr(LocaleKeys.controlRequest),
                   style: context.titleLarge?.copyWith(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w700,
@@ -99,7 +100,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
               padding: EdgeInsets.only(bottom: 3.h),
               child: RichText(
                 text: TextSpan(
-                  text: 'ファン',
+                  text: context.tr(LocaleKeys.fan),
                   style: context.titleMedium?.copyWith(
                     color: AppTheme.purple,
                     fontSize: 20.sp,
@@ -107,7 +108,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                   ),
                   children: [
                     TextSpan(
-                      text: 'として楽しむ',
+                      text: context.tr(LocaleKeys.enjoyAs),
                       style: context.titleMedium?.copyWith(
                         fontSize: 15.sp,
                         color: Colors.black,
@@ -123,17 +124,17 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _UseGuideFlow(
-                  title: '機器を繋ぐ',
+                  title: context.tr(LocaleKeys.connectDevices),
                   color: AppTheme.fontBlue1,
                   image: Assets.imagesFlowStep4.image(),
                 ),
                 _UseGuideFlow(
-                  title: 'ファンを呼ぶ',
+                  title: context.tr(LocaleKeys.callTheFans),
                   color: AppTheme.fontBlue1,
                   image: Assets.imagesFlowStep5.image(),
                 ),
                 _UseGuideFlow(
-                  title: '投げ銭をもらう',
+                  title: context.tr(LocaleKeys.getATip),
                   color: AppTheme.fontBlue1,
                   image: Assets.imagesFlowStep6.image(),
                 ),
@@ -148,7 +149,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                   });
                 },
                 child: Text(
-                  'ポイントを稼ぐコツ',
+                  context.tr(LocaleKeys.tipsToEarnPoints),
                   style: context.titleLarge?.copyWith(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w700,
@@ -194,7 +195,7 @@ class _BubbleCustom extends StatelessWidget {
         ),
         padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
         child: Text(
-          '保有獲得ポイントをチップ用ポイントとして変換し投げ銭に使用できます。',
+          context.tr(LocaleKeys.convertTipDescription),
           style: context.titleMedium?.copyWith(
             fontSize: 14.sp,
             fontWeight: FontWeight.w600,

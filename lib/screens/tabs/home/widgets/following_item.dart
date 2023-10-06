@@ -37,7 +37,7 @@ class FollowingItem extends StatelessWidget {
             ),
           ),
           ButtonCustom(
-            'フォローする',
+            context.tr(LocaleKeys.toFollow),
             height: 32.h,
             onPressed: onPressed,
           ),

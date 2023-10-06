@@ -32,7 +32,7 @@ class HomeScreen extends ConsumerWidget {
                 return listOnline.maybeWhen(
                   data: (result) {
                     return ListCreator(
-                      title: 'Online',
+                      title: context.tr(LocaleKeys.online),
                       listCreator: result,
                       onlineList: true,
                       showMore: false,

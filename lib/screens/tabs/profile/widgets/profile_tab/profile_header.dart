@@ -47,19 +47,19 @@ class ProfileHeader extends StatelessWidget {
                       Row(
                         children: [
                           _TagCustom(
-                            title: '配信',
+                            title: context.tr(LocaleKeys.delivery),
                             color: context.primaryColor,
                           ),
                           SizedBox(width: 3.w),
-                          const _TagCustom(
-                            title: 'カテゴリ',
-                            color: Color(0xff7B8AFF),
+                          _TagCustom(
+                            title: context.tr(LocaleKeys.category),
+                            color: const Color(0xff7B8AFF),
                           ),
                         ],
                       )
                     else
                       ButtonCustom(
-                        'ランキング',
+                        context.tr(LocaleKeys.ranking),
                         height: 28.h,
                         backgroundColor: const Color(0xff8F3FFC),
                         onPressed: () {},
@@ -76,13 +76,13 @@ class ProfileHeader extends StatelessWidget {
                 child: Row(
                   children: [
                     _TagCustom(
-                      title: '配信',
+                      title: context.tr(LocaleKeys.delivery),
                       color: context.primaryColor,
                     ),
                     SizedBox(width: 3.w),
-                    const _TagCustom(
-                      title: 'カテゴリ',
-                      color: Color(0xff7B8AFF),
+                    _TagCustom(
+                      title: context.tr(LocaleKeys.category),
+                      color: const Color(0xff7B8AFF),
                     ),
                   ],
                 ),
@@ -92,16 +92,16 @@ class ProfileHeader extends StatelessWidget {
             Row(
               children: [
                 FollowItem(
-                  title: 'フォロー',
+                  title: context.tr(LocaleKeys.follow),
                   subTitle: user?.follow.toCompactCurrency ?? '',
                 ),
                 FollowItem(
-                  title: 'フォロワー',
+                  title: context.tr(LocaleKeys.followers),
                   subTitle: user?.followers.toCompactCurrency ?? '',
                   padding: EdgeInsets.only(left: 16.w, right: 16.w),
                 ),
                 FollowItem(
-                  title: '獲得ポイント',
+                  title: context.tr(LocaleKeys.earnedPoints),
                   subTitle: user?.points.toCurrency ?? '',
                 ),
               ],
@@ -132,10 +132,7 @@ class FollowItem extends StatelessWidget {
       padding: padding ?? EdgeInsets.zero,
       child: Column(
         children: [
-          Text(
-            'フォロワー',
-            style: titleStyle,
-          ),
+          Text(title, style: titleStyle),
           Text(
             subTitle,
             style: titleStyle?.copyWith(
