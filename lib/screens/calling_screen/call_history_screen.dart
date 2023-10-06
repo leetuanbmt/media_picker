@@ -14,7 +14,7 @@ class CallHistoryScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Call History'),
+        title: Text(context.tr(LocaleKeys.callHistory)),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete),
@@ -45,7 +45,9 @@ class CallHistoryScreen extends ConsumerWidget {
           child: ref.watch(callHistoryProvider).when(
                 data: (histories) {
                   if (histories.isEmpty) {
-                    return context.buildEmptyList('No call history');
+                    return context.buildEmptyList(
+                      context.tr(LocaleKeys.noCallHistory),
+                    );
                   }
                   return ListView.builder(
                     itemCount: histories.length,
@@ -70,6 +72,7 @@ class CallHistoryItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
+      contentPadding: const EdgeInsets.only(left: 16, right: 8),
       leading: Stack(
         children: [
           CacheImage(

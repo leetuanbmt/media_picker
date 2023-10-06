@@ -31,7 +31,7 @@ class SearchScreen extends StatelessWidget {
                   vertical: 10.h,
                 ),
                 child: Text(
-                  "おすすめ",
+                  context.tr(LocaleKeys.recommendation),
                   style: context.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -79,7 +79,7 @@ class SearchScreen extends StatelessWidget {
                   vertical: 10.h,
                 ),
                 child: Text(
-                  "カテゴリから探す",
+                  context.tr(LocaleKeys.searchByCategory),
                   style: context.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),

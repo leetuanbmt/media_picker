@@ -13,7 +13,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarCustom(
-        title: 'マイページ',
+        title: context.tr(LocaleKeys.myPage),
         titleSpacing: 16.w,
         actions: [
           IconButtonCustom(

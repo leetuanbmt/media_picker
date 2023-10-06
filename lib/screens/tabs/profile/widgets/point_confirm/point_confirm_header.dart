@@ -87,7 +87,7 @@ class _PointSlider extends StatelessWidget {
                 ),
                 SizedBox(width: 5.w),
                 Text(
-                  '保有獲得ポイント',
+                  context.tr(LocaleKeys.pointEarned),
                   style: context.titleSmall?.copyWith(
                     color: AppTheme.fontGrayLead,
                     fontSize: 12.sp,
@@ -125,7 +125,7 @@ class _PointSlider extends StatelessWidget {
               ),
             ),
             ButtonCustom(
-              'チップ用ポイントに変換',
+              context.tr(LocaleKeys.convertToTipPoints),
               height: 36.h,
               width: double.infinity,
               onPressed: () {},

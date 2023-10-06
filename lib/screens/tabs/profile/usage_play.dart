@@ -38,8 +38,8 @@ class UsagePlayScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppTheme.background,
-      appBar: const AppBarCustom(
-        title: '利用ガイド',
+      appBar: AppBarCustom(
+        title: context.tr(LocaleKeys.usageGuide),
       ),
       body: SingleChildScrollView(
         child: Container(

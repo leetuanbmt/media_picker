@@ -48,7 +48,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
         focusNode: widget.focusNode,
         onChanged: widget.onChanged,
         decoration: InputDecoration(
-          hintText: 'ユーザー名・IDで検索',
+          hintText: context.tr(LocaleKeys.searchByUser),
           filled: true,
           fillColor: Colors.white,
           hintStyle: context.labelMedium?.copyWith(

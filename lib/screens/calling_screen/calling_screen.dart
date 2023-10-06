@@ -266,15 +266,17 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   String get status {
     switch (callStatus) {
       case CallStatus.calling:
-        return call.hasDialled ? 'Đang gọi ...' : 'Đang kết nối ...';
+        return call.hasDialled
+            ? '${context.tr(LocaleKeys.callVideo_calling)} ...'
+            : '${context.tr(LocaleKeys.callVideo_connecting)} ...';
       case CallStatus.ringing:
-        return 'Đang gọi ...';
+        return '${context.tr(LocaleKeys.callVideo_calling)} ...';
       case CallStatus.rejected:
-        return 'Cuộc gọi bị từ chối!';
+        return context.tr(LocaleKeys.callVideo_callReject);
       case CallStatus.ended:
-        return 'Cuộc gọi kết thúc ${AppUtils.formatDuration(duration.value)}';
+        return '${context.tr(LocaleKeys.callVideo_callEnd)} ${AppUtils.formatDuration(duration.value)}';
       case CallStatus.missed:
-        return 'Cuộc gọi kết thúc';
+        return context.tr(LocaleKeys.callVideo_callEnd);
       default:
         return '';
     }
@@ -282,13 +284,12 @@ class _CallScreenState extends ConsumerState<CallScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Logger.log("status: $callStatus");
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(
         body: Stack(
           fit: StackFit.expand,
-          // alignment: Alignment.center,
+          alignment: Alignment.center,
           children: [
             kIsWeb
                 ? Image.network(

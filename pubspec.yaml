@@ -34,6 +34,7 @@ dependencies:
   sentry_flutter: ^7.10.1
   synchronized: ^3.1.0
   permission_handler: ^11.0.1
+  redacted: ^1.0.11
 
   mobile_scanner: ^3.4.1
   biometric_storage: ^5.0.0+4

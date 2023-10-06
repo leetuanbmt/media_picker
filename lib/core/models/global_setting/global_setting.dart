@@ -8,5 +8,6 @@ class GlobalSetting with _$GlobalSetting {
   const factory GlobalSetting({
     Color? themeColor,
     String? fontFamily,
+    String? languageCode,
   }) = _GlobalSetting;
 }
