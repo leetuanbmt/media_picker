@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../core/config.dart';
+import '../core/models/creator/creator_model.dart';
 import '../core/utilities/utilities.dart';
 import 'firebase_provider.dart';
 
@@ -24,6 +27,7 @@ class MyPageProvider extends ChangeNotifier {
   bool isSaveSetting = false;
 
   int coinSelected = -1;
+  int chargeSelected = -1;
 
   final blockController = TextEditingController();
   final delayController = TextEditingController(text: '5秒');
@@ -37,15 +41,6 @@ class MyPageProvider extends ChangeNotifier {
   void showBio() {
     showAllBio = !showAllBio;
     notifyListeners();
-  }
-
-  double getTextHeight(String text, TextStyle textStyle, double textWidth) {
-    final TextPainter textPainter = TextPainter(
-      text: TextSpan(text: text, style: textStyle),
-      textDirection: TextDirection.ltr,
-    );
-    textPainter.layout(maxWidth: textWidth);
-    return textPainter.height;
   }
 
   void followUser() {
@@ -70,6 +65,11 @@ class MyPageProvider extends ChangeNotifier {
 
   void chooseCoin(int value) {
     coinSelected = value;
+    notifyListeners();
+  }
+
+  void chooseCharge(int value) {
+    chargeSelected = value;
     notifyListeners();
   }
 
@@ -110,3 +110,16 @@ final userFollowProvider = FutureProvider<List<String>>((ref) async {
       .map((e) => e.data()['profile_photo'] as String)
       .toList();
 });
+
+final creatorFirestoreProvider =
+    Provider.autoDispose.family<DocumentReference, String?>(
+  (ref, uid) =>
+      ref.watch(firestoreProvider).collection(DbCollection.creators).doc(uid),
+);
+
+final creatorChangeFirebase =
+    StreamProvider.autoDispose.family<CreatorModel, String?>(
+  (ref, uid) => ref.watch(creatorFirestoreProvider(uid)).snapshots().map(
+        (event) => CreatorModel.fromJson(event.data() as Json),
+      ),
+);

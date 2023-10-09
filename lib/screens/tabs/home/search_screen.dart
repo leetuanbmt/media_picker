@@ -41,8 +41,11 @@ class SearchCreatorScreen extends HookConsumerWidget {
                           return CreatorItem(
                             creator: creator,
                             onPressed: () {
-                              context.router
-                                  .push(MyProfileRoute(creator: creator));
+                              context.router.push(
+                                MyProfileRoute(
+                                  id: creator.id,
+                                ),
+                              );
                             },
                           );
                         },

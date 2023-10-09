@@ -76,8 +76,6 @@ class MyPageAction extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final myPage = ref.watch(myPageProvider);
-
     final style = context.titleMedium!.copyWith(
       fontSize: 20.sp,
       fontWeight: FontWeight.w400,
@@ -136,7 +134,7 @@ class MyPageAction extends ConsumerWidget {
                             width: 327.w,
                             onPressed: () {
                               Navigator.pop(context);
-                              myPage.blockUser();
+                              ref.read(myPageProvider).blockUser();
                             },
                           ),
                         ],

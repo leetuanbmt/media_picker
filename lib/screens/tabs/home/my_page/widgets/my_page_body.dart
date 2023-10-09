@@ -1,23 +1,27 @@
-import 'package:flutter_svg/svg.dart';
-
 import '../../../../../core/config.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
+import '../../../../../routes/app_routes.gr.dart';
 import '../../../../../widgets/commons/button_custom.dart';
 import '../../../../../widgets/commons/cache_image.dart';
 import '../../../../../widgets/commons/indicators/loading_manager.dart';
+import '../device_connected.dart';
 
 class DeviceConnected extends StatelessWidget {
   const DeviceConnected({super.key});
 
   @override
   Widget build(BuildContext context) {
-    List<String> deviceConnected = ['ぬいぐるみ', '扇風機'];
+    List<Map<String, dynamic>> deviceConnected = [
+      {'device': 'ぬいぐるみ', "status": true},
+      {'device': '扇風機', "status": true},
+    ];
 
     final style = context.titleSmall!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w400,
     );
+
     return Container(
       height: 190.2.h,
       width: 343.w,
@@ -64,47 +68,12 @@ class DeviceConnected extends StatelessWidget {
                 ...List.generate(deviceConnected.length, (index) {
                   return Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 16.04.w,
+                      horizontal: 3.5.w,
                       vertical: 5.h,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            SizedBox.square(
-                              dimension: 24.r,
-                              child: SvgPicture.asset(
-                                Assets.iconsIconWifi.path,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            Text(
-                              deviceConnected[index],
-                              style: style,
-                            ),
-                            SizedBox(
-                              width: 9.w,
-                            ),
-                            Text(
-                              'Magic motion',
-                              style: style.copyWith(
-                                color: AppTheme.fontGray3,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 9.5.h,
-                          width: 19.w,
-                          child: SvgPicture.asset(
-                            Assets.iconsIconPercentBattery.path,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ],
+                    child: DeviceItem(
+                      nameDevice: deviceConnected[index]['device'],
+                      isConnected: deviceConnected[index]['status'],
                     ),
                   );
                 }),
@@ -117,7 +86,9 @@ class DeviceConnected extends StatelessWidget {
               height: 32.h,
               width: 212.w,
               type: ButtonType.outline,
-              onPressed: () {},
+              onPressed: () {
+                context.router.push(const DeviceConnectedRoute());
+              },
             ),
           ),
         ],
@@ -136,7 +107,7 @@ class HistoryDonate extends StatelessWidget {
 
   final String userDonate;
   final String point;
-  final bool? lastDonate;
+  final bool lastDonate;
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +121,7 @@ class HistoryDonate extends StatelessWidget {
       height: 36.h,
       margin: EdgeInsets.only(bottom: 10.h),
       decoration: BoxDecoration(
-        color: lastDonate! ? const Color(0xffFFDC56) : Colors.white,
+        color: lastDonate ? const Color(0xffFFDC56) : Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10.r)),
         boxShadow: [
           BoxShadow(
@@ -174,7 +145,7 @@ class HistoryDonate extends StatelessWidget {
                 TextSpan(
                   text: point,
                   style: style.copyWith(
-                    color: point == '10000pt'
+                    color: lastDonate
                         ? const Color(0xff8F3FFC)
                         : AppTheme.primaryColor,
                   ),
@@ -199,24 +170,22 @@ class UserNotification extends StatelessWidget {
     required this.month,
     required this.time,
     required this.content,
-    this.lastNotification = false,
   });
 
   final String date;
   final String month;
   final String time;
   final String content;
-  final bool? lastNotification;
 
   @override
   Widget build(BuildContext context) {
-    final style = context.labelMedium!.copyWith(
-      fontSize: 10.sp,
+    final style = context.labelSmall!.copyWith(
+      fontSize: 12.sp,
       fontWeight: FontWeight.w600,
       color: Colors.white,
     );
     return Padding(
-      padding: EdgeInsets.only(top: 12.h),
+      padding: EdgeInsets.only(top: 12.h, left: 12.w),
       child: Row(
         children: [
           Container(
@@ -233,7 +202,9 @@ class UserNotification extends StatelessWidget {
               children: [
                 Text(
                   '$date月',
-                  style: style,
+                  style: style.copyWith(
+                    fontSize: 10.sp,
+                  ),
                 ),
                 RichText(
                   text: TextSpan(
@@ -242,7 +213,7 @@ class UserNotification extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: '日',
-                        style: style,
+                        style: style.copyWith(fontSize: 10.sp),
                       ),
                     ],
                   ),
@@ -251,12 +222,11 @@ class UserNotification extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: lastNotification! ? 20.w : 12.w,
+            width: 12.w,
           ),
           Text(
             '$time～',
             style: style.copyWith(
-              fontSize: 12.sp,
               color: AppTheme.pink,
             ),
           ),
@@ -266,7 +236,6 @@ class UserNotification extends StatelessWidget {
           Text(
             content,
             style: style.copyWith(
-              fontSize: 12.sp,
               color: Colors.black,
             ),
           ),
@@ -276,11 +245,11 @@ class UserNotification extends StatelessWidget {
   }
 }
 
-class ListRankingUser extends ConsumerWidget {
+class ListRankingUser extends StatelessWidget {
   const ListRankingUser({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     List colorRank = const [
       Color(0xffDCBB3C),
       Color(0xffBEC2C2),
@@ -289,113 +258,121 @@ class ListRankingUser extends ConsumerWidget {
       Color(0xffFFDC56),
     ];
 
-    final listUser = ref.watch(userRankingProvider);
+    return Consumer(
+      builder: (context, ref, child) {
+        final listUser = ref.watch(userRankingProvider);
 
-    return listUser.when(
-      data: (result) {
-        return SizedBox(
-          height: 61.h,
-          width: 369.w,
-          child: ListView.builder(
-            itemCount: listUser.value!.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: ((context, index) {
-              return Padding(
-                padding: EdgeInsets.only(left: 16.w),
-                child: Stack(
-                  children: [
-                    SizedBox.square(
-                      dimension: 61.r,
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      child: CacheImage(
-                        image: listUser.value![index],
-                        radius: 100.r,
-                        dimension: 58.r,
-                      ),
-                    ),
-                    Positioned(
-                      left: 39.w,
-                      top: 0,
-                      child: SizedBox.square(
-                        dimension: 22.r,
-                        child: CircleAvatar(
-                          backgroundColor: colorRank[index],
-                          child: Text(
-                            (index + 1).toString(),
-                            style: context.labelMedium!.copyWith(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppTheme.background,
+        return listUser.when(
+          data: (result) {
+            return SizedBox(
+              height: 61.h,
+              width: 369.w,
+              child: ListView.builder(
+                itemCount: result.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: ((context, index) {
+                  return Padding(
+                    padding: EdgeInsets.only(right: 16.w),
+                    child: Stack(
+                      children: [
+                        SizedBox.square(
+                          dimension: 61.r,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          child: CacheImage(
+                            image: result[index],
+                            radius: 100.r,
+                            dimension: 58.r,
+                          ),
+                        ),
+                        Positioned(
+                          left: 39.w,
+                          top: 0,
+                          child: SizedBox.square(
+                            dimension: 22.r,
+                            child: CircleAvatar(
+                              backgroundColor: colorRank[index],
+                              child: Text(
+                                (index + 1).toString(),
+                                style: context.labelMedium!.copyWith(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppTheme.background,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            }),
-          ),
+                  );
+                }),
+              ),
+            );
+          },
+          error: (error, stackTrace) => Text('Error: $error'),
+          loading: () => const TurnLoading(),
         );
       },
-      error: (error, stackTrace) => Text('Error: $error'),
-      loading: () => const TurnLoading(),
     );
   }
 }
 
-class ListFollowUser extends ConsumerWidget {
+class ListFollowUser extends StatelessWidget {
   const ListFollowUser({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final listUser = ref.watch(userFollowProvider);
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder: (context, ref, child) {
+        final listUser = ref.watch(userFollowProvider);
 
-    return listUser.when(
-      data: (result) {
-        return Row(
-          children: [
-            Wrap(
-              spacing: 4.w,
+        return listUser.when(
+          data: (result) {
+            return Row(
               children: [
-                ...List.generate(
-                  listUser.value!.length,
-                  (index) => CacheImage(
-                    image: listUser.value![index],
-                    dimension: 34.r,
-                    radius: 100.r,
+                Wrap(
+                  spacing: 4.w,
+                  children: [
+                    ...List.generate(
+                      result.length,
+                      (index) => CacheImage(
+                        image: result[index],
+                        dimension: 34.r,
+                        radius: 100.r,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 8.w,
+                ),
+                Container(
+                  width: 48.w,
+                  height: 28.h,
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryColor,
+                    borderRadius: BorderRadius.all(Radius.circular(100.r)),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '+391',
+                      style: context.labelMedium!.copyWith(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ],
-            ),
-            SizedBox(
-              width: 8.w,
-            ),
-            Container(
-              width: 48.w,
-              height: 28.h,
-              decoration: BoxDecoration(
-                color: AppTheme.primaryColor,
-                borderRadius: BorderRadius.all(Radius.circular(100.r)),
-              ),
-              child: Center(
-                child: Text(
-                  '+391',
-                  style: context.labelMedium!.copyWith(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ],
+            );
+          },
+          error: (error, stackTrace) => Text('Error: $error'),
+          loading: () => const TurnLoading(),
         );
       },
-      error: (error, stackTrace) => Text('Error: $error'),
-      loading: () => const TurnLoading(),
     );
   }
 }

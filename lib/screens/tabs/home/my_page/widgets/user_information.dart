@@ -2,6 +2,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../../core/config.dart';
 import '../../../../../core/models/creator/creator_model.dart';
+import '../../../../../core/utilities/utilities.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../widgets/commons/cache_image.dart';
@@ -89,20 +90,20 @@ class UserInformation extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          _textItem(context, "フォロー"),
-                          _textItem(context, creator.follow.toString()),
+                          const TextItem(value: "フォロー"),
+                          TextItem(value: creator.follow.toString()),
                         ],
                       ),
                       Column(
                         children: [
-                          _textItem(context, 'フォロワー'),
-                          _textItem(context, creator.followers.toString()),
+                          const TextItem(value: 'フォロワー'),
+                          TextItem(value: creator.followers.toString()),
                         ],
                       ),
                       Column(
                         children: [
                           Assets.iconsIconApp.svg(height: 17.h),
-                          _textItem(context, '${creator.points}pt'),
+                          TextItem(value: '${creator.points}pt'),
                         ],
                       ),
                     ],
@@ -136,8 +137,18 @@ class UserInformation extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget _textItem(BuildContext context, String value) {
+class TextItem extends StatelessWidget {
+  const TextItem({
+    super.key,
+    required this.value,
+  });
+
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
     return Text(
       value,
       style: context.labelMedium!.copyWith(
@@ -156,71 +167,79 @@ class UserBio extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final myPage = ref.watch(myPageProvider);
+    final showBio =
+        ref.watch(myPageProvider.select((value) => value.showAllBio));
+    final isBlocked =
+        ref.watch(myPageProvider.select((value) => value.isBlocked));
 
-    double maxLines = (myPage.getTextHeight(
-          creator.bio!,
+    double maxLines = (AppUtils.getTextHeight(
+          creator.bio!.isNotEmpty ? creator.bio! : 'No bio description',
           context.labelMedium!.copyWith(
             fontSize: 12.sp,
             fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
           343.61.w,
-        ) /
-        18);
+        ).h /
+        18.h);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
+    return Consumer(
+      builder: (context, ref, child) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              creator.bio!.isNotEmpty ? creator.bio! : 'No bio description',
-              style: context.labelMedium!.copyWith(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-              overflow: TextOverflow.ellipsis,
-              maxLines:
-                  (maxLines == 1 || creator.bio!.isEmpty || myPage.isBlocked)
+            Stack(
+              children: [
+                Text(
+                  creator.bio!.isNotEmpty ? creator.bio! : 'No bio description',
+                  style: context.labelMedium!.copyWith(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: isBlocked
                       ? 1
-                      : (myPage.showAllBio ? maxLines.toInt() : 2),
+                      : ((showBio && maxLines >= 2)
+                          ? maxLines.toInt()
+                          : ((!showBio && maxLines >= 2) ? 2 : 1)),
+                ),
+                if (!showBio && maxLines >= 2 && !isBlocked)
+                  Container(
+                    width: double.infinity,
+                    height: 18.h,
+                    margin: EdgeInsets.only(top: 13.h),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          AppTheme.primaryColor,
+                          AppTheme.primaryColor.withOpacity(0),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
             ),
-            if (!myPage.showAllBio && maxLines > 1 && !myPage.isBlocked)
-              Container(
-                width: double.infinity,
-                height: 18.h,
-                margin: EdgeInsets.only(top: 18.h),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      AppTheme.primaryColor,
-                      AppTheme.primaryColor.withOpacity(0),
-                    ],
+            if (!isBlocked)
+              Center(
+                child: IconButton(
+                  onPressed: () {
+                    ref.read(myPageProvider).showBio();
+                  },
+                  icon: Icon(
+                    showBio
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                    color: Colors.white,
+                    size: 30,
                   ),
                 ),
               ),
           ],
-        ),
-        if (!myPage.isBlocked)
-          Center(
-            child: IconButton(
-              onPressed: () {
-                myPage.showBio();
-              },
-              icon: Icon(
-                myPage.showAllBio
-                    ? Icons.keyboard_arrow_up
-                    : Icons.keyboard_arrow_down,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-          ),
-      ],
+        );
+      },
     );
   }
 }

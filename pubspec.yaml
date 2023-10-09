@@ -38,6 +38,7 @@ dependencies:
   flutter_local_notifications: ^15.1.1
   firebase_messaging: ^14.6.7
   cached_network_image: ^3.2.3
+  percent_indicator: ^4.2.3
 
   # media_kit
   media_kit_libs_video: ^1.0.1
