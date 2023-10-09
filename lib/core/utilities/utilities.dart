@@ -35,4 +35,14 @@ class AppUtils {
         .map((int e) => e.remainder(60).toString().padLeft(2, "0"))
         .join(':');
   }
+
+  static double getTextHeight(
+      String text, TextStyle textStyle, double textWidth) {
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: textStyle),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout(maxWidth: textWidth);
+    return textPainter.height;
+  }
 }

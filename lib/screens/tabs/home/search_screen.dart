@@ -1,5 +1,6 @@
 import '../../../../core/config.dart';
 import '../../../providers/search_provider.dart';
+import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
 import '../../../widgets/creator_item.dart';
 import '../../../widgets/search_app_bar.dart';
@@ -39,7 +40,13 @@ class SearchCreatorScreen extends HookConsumerWidget {
                           final creator = searchList[index];
                           return CreatorItem(
                             creator: creator,
-                            onPressed: () {},
+                            onPressed: () {
+                              context.router.push(
+                                MyProfileRoute(
+                                  id: creator.id,
+                                ),
+                              );
+                            },
                           );
                         },
                       ),

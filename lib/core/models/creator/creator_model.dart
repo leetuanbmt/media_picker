@@ -16,6 +16,10 @@ class CreatorModel with _$CreatorModel {
     @JsonKey(name: 'name') required String name,
     @JsonKey(name: 'profile_photo') required String avatar,
     @Default(false) bool isOnline,
+    @Default(0) int? follow,
+    @Default(0) int? followers,
+    @Default(0) int? points,
+    String? bio,
   }) = _CreatorModel;
 
   factory CreatorModel.fromJson(Map<String, dynamic> json) =>
