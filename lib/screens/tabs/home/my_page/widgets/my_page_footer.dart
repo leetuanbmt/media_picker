@@ -31,7 +31,7 @@ class MyPageFooter extends StatelessWidget {
           children: [
             RichText(
               text: TextSpan(
-                text: '保持 ',
+                text: context.tr(LocaleKeys.keep),
                 style: style.copyWith(
                   color: AppTheme.fontGrayLead,
                 ),
@@ -80,7 +80,7 @@ class MyPageFooter extends StatelessWidget {
 
             return isFollowed
                 ? ButtonCustom(
-                    'ポイントをおくる',
+                    context.tr(LocaleKeys.sendPoints),
                     height: 44.h,
                     width: 327.w,
                     onPressed: () {
@@ -93,7 +93,7 @@ class MyPageFooter extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ButtonCustom(
-                          'ポイントをおくる',
+                          context.tr(LocaleKeys.sendPoints),
                           height: 44.h,
                           width: 208.w,
                           onPressed: () {
@@ -101,7 +101,7 @@ class MyPageFooter extends StatelessWidget {
                           },
                         ),
                         ButtonCustom(
-                          '+ フォロー',
+                          '+ ${context.tr(LocaleKeys.follow)}',
                           onPressed: () {
                             ref.read(myPageProvider).followUser();
                           },
@@ -241,7 +241,7 @@ class CoinBottomSheet extends ConsumerWidget {
                 Column(
                   children: [
                     Text(
-                      '所持ポイント',
+                      context.tr(LocaleKeys.possessionPoints),
                       style: style.copyWith(
                         fontSize: 14.sp,
                         color: AppTheme.fontGrayLead,
@@ -276,7 +276,7 @@ class CoinBottomSheet extends ConsumerWidget {
                   ],
                 ),
                 ButtonCustom(
-                  'チャージする',
+                  context.tr(LocaleKeys.charge),
                   onPressed: () {
                     showChargeSheet();
                   },
@@ -383,7 +383,7 @@ class CoinBottomSheet extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SwitchButtonSetting(
-                      '遅延設定',
+                      context.tr(LocaleKeys.delaySetting),
                       provider.delayController.text,
                       ref.watch(
                         myPageProvider.select(
@@ -401,7 +401,7 @@ class CoinBottomSheet extends ConsumerWidget {
                       width: 9.w,
                     ),
                     SwitchButtonSetting(
-                      'オート設定',
+                      context.tr(LocaleKeys.autoSetting),
                       provider.autoController.text,
                       ref.watch(
                         myPageProvider.select(
@@ -450,7 +450,7 @@ class CoinBottomSheet extends ConsumerWidget {
                         width: 12.w,
                       ),
                       Text(
-                        '設定を保存する',
+                        context.tr(LocaleKeys.saveSettings),
                         style: style.copyWith(
                           fontSize: 14.sp,
                         ),
@@ -464,7 +464,7 @@ class CoinBottomSheet extends ConsumerWidget {
                 height: 20.19.h,
               ),
             ButtonCustom(
-              'ポイントを送る',
+              context.tr(LocaleKeys.sendPoints),
               height: 48.h,
               width: 327.w,
               onPressed: () {
@@ -501,7 +501,7 @@ class CoinBottomSheet extends ConsumerWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'ポイントをおくるまで',
+                                    context.tr(LocaleKeys.untilReceivePoints),
                                     style: bodySmall.copyWith(
                                       color: AppTheme.fontGrayLead,
                                     ),
@@ -510,7 +510,7 @@ class CoinBottomSheet extends ConsumerWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'あと',
+                                        context.tr(LocaleKeys.after),
                                         style: bodySmall,
                                       ),
                                       SizedBox(
@@ -524,7 +524,7 @@ class CoinBottomSheet extends ConsumerWidget {
                                         width: 3.w,
                                       ),
                                       Text(
-                                        '秒',
+                                        context.tr(LocaleKeys.seconds),
                                         style: bodySmall,
                                       ),
                                     ],
@@ -540,7 +540,7 @@ class CoinBottomSheet extends ConsumerWidget {
                                 Navigator.of(context).pop();
                               },
                               child: Text(
-                                'キャンセル',
+                                context.tr(LocaleKeys.cancel),
                                 style: context.titleSmall!.copyWith(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
@@ -602,7 +602,7 @@ class SelectChargeBottomSheet extends ConsumerWidget {
               ),
             ),
             Text(
-              '所持ポイント',
+              context.tr(LocaleKeys.possessionPoints),
               style: context.titleSmall!.copyWith(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
@@ -689,7 +689,7 @@ class SelectChargeBottomSheet extends ConsumerWidget {
             Consumer(
               builder: (context, ref, child) {
                 return ButtonCustom(
-                  '購入する',
+                  context.tr(LocaleKeys.buy),
                   width: 327.w,
                   height: 48.h,
                   backgroundColor: chargeSelected == -1
@@ -764,7 +764,9 @@ class SettingBottomSheet extends ConsumerWidget {
               ),
             ),
             Text(
-              typeSetting == 'Delay' ? '遅延設定' : 'オート設定',
+              typeSetting == 'Delay'
+                  ? context.tr(LocaleKeys.delaySetting)
+                  : context.tr(LocaleKeys.autoSetting),
               style: context.titleLarge!.copyWith(
                 fontSize: 24.sp,
                 fontWeight: FontWeight.w600,
@@ -775,8 +777,8 @@ class SettingBottomSheet extends ConsumerWidget {
             ),
             Text(
               typeSetting == 'Delay'
-                  ? '遅延設定についての注釈がここに入ります。'
-                  : 'オート設定についての注釈がここに入ります',
+                  ? context.tr(LocaleKeys.noteAboutDelaySetting)
+                  : context.tr(LocaleKeys.noteAboutAutoSetting),
               style: context.labelLarge!.copyWith(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w300,
@@ -820,7 +822,7 @@ class SettingBottomSheet extends ConsumerWidget {
               height: 40.h,
             ),
             ButtonCustom(
-              '設定する',
+              context.tr(LocaleKeys.set),
               height: 48.h,
               width: 327.w,
               onPressed: () {
@@ -921,7 +923,7 @@ class SwitchButtonSetting extends StatelessWidget {
                         ),
                         onPressed: onPressed,
                         child: Text(
-                          '変更',
+                          context.tr(LocaleKeys.change),
                           style: style.copyWith(
                             color: AppTheme.primaryColor,
                           ),

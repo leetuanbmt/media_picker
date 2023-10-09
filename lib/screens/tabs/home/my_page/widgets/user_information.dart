@@ -84,19 +84,19 @@ class UserInformation extends StatelessWidget {
                   height: 7.64.h,
                 ),
                 SizedBox(
-                  width: 203.w,
+                  width: context.screenWidth - 141.w,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         children: [
-                          const TextItem(value: "フォロー"),
+                          TextItem(value: context.tr(LocaleKeys.follow)),
                           TextItem(value: creator.follow.toString()),
                         ],
                       ),
                       Column(
                         children: [
-                          const TextItem(value: 'フォロワー'),
+                          TextItem(value: context.tr(LocaleKeys.followers)),
                           TextItem(value: creator.followers.toString()),
                         ],
                       ),
@@ -151,6 +151,7 @@ class TextItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       value,
+      overflow: TextOverflow.ellipsis,
       style: context.labelMedium!.copyWith(
         fontSize: 12.sp,
         fontWeight: FontWeight.w600,

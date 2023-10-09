@@ -47,7 +47,7 @@ class DeviceConnected extends StatelessWidget {
             height: 18.h,
           ),
           Text(
-            '接続中の機器',
+            context.tr(LocaleKeys.connectedDevices),
             style: style.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -82,7 +82,7 @@ class DeviceConnected extends StatelessWidget {
           ),
           Center(
             child: ButtonCustom(
-              'コントロールリクエスト',
+              context.tr(LocaleKeys.controlRequest),
               height: 32.h,
               width: 212.w,
               type: ButtonType.outline,
@@ -201,7 +201,7 @@ class UserNotification extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '$date月',
+                  '$date${context.tr(LocaleKeys.day)}',
                   style: style.copyWith(
                     fontSize: 10.sp,
                   ),
@@ -212,7 +212,7 @@ class UserNotification extends StatelessWidget {
                     style: style.copyWith(fontSize: 18.sp),
                     children: [
                       TextSpan(
-                        text: '日',
+                        text: context.tr(LocaleKeys.month),
                         style: style.copyWith(fontSize: 10.sp),
                       ),
                     ],

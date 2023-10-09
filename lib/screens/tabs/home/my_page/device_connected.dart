@@ -21,7 +21,7 @@ class DeviceConnectedScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '接続中',
+          context.tr(LocaleKeys.callVideo_connecting),
           style: context.titleLarge!.copyWith(
             fontSize: 20.sp,
             fontWeight: FontWeight.w600,
@@ -67,7 +67,7 @@ class DeviceConnectedScreen extends StatelessWidget {
                     height: 18.h,
                   ),
                   Text(
-                    '接続中の機器',
+                    context.tr(LocaleKeys.connectedDevices),
                     style: style.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -88,7 +88,7 @@ class DeviceConnectedScreen extends StatelessWidget {
                           height: 11.58.h,
                         ),
                         Text(
-                          'コントロール中',
+                          context.tr(LocaleKeys.underControl),
                           style: context.bodySmall!.copyWith(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
@@ -117,7 +117,7 @@ class DeviceConnectedScreen extends StatelessWidget {
                     onTap: () {},
                     child: Center(
                       child: Text(
-                        '機器を追加',
+                        context.tr(LocaleKeys.addEquipment),
                         style: style.copyWith(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w600,
