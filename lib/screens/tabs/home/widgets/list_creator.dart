@@ -49,7 +49,7 @@ class ListCreator extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'もっと見る',
+                    context.tr(LocaleKeys.seeMore),
                     style: context.labelMedium?.copyWith(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w600,

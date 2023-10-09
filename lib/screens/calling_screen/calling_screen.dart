@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import '../../core/config.dart';
 import '../../core/models/call/call.dart';
 import '../../core/models/call_history/call_history.dart';
@@ -12,7 +14,6 @@ import '../../core/models/enum/enum.dart';
 import '../../core/utilities/utilities.dart';
 import '../../providers/call_provider.dart';
 import '../../providers/firebase_provider.dart';
-import '../../widgets/commons/cache_image.dart';
 import 'controls.dart';
 import 'peer_connection.dart';
 
@@ -104,10 +105,12 @@ class _CallScreenState extends ConsumerState<CallScreen> {
         .doc(call.timeepoch.toString())
         .snapshots()
         .listen(listenStatusCall);
-
-    openUserMedia().whenComplete(() {
-      joinRoom();
-      setHistoryCall();
+    _checkPermissions().whenComplete(() {
+      initRenderers();
+      openUserMedia().whenComplete(() {
+        joinRoom();
+        setHistoryCall();
+      });
     });
 
     super.initState();
@@ -116,6 +119,28 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   void initRenderers() {
     _localRenderer.initialize();
     _remoteRenderer.initialize();
+  }
+
+  Future<void> _checkPermissions() async {
+    var status = await Permission.bluetooth.request();
+    if (status.isPermanentlyDenied) {
+      Logger.log('Bluetooth Permission disabled');
+    }
+
+    status = await Permission.bluetoothConnect.request();
+    if (status.isPermanentlyDenied) {
+      Logger.log('Bluetooth Connect Permission disabled');
+    }
+
+    status = await Permission.camera.request();
+    if (status.isPermanentlyDenied) {
+      Logger.log('Camera Permission disabled');
+    }
+
+    status = await Permission.microphone.request();
+    if (status.isPermanentlyDenied) {
+      Logger.log('Microphone Permission disabled');
+    }
   }
 
   _playCallingTone() async {
@@ -127,9 +152,11 @@ class _CallScreenState extends ConsumerState<CallScreen> {
       _playCallingTone();
       callerCollection.set(
         callHistory.copyWith(hasDialled: true, type: DbKey.outgoing).toJson(),
+        SetOptions(merge: true),
       );
       receiverCollection.set(
         callHistory.copyWith(hasDialled: false, type: DbKey.incoming).toJson(),
+        SetOptions(merge: true),
       );
     } else {
       receiverCollection.set(
@@ -208,10 +235,12 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   }
 
   @override
-  void dispose() {
+  void deactivate() {
+    _stopStream();
+    _callStream?.close();
     _callStatus?.cancel();
     _callStreamSubscription?.cancel();
-    super.dispose();
+    super.deactivate();
   }
 
   _stopStream() {
@@ -225,7 +254,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   }
 
   void dragUpdate(DragUpdateDetails details) {
-    final appBarHeight = kTextTabBarHeight + MediaQuery.of(context).padding.top;
+    final appBarHeight = kTextTabBarHeight + context.screenPadding.top;
     final minWidth = context.screenWidth - 120.w;
     final minHeight = context.screenHeight - 150.h - appBarHeight.h;
     position.value = Offset(
@@ -237,36 +266,64 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   String get status {
     switch (callStatus) {
       case CallStatus.calling:
-        return call.hasDialled ? 'Connecting...' : 'Calling...';
+        return call.hasDialled
+            ? '${context.tr(LocaleKeys.callVideo_calling)} ...'
+            : '${context.tr(LocaleKeys.callVideo_connecting)} ...';
       case CallStatus.ringing:
-        return 'Ringing...';
+        return '${context.tr(LocaleKeys.callVideo_calling)} ...';
       case CallStatus.rejected:
-        return 'Call Rejected';
+        return context.tr(LocaleKeys.callVideo_callReject);
       case CallStatus.ended:
-        return 'Call Ended ${AppUtils.formatDuration(duration.value)}';
+        return '${context.tr(LocaleKeys.callVideo_callEnd)} ${AppUtils.formatDuration(duration.value)}';
       case CallStatus.missed:
-        return 'Call Ended';
+        return context.tr(LocaleKeys.callVideo_callEnd);
       default:
         return '';
     }
   }
 
   @override
-  void deactivate() {
-    _stopStream();
-    _callStream?.close();
-    super.deactivate();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    Logger.log("status: $callStatus");
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(
         body: Stack(
+          fit: StackFit.expand,
           alignment: Alignment.center,
           children: [
+            kIsWeb
+                ? Image.network(
+                    call.hasDialled ? call.receiverPic : call.callerPic,
+                    fit: BoxFit.cover,
+                  )
+                : CachedNetworkImage(
+                    imageUrl:
+                        call.hasDialled ? call.receiverPic : call.callerPic,
+                    fit: BoxFit.cover,
+                  ),
+            Container(
+              color: Colors.black.withOpacity(.5),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    call.hasDialled ? call.receiverName : call.callerName,
+                    style: context.headlineMedium?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    status,
+                    style: context.bodyMedium?.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
             if (inCall) ...[
               RTCVideoView(
                 _remoteRenderer,
@@ -301,32 +358,19 @@ class _CallScreenState extends ConsumerState<CallScreen> {
                   ),
                 ),
               ),
-            ] else
-              Column(
-                children: [
-                  SizedBox(height: context.screenHeight * .1),
-                  CacheImage(
-                    image: call.hasDialled ? call.receiverPic : call.callerPic,
-                    dimension: context.screenWidth * .5,
-                    radius: 100,
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    call.hasDialled ? call.receiverName : call.callerName,
-                    style: context.headlineMedium?.copyWith(
-                      color: context.primary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    status,
-                    style: context.bodyMedium?.copyWith(
-                      color: context.primary,
-                    ),
-                  ),
-                ],
-              ),
+            ],
+            //  else
+            //   Column(
+            //     children: [
+            //       SizedBox(height: context.screenHeight * .1),
+            //       CacheImage(
+            //         image: call.hasDialled ? call.receiverPic : call.callerPic,
+            //         dimension: context.screenWidth * .5,
+            //         radius: 100,
+            //       ),
+            //       const SizedBox(height: 20),
+            //     ],
+            //   ),
             SafeArea(
               top: false,
               child: Controls(

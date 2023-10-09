@@ -10,8 +10,8 @@ class UsageGuideScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.background,
-      appBar: const AppBarCustom(
-        title: '利用ガイド',
+      appBar: AppBarCustom(
+        title: context.tr(LocaleKeys.usageGuide),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -26,7 +26,7 @@ class UsageGuideScreen extends StatelessWidget {
                 ),
               ),
               child: ListTile(
-                title: const Text('利用の流れ'),
+                title: Text(context.tr(LocaleKeys.usageFlow)),
                 trailing: const Icon(
                   Icons.keyboard_arrow_right,
                   color: AppTheme.fontGray,
@@ -47,7 +47,7 @@ class UsageGuideScreen extends StatelessWidget {
                 ),
               ),
               child: ListTile(
-                title: const Text('遊び方ガイド'),
+                title: Text(context.tr(LocaleKeys.howToPlayGuide)),
                 trailing: const Icon(
                   Icons.keyboard_arrow_right,
                   color: AppTheme.fontGray,
@@ -66,9 +66,9 @@ class UsageGuideScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              child: const ListTile(
-                title: Text('お問い合わせ'),
-                trailing: Icon(
+              child: ListTile(
+                title: Text(context.tr(LocaleKeys.inquiry)),
+                trailing: const Icon(
                   Icons.keyboard_arrow_right,
                   color: AppTheme.fontGray,
                 ),
@@ -83,9 +83,9 @@ class UsageGuideScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              child: const ListTile(
-                title: Text('利用規約'),
-                trailing: Icon(
+              child: ListTile(
+                title: Text(context.tr(LocaleKeys.termsOfService)),
+                trailing: const Icon(
                   Icons.keyboard_arrow_right,
                   color: AppTheme.fontGray,
                 ),
@@ -95,9 +95,9 @@ class UsageGuideScreen extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
-              child: const ListTile(
-                title: Text('プライバシーポリシー'),
-                trailing: Icon(
+              child: ListTile(
+                title: Text(context.tr(LocaleKeys.termsOfService)),
+                trailing: const Icon(
                   Icons.keyboard_arrow_right,
                   color: AppTheme.fontGray,
                 ),

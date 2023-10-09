@@ -16,7 +16,7 @@ export 'package:velocity_x/velocity_x.dart';
 
 export '../core/extensions/extension.dart';
 export '../core/utilities/logger.dart';
-
+export '../generated/locale_keys.g.dart';
 part 'styles/dimensions.dart';
 part 'styles/theme.dart';
 

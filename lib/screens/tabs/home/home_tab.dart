@@ -1,5 +1,5 @@
 import '../../../core/config.dart';
-import '../../../providers/home_provider.dart';
+import '../../../providers/firebase_provider.dart';
 import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
 import '../../../widgets/commons/indicators/loading_manager.dart';
@@ -32,7 +32,7 @@ class HomeScreen extends ConsumerWidget {
                 return listOnline.maybeWhen(
                   data: (result) {
                     return ListCreator(
-                      title: 'Online',
+                      title: context.tr(LocaleKeys.online),
                       listCreator: result,
                       onlineList: true,
                       showMore: false,

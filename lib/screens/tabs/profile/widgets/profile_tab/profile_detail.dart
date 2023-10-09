@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../../core/config.dart';
 import '../../../../../core/models/models.dart';
 import '../../../../../gen/assets.gen.dart';
-import '../../../../../providers/firebase_provider.dart';
+import '../../../../../providers/user_provider.dart';
 import '../../../../../routes/app_routes.gr.dart';
 import 'card_profile.dart';
 
@@ -16,64 +16,64 @@ class ProfileDetail extends StatelessWidget {
       children: [
         if (userType == UserType.fan) ...[
           _ProfileItem(
-            title: 'ポイント確認',
+            title: context.tr(LocaleKeys.checkPoints),
             assetIcon: Assets.iconsPointOutline.path,
             onTap: () {
               context.navigator(const PointConfirmRoute());
             },
           ),
           _ProfileItem(
-            title: '利用ガイド',
+            title: context.tr(LocaleKeys.usageGuide),
             assetIcon: Assets.iconsUsageGuideOutline.path,
             onTap: () {},
           ),
           _ProfileItem(
-            title: '通知設定',
+            title: context.tr(LocaleKeys.notificationSettings),
             assetIcon: Assets.iconsNotifyOutline.path,
             onTap: () {},
           ),
           _ProfileItem(
-            title: 'クリエータになる',
+            title: context.tr(LocaleKeys.becomeCreator),
             assetIcon: Assets.iconsRefreshOutline.path,
             onTap: () {},
           ),
         ] else ...[
           _ProfileItem(
-            title: 'ポイント確認',
+            title: context.tr(LocaleKeys.checkPoints),
             assetIcon: Assets.iconsIcPoint.path,
             onTap: () {
               context.navigator(const PointConfirmRoute());
             },
           ),
           _ProfileItem(
-            title: 'お支払い設定',
+            title: context.tr(LocaleKeys.paymentSettings),
             assetIcon: Assets.iconsIcCreditCard1.path,
             onTap: () {},
           ),
           _ProfileItem(
-            title: '口座情報設定',
+            title: context.tr(LocaleKeys.accountSettings),
             assetIcon: Assets.iconsIcBalance.path,
             onTap: () {},
           ),
           _ProfileItem(
-            title: 'よくある質問',
+            title: context.tr(LocaleKeys.faq),
             assetIcon: Assets.iconsIcQna.path,
             onTap: () {},
           ),
           _ProfileItem(
-            title: '利用ガイド',
+            title: context.tr(LocaleKeys.usageGuide),
             assetIcon: Assets.iconsIcCreditCard.path,
             onTap: () {
               context.navigator(const UsageGuideRoute());
             },
           ),
           _ProfileItem(
-            title: '配信予定の告知',
+            title: context.tr(LocaleKeys.announcementDistribution),
             assetIcon: Assets.iconsIcComment.path,
             onTap: () {},
           ),
           _ProfileItem(
-            title: '通知設定',
+            title: context.tr(LocaleKeys.notificationSettings),
             assetIcon: Assets.iconsIconNotifications.path,
             onTap: () {},
           ),
@@ -81,10 +81,10 @@ class ProfileDetail extends StatelessWidget {
         Consumer(
           builder: (context, ref, child) {
             return _ProfileItem(
-              title: 'ログアウト',
+              title: context.tr(LocaleKeys.logout),
               isNext: false,
               textColor: Colors.red,
-              onTap: ref.read(firebaseAuthProvider).signOut,
+              onTap: ref.read(userProvider.notifier).signOut,
             );
           },
         ),

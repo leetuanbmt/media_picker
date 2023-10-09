@@ -21,8 +21,8 @@ class PointConfirmScreen extends HookConsumerWidget {
     final tabController = useTabController(initialLength: 3);
 
     return Scaffold(
-      appBar: const AppBarCustom(
-        title: 'ポイント確認',
+      appBar: AppBarCustom(
+        title: context.tr(LocaleKeys.checkPoints),
       ),
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {

@@ -5,7 +5,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../core/config.dart';
-import '../core/models/call/call.dart';
 import '../core/models/models.dart';
 import '../core/utilities/navigator.dart';
 import '../core/utilities/utilities.dart';
@@ -53,8 +52,10 @@ class UserProvider with ChangeNotifier {
   UserModel? user;
 
   StreamSubscription? _userSubscription;
+
   StreamSubscription? _callListen;
-  initialize() {
+
+  void initialize() {
     final userId = ref.read(firebaseAuthProvider).currentUser?.uid;
     if (userId != null) {
       _userSubscription = ref
@@ -68,6 +69,7 @@ class UserProvider with ChangeNotifier {
           notifyListeners();
         }
       });
+
       _callListen = ref
           .firestore()
           .collection(DbCollection.calls)
@@ -86,10 +88,21 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  @override
-  void dispose() {
+  void signOut() {
+    stopStream();
+    ref.read(firebaseAuthProvider).signOut();
+  }
+
+  void stopStream() {
     _callListen?.cancel();
     _userSubscription?.cancel();
+    _callListen = null;
+    _userSubscription = null;
+  }
+
+  @override
+  void dispose() {
+    stopStream();
     super.dispose();
   }
 }

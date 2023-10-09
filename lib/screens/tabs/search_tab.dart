@@ -1,6 +1,5 @@
 import '../../core/config.dart';
 import '../../providers/firebase_provider.dart';
-import '../../providers/home_provider.dart';
 import '../../routes/app_routes.gr.dart';
 import '../../widgets/commons/app_bar_custom.dart';
 import '../../widgets/search_app_bar.dart';
@@ -32,7 +31,7 @@ class SearchScreen extends StatelessWidget {
                   vertical: 10.h,
                 ),
                 child: Text(
-                  "おすすめ",
+                  context.tr(LocaleKeys.recommendation),
                   style: context.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -80,7 +79,7 @@ class SearchScreen extends StatelessWidget {
                   vertical: 10.h,
                 ),
                 child: Text(
-                  "カテゴリから探す",
+                  context.tr(LocaleKeys.searchByCategory),
                   style: context.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
