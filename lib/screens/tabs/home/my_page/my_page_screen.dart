@@ -25,10 +25,10 @@ class MyProfileScreen extends StatelessWidget {
 
     return Consumer(
       builder: (context, ref, child) {
-        final creatorFuture = ref.watch(creatorChangeFirebase(id));
+        final creatorAsync = ref.watch(creatorChangeFirebase(id));
         final isBlocked =
             ref.watch(myPageProvider.select((value) => value.isBlocked));
-        return creatorFuture.when(
+        return creatorAsync.when(
           data: (creator) {
             return Scaffold(
               backgroundColor: AppTheme.background,
