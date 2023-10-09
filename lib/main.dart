@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
@@ -24,11 +25,13 @@ Future<void> initService() async {
 
 void main() async {
   runZonedGuarded(() async {
-    await SentryFlutter.init(
-      (options) {
-        options.dsn = AppConfig.sentryDsn;
-      },
-    );
+    if (kReleaseMode) {
+      await SentryFlutter.init(
+        (options) {
+          options.dsn = AppConfig.sentryDsn;
+        },
+      );
+    }
     await initService();
 
     runApp(
@@ -38,7 +41,9 @@ void main() async {
       ),
     );
   }, (exception, stackTrace) async {
-    await Sentry.captureException(exception, stackTrace: stackTrace);
+    if (kReleaseMode) {
+      await Sentry.captureException(exception, stackTrace: stackTrace);
+    }
   });
 }
 
