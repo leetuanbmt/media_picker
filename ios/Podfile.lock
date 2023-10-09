@@ -9,7 +9,7 @@ PODS:
     - Flutter
   - biometric_storage (0.0.1):
     - Flutter
-  - cloud_firestore (4.9.2):
+  - cloud_firestore (4.9.3):
     - Firebase/Firestore (= 10.15.0)
     - firebase_core
     - Flutter
@@ -30,19 +30,12 @@ PODS:
   - Firebase/Firestore (10.15.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 10.15.0)
-  - Firebase/Messaging (10.15.0):
-    - Firebase/CoreOnly
-    - FirebaseMessaging (~> 10.15.0)
-  - firebase_auth (4.10.0):
+  - firebase_auth (4.10.1):
     - Firebase/Auth (= 10.15.0)
     - firebase_core
     - Flutter
-  - firebase_core (2.16.0):
+  - firebase_core (2.17.0):
     - Firebase/CoreOnly (= 10.15.0)
-    - Flutter
-  - firebase_messaging (14.6.8):
-    - Firebase/Messaging (= 10.15.0)
-    - firebase_core
     - Flutter
   - FirebaseAppCheckInterop (10.15.0)
   - FirebaseAuth (10.15.0):
@@ -66,20 +59,6 @@ PODS:
   - FirebaseFirestore/Base (10.15.0)
   - FirebaseFirestore/WithLeveldb (10.15.0):
     - FirebaseFirestore/Base
-  - FirebaseInstallations (10.15.0):
-    - FirebaseCore (~> 10.0)
-    - GoogleUtilities/Environment (~> 7.8)
-    - GoogleUtilities/UserDefaults (~> 7.8)
-    - PromisesObjC (~> 2.1)
-  - FirebaseMessaging (10.15.0):
-    - FirebaseCore (~> 10.0)
-    - FirebaseInstallations (~> 10.0)
-    - GoogleDataTransport (~> 9.2)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
-    - GoogleUtilities/Environment (~> 7.8)
-    - GoogleUtilities/Reachability (~> 7.8)
-    - GoogleUtilities/UserDefaults (~> 7.8)
-    - nanopb (< 2.30910.0, >= 2.30908.0)
   - Flutter (1.0.0)
   - flutter_facebook_auth (6.0.1):
     - FBSDKLoginKit (~> 16.1.3)
@@ -215,7 +194,6 @@ DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
-  - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `10.15.0`)
   - Flutter (from `Flutter`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
@@ -250,8 +228,6 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreInternal
-    - FirebaseInstallations
-    - FirebaseMessaging
     - FMDB
     - GoogleDataTransport
     - GoogleMLKit
@@ -283,8 +259,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
-  firebase_messaging:
-    :path: ".symlinks/plugins/firebase_messaging/ios"
   FirebaseFirestore:
     :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
     :tag: 10.15.0
@@ -338,22 +312,19 @@ SPEC CHECKSUMS:
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
   biometric_storage: 1400f1382af3a4cc2bf05340e13c3d8de873ceb9
-  cloud_firestore: ac000d8c5a79d57dc69238ea06bb422880fb825e
+  cloud_firestore: 9c9fb3500360c9b338e9eb2fec40b38e7a004cac
   FBAEMKit: af2972f39bb0f3f7c45998f435b007833c32ffb2
   FBSDKCoreKit: 19e2e18b3be578d7a51fed8fdd8c152bef0b9511
   FBSDKCoreKit_Basics: dd9826ce3c9fd9f8cdf8dbbd0ef0a53e6c0c9e7e
   FBSDKLoginKit: c395c63a1a6cf4a8a1e6103fd94b8c46329ee81c
   Firebase: 66043bd4579e5b73811f96829c694c7af8d67435
-  firebase_auth: ca31bca59224dc727ea0df7f066f30158a8acc3b
-  firebase_core: 77172d0a9d8d19d07606e24406e4c2fc14d3265b
-  firebase_messaging: 6aff54d420b7ce7080c26dd131b08bc632666852
+  firebase_auth: b62e99e6ece589afe88ebe8919eb9563b52c384c
+  firebase_core: 28e84c2a4fcf6a50ef83f47b145ded8c1fa331e4
   FirebaseAppCheckInterop: a8c555b1c2db1d9445e6c3a08a848167ddb7eb51
   FirebaseAuth: a55ec5f7f8a5b1c2dd750235c1bb419bfb642445
   FirebaseCore: 2cec518b43635f96afe7ac3a9c513e47558abd2e
   FirebaseCoreInternal: 2f4bee5ed00301b5e56da0849268797a2dd31fb4
   FirebaseFirestore: 9a14eef134fd586d8200f4dfa0ee3cb093a05d8f
-  FirebaseInstallations: cae95cab0f965ce05b805189de1d4c70b11c76fb
-  FirebaseMessaging: 0c0ae1eb722ef0c07f7801e5ded8dccd1357d6d4
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_facebook_auth: 47c7a8594f2d6864618e30b5a6d59dff0d2e59fe
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743

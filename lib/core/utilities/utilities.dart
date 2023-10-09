@@ -37,7 +37,10 @@ class AppUtils {
   }
 
   static double getTextHeight(
-      String text, TextStyle textStyle, double textWidth) {
+    String text,
+    TextStyle textStyle,
+    double textWidth,
+  ) {
     final TextPainter textPainter = TextPainter(
       text: TextSpan(text: text, style: textStyle),
       textDirection: TextDirection.ltr,
