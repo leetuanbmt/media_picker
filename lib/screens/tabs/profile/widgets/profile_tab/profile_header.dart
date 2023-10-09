@@ -26,6 +26,7 @@ class ProfileHeader extends StatelessWidget {
                   radius: 100,
                   dimension: 88.r,
                   image: user?.avatar,
+                  isZoom: true,
                 ),
                 SizedBox(width: 12.w),
                 Column(

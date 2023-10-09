@@ -65,6 +65,7 @@ class UserInformation extends StatelessWidget {
               image: creator.avatar,
               radius: 100.r,
               dimension: 92.w,
+              isZoom: true,
             ),
             SizedBox(
               width: 16.w,
@@ -91,19 +92,25 @@ class UserInformation extends StatelessWidget {
                       Column(
                         children: [
                           const TextItem(value: "フォロー"),
-                          TextItem(value: creator.follow.toString()),
+                          TextItem(
+                            value: creator.follow?.toCompactCurrency ?? '',
+                          ),
                         ],
                       ),
                       Column(
                         children: [
                           const TextItem(value: 'フォロワー'),
-                          TextItem(value: creator.followers.toString()),
+                          TextItem(
+                            value: creator.followers?.toCompactCurrency ?? '',
+                          ),
                         ],
                       ),
                       Column(
                         children: [
                           Assets.iconsIconApp.svg(height: 17.h),
-                          TextItem(value: '${creator.points}pt'),
+                          TextItem(
+                            value: '${creator.points?.toCurrency ?? ''}pt',
+                          ),
                         ],
                       ),
                     ],
