@@ -23,7 +23,7 @@ class CacheImage extends StatelessWidget {
         tag: tag,
         child: GestureDetector(
           onTap: () {
-            if (image != null && isZoom) {
+            if (image.isEmptyOrNull && isZoom) {
               Navigator.of(context, rootNavigator: true).push(
                 PageRouteBuilder(
                   settings: const RouteSettings(name: 'PhotoViewScreen'),

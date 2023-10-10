@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import '../../core/config.dart';
+import '../../core/models/models.dart';
 import '../../core/utilities/navigator.dart';
 import '../firebase_provider.dart';
 import 'state/auth.dart';
@@ -18,8 +19,8 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
   Future<void> loginGoogle() async {
     try {
       state = const AuthenticationState.loading();
-      final auth = ref.watch(firebaseAuthProvider);
-      final googleSignInAccount = await ref.watch(googleProvider).signIn();
+      final auth = ref.read(firebaseAuthProvider);
+      final googleSignInAccount = await ref.read(googleProvider).signIn();
       if (googleSignInAccount == null) {
         state = const AuthenticationState.initial();
         return;
@@ -30,6 +31,7 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
         idToken: authentication.idToken,
       );
       final userCredential = await auth.signInWithCredential(credential);
+      await checkAndCreatedUser(userCredential.user);
       state = AuthenticationState.success(userCredential.user);
     } on FirebaseAuthException catch (e) {
       state = AuthenticationState.error(message: e.message);
@@ -42,7 +44,7 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
   ) async {
     try {
       state = const AuthenticationState.loading();
-      final auth = ref.watch(firebaseAuthProvider);
+      final auth = ref.read(firebaseAuthProvider);
       final userCredential = await auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -55,7 +57,7 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
 
   Future<void> loginFacebook() async {
     state = const AuthenticationState.loading();
-    final result = await ref.watch(facebookProvider).login();
+    final result = await ref.read(facebookProvider).login();
     switch (result.status) {
       case LoginStatus.success:
         final accessToken = result.accessToken!;
@@ -80,7 +82,7 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
   ) async {
     try {
       state = const AuthenticationState.loading();
-      final auth = ref.watch(firebaseAuthProvider);
+      final auth = ref.read(firebaseAuthProvider);
       final userCredential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -88,6 +90,21 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
       state = AuthenticationState.success(userCredential.user);
     } on FirebaseAuthException catch (e) {
       state = AuthenticationState.error(message: e.message);
+    }
+  }
+
+  Future<void> checkAndCreatedUser(User? user) async {
+    if (user == null || user.email == null) return;
+    final isExits = await ref.read(userCheckExits(user.email!).future);
+    if (!isExits) {
+      final newUser = UserModel.defaultUser.copyWith(
+        id: user.uid,
+        email: user.email!,
+        name: user.displayName ?? '',
+        avatar: user.photoURL ?? '',
+        phoneNumber: user.phoneNumber ?? '',
+      );
+      await ref.read(userFirestoreProvider(user.uid)).set(newUser.toJson());
     }
   }
 
@@ -138,8 +155,8 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
   Future<void> logout() async {
     try {
       await ref.read(firebaseAuthProvider).signOut();
-      await ref.watch(googleProvider).signOut();
-      await ref.watch(facebookProvider).logOut();
+      await ref.read(googleProvider).signOut();
+      await ref.read(facebookProvider).logOut();
       AppNavigator.goToLogin();
     } catch (e) {
       Logger.log("Logout error: $e");
