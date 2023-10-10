@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../../core/config.dart';
 import '../../core/models/models.dart';
 import '../../core/utilities/db_helper.dart';
@@ -111,21 +109,17 @@ class RegisterProvider extends ChangeNotifier {
     }
     ref.loading(true);
     try {
-      final doc = await ref
-          .read(firestoreProvider)
-          .collection(DbCollection.users)
-          .where('email', isEqualTo: email)
-          .get();
-
-      ref.loading(false);
-      if (doc.docs.isNotEmpty) {
-        if (!context.mounted) return;
-        context.toast('Email is used by another account!');
-        return;
-      } else {
-        if (!context.mounted) return;
-        context.router.push(const SelectAttributeRoute());
-      }
+      ref.read(userCheckExits(email)).whenData((value) {
+        if (value) {
+          ref.loading(false);
+          if (!context.mounted) return;
+          context.toast('Email is used by another account!');
+          return;
+        } else {
+          if (!context.mounted) return;
+          context.router.push(const SelectAttributeRoute());
+        }
+      });
     } catch (e) {
       ref.loading(false);
       if (context.mounted) {
@@ -281,47 +275,22 @@ class RegisterProvider extends ChangeNotifier {
       dateTime = dateFormat.parse(dateInput);
     }
 
-    final user = userType == UserType.creator
-        ? UserModel(
-            id: id,
-            email: email,
-            name: username,
-            avatar:
-                'https://static-00.iconduck.com/assets.00/avatar-default-symbolic-icon-2048x1949-pq9uiebg.png',
-            type: userType,
-            listTopic: listUsage,
-            listCategory: listCategory,
-            followers: 0,
-            follow: 0,
-            points: 0,
-            bio: '',
-            birthday: dateTime,
-            following: [],
-            isOnline: false,
-            firstName: firstName,
-            middleName: middleName,
-            lastName: lastName,
-            agencyCode: agencyCode,
-            anotherName: anotherName,
-            gender: gender,
-            phoneNumber: phoneNumber,
-          )
-        : UserModel(
-            id: id,
-            email: email,
-            name: username,
-            avatar:
-                'https://static-00.iconduck.com/assets.00/avatar-default-symbolic-icon-2048x1949-pq9uiebg.png',
-            type: userType,
-            listTopic: listUsage,
-            listCategory: listCategory,
-            followers: 0,
-            follow: 0,
-            points: 0,
-            bio: '',
-            following: [],
-            isOnline: false,
-          );
+    final user = UserModel.defaultUser.copyWith(
+      id: id,
+      birthday: dateTime,
+      firstName: firstName,
+      middleName: middleName,
+      lastName: lastName,
+      agencyCode: agencyCode,
+      anotherName: anotherName,
+      gender: gender,
+      phoneNumber: phoneNumber,
+      type: userType,
+      email: email,
+      name: username,
+      listTopic: listUsage,
+      listCategory: listCategory,
+    );
 
     await ref
         .watch(firestoreProvider)

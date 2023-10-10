@@ -41,4 +41,20 @@ class UserModel with _$UserModel {
       _$UserModelFromJson(json);
 
   int get old => birthday == null ? 0 : DateTime.now().year - birthday!.year;
+
+  static UserModel get defaultUser => const UserModel(
+        id: '',
+        email: 'example.com',
+        name: 'User Name',
+        avatar: 'https://zpsocial-f49-org.zadn.vn/488ad1115de1b2bfebf0.jpg',
+        type: UserType.creator,
+        listTopic: [],
+        listCategory: [],
+        followers: 0,
+        follow: 0,
+        points: 0,
+        bio: '',
+        following: [],
+        isOnline: true,
+      );
 }
