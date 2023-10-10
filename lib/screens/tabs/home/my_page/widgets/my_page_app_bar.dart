@@ -4,7 +4,6 @@ import '../../../../../core/config.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../widgets/commons/button_custom.dart';
-import '../../../../../widgets/dialogs.dart';
 
 class MyPageLeading extends StatelessWidget {
   const MyPageLeading({
@@ -112,43 +111,96 @@ class MyPageAction extends ConsumerWidget {
                       TextButton(
                         onPressed: () {
                           Navigator.of(ctx).pop();
-                          AppDialog.showAppBottomSheet(
-                            context,
-                            title: context.tr(LocaleKeys.userReports),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 110.h,
-                                  width: 343.w,
-                                  child: TextField(
-                                    maxLines: 5,
-                                    decoration: InputDecoration(
-                                      hintText: context.tr(
-                                          LocaleKeys.reportViolationsByUser),
-                                      hintStyle: context.titleSmall!.copyWith(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w300,
-                                        color: AppTheme.boxFont,
-                                      ),
-                                      enabledBorder: border,
-                                      focusedBorder: border,
-                                    ),
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            constraints: BoxConstraints(
+                              maxHeight: context.screenHeight * 0.9,
+                            ),
+                            builder: (context) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(15.0),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 32.h,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom,
+                                    left: 16.w,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.topRight,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.close_sharp,
+                                            color: AppTheme.icon,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ),
+                                      Text(
+                                        'ユーザーの報告',
+                                        style: context.titleLarge!.copyWith(
+                                          fontSize: 24.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: const Color(0xff4F4F4F),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 32.h,
+                                      ),
+                                      SizedBox(
+                                        height: 110.h,
+                                        width: 343.w,
+                                        child: TextField(
+                                          maxLines: 5,
+                                          decoration: InputDecoration(
+                                            hintText: context.tr(
+                                              LocaleKeys.reportViolationsByUser,
+                                            ),
+                                            hintStyle:
+                                                context.titleSmall!.copyWith(
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w300,
+                                              color: AppTheme.boxFont,
+                                            ),
+                                            enabledBorder: border,
+                                            focusedBorder: border,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 32.h,
+                                      ),
+                                      ButtonCustom(
+                                        context.tr(LocaleKeys.report),
+                                        height: 48.h,
+                                        width: 327.w,
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          ref.read(myPageProvider).blockUser();
+                                        },
+                                      ),
+                                      SizedBox(
+                                        height: 27.h,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                ButtonCustom(
-                                  context.tr(LocaleKeys.report),
-                                  height: 48.h,
-                                  width: 327.w,
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    ref.read(myPageProvider).blockUser();
-                                  },
-                                ),
-                              ],
-                            ),
+                              );
+                            },
                           );
                         },
                         child: Text(

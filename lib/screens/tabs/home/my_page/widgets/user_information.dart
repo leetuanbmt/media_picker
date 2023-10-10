@@ -84,15 +84,18 @@ class UserInformation extends StatelessWidget {
                   height: 7.64.h,
                 ),
                 SizedBox(
-                  width: context.screenWidth - 141.w,
+                  width: 234.w,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        children: [
-                          TextItem(value: context.tr(LocaleKeys.follow)),
-                          TextItem(value: creator.follow.toString()),
-                        ],
+                      Flexible(
+                        child: Column(
+                          children: [
+                            TextItem(value: context.tr(LocaleKeys.follow)),
+                            TextItem(value: creator.follow.toString()),
+                          ],
+                        ),
                       ),
                       Column(
                         children: [
@@ -100,11 +103,13 @@ class UserInformation extends StatelessWidget {
                           TextItem(value: creator.followers.toString()),
                         ],
                       ),
-                      Column(
-                        children: [
-                          Assets.iconsIconApp.svg(height: 17.h),
-                          TextItem(value: '${creator.points}pt'),
-                        ],
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Assets.iconsIconApp.svg(height: 15.h),
+                            TextItem(value: '${creator.points}pt'),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -152,7 +157,8 @@ class TextItem extends StatelessWidget {
     return Text(
       value,
       overflow: TextOverflow.ellipsis,
-      style: context.labelMedium!.copyWith(
+      maxLines: 1,
+      style: context.bodySmall!.copyWith(
         fontSize: 12.sp,
         fontWeight: FontWeight.w600,
         color: Colors.white,
@@ -201,11 +207,11 @@ class UserBio extends ConsumerWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: isBlocked
                       ? 1
-                      : ((showBio && maxLines >= 2)
-                          ? maxLines.toInt()
-                          : ((!showBio && maxLines >= 2) ? 2 : 1)),
+                      : ((showBio && maxLines.ceil() >= 1)
+                          ? maxLines.ceil()
+                          : ((!showBio && maxLines.ceil() >= 2) ? 2 : 1)),
                 ),
-                if (!showBio && maxLines >= 2 && !isBlocked)
+                if (!showBio && maxLines.ceil() >= 2 && !isBlocked)
                   Container(
                     width: double.infinity,
                     height: 18.h,
@@ -223,21 +229,24 @@ class UserBio extends ConsumerWidget {
                   ),
               ],
             ),
-            if (!isBlocked)
-              Center(
-                child: IconButton(
-                  onPressed: () {
-                    ref.read(myPageProvider).showBio();
-                  },
-                  icon: Icon(
-                    showBio
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                    color: Colors.white,
-                    size: 30,
+            (!isBlocked && creator.bio!.isNotEmpty)
+                ? Center(
+                    child: IconButton(
+                      onPressed: () {
+                        ref.read(myPageProvider).showBio();
+                      },
+                      icon: Icon(
+                        showBio
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                  )
+                : SizedBox(
+                    height: 20.h,
                   ),
-                ),
-              ),
           ],
         );
       },

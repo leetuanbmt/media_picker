@@ -246,7 +246,9 @@ class UserNotification extends StatelessWidget {
 }
 
 class ListRankingUser extends StatelessWidget {
-  const ListRankingUser({super.key});
+  const ListRankingUser({super.key, required this.padding});
+
+  final double padding;
 
   @override
   Widget build(BuildContext context) {
@@ -272,30 +274,31 @@ class ListRankingUser extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: ((context, index) {
                   return Padding(
-                    padding: EdgeInsets.only(right: 16.w),
+                    padding: EdgeInsets.only(right: padding),
                     child: Stack(
                       children: [
-                        SizedBox.square(
-                          dimension: 61.r,
+                        SizedBox(
+                          height: 61.h,
+                          width: 61.w,
                         ),
                         Positioned(
                           bottom: 0,
                           child: CacheImage(
                             image: result[index],
                             radius: 100.r,
-                            dimension: 58.r,
+                            dimension: 58,
                           ),
                         ),
                         Positioned(
-                          left: 39.w,
-                          top: 0,
+                          right: 0,
                           child: SizedBox.square(
                             dimension: 22.r,
                             child: CircleAvatar(
+                              radius: 100.r,
                               backgroundColor: colorRank[index],
                               child: Text(
                                 (index + 1).toString(),
-                                style: context.labelMedium!.copyWith(
+                                style: context.bodySmall!.copyWith(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w600,
                                   color: AppTheme.background,

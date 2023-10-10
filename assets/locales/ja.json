@@ -100,5 +100,6 @@
   "seconds": "秒",
   "following": "フォロー中",
   "underControl": "コントロール中",
-  "addEquipment": "機器を追加"
+  "addEquipment": "機器を追加",
+  "remaining": "残り"
 }

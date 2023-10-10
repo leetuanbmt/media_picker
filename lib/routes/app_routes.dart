@@ -18,8 +18,6 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
             AutoRoute(page: HomeRoute.page, initial: true),
             AutoRoute(page: SearchCreatorRoute.page),
             AutoRoute(page: ListUserRoute.page),
-            AutoRoute(page: MyProfileRoute.page),
-            AutoRoute(page: DeviceConnectedRoute.page),
           ],
         ),
         AutoRoute(
@@ -55,6 +53,8 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
     AutoRoute(page: PickupRoute.page),
     AutoRoute(page: CallHistoryRoute.page),
     RedirectRoute(path: '*', redirectTo: '/dashboard'),
+    AutoRoute(page: MyProfileRoute.page),
+    AutoRoute(page: DeviceConnectedRoute.page),
   ];
 
   @override

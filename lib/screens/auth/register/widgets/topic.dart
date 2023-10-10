@@ -2,15 +2,13 @@ import '../../../../core/config.dart';
 import '../../../../providers/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 
-class RegisterTopicScreen extends ConsumerWidget {
+class RegisterTopicScreen extends StatelessWidget {
   const RegisterTopicScreen({super.key, required this.onNextPage});
 
   final VoidCallback onNextPage;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final register = ref.watch(registerProvider.notifier);
-
+  Widget build(BuildContext context) {
     List<String> listTopic = [
       '‍🎤 配信',
       '‍📣 店舗',
@@ -44,13 +42,15 @@ class RegisterTopicScreen extends ConsumerWidget {
                         registerProvider
                             .select((value) => value.checkUsageActive(e)),
                       );
+                      final provider = ref.read(registerProvider.notifier);
+
                       return ButtonCustom(
                         e,
                         fontSize: 18.sp,
                         height: 48.h,
                         width: 108.w,
                         onPressed: () {
-                          register.updateUsage(e);
+                          provider.updateUsage(e);
                         },
                         type:
                             isSelected ? ButtonType.normal : ButtonType.outline,

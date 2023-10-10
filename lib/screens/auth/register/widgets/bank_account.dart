@@ -4,12 +4,12 @@ import '../../../../core/models/models.dart';
 import '../../../../providers/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 
-class RegisterBankAccountScreen extends ConsumerWidget {
+class RegisterBankAccountScreen extends StatelessWidget {
   const RegisterBankAccountScreen({super.key, required this.userType});
   final UserType userType;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Center(
@@ -52,15 +52,19 @@ class RegisterBankAccountScreen extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ButtonCustom(
-                  "SKIPする",
-                  fontSize: 15.sp,
-                  height: 48.h,
-                  width: 162.w,
-                  type: ButtonType.outline,
-                  borderWidth: 2,
-                  onPressed: () {
-                    ref.watch(registerProvider).register(context, userType);
+                Consumer(
+                  builder: (context, ref, child) {
+                    return ButtonCustom(
+                      "SKIPする",
+                      fontSize: 15.sp,
+                      height: 48.h,
+                      width: 162.w,
+                      type: ButtonType.outline,
+                      borderWidth: 2,
+                      onPressed: () {
+                        ref.read(registerProvider).register(context, userType);
+                      },
+                    );
                   },
                 ),
               ],

@@ -13,7 +13,7 @@ class RegisterUserInformation extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final register = ref.read(registerProvider.notifier);
+    final provider = ref.read(registerProvider.notifier);
 
     final style = context.bodyMedium!.copyWith(
       fontSize: 14.sp,
@@ -63,7 +63,7 @@ class RegisterUserInformation extends ConsumerWidget {
               InputInformation(
                 title: '代理店コード（お持ちの方）',
                 hintText: '0000000000',
-                controller: register.agencyCodeController,
+                controller: provider.agencyCodeController,
               ),
               Row(
                 children: [
@@ -71,7 +71,7 @@ class RegisterUserInformation extends ConsumerWidget {
                     child: InputInformation(
                       title: "姓",
                       hintText: "(例)山田",
-                      controller: register.firstNameController,
+                      controller: provider.firstNameController,
                     ),
                   ),
                   SizedBox(
@@ -81,7 +81,7 @@ class RegisterUserInformation extends ConsumerWidget {
                     child: InputInformation(
                       title: "姓",
                       hintText: "(例)太郎",
-                      controller: register.middleNameController,
+                      controller: provider.middleNameController,
                     ),
                   ),
                 ],
@@ -92,7 +92,7 @@ class RegisterUserInformation extends ConsumerWidget {
                     child: InputInformation(
                       title: "セイ",
                       hintText: "(例)ヤマダ",
-                      controller: register.lastNameController,
+                      controller: provider.lastNameController,
                     ),
                   ),
                   SizedBox(
@@ -102,7 +102,7 @@ class RegisterUserInformation extends ConsumerWidget {
                     child: InputInformation(
                       title: "メイ",
                       hintText: "(例)タロウ",
-                      controller: register.anotherNameController,
+                      controller: provider.anotherNameController,
                     ),
                   ),
                 ],
@@ -110,7 +110,7 @@ class RegisterUserInformation extends ConsumerWidget {
               InputInformation(
                 title: "生年月日",
                 hintText: "選択する",
-                controller: register.dateInputController,
+                controller: provider.dateInputController,
                 onTap: () async {
                   final DateTime? picked = await showDatePicker(
                     context: context,
@@ -119,7 +119,7 @@ class RegisterUserInformation extends ConsumerWidget {
                     lastDate: DateTime(2050),
                   );
                   if (picked != null && picked != DateTime.now()) {
-                    register.dateInputController.text =
+                    provider.dateInputController.text =
                         DateFormat('yyyy年MM月dd日').format(picked);
                   }
                 },
@@ -138,7 +138,7 @@ class RegisterUserInformation extends ConsumerWidget {
                     hintText: '選択する',
                     textStyle: dropStyle,
                     width: 343.w,
-                    controller: register.genderController,
+                    controller: provider.genderController,
                     inputDecorationTheme: InputDecorationTheme(
                       constraints: BoxConstraints(maxHeight: 57.h),
                       focusedBorder: border,
@@ -154,7 +154,7 @@ class RegisterUserInformation extends ConsumerWidget {
                     ),
                     dropdownMenuEntries: genders,
                     onSelected: (value) {
-                      register.genderController.text = value!;
+                      provider.genderController.text = value!;
                     },
                   ),
                 ],
@@ -162,7 +162,7 @@ class RegisterUserInformation extends ConsumerWidget {
               InputInformation(
                 title: "電話番号",
                 hintText: "09011112222",
-                controller: register.phoneNumberController,
+                controller: provider.phoneNumberController,
               ),
             ],
           ),

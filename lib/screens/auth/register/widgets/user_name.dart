@@ -15,7 +15,7 @@ class RegisterUserName extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final register = ref.read(registerProvider.notifier);
+    final provider = ref.read(registerProvider.notifier);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -37,7 +37,7 @@ class RegisterUserName extends ConsumerWidget {
           ),
           TextFieldCustom(
             hintText: 'ユーザー名',
-            textController: register.userNameController,
+            textController: provider.userNameController,
           ),
           const Spacer(),
           Row(

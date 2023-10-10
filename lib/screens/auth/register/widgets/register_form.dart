@@ -9,7 +9,7 @@ class RegisterForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final register = ref.read(registerProvider.notifier);
+    final provider = ref.read(registerProvider.notifier);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 45.h),
@@ -17,7 +17,7 @@ class RegisterForm extends ConsumerWidget {
         child: Column(
           children: [
             TextFieldCustom(
-              textController: register.emailController,
+              textController: provider.emailController,
               hintText: "メールアドレス",
               keyboardType: TextInputType.emailAddress,
             ),
@@ -25,7 +25,7 @@ class RegisterForm extends ConsumerWidget {
               height: 12.h,
             ),
             TextFieldCustom(
-              textController: register.passwordController,
+              textController: provider.passwordController,
               hintText: 'パスワード（6文字以上の半角英数字）',
               obscureText: true,
             ),
