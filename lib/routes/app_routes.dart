@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'app_routes.gr.dart';
 
@@ -59,15 +60,14 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    resolver.next(true);
-    // final authenticated = Preferences.authenticated;
-    // if (authenticated || resolver.route.name != DashboardRoute.name) {
-
-    // } else {
-    //   resolver.redirect(
-    //     LoginRoute(onResult: (didLogin) => resolver.next(didLogin)),
-    //   );
-    // }
+    final authenticated = FirebaseAuth.instance.currentUser != null;
+    if (authenticated || resolver.route.name != DashboardRoute.name) {
+      resolver.next(true);
+    } else {
+      resolver.redirect(
+        LoginRoute(onResult: (didLogin) => resolver.next(didLogin)),
+      );
+    }
   }
 }
 

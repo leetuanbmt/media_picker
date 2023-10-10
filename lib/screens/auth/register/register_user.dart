@@ -1,7 +1,7 @@
 import '../../../core/config.dart';
 import '../../../core/models/enum/enum.dart';
 import '../../../gen/assets.gen.dart';
-import '../../../providers/register_provider.dart';
+import '../../../providers/auth/register_provider.dart';
 import 'widgets/bank_account.dart';
 import 'widgets/category.dart';
 import 'widgets/topic.dart';

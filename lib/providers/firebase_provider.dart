@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../core/config.dart';
@@ -10,6 +11,8 @@ typedef Json = Map<String, dynamic>;
 
 final googleProvider = Provider((ref) => GoogleSignIn());
 
+final facebookProvider = Provider((ref) => FacebookAuth.instance);
+
 final firebaseAuthProvider =
     Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
 
@@ -19,7 +22,7 @@ final firestoreProvider =
 final userFirestoreProvider =
     Provider.autoDispose.family<DocumentReference, String?>(
   (ref, uid) =>
-      ref.watch(firestoreProvider).collection(DbCollection.users).doc(uid),
+      ref.read(firestoreProvider).collection(DbCollection.users).doc(uid),
 );
 
 final authStateChangesProvider = StreamProvider<User?>(
@@ -112,5 +115,16 @@ final creatorByCategory =
         .snapshots()
         .map((e) => e.docs.map((e) => CreatorModel.fromJson(e.data())))
         .map((event) => event.groupBy((element) => element.category));
+  },
+);
+
+final userCheckExits = FutureProvider.autoDispose.family<bool, String>(
+  (ref, email) async {
+    final doc = await ref
+        .watch(firestoreProvider)
+        .collection(DbCollection.users)
+        .where('email', isEqualTo: email)
+        .get();
+    return doc.docs.isNotEmpty;
   },
 );

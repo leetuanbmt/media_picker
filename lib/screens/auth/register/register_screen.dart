@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 
 import '../../../core/config.dart';
+import '../../../routes/app_routes.gr.dart';
 import '../widgets/logo.dart';
 import '../widgets/social_button.dart';
 import 'widgets/register_form.dart';
@@ -72,7 +73,7 @@ class RegisterInformation extends StatelessWidget {
                   style: style.copyWith(color: AppTheme.primaryColor),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                      context.router.back();
+                      context.router.replace(LoginRoute());
                     },
                 ),
               ],
