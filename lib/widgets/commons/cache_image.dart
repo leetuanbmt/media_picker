@@ -32,7 +32,7 @@ class CacheImage extends StatelessWidget {
                     return FadeTransition(
                       opacity: animation,
                       child: PhotoViewScreen(
-                        imageProvider: NetworkImage(image!),
+                        imageProvider: context.imageProvider(image),
                         tag: tag,
                       ),
                     );
@@ -69,9 +69,38 @@ class PhotoViewScreen extends StatelessWidget {
   final String tag;
   @override
   Widget build(BuildContext context) {
-    return PhotoView(
-      imageProvider: imageProvider,
-      heroAttributes: PhotoViewHeroAttributes(tag: tag),
+    return Stack(
+      children: [
+        PhotoView(
+          imageProvider: imageProvider,
+          heroAttributes: PhotoViewHeroAttributes(tag: tag),
+        ),
+        Positioned(
+          top: 10,
+          right: 10,
+          child: SafeArea(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: context.surface.withOpacity(0.3),
+              ),
+              child: SizedBox.square(
+                dimension: 30.r,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    color: context.surface,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
