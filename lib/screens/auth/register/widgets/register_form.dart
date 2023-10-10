@@ -1,6 +1,6 @@
 import '../../../../core/config.dart';
 
-import '../../../../providers/register_provider.dart';
+import '../../../../providers/auth/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
 
@@ -45,10 +45,9 @@ class RegisterForm extends ConsumerWidget {
                   onPressed: () {
                     areFieldsEmpty
                         ? null
-                        : registerEmailPassword(
-                            context,
-                            ref,
-                          );
+                        : ref
+                            .read(registerProvider.notifier)
+                            .checkEmailPassword(context);
                   },
                   backgroundColor: areFieldsEmpty
                       ? AppTheme.middleGray
@@ -60,15 +59,5 @@ class RegisterForm extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  void registerEmailPassword(
-    BuildContext context,
-    WidgetRef ref,
-  ) {
-    FocusScope.of(context).unfocus();
-    ref.read(registerProvider.notifier).checkEmailPassword(
-          context,
-        );
   }
 }

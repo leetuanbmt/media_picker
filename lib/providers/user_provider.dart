@@ -88,11 +88,6 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  void signOut() {
-    stopStream();
-    ref.read(firebaseAuthProvider).signOut();
-  }
-
   void stopStream() {
     _callListen?.cancel();
     _userSubscription?.cancel();

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../core/config.dart';
@@ -9,6 +10,8 @@ import '../core/utilities/utilities.dart';
 typedef Json = Map<String, dynamic>;
 
 final googleProvider = Provider((ref) => GoogleSignIn());
+
+final facebookProvider = Provider((ref) => FacebookAuth.instance);
 
 final firebaseAuthProvider =
     Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);

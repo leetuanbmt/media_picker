@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../core/config.dart';
-import '../core/models/models.dart';
-import '../core/utilities/db_helper.dart';
-import '../routes/app_routes.gr.dart';
-import 'auth_provider.dart';
-import 'firebase_provider.dart';
+import '../../core/config.dart';
+import '../../core/models/models.dart';
+import '../../core/utilities/db_helper.dart';
+import '../../core/utilities/navigator.dart';
+import '../../routes/app_routes.gr.dart';
+import '../firebase_provider.dart';
+import 'auth_notify.dart';
 
 final registerProvider = ChangeNotifierProvider.autoDispose<RegisterProvider>(
   (ref) => RegisterProvider(ref)..initialize(),
@@ -16,7 +17,7 @@ class RegisterProvider extends ChangeNotifier {
 
   final Ref ref;
 
-  AuthProvider get auth => ref.read(authProvider);
+  AuthNotifier get auth => ref.read(authProvider.notifier);
 
   void initialize() {
     emailController.addListener(listener);
@@ -103,37 +104,34 @@ class RegisterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> checkEmailPassword(
-    BuildContext context,
-  ) async {
-    if (checkValidEmail(email)) {
-      if (checkValidPassword(password)) {
-        ref.loading(true);
-        List<String> userEmail = [];
+  Future<void> checkEmailPassword(BuildContext context) async {
+    if (!checkValidEmail(email)) return context.toast('Invalid email');
+    if (!checkValidPassword(password)) {
+      return context.toast('Password at least 6 characters');
+    }
+    ref.loading(true);
+    try {
+      final doc = await ref
+          .read(firestoreProvider)
+          .collection(DbCollection.users)
+          .where('email', isEqualTo: email)
+          .get();
 
-        await ref
-            .watch(firestoreProvider)
-            .collection(DbCollection.users)
-            .get()
-            .then((QuerySnapshot querySnapshot) {
-          for (var doc in querySnapshot.docs) {
-            userEmail.add(doc["email"]);
-          }
-        });
-
-        if (userEmail.contains(email)) {
-          if (!context.mounted) return;
-          context.toast('Email is used by another account!');
-        } else {
-          if (!context.mounted) return;
-          context.router.push(const SelectAttributeRoute());
-        }
-        ref.loading(false);
+      ref.loading(false);
+      if (doc.docs.isNotEmpty) {
+        if (!context.mounted) return;
+        context.toast('Email is used by another account!');
+        return;
       } else {
-        context.toast('Password at least 6 characters');
+        if (!context.mounted) return;
+        context.router.push(const SelectAttributeRoute());
       }
-    } else {
-      context.toast('Check your email');
+    } catch (e) {
+      ref.loading(false);
+      if (context.mounted) {
+        context.toast(e.toString());
+      }
+      Logger.log(e.toString());
     }
   }
 
@@ -263,12 +261,11 @@ class RegisterProvider extends ChangeNotifier {
   ) async {
     try {
       ref.loading(true);
-      await ref
-          .watch(authProvider)
-          .createUserWithEmailAndPassword(email, password);
-      final currentUser = ref.watch(firebaseAuthProvider).currentUser!.uid;
+      await auth.createUserWithEmailAndPassword(email, password);
+      final currentUser = ref.read(firebaseAuthProvider).currentUser!.uid;
       await createUser(currentUser, userType).whenComplete(() {
         ref.loading(false);
+        AppNavigator.goToDashboard();
       });
     } catch (e) {
       ref.loading(false);

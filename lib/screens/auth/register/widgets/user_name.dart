@@ -1,6 +1,6 @@
 import '../../../../core/config.dart';
 
-import '../../../../providers/register_provider.dart';
+import '../../../../providers/auth/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
 
