@@ -9,9 +9,11 @@ class CacheImage extends StatelessWidget {
     this.image,
     this.radius = 0,
     this.dimension = 0,
+    this.isZoom = false,
   });
   final String? image;
   final double radius, dimension;
+  final bool isZoom;
   @override
   Widget build(BuildContext context) {
     final tag = const Uuid().v4();

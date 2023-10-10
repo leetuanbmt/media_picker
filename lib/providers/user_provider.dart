@@ -44,7 +44,7 @@ final userProvider = ChangeNotifierProvider((ref) => UserProvider(ref));
 //   },
 // );
 
-class UserProvider with ChangeNotifier {
+class UserProvider extends ChangeNotifier {
   UserProvider(this.ref);
 
   final Ref ref;
