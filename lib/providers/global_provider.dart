@@ -3,9 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../core/config.dart';
 import '../core/models/models.dart';
 import '../core/repositories/base_repository.dart';
-import '../core/utilities/navigator.dart';
 import '../core/utilities/utilities.dart';
-import 'firebase_provider.dart';
 
 final loadingProvider = StateProvider<bool>((ref) => false);
 
@@ -16,7 +14,7 @@ final userChange = StreamProvider<User?>(
 );
 
 final appGlobalProvider = StateNotifierProvider<AppGlobal, GlobalSetting>(
-  (ref) => AppGlobal(ref),
+  (ref) => AppGlobal(),
 );
 
 final colorProvider = StateProvider<Color>(
@@ -24,25 +22,7 @@ final colorProvider = StateProvider<Color>(
 );
 
 class AppGlobal extends StateNotifier<GlobalSetting> {
-  final Ref ref;
-
-  AppGlobal(this.ref) : super(const GlobalSetting()) {
-    initialize();
-  }
-
-  void initialize() {
-    ref.listen(authStateChangesProvider, (previous, next) {
-      navigator(next.value);
-    });
-  }
-
-  void navigator(User? user) {
-    if (user != null) {
-      AppNavigator.goToDashboard();
-    } else {
-      AppNavigator.goToLogin();
-    }
-  }
+  AppGlobal() : super(const GlobalSetting());
 
   void setColor(Color color) {
     state = state.copyWith(themeColor: color);

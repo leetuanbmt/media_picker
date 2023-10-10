@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 
 import '../../../core/config.dart';
 import '../../../gen/assets.gen.dart';
-import '../../../providers/login_provider.dart';
+import '../../../providers/auth/auth_notify.dart';
 import '../../../routes/app_routes.gr.dart';
 import '../widgets/logo.dart';
 import '../widgets/social_button.dart';
@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
               const LoginForm(),
               Consumer(
                 builder: (context, ref, child) {
-                  final auth = ref.read(loginProvider.notifier);
+                  final auth = ref.read(authProvider.notifier);
                   return SocialList(
                     loginGoogle: auth.loginGoogle,
                     loginFacebook: auth.loginFacebook,
@@ -87,7 +87,7 @@ class LoginInformation extends StatelessWidget {
                 style: style.copyWith(color: AppTheme.primaryColor),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    context.router.push(const RegisterRoute());
+                    context.router.replace(const RegisterRoute());
                   },
               ),
             ],
@@ -103,7 +103,6 @@ class LoginByFaceID extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final login = ref.read(loginProvider.notifier);
     return Column(
       children: [
         SizedBox(height: 20.h),
@@ -117,7 +116,7 @@ class LoginByFaceID extends ConsumerWidget {
         SizedBox(height: 10.h),
         SocialButton(
           path: Assets.iconsIconFaceId.path,
-          onPressed: () => login.loginFaceID(context),
+          onPressed: () {},
         ),
       ],
     );

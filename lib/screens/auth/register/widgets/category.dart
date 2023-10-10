@@ -1,5 +1,5 @@
 import '../../../../core/config.dart';
-import '../../../../providers/register_provider.dart';
+import '../../../../providers/auth/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 
 class RegisterCategoryScreen extends ConsumerWidget {
