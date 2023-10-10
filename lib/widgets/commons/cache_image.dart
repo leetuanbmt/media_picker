@@ -1,7 +1,5 @@
-import 'dart:math';
-
 import 'package:photo_view/photo_view.dart';
-
+import 'package:uuid/uuid.dart';
 import '../../core/config.dart';
 import 'shimmer.dart';
 
@@ -18,7 +16,7 @@ class CacheImage extends StatelessWidget {
   final bool isZoom;
   @override
   Widget build(BuildContext context) {
-    final tag = Random().nextInt(1000).toString();
+    final tag = const Uuid().v4();
     return SizedBox.square(
       dimension: dimension,
       child: Hero(
@@ -28,6 +26,7 @@ class CacheImage extends StatelessWidget {
             if (image != null && isZoom) {
               Navigator.of(context, rootNavigator: true).push(
                 PageRouteBuilder(
+                  settings: const RouteSettings(name: 'PhotoViewScreen'),
                   pageBuilder: (context, animation, secondaryAnimation) {
                     return FadeTransition(
                       opacity: animation,
