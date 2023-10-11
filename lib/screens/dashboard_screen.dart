@@ -26,13 +26,13 @@ class DashboardScreen extends ConsumerStatefulWidget {
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   void initState() {
-    ref.read(userProvider.notifier).initialize();
+    ref.read(userProvider).initialize();
     super.initState();
   }
 
   @override
   void deactivate() {
-    ref.read(userProvider.notifier).stopStream();
+    ref.read(userProvider).stopStream();
     super.deactivate();
   }
 

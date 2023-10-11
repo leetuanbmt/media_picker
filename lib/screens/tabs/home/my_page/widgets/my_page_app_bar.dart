@@ -96,17 +96,18 @@ class MyPageAction extends ConsumerWidget {
         color: AppTheme.box,
       ),
     );
+
+    final isBlocked =
+        ref.watch(myPageProvider.select((value) => value.isBlocked));
+
+    final provider = ref.read(myPageProvider);
     return IconButton(
       onPressed: () {
-        isOnline
+        (isOnline && !isBlocked)
             ? showCupertinoModalPopup(
                 context: context,
                 builder: (ctx) {
                   return CupertinoActionSheet(
-                    title: Text(
-                      context.tr(LocaleKeys.reportUser),
-                      style: style,
-                    ),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -190,7 +191,7 @@ class MyPageAction extends ConsumerWidget {
                                         width: 327.w,
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          ref.read(myPageProvider).blockUser();
+                                          provider.blockUser();
                                         },
                                       ),
                                       SizedBox(
@@ -202,6 +203,16 @@ class MyPageAction extends ConsumerWidget {
                               );
                             },
                           );
+                        },
+                        child: Text(
+                          context.tr(LocaleKeys.reportUser),
+                          style: style,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                          provider.blockUser();
                         },
                         child: Text(
                           context.tr(LocaleKeys.block),

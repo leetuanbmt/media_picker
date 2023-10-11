@@ -277,9 +277,8 @@ class ListRankingUser extends StatelessWidget {
                     padding: EdgeInsets.only(right: padding),
                     child: Stack(
                       children: [
-                        SizedBox(
-                          height: 61.h,
-                          width: 61.w,
+                        SizedBox.square(
+                          dimension: 61.r,
                         ),
                         Positioned(
                           bottom: 0,

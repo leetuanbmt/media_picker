@@ -787,7 +787,7 @@ class SelectChargeBottomSheet extends ConsumerWidget {
                           builder: (context, ref, child) {
                             return ButtonCustom(
                               index == 0 ? '￥650' : '￥1300',
-                              width: 88.w,
+                              width: 90.w,
                               height: 33.h,
                               type: chargeSelected == index
                                   ? ButtonType.normal
