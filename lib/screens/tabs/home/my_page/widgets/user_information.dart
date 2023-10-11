@@ -85,20 +85,18 @@ class UserInformation extends StatelessWidget {
                   height: 7.64.h,
                 ),
                 SizedBox(
-                  width: 234.w,
+                  width: 203.w,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Flexible(
-                        child: Column(
-                          children: [
-                            TextItem(value: context.tr(LocaleKeys.follow)),
-                            TextItem(
-                              value: creator.follow?.toCompactCurrency ?? '',
-                            ),
-                          ],
-                        ),
+                      Column(
+                        children: [
+                          TextItem(value: context.tr(LocaleKeys.follow)),
+                          TextItem(
+                            value: creator.follow?.toCompactCurrency ?? '',
+                          ),
+                        ],
                       ),
                       Column(
                         children: [
@@ -108,7 +106,7 @@ class UserInformation extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Expanded(
+                      Flexible(
                         child: Column(
                           children: [
                             Assets.iconsIconApp.svg(height: 15.h),

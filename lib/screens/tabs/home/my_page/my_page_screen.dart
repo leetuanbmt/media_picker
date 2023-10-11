@@ -282,6 +282,7 @@ class UserOffline extends StatelessWidget {
                       image: creator.avatar,
                       dimension: 79.w,
                       radius: 100.r,
+                      isZoom: true,
                     ),
                     SizedBox(
                       height: 12.h,
@@ -303,21 +304,27 @@ class UserOffline extends StatelessWidget {
                         Column(
                           children: [
                             TextItem(value: context.tr(LocaleKeys.follow)),
-                            TextItem(value: creator.follow.toString()),
+                            TextItem(
+                              value: creator.follow?.toCompactCurrency ?? '',
+                            ),
                           ],
                         ),
                         SizedBox(width: 22.w),
                         Column(
                           children: [
                             TextItem(value: context.tr(LocaleKeys.followers)),
-                            TextItem(value: creator.followers.toString()),
+                            TextItem(
+                              value: creator.followers?.toCompactCurrency ?? '',
+                            ),
                           ],
                         ),
                         SizedBox(width: 22.w),
                         Column(
                           children: [
                             Assets.iconsIconApp.svg(height: 15.h),
-                            TextItem(value: '${creator.points}pt'),
+                            TextItem(
+                              value: '${creator.points?.toCurrency ?? ''}pt',
+                            ),
                           ],
                         ),
                       ],
