@@ -185,17 +185,19 @@ class MyPageAction extends ConsumerWidget {
                                       SizedBox(
                                         height: 32.h,
                                       ),
-                                      ButtonCustom(
-                                        context.tr(LocaleKeys.report),
-                                        height: 48.h,
-                                        width: 327.w,
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          provider.blockUser();
-                                        },
-                                      ),
-                                      SizedBox(
-                                        height: 27.h,
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          bottom: context.screenPadding.bottom,
+                                        ),
+                                        child: ButtonCustom(
+                                          context.tr(LocaleKeys.report),
+                                          height: 48.h,
+                                          width: 327.w,
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            provider.blockUser();
+                                          },
+                                        ),
                                       ),
                                     ],
                                   ),

@@ -66,15 +66,19 @@ class MyPageFooter extends StatelessWidget {
             void showCoinSheet() {
               showModalBottomSheet(
                 context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(15.0),
+                  ),
+                ),
                 isScrollControlled: true,
+                isDismissible: true,
                 constraints: BoxConstraints(
                   maxHeight: isFollowed
                       ? context.screenHeight * 0.8
                       : context.screenHeight * 0.5,
                 ),
-                builder: (context) {
-                  return const CoinBottomSheet();
-                },
+                builder: (context) => const CoinBottomSheet(),
               );
             }
 
@@ -114,9 +118,6 @@ class MyPageFooter extends StatelessWidget {
                   );
           },
         ),
-        SizedBox(
-          height: 20.21.h,
-        ),
       ],
     );
   }
@@ -155,7 +156,7 @@ class CoinBottomSheet extends ConsumerWidget {
       showModalBottomSheet(
         context: context,
         constraints: BoxConstraints(
-          maxHeight: context.screenHeight * 0.4,
+          maxHeight: context.screenHeight * 0.45,
         ),
         isScrollControlled: true,
         builder: (context) {
@@ -441,56 +442,59 @@ class CoinBottomSheet extends ConsumerWidget {
                       SizedBox(
                         height: 20.19.h,
                       ),
-                    ButtonCustom(
-                      context.tr(LocaleKeys.sendPoints),
-                      height: 48.h,
-                      width: 327.w,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (context) {
-                            return Dialog(
-                              backgroundColor: Colors.white,
-                              child: SizedBox(
-                                width: 317.w,
-                                height: 356.h,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 55.h,
-                                    ),
-                                    const DelayDialog(),
-                                    SizedBox(
-                                      height: 30.h,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text(
-                                        context.tr(LocaleKeys.cancel),
-                                        style: context.titleSmall!.copyWith(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w400,
-                                          color: AppTheme.primaryColor,
-                                          decoration: TextDecoration.underline,
-                                          decorationColor:
-                                              AppTheme.primaryColor,
+                    Padding(
+                      padding: EdgeInsets.only(
+                        bottom: context.screenPadding.bottom,
+                      ),
+                      child: ButtonCustom(
+                        context.tr(LocaleKeys.sendPoints),
+                        height: 48.h,
+                        width: 327.w,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                backgroundColor: Colors.white,
+                                child: SizedBox(
+                                  width: 317.w,
+                                  height: 356.h,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 55.h,
+                                      ),
+                                      const DelayDialog(),
+                                      SizedBox(
+                                        height: 30.h,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text(
+                                          context.tr(LocaleKeys.cancel),
+                                          style: context.titleSmall!.copyWith(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppTheme.primaryColor,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            decorationColor:
+                                                AppTheme.primaryColor,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    SizedBox(
-                      height: 30.h,
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -815,21 +819,23 @@ class SelectChargeBottomSheet extends ConsumerWidget {
             SizedBox(
               height: 22.h,
             ),
-            Consumer(
-              builder: (context, ref, child) {
-                return ButtonCustom(
-                  context.tr(LocaleKeys.buy),
-                  width: 327.w,
-                  height: 48.h,
-                  backgroundColor: chargeSelected == -1
-                      ? AppTheme.middleGray
-                      : AppTheme.primaryColor,
-                  onPressed: () {},
-                );
-              },
-            ),
-            SizedBox(
-              height: 32.33.h,
+            Padding(
+              padding: EdgeInsets.only(
+                bottom: context.screenPadding.bottom,
+              ),
+              child: Consumer(
+                builder: (context, ref, child) {
+                  return ButtonCustom(
+                    context.tr(LocaleKeys.buy),
+                    width: 327.w,
+                    height: 48.h,
+                    backgroundColor: chargeSelected == -1
+                        ? AppTheme.middleGray
+                        : AppTheme.primaryColor,
+                    onPressed: () {},
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -953,16 +959,21 @@ class SettingBottomSheet extends ConsumerWidget {
             SizedBox(
               height: 40.h,
             ),
-            ButtonCustom(
-              context.tr(LocaleKeys.set),
-              height: 48.h,
-              width: 327.w,
-              onPressed: () {
-                Navigator.of(context).pop();
-                typeSetting == 'Delay'
-                    ? provider.changeDelayValue()
-                    : provider.changeAutoValue();
-              },
+            Padding(
+              padding: EdgeInsets.only(
+                bottom: context.screenPadding.bottom,
+              ),
+              child: ButtonCustom(
+                context.tr(LocaleKeys.set),
+                height: 48.h,
+                width: 327.w,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  typeSetting == 'Delay'
+                      ? provider.changeDelayValue()
+                      : provider.changeAutoValue();
+                },
+              ),
             ),
           ],
         ),
