@@ -285,7 +285,7 @@ class ListRankingUser extends StatelessWidget {
                           child: CacheImage(
                             image: result[index],
                             radius: 100.r,
-                            dimension: 58,
+                            dimension: 58.r,
                           ),
                         ),
                         Positioned(
