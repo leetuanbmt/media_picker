@@ -1,7 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../core/config.dart';
-import '../core/models/creator/creator_model.dart';
 import '../core/utilities/utilities.dart';
 import 'firebase_provider.dart';
 
@@ -92,7 +89,7 @@ class MyPageProvider extends ChangeNotifier {
 final userRankingProvider = FutureProvider<List<String>>((ref) async {
   final userRanking = await ref
       .watch(firestoreProvider)
-      .collection(DbCollection.creators)
+      .collection(DbCollection.users)
       .limit(5)
       .get();
   return userRanking.docs
@@ -103,7 +100,7 @@ final userRankingProvider = FutureProvider<List<String>>((ref) async {
 final userFollowProvider = FutureProvider<List<String>>((ref) async {
   final userFollow = await ref
       .watch(firestoreProvider)
-      .collection(DbCollection.creators)
+      .collection(DbCollection.users)
       .limit(6)
       .get();
   return userFollow.docs
@@ -111,15 +108,15 @@ final userFollowProvider = FutureProvider<List<String>>((ref) async {
       .toList();
 });
 
-final creatorFirestoreProvider =
-    Provider.autoDispose.family<DocumentReference, String?>(
-  (ref, uid) =>
-      ref.watch(firestoreProvider).collection(DbCollection.creators).doc(uid),
-);
+// final creatorFirestoreProvider =
+//     Provider.autoDispose.family<DocumentReference, String?>(
+//   (ref, uid) =>
+//       ref.watch(firestoreProvider).collection(DbCollection.creators).doc(uid),
+// );
 
-final creatorChangeFirebase =
-    StreamProvider.autoDispose.family<CreatorModel, String?>(
-  (ref, uid) => ref.watch(creatorFirestoreProvider(uid)).snapshots().map(
-        (event) => CreatorModel.fromJson(event.data() as Json),
-      ),
-);
+// final creatorChangeFirebase =
+//     StreamProvider.autoDispose.family<CreatorModel, String?>(
+//   (ref, uid) => ref.watch(creatorFirestoreProvider(uid)).snapshots().map(
+//         (event) => CreatorModel.fromJson(event.data() as Json),
+//       ),
+// );

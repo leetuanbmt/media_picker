@@ -18,7 +18,7 @@ class HomeScreen extends ConsumerWidget {
         searchAppBar: SearchAppBar(
           readOnly: true,
           onTap: () {
-            AutoRouter.of(context).push(const SearchCreatorRoute());
+            context.navigator(SearchCreatorRoute());
           },
         ),
       ),
@@ -33,7 +33,7 @@ class HomeScreen extends ConsumerWidget {
                   data: (result) {
                     return ListCreator(
                       title: context.tr(LocaleKeys.online),
-                      listCreator: result,
+                      users: result,
                       onlineList: true,
                       showMore: false,
                     );
@@ -54,7 +54,7 @@ class HomeScreen extends ConsumerWidget {
                                 .map(
                                   (e) => ListCreator(
                                     title: e.key,
-                                    listCreator: e.value,
+                                    users: e.value,
                                     showMore: true,
                                   ),
                                 )

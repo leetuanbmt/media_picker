@@ -42,6 +42,8 @@ class UserModel with _$UserModel {
 
   int get old => birthday == null ? 0 : DateTime.now().year - birthday!.year;
 
+  String get firstCategory => listCategory.firstOrNull ?? '';
+
   static UserModel get defaultUser => const UserModel(
         id: '',
         email: 'example.com',

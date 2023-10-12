@@ -1,5 +1,5 @@
 import '../../../../core/config.dart';
-import '../../../../core/models/creator/creator_model.dart';
+import '../../../../core/models/models.dart';
 import '../../../../routes/app_routes.gr.dart';
 import '../../../../widgets/commons/category_picker.dart';
 import 'creator_online_item.dart';
@@ -11,11 +11,11 @@ class ListCreator extends StatelessWidget {
     required this.title,
     this.showMore = true,
     this.onlineList = false,
-    this.listCreator = const [],
+    this.users = const [],
   });
   final String title;
   final bool showMore, onlineList;
-  final List<CreatorModel> listCreator;
+  final List<UserModel> users;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class ListCreator extends StatelessWidget {
                   onPressed: () {
                     context.navigator(
                       ListUserRoute(
-                        items: listCreator,
+                        items: users,
                         title: title,
                       ),
                     );
@@ -73,15 +73,15 @@ class ListCreator extends StatelessWidget {
           child: ListView.builder(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             scrollDirection: Axis.horizontal,
-            itemCount: listCreator.length,
+            itemCount: users.length,
             itemBuilder: (context, index) {
               return onlineList
                   ? CreatorOnlineItem(
-                      creator: listCreator[index],
+                      creator: users[index],
                       onPressed: () {},
                     )
                   : FollowingItem(
-                      creator: listCreator[index],
+                      creator: users[index],
                       onPressed: () {
                         CategoryPicker.show(context);
                       },

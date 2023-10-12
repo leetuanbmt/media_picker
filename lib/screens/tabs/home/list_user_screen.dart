@@ -1,11 +1,11 @@
 import '../../../core/config.dart';
-import '../../../core/models/creator/creator_model.dart';
+import '../../../core/models/models.dart';
 import '../../../widgets/creator_item.dart';
 
 @RoutePage()
 class ListUserScreen extends StatelessWidget {
   const ListUserScreen({super.key, required this.items, required this.title});
-  final List<CreatorModel> items;
+  final List<UserModel> items;
   final String title;
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,8 @@ class ListUserScreen extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   final creator = items[index];
                   return CreatorItem(
-                    creator: creator,
+                    name: creator.name,
+                    avatar: creator.avatar,
                     onPressed: () {},
                   );
                 },

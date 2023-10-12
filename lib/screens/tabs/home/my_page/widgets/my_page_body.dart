@@ -47,7 +47,7 @@ class DeviceConnected extends StatelessWidget {
             height: 18.h,
           ),
           Text(
-            context.tr(LocaleKeys.connectedDevices),
+            '接続中の機器',
             style: style.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -82,7 +82,7 @@ class DeviceConnected extends StatelessWidget {
           ),
           Center(
             child: ButtonCustom(
-              context.tr(LocaleKeys.controlRequest),
+              'コントロールリクエスト',
               height: 32.h,
               width: 212.w,
               type: ButtonType.outline,
@@ -201,7 +201,7 @@ class UserNotification extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '$date${context.tr(LocaleKeys.day)}',
+                  '$date月',
                   style: style.copyWith(
                     fontSize: 10.sp,
                   ),
@@ -212,7 +212,7 @@ class UserNotification extends StatelessWidget {
                     style: style.copyWith(fontSize: 18.sp),
                     children: [
                       TextSpan(
-                        text: context.tr(LocaleKeys.month),
+                        text: '日',
                         style: style.copyWith(fontSize: 10.sp),
                       ),
                     ],
@@ -246,9 +246,7 @@ class UserNotification extends StatelessWidget {
 }
 
 class ListRankingUser extends StatelessWidget {
-  const ListRankingUser({super.key, required this.padding});
-
-  final double padding;
+  const ListRankingUser({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +272,7 @@ class ListRankingUser extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: ((context, index) {
                   return Padding(
-                    padding: EdgeInsets.only(right: padding),
+                    padding: EdgeInsets.only(right: 16.w),
                     child: Stack(
                       children: [
                         SizedBox.square(
@@ -289,15 +287,15 @@ class ListRankingUser extends StatelessWidget {
                           ),
                         ),
                         Positioned(
-                          right: 0,
+                          left: 39.w,
+                          top: 0,
                           child: SizedBox.square(
                             dimension: 22.r,
                             child: CircleAvatar(
-                              radius: 100.r,
                               backgroundColor: colorRank[index],
                               child: Text(
                                 (index + 1).toString(),
-                                style: context.bodySmall!.copyWith(
+                                style: context.labelMedium!.copyWith(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w600,
                                   color: AppTheme.background,

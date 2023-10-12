@@ -31,7 +31,7 @@ class MyPageFooter extends StatelessWidget {
           children: [
             RichText(
               text: TextSpan(
-                text: context.tr(LocaleKeys.keep),
+                text: '保持 ',
                 style: style.copyWith(
                   color: AppTheme.fontGrayLead,
                 ),
@@ -66,25 +66,21 @@ class MyPageFooter extends StatelessWidget {
             void showCoinSheet() {
               showModalBottomSheet(
                 context: context,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(15.0),
-                  ),
-                ),
                 isScrollControlled: true,
-                isDismissible: true,
                 constraints: BoxConstraints(
                   maxHeight: isFollowed
                       ? context.screenHeight * 0.8
                       : context.screenHeight * 0.5,
                 ),
-                builder: (context) => const CoinBottomSheet(),
+                builder: (context) {
+                  return const CoinBottomSheet();
+                },
               );
             }
 
             return isFollowed
                 ? ButtonCustom(
-                    context.tr(LocaleKeys.sendPoints),
+                    'ポイントをおくる',
                     height: 44.h,
                     width: 327.w,
                     onPressed: () {
@@ -97,7 +93,7 @@ class MyPageFooter extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ButtonCustom(
-                          context.tr(LocaleKeys.sendPoints),
+                          'ポイントをおくる',
                           height: 44.h,
                           width: 208.w,
                           onPressed: () {
@@ -105,7 +101,7 @@ class MyPageFooter extends StatelessWidget {
                           },
                         ),
                         ButtonCustom(
-                          '+ ${context.tr(LocaleKeys.follow)}',
+                          '+ フォロー',
                           onPressed: () {
                             ref.read(myPageProvider).followUser();
                           },
@@ -117,6 +113,9 @@ class MyPageFooter extends StatelessWidget {
                     ),
                   );
           },
+        ),
+        SizedBox(
+          height: 20.21.h,
         ),
       ],
     );
@@ -138,6 +137,11 @@ class CoinBottomSheet extends ConsumerWidget {
       fontWeight: FontWeight.w600,
     );
 
+    final bodySmall = context.bodySmall!.copyWith(
+      fontSize: 12.sp,
+      fontWeight: FontWeight.w600,
+      color: AppTheme.blackBold,
+    );
     List coinNotFollowed = ['50', '100', '500', '1000'];
     List coinFollowed = [
       '10',
@@ -156,7 +160,7 @@ class CoinBottomSheet extends ConsumerWidget {
       showModalBottomSheet(
         context: context,
         constraints: BoxConstraints(
-          maxHeight: context.screenHeight * 0.45,
+          maxHeight: context.screenHeight * 0.4,
         ),
         isScrollControlled: true,
         builder: (context) {
@@ -179,346 +183,6 @@ class CoinBottomSheet extends ConsumerWidget {
         },
       );
     }
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(15.0),
-        ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          24.w,
-          0,
-          24.w,
-          MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.close_sharp,
-                  color: AppTheme.icon,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              context.tr(LocaleKeys.possessionPoints),
-                              style: style.copyWith(
-                                fontSize: 14.sp,
-                                color: AppTheme.fontGrayLead,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 4.h,
-                            ),
-                            Row(
-                              children: [
-                                Assets.iconsIcCoin.svg(),
-                                SizedBox(
-                                  width: 6.51.w,
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    text: isFollowed ? '99999' : '0',
-                                    style: context.titleLarge!.copyWith(
-                                      fontSize: 24.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: 'pt',
-                                        style: style,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        ButtonCustom(
-                          context.tr(LocaleKeys.charge),
-                          onPressed: () {
-                            showChargeSheet();
-                          },
-                          height: 31.h,
-                          width: 103.w,
-                          backgroundColor: AppTheme.purple,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 32.h,
-                    ),
-                    SizedBox(
-                      height: isFollowed ? 273.h : 104.h,
-                      width: 327.24.w,
-                      child: GridView.builder(
-                        itemCount: isFollowed
-                            ? coinFollowed.length
-                            : coinNotFollowed.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 9.24.w,
-                          crossAxisSpacing: 9.h,
-                          mainAxisExtent: 47.h,
-                        ),
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return Consumer(
-                            builder: (context, ref, child) {
-                              return ButtonCustom(
-                                isFollowed
-                                    ? coinFollowed[index]
-                                    : coinNotFollowed[index],
-                                height: 47.h,
-                                width: 159.w,
-                                type: ref.watch(
-                                          myPageProvider.select(
-                                            (value) => value.coinSelected,
-                                          ),
-                                        ) ==
-                                        index
-                                    ? ButtonType.normal
-                                    : ButtonType.outline,
-                                borderWidth: 2.r,
-                                radius: 12.r,
-                                onPressed: () {
-                                  provider.chooseCoin(index);
-                                },
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                    isFollowed
-                        ? Padding(
-                            padding: EdgeInsets.only(
-                              top: 9.h,
-                              bottom: 24.h,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 50.h,
-                                  width: 154.66.w,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xffF0F3F7),
-                                    border: Border.all(
-                                      width: 1.r,
-                                      color: AppTheme.fontGray,
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5.r)),
-                                  ),
-                                  child: TextField(
-                                    textAlign: TextAlign.center,
-                                    controller: provider.coinInputController,
-                                    keyboardType: TextInputType.number,
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 5.34.w,
-                                ),
-                                Text(
-                                  'pt',
-                                  style: style.copyWith(
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        : SizedBox(
-                            height: 32.h,
-                          ),
-                    Consumer(
-                      builder: (context, ref, child) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SwitchButtonSetting(
-                              context.tr(LocaleKeys.delaySetting),
-                              provider.delayController.text,
-                              ref.watch(
-                                myPageProvider.select(
-                                  (value) => value.isDelaySetting,
-                                ),
-                              ),
-                              () {
-                                showSettingSheet('Delay');
-                              },
-                              (value) {
-                                provider.changeDelaySetting(value);
-                              },
-                            ),
-                            SizedBox(
-                              width: 9.w,
-                            ),
-                            SwitchButtonSetting(
-                              context.tr(LocaleKeys.autoSetting),
-                              provider.autoController.text,
-                              ref.watch(
-                                myPageProvider.select(
-                                  (value) => value.isAutoSetting,
-                                ),
-                              ),
-                              () {
-                                showSettingSheet('Auto');
-                              },
-                              (value) {
-                                provider.changeAutoSetting(value);
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    if (isFollowed)
-                      Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Consumer(
-                                builder: (context, ref, child) {
-                                  return SizedBox.square(
-                                    dimension: 24.r,
-                                    child: Checkbox(
-                                      value: ref.watch(
-                                        myPageProvider.select(
-                                          (value) => value.isSaveSetting,
-                                        ),
-                                      ),
-                                      side: const BorderSide(
-                                        color: AppTheme.icon,
-                                        width: 1,
-                                      ),
-                                      onChanged: (bool? value) {
-                                        provider.changeSaveSetting(value!);
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-                              SizedBox(
-                                width: 12.w,
-                              ),
-                              Text(
-                                context.tr(LocaleKeys.saveSettings),
-                                style: style.copyWith(
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    if (isFollowed)
-                      SizedBox(
-                        height: 20.19.h,
-                      ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        bottom: context.screenPadding.bottom,
-                      ),
-                      child: ButtonCustom(
-                        context.tr(LocaleKeys.sendPoints),
-                        height: 48.h,
-                        width: 327.w,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) {
-                              return Dialog(
-                                backgroundColor: Colors.white,
-                                child: SizedBox(
-                                  width: 317.w,
-                                  height: 356.h,
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 55.h,
-                                      ),
-                                      const DelayDialog(),
-                                      SizedBox(
-                                        height: 30.h,
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text(
-                                          context.tr(LocaleKeys.cancel),
-                                          style: context.titleSmall!.copyWith(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w400,
-                                            color: AppTheme.primaryColor,
-                                            decoration:
-                                                TextDecoration.underline,
-                                            decorationColor:
-                                                AppTheme.primaryColor,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DelayDialog extends StatelessWidget {
-  const DelayDialog({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final bodySmall = context.bodySmall!.copyWith(
-      fontSize: 12.sp,
-      fontWeight: FontWeight.w600,
-      color: AppTheme.blackBold,
-    );
 
     void showDiaLogSuccess(BuildContext context) {
       showDialog(
@@ -546,154 +210,357 @@ class DelayDialog extends StatelessWidget {
       );
     }
 
-    return CircularPercentIndicator(
-      radius: 110.r,
-      lineWidth: 20.r,
-      backgroundColor: const Color(0xffE0E0E0),
-      progressColor: AppTheme.primaryColor,
-      percent: 1,
-      circularStrokeCap: CircularStrokeCap.round,
-      animation: true,
-      animationDuration: 5000,
-      onAnimationEnd: () {
-        Navigator.of(context).pop();
-        showDiaLogSuccess(context);
-      },
-      center: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            context.tr(
-              LocaleKeys.untilReceivePoints,
-            ),
-            style: bodySmall.copyWith(
-              color: AppTheme.fontGrayLead,
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                context.tr(LocaleKeys.after),
-                style: bodySmall,
-              ),
-              SizedBox(
-                width: 5.w,
-              ),
-              Text(
-                '5:00',
-                style: bodySmall,
-              ),
-              SizedBox(
-                width: 3.w,
-              ),
-              Text(
-                context.tr(LocaleKeys.seconds),
-                style: bodySmall,
-              ),
-            ],
-          ),
-        ],
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(15.0),
+        ),
       ),
-    );
-  }
-}
-
-class AutoDialog extends StatelessWidget {
-  const AutoDialog({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final bodySmall = context.bodySmall!.copyWith(
-      fontSize: 12.sp,
-      fontWeight: FontWeight.w600,
-      color: AppTheme.black,
-    );
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Assets.iconsIconAutoDialog.svg(),
-        Column(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-              height: 40.h,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    context.tr(LocaleKeys.remaining),
-                    style: bodySmall,
-                  ),
-                  Text(
-                    '30',
-                    style: context.displaySmall!.copyWith(
-                      fontSize: 40.sp,
-                      fontWeight: FontWeight.w500,
-                      color: AppTheme.blackBold,
-                    ),
-                  ),
-                  Text(
-                    'pt',
-                    style: bodySmall,
-                  ),
-                ],
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: const Icon(
+                  Icons.close_sharp,
+                  color: AppTheme.icon,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
             ),
-            SizedBox(
-              height: 22.h,
-            ),
-            Container(
-              height: 35.h,
-              width: 124.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(30.r)),
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    AppTheme.purple,
-                    AppTheme.purple.withOpacity(0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      '所持ポイント',
+                      style: style.copyWith(
+                        fontSize: 14.sp,
+                        color: AppTheme.fontGrayLead,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
+                    Row(
+                      children: [
+                        Assets.iconsIcCoin.svg(),
+                        SizedBox(
+                          width: 6.51.w,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            text: isFollowed ? '99999' : '0',
+                            style: context.titleLarge!.copyWith(
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: 'pt',
+                                style: style,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
+                ButtonCustom(
+                  'チャージする',
+                  onPressed: () {
+                    showChargeSheet();
+                  },
+                  height: 31.h,
+                  width: 103.w,
+                  backgroundColor: AppTheme.purple,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 32.h,
+            ),
+            SizedBox(
+              height: isFollowed ? 273.h : 104.h,
+              width: 327.24.w,
+              child: GridView.builder(
+                itemCount:
+                    isFollowed ? coinFollowed.length : coinNotFollowed.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 9.24.w,
+                  crossAxisSpacing: 9.h,
+                  mainAxisExtent: 47.h,
+                ),
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Consumer(
+                    builder: (context, ref, child) {
+                      return ButtonCustom(
+                        isFollowed
+                            ? coinFollowed[index]
+                            : coinNotFollowed[index],
+                        height: 47.h,
+                        width: 159.w,
+                        type: ref.watch(
+                                  myPageProvider.select(
+                                    (value) => value.coinSelected,
+                                  ),
+                                ) ==
+                                index
+                            ? ButtonType.normal
+                            : ButtonType.outline,
+                        borderWidth: 2.r,
+                        radius: 12.r,
+                        onPressed: () {
+                          provider.chooseCoin(index);
+                        },
+                      );
+                    },
+                  );
+                },
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '3000',
-                    style: context.headlineSmall!.copyWith(
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xffFFFFFF),
+            ),
+            isFollowed
+                ? Padding(
+                    padding: EdgeInsets.only(
+                      top: 9.h,
+                      bottom: 24.h,
                     ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 50.h,
+                          width: 154.66.w,
+                          decoration: BoxDecoration(
+                            color: const Color(0xffF0F3F7),
+                            border: Border.all(
+                              width: 1.r,
+                              color: AppTheme.fontGray,
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.r)),
+                          ),
+                          child: TextField(
+                            textAlign: TextAlign.center,
+                            controller: provider.coinInputController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.only(top: 4.h),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5.34.w,
+                        ),
+                        Text(
+                          'pt',
+                          style: style.copyWith(
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : SizedBox(
+                    height: 32.h,
                   ),
-                  Text(
-                    'pt',
-                    style: context.titleMedium!.copyWith(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xffFFFFFF),
+            Consumer(
+              builder: (context, ref, child) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SwitchButtonSetting(
+                      '遅延設定',
+                      provider.delayController.text,
+                      ref.watch(
+                        myPageProvider.select(
+                          (value) => value.isDelaySetting,
+                        ),
+                      ),
+                      () {
+                        showSettingSheet('Delay');
+                      },
+                      (value) {
+                        provider.changeDelaySetting(value);
+                      },
                     ),
+                    SizedBox(
+                      width: 9.w,
+                    ),
+                    SwitchButtonSetting(
+                      'オート設定',
+                      provider.autoController.text,
+                      ref.watch(
+                        myPageProvider.select(
+                          (value) => value.isAutoSetting,
+                        ),
+                      ),
+                      () {
+                        showSettingSheet('Auto');
+                      },
+                      (value) {
+                        provider.changeAutoSetting(value);
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
+            if (isFollowed)
+              Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Consumer(
+                        builder: (context, ref, child) {
+                          return SizedBox.square(
+                            dimension: 24.r,
+                            child: Checkbox(
+                              value: ref.watch(
+                                myPageProvider.select(
+                                  (value) => value.isSaveSetting,
+                                ),
+                              ),
+                              side: const BorderSide(
+                                color: AppTheme.icon,
+                                width: 1,
+                              ),
+                              onChanged: (bool? value) {
+                                provider.changeSaveSetting(value!);
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(
+                        width: 12.w,
+                      ),
+                      Text(
+                        '設定を保存する',
+                        style: style.copyWith(
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Text(
-              '-100',
-              style: context.titleLarge!.copyWith(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w600,
-                color: AppTheme.purple,
+            if (isFollowed)
+              SizedBox(
+                height: 20.19.h,
               ),
+            ButtonCustom(
+              'ポイントを送る',
+              height: 48.h,
+              width: 327.w,
+              onPressed: () {
+                Navigator.of(context).pop();
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return Dialog(
+                      backgroundColor: Colors.white,
+                      child: SizedBox(
+                        width: 317.w,
+                        height: 356.h,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 55.h,
+                            ),
+                            CircularPercentIndicator(
+                              radius: 110.r,
+                              lineWidth: 20.r,
+                              backgroundColor: const Color(0xffE0E0E0),
+                              progressColor: AppTheme.primaryColor,
+                              percent: 1,
+                              circularStrokeCap: CircularStrokeCap.round,
+                              animation: true,
+                              animationDuration: 5000,
+                              onAnimationEnd: () {
+                                Navigator.of(context).pop();
+                                showDiaLogSuccess(context);
+                              },
+                              center: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'ポイントをおくるまで',
+                                    style: bodySmall.copyWith(
+                                      color: AppTheme.fontGrayLead,
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'あと',
+                                        style: bodySmall,
+                                      ),
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      Text(
+                                        '5:00',
+                                        style: bodySmall,
+                                      ),
+                                      SizedBox(
+                                        width: 3.w,
+                                      ),
+                                      Text(
+                                        '秒',
+                                        style: bodySmall,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 30.h,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                'キャンセル',
+                                style: context.titleSmall!.copyWith(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppTheme.primaryColor,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: AppTheme.primaryColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -735,7 +602,7 @@ class SelectChargeBottomSheet extends ConsumerWidget {
               ),
             ),
             Text(
-              context.tr(LocaleKeys.possessionPoints),
+              '所持ポイント',
               style: context.titleSmall!.copyWith(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
@@ -791,7 +658,7 @@ class SelectChargeBottomSheet extends ConsumerWidget {
                           builder: (context, ref, child) {
                             return ButtonCustom(
                               index == 0 ? '￥650' : '￥1300',
-                              width: 90.w,
+                              width: 88.w,
                               height: 33.h,
                               type: chargeSelected == index
                                   ? ButtonType.normal
@@ -819,23 +686,18 @@ class SelectChargeBottomSheet extends ConsumerWidget {
             SizedBox(
               height: 22.h,
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                bottom: context.screenPadding.bottom,
-              ),
-              child: Consumer(
-                builder: (context, ref, child) {
-                  return ButtonCustom(
-                    context.tr(LocaleKeys.buy),
-                    width: 327.w,
-                    height: 48.h,
-                    backgroundColor: chargeSelected == -1
-                        ? AppTheme.middleGray
-                        : AppTheme.primaryColor,
-                    onPressed: () {},
-                  );
-                },
-              ),
+            Consumer(
+              builder: (context, ref, child) {
+                return ButtonCustom(
+                  '購入する',
+                  width: 327.w,
+                  height: 48.h,
+                  backgroundColor: chargeSelected == -1
+                      ? AppTheme.middleGray
+                      : AppTheme.primaryColor,
+                  onPressed: () {},
+                );
+              },
             ),
           ],
         ),
@@ -902,9 +764,7 @@ class SettingBottomSheet extends ConsumerWidget {
               ),
             ),
             Text(
-              typeSetting == 'Delay'
-                  ? context.tr(LocaleKeys.delaySetting)
-                  : context.tr(LocaleKeys.autoSetting),
+              typeSetting == 'Delay' ? '遅延設定' : 'オート設定',
               style: context.titleLarge!.copyWith(
                 fontSize: 24.sp,
                 fontWeight: FontWeight.w600,
@@ -915,8 +775,8 @@ class SettingBottomSheet extends ConsumerWidget {
             ),
             Text(
               typeSetting == 'Delay'
-                  ? context.tr(LocaleKeys.noteAboutDelaySetting)
-                  : context.tr(LocaleKeys.noteAboutAutoSetting),
+                  ? '遅延設定についての注釈がここに入ります。'
+                  : 'オート設定についての注釈がここに入ります',
               style: context.labelLarge!.copyWith(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w300,
@@ -959,21 +819,16 @@ class SettingBottomSheet extends ConsumerWidget {
             SizedBox(
               height: 40.h,
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                bottom: context.screenPadding.bottom,
-              ),
-              child: ButtonCustom(
-                context.tr(LocaleKeys.set),
-                height: 48.h,
-                width: 327.w,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  typeSetting == 'Delay'
-                      ? provider.changeDelayValue()
-                      : provider.changeAutoValue();
-                },
-              ),
+            ButtonCustom(
+              '設定する',
+              height: 48.h,
+              width: 327.w,
+              onPressed: () {
+                Navigator.of(context).pop();
+                typeSetting == 'Delay'
+                    ? provider.changeDelayValue()
+                    : provider.changeAutoValue();
+              },
             ),
           ],
         ),
@@ -1066,7 +921,7 @@ class SwitchButtonSetting extends StatelessWidget {
                         ),
                         onPressed: onPressed,
                         child: Text(
-                          context.tr(LocaleKeys.change),
+                          '変更',
                           style: style.copyWith(
                             color: AppTheme.primaryColor,
                           ),

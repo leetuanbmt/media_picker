@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../creator/creator_model.dart';
+import '../models.dart';
 part 'following_model.freezed.dart';
 part 'following_model.g.dart';
 
@@ -10,7 +10,7 @@ class FollowingModel with _$FollowingModel {
 
   const factory FollowingModel({
     required String title,
-    required List<CreatorModel> listCreator,
+    required List<UserModel> users,
   }) = _FollowingModel;
 
   factory FollowingModel.fromJson(Map<String, dynamic> json) =>

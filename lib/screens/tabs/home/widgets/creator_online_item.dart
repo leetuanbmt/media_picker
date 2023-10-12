@@ -1,5 +1,5 @@
 import '../../../../core/config.dart';
-import '../../../../core/models/creator/creator_model.dart';
+import '../../../../core/models/models.dart';
 import '../../../../widgets/commons/tag_name_custom.dart';
 
 class CreatorOnlineItem extends ConsumerWidget {
@@ -9,7 +9,7 @@ class CreatorOnlineItem extends ConsumerWidget {
     this.onPressed,
   });
 
-  final CreatorModel? creator;
+  final UserModel? creator;
   final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,7 +40,7 @@ class CreatorOnlineItem extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: Text(
-                creator?.category ?? '👗ファッション',
+                creator?.firstCategory ?? '',
                 style: context.labelMedium?.copyWith(
                   color: Colors.white,
                   fontSize: 12.sp,

@@ -4,6 +4,7 @@ import '../../../../../core/config.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../widgets/commons/button_custom.dart';
+import '../../../../../widgets/dialogs.dart';
 
 class MyPageLeading extends StatelessWidget {
   const MyPageLeading({
@@ -31,10 +32,7 @@ class MyPageLeading extends StatelessWidget {
 class UserOnline extends StatelessWidget {
   const UserOnline({
     super.key,
-    required this.isOnline,
   });
-
-  final bool isOnline;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +43,7 @@ class UserOnline extends StatelessWidget {
         borderRadius: BorderRadius.all(
           Radius.circular(30.r),
         ),
-        color: isOnline ? AppTheme.pink : AppTheme.icon,
+        color: AppTheme.pink,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -58,9 +56,7 @@ class UserOnline extends StatelessWidget {
             width: 6.w,
           ),
           Text(
-            isOnline
-                ? context.tr(LocaleKeys.online)
-                : context.tr(LocaleKeys.offline),
+            'オンライン',
             style: context.labelMedium!.copyWith(
               fontSize: 12.sp,
               fontWeight: FontWeight.w600,
@@ -74,12 +70,9 @@ class UserOnline extends StatelessWidget {
 }
 
 class MyPageAction extends ConsumerWidget {
-  const MyPageAction(
-    this.isOnline, {
+  const MyPageAction({
     super.key,
   });
-
-  final bool isOnline;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -96,150 +89,81 @@ class MyPageAction extends ConsumerWidget {
         color: AppTheme.box,
       ),
     );
-
-    final isBlocked =
-        ref.watch(myPageProvider.select((value) => value.isBlocked));
-
-    final provider = ref.read(myPageProvider);
     return IconButton(
       onPressed: () {
-        (isOnline && !isBlocked)
-            ? showCupertinoModalPopup(
-                context: context,
-                builder: (ctx) {
-                  return CupertinoActionSheet(
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            constraints: BoxConstraints(
-                              maxHeight: context.screenHeight * 0.9,
+        showCupertinoModalPopup(
+          context: context,
+          builder: (ctx) {
+            return CupertinoActionSheet(
+              title: Text(
+                'ユーザーを報告する',
+                style: style,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    AppDialog.showAppBottomSheet(
+                      context,
+                      title: 'ユーザーの報告',
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 110.h,
+                            width: 343.w,
+                            child: TextField(
+                              maxLines: 5,
+                              decoration: InputDecoration(
+                                hintText: 'ユーザーの違反行為などを報告',
+                                hintStyle: context.titleSmall!.copyWith(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppTheme.boxFont,
+                                ),
+                                enabledBorder: border,
+                                focusedBorder: border,
+                              ),
                             ),
-                            builder: (context) {
-                              return DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                  borderRadius: const BorderRadius.vertical(
-                                    top: Radius.circular(15.0),
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context)
-                                        .viewInsets
-                                        .bottom,
-                                    left: 16.w,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.topRight,
-                                        child: IconButton(
-                                          icon: const Icon(
-                                            Icons.close_sharp,
-                                            color: AppTheme.icon,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ),
-                                      Text(
-                                        'ユーザーの報告',
-                                        style: context.titleLarge!.copyWith(
-                                          fontSize: 24.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color: const Color(0xff4F4F4F),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 32.h,
-                                      ),
-                                      SizedBox(
-                                        height: 110.h,
-                                        width: 343.w,
-                                        child: TextField(
-                                          maxLines: 5,
-                                          decoration: InputDecoration(
-                                            hintText: context.tr(
-                                              LocaleKeys.reportViolationsByUser,
-                                            ),
-                                            hintStyle:
-                                                context.titleSmall!.copyWith(
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w300,
-                                              color: AppTheme.boxFont,
-                                            ),
-                                            enabledBorder: border,
-                                            focusedBorder: border,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 32.h,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          bottom: context.screenPadding.bottom,
-                                        ),
-                                        child: ButtonCustom(
-                                          context.tr(LocaleKeys.report),
-                                          height: 48.h,
-                                          width: 327.w,
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            provider.blockUser();
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: Text(
-                          context.tr(LocaleKeys.reportUser),
-                          style: style,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                          provider.blockUser();
-                        },
-                        child: Text(
-                          context.tr(LocaleKeys.block),
-                          style: style.copyWith(
-                            color: const Color(0xff007AFF),
                           ),
-                        ),
+                          SizedBox(
+                            height: 32.h,
+                          ),
+                          ButtonCustom(
+                            '報告する',
+                            height: 48.h,
+                            width: 327.w,
+                            onPressed: () {
+                              Navigator.pop(context);
+                              ref.read(myPageProvider).blockUser();
+                            },
+                          ),
+                        ],
                       ),
-                    ],
-                    cancelButton: TextButton(
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                      child: Text(
-                        'Cancel',
-                        style: style.copyWith(
-                          color: const Color(0xff007AFF),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                    );
+                  },
+                  child: Text(
+                    'ブロックする',
+                    style: style.copyWith(
+                      color: const Color(0xff007AFF),
                     ),
-                  );
+                  ),
+                ),
+              ],
+              cancelButton: TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
                 },
-              )
-            : null;
+                child: Text(
+                  'Cancel',
+                  style: style.copyWith(
+                    color: const Color(0xff007AFF),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            );
+          },
+        );
       },
       icon: const Icon(
         Icons.more_horiz,
