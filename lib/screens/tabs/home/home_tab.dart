@@ -76,7 +76,7 @@ class UserListByCategory extends ConsumerWidget {
       data: (users) {
         if (users.isEmpty) return Dimensions.empty;
         return ListCreator(
-          title: category,
+          title: category.removeIcon,
           users: users,
         );
       },

@@ -130,3 +130,24 @@ final userCheckExits = FutureProvider.autoDispose.family<bool, String>(
     return doc.docs.isNotEmpty;
   },
 );
+
+final followCreator =
+    FutureProvider.autoDispose.family<void, String>((ref, createId) {
+  return ref
+      .read(firestoreProvider)
+      .collection(DbCollection.users)
+      .doc(createId)
+      .set({
+    'followers': FieldValue.arrayUnion([createId]),
+  });
+});
+final unFollow =
+    FutureProvider.autoDispose.family<void, String>((ref, createId) {
+  return ref
+      .read(firestoreProvider)
+      .collection(DbCollection.users)
+      .doc(createId)
+      .set({
+    'followers': FieldValue.arrayRemove([createId]),
+  });
+});

@@ -40,7 +40,7 @@ class CreatorOnlineItem extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: Text(
-                creator?.firstCategory ?? '',
+                creator?.firstCategory.removeIcon ?? '',
                 style: context.labelMedium?.copyWith(
                   color: Colors.white,
                   fontSize: 12.sp,
