@@ -97,7 +97,10 @@ class MyProfileScreen extends ConsumerWidget {
       error: (error, stack) => Center(
         child: Text(error.toString()),
       ),
-      loading: () => const TurnLoading(),
+      loading: () => const ColoredBox(
+        color: AppTheme.background,
+        child: TurnLoading(),
+      ),
     );
   }
 }
