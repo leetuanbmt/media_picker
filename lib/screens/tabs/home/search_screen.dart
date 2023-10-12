@@ -2,13 +2,14 @@ import '../../../../core/config.dart';
 import '../../../providers/search_provider.dart';
 import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
+import '../../../widgets/commons/indicators/loading_manager.dart';
 import '../../../widgets/creator_item.dart';
 import '../../../widgets/search_app_bar.dart';
 
 @RoutePage()
 class SearchCreatorScreen extends HookConsumerWidget {
-  const SearchCreatorScreen({super.key});
-
+  const SearchCreatorScreen({super.key, this.category});
+  final String? category;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchController = useTextEditingController();
@@ -18,42 +19,65 @@ class SearchCreatorScreen extends HookConsumerWidget {
         searchAppBar: SearchAppBar(
           controller: searchController,
           onChanged: (String val) {
-            ref.read(searchNotifier.notifier).searchCreator(val);
+            ref.read(searchNotifier(category).notifier).searchCreator(val);
           },
         ),
       ),
-      body: Consumer(
-        builder: (context, ref, _) {
-          final searchList = ref.watch(searchNotifier);
-          return searchList.isEmpty
-              ? const Center(child: Text('No data found'))
-              : Column(
-                  children: [
-                    Expanded(
-                      child: ListView.separated(
-                        separatorBuilder: (context, index) => const Divider(
-                          height: 1,
-                          color: AppTheme.lightGray,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (category.isNotEmptyAndNotNull) ...[
+            category!.text.semiBold.size(16.sp).make().p(16.w),
+            const Divider(
+              height: 1,
+              color: AppTheme.lightGray,
+            ),
+          ],
+          Expanded(
+            child: Consumer(
+              builder: (context, ref, _) {
+                final searchAsync = ref.watch(searchNotifier(category));
+                return searchAsync.when(
+                  initial: () => const TurnLoading(),
+                  loading: () => const TurnLoading(),
+                  error: (message) => Center(child: Text(message)),
+                  loaded: (users) {
+                    if (users.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "検索結果がありません",
+                          style: context.bodyMedium,
                         ),
-                        itemCount: searchList.length,
-                        itemBuilder: (context, index) {
-                          final creator = searchList[index];
-                          return CreatorItem(
-                            creator: creator,
-                            onPressed: () {
-                              context.router.push(
-                                MyProfileRoute(
-                                  id: creator.id,
-                                ),
-                              );
-                            },
-                          );
-                        },
+                      );
+                    }
+
+                    return ListView.separated(
+                      separatorBuilder: (context, index) => const Divider(
+                        height: 1,
+                        color: AppTheme.lightGray,
                       ),
-                    ),
-                  ],
+                      itemCount: users.length,
+                      itemBuilder: (context, index) {
+                        final creator = users[index];
+                        return CreatorItem(
+                          name: creator.name,
+                          avatar: creator.avatar,
+                          onPressed: () {
+                            context.router.push(
+                              MyProfileRoute(
+                                id: creator.id,
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
                 );
-        },
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

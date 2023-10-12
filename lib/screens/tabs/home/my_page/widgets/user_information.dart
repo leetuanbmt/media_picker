@@ -1,7 +1,8 @@
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../../core/config.dart';
-import '../../../../../core/models/creator/creator_model.dart';
+
+import '../../../../../core/models/models.dart';
 import '../../../../../core/utilities/utilities.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
@@ -10,7 +11,7 @@ import '../../../../../widgets/commons/cache_image.dart';
 class UserID extends StatelessWidget {
   const UserID({super.key, required this.creator});
 
-  final CreatorModel creator;
+  final UserModel creator;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,7 @@ class UserID extends StatelessWidget {
 class UserInformation extends StatelessWidget {
   const UserInformation({super.key, required this.creator});
 
-  final CreatorModel creator;
+  final UserModel creator;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +94,7 @@ class UserInformation extends StatelessWidget {
                         children: [
                           const TextItem(value: "フォロー"),
                           TextItem(
-                            value: creator.follow?.toCompactCurrency ?? '',
+                            value: creator.follow.toCompactCurrency,
                           ),
                         ],
                       ),
@@ -101,7 +102,7 @@ class UserInformation extends StatelessWidget {
                         children: [
                           const TextItem(value: 'フォロワー'),
                           TextItem(
-                            value: creator.followers?.toCompactCurrency ?? '',
+                            value: creator.followers.toCompactCurrency,
                           ),
                         ],
                       ),
@@ -109,7 +110,7 @@ class UserInformation extends StatelessWidget {
                         children: [
                           Assets.iconsIconApp.svg(height: 17.h),
                           TextItem(
-                            value: '${creator.points?.toCurrency ?? ''}pt',
+                            value: '${creator.points.toCurrency}pt',
                           ),
                         ],
                       ),
@@ -123,21 +124,22 @@ class UserInformation extends StatelessWidget {
         SizedBox(
           height: 12.h,
         ),
-        Container(
-          padding: EdgeInsets.fromLTRB(6.w, 1.h, 6.w, 0.h),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-          child: Text(
-            creator.category,
-            style: context.labelMedium!.copyWith(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w600,
-              color: AppTheme.primaryColor,
+        if (creator.listCategory.isNotEmpty)
+          Container(
+            padding: EdgeInsets.fromLTRB(6.w, 1.h, 6.w, 0.h),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            child: Text(
+              creator.listCategory.first,
+              style: context.labelMedium!.copyWith(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.primaryColor,
+              ),
             ),
           ),
-        ),
         SizedBox(
           height: 9.4.h,
         ),
@@ -170,7 +172,7 @@ class TextItem extends StatelessWidget {
 class UserBio extends ConsumerWidget {
   const UserBio({super.key, required this.creator});
 
-  final CreatorModel creator;
+  final UserModel creator;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

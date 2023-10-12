@@ -1,4 +1,5 @@
 import '../../../../core/config.dart';
+import '../../../../providers/firebase_provider.dart';
 import '../../../../providers/my_page_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/indicators/loading_manager.dart';
@@ -33,7 +34,7 @@ class MyProfileScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Consumer(
           builder: (context, ref, child) {
-            final creatorAsync = ref.watch(creatorChangeFirebase(id));
+            final creatorAsync = ref.watch(userChangeFirebase(id));
             final isBlocked =
                 ref.watch(myPageProvider.select((value) => value.isBlocked));
 
@@ -58,7 +59,7 @@ class MyProfileScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              UserID(creator: creator),
+                              UserID(creator: creator!),
                               SizedBox(
                                 height: 6.77.h,
                               ),

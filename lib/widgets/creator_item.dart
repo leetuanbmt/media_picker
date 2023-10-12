@@ -1,23 +1,27 @@
 import '../core/config.dart';
-import '../core/models/creator/creator_model.dart';
 import 'commons/button_custom.dart';
 import 'commons/cache_image.dart';
 
 class CreatorItem extends StatelessWidget {
-  const CreatorItem({super.key, required this.creator, this.onPressed});
-  final CreatorModel creator;
+  const CreatorItem({
+    super.key,
+    this.onPressed,
+    required this.name,
+    required this.avatar,
+  });
+  final String name, avatar;
   final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.all(16),
       leading: CacheImage(
-        image: creator.avatar,
+        image: avatar,
         radius: 100.r,
         dimension: 50.w,
       ),
       title: Text(
-        creator.name,
+        name,
         style: context.titleMedium?.copyWith(
           fontSize: 16.sp,
           fontWeight: FontWeight.w600,

@@ -1,5 +1,5 @@
 import '../../../../core/config.dart';
-import '../../../../core/models/creator/creator_model.dart';
+import '../../../../core/models/models.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/cache_image.dart';
 import '../../../../widgets/commons/tag_name_custom.dart';
@@ -7,7 +7,7 @@ import '../../../../widgets/commons/tag_name_custom.dart';
 class FollowingItem extends StatelessWidget {
   const FollowingItem({super.key, this.creator, this.onPressed});
 
-  final CreatorModel? creator;
+  final UserModel? creator;
   final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) {

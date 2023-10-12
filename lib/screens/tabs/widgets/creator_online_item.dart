@@ -1,5 +1,5 @@
 import '../../../core/config.dart';
-import '../../../core/models/creator/creator_model.dart';
+import '../../../core/models/user/user_model.dart';
 import '../../../widgets/commons/category_picker.dart';
 
 class CreatorOnlineItem extends StatelessWidget {
@@ -8,7 +8,7 @@ class CreatorOnlineItem extends StatelessWidget {
     this.model,
   });
 
-  final CreatorModel? model;
+  final UserModel? model;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class CreatorOnlineItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: Text(
-                model?.category ?? '👗ファッション',
+                model?.firstCategory ?? '👗ファッション',
                 style: context.labelMedium?.copyWith(
                   color: Colors.white,
                   fontSize: 12.sp,

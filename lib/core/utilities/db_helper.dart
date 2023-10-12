@@ -14,7 +14,7 @@ class DbCollection {
   DbCollection._();
   static const String users = 'users';
   static const String categories = 'categories';
-  static const String creators = 'creators';
+  // static const String creators = 'creators';
   static const String calls = 'calls';
   static const String callHistories = 'callHistories';
   static const String rooms = 'rooms';

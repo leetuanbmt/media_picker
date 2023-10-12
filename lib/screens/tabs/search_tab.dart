@@ -17,7 +17,7 @@ class SearchScreen extends StatelessWidget {
         searchAppBar: SearchAppBar(
           readOnly: true,
           onTap: () {
-            context.navigator(const SearchCreatorRoute());
+            context.navigator(SearchCreatorRoute());
           },
         ),
       ),
@@ -99,35 +99,7 @@ class SearchScreen extends StatelessWidget {
                         ),
                         itemBuilder: (_, index) {
                           final category = categories[index];
-                          return InkWell(
-                            onTap: () {},
-                            child: Column(
-                              children: [
-                                SizedBox.square(
-                                  dimension: 64.r,
-                                  child: DecoratedBox(
-                                    decoration: const BoxDecoration(
-                                      color: AppTheme.lightGray,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        category.split(" ").first,
-                                        style: TextStyle(fontSize: 24.sp),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                HeightBox(5.h),
-                                Text(
-                                  category.split(" ").last,
-                                  style: context.labelMedium?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
+                          return CategoryItem(category: category);
                         },
                       ),
                       orElse: () => const SliverToBoxAdapter(),
@@ -136,6 +108,50 @@ class SearchScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CategoryItem extends StatelessWidget {
+  const CategoryItem({
+    super.key,
+    required this.category,
+  });
+
+  final String category;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        context.pushRoute(SearchCreatorRoute(category: category));
+      },
+      child: Column(
+        children: [
+          SizedBox.square(
+            dimension: 64.r,
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                color: AppTheme.lightGray,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Text(
+                  category.split(" ").first,
+                  style: TextStyle(fontSize: 24.sp),
+                ),
+              ),
+            ),
+          ),
+          HeightBox(5.h),
+          Text(
+            category.split(" ").last,
+            style: context.labelMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }

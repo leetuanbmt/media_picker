@@ -79,13 +79,10 @@ final callHistoryProvider = StreamProvider.autoDispose((ref) {
       .collection(DbCollection.callHistories)
       .orderBy(DbKey.callTime, descending: true)
       .snapshots()
-      .map(
-        (event) =>
-            event.docs.map((e) => CallHistory.fromJson(e.data())).toList(),
-      );
+      .map((e) => e.docs.map((e) => CallHistory.fromJson(e.data())));
 });
 
-final creatorOnlineProvider = StreamProvider.autoDispose<List<CreatorModel>>(
+final creatorOnlineProvider = StreamProvider.autoDispose<List<UserModel>>(
   (ref) {
     final authState = ref.watch(authStateChangesProvider);
     if (authState.value?.uid == null) {
@@ -93,17 +90,16 @@ final creatorOnlineProvider = StreamProvider.autoDispose<List<CreatorModel>>(
     }
     return ref
         .watch(firestoreProvider)
-        .collection(DbCollection.creators)
+        .collection(DbCollection.users)
+        .where(DbKey.type, isEqualTo: UserType.creator.value)
         .where(DbKey.isOnline, isEqualTo: true)
         .snapshots()
-        .map(
-          (e) => e.docs.map((e) => CreatorModel.fromJson(e.data())).toList(),
-        );
+        .map((e) => e.docs.map((e) => UserModel.fromJson(e.data())).toList());
   },
 );
 
 final creatorByCategory =
-    StreamProvider.autoDispose<Map<String, List<CreatorModel>>>(
+    StreamProvider.autoDispose<Map<String, List<UserModel>>>(
   (ref) {
     final authState = ref.watch(authStateChangesProvider);
     if (authState.value?.uid == null) {
@@ -111,13 +107,23 @@ final creatorByCategory =
     }
     return ref
         .watch(firestoreProvider)
-        .collection(DbCollection.creators)
+        .collection(DbCollection.users)
+        .where(DbKey.type, isEqualTo: UserType.creator.value)
         .snapshots()
-        .map((e) => e.docs.map((e) => CreatorModel.fromJson(e.data())))
-        .map((event) => event.groupBy((element) => element.category));
+        .map(
+          (e) => e.docs
+              .map((e) => UserModel.fromJson(e.data()))
+              .where((element) => element.listCategory.isNotEmpty),
+        )
+        .map((e) => e.groupBy((e) => e.firstCategory));
   },
 );
 
+final usersProvider = FutureProvider.autoDispose((ref) {
+  return ref.watch(firestoreProvider).collection(DbCollection.users).get().then(
+        (value) => value.docs.map((e) => UserModel.fromJson(e.data())).toList(),
+      );
+});
 final userCheckExits = FutureProvider.autoDispose.family<bool, String>(
   (ref, email) async {
     final doc = await ref
