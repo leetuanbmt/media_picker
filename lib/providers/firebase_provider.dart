@@ -97,25 +97,21 @@ final creatorOnlineProvider = StreamProvider.autoDispose<List<UserModel>>(
         .map((e) => e.docs.map((e) => UserModel.fromJson(e.data())).toList());
   },
 );
-
-final creatorByCategory =
-    StreamProvider.autoDispose<Map<String, List<UserModel>>>(
-  (ref) {
-    final authState = ref.watch(authStateChangesProvider);
-    if (authState.value?.uid == null) {
-      return const Stream.empty();
-    }
+final userByCategory =
+    StreamProvider.autoDispose.family<List<UserModel>, String>(
+  (ref, category) {
     return ref
-        .watch(firestoreProvider)
+        .read(firestoreProvider)
         .collection(DbCollection.users)
-        .where(DbKey.type, isEqualTo: UserType.creator.value)
-        .snapshots()
-        .map(
-          (e) => e.docs
-              .map((e) => UserModel.fromJson(e.data()))
-              .where((element) => element.listCategory.isNotEmpty),
+        .where('listCategory', arrayContainsAny: [category])
+        .withConverter<UserModel>(
+          fromFirestore: (snapshot, _) {
+            return UserModel.fromJson(snapshot.data()!);
+          },
+          toFirestore: (user, _) => user.toJson(),
         )
-        .map((e) => e.groupBy((e) => e.firstCategory));
+        .snapshots()
+        .map((event) => event.docs.map((e) => e.data()).toList());
   },
 );
 
