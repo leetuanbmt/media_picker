@@ -49,7 +49,7 @@ class UserModel with _$UserModel {
         email: 'example.com',
         name: 'User Name',
         avatar: 'https://zpsocial-f49-org.zadn.vn/488ad1115de1b2bfebf0.jpg',
-        type: UserType.creator,
+        type: UserType.fan,
         listTopic: [],
         listCategory: [],
         followers: 0,
