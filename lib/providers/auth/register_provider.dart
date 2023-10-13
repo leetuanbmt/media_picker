@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../core/config.dart';
 import '../../core/models/models.dart';
 import '../../core/utilities/db_helper.dart';
@@ -256,7 +258,7 @@ class RegisterProvider extends ChangeNotifier {
     try {
       ref.loading(true);
       await auth.createUserWithEmailAndPassword(email, password);
-      final currentUser = ref.read(firebaseAuthProvider).currentUser!.uid;
+      final currentUser = FirebaseAuth.instance.currentUser!.uid;
       await createUser(currentUser, userType).whenComplete(() {
         ref.loading(false);
         AppNavigator.goToDashboard();

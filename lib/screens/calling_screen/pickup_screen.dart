@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../core/config.dart';
@@ -23,8 +24,7 @@ class PickupScreen extends ConsumerStatefulWidget {
 
 class _PickupScreenState extends ConsumerState<PickupScreen> {
   bool isCallMissed = true;
-  String get currentUser =>
-      ref.read(firebaseAuthProvider).currentUser?.uid ?? '';
+  String get currentUser => FirebaseAuth.instance.currentUser?.uid ?? '';
   ProviderSubscription? _callStream;
 
   void addToLocalStorage({required CallStatus callStatus}) {

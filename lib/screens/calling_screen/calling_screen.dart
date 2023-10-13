@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -29,8 +30,7 @@ class CallScreen extends ConsumerStatefulWidget {
 
 class _CallScreenState extends ConsumerState<CallScreen> {
   Call get call => widget.call;
-  String get currentUserId =>
-      ref.read(firebaseAuthProvider).currentUser?.uid ?? '';
+  String get currentUserId => FirebaseAuth.instance.currentUser?.uid ?? '';
 
   bool isAudioOn = true, isVideoOn = true, isFrontCameraSelected = true;
 

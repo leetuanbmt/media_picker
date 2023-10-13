@@ -30,6 +30,7 @@ class LoginScreen extends StatelessWidget {
                     loginGoogle: auth.loginGoogle,
                     loginFacebook: auth.loginFacebook,
                     loginTwitter: auth.loginTwitter,
+                    loginApple: auth.loginApple,
                   );
                 },
               ),
@@ -114,8 +115,8 @@ class LoginByFaceID extends ConsumerWidget {
           ),
         ),
         SizedBox(height: 10.h),
-        SocialButton(
-          path: Assets.iconsIconFaceId.path,
+        IconButton(
+          icon: Assets.iconsIconFaceId.svg(),
           onPressed: () {},
         ),
       ],

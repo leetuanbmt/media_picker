@@ -42,7 +42,7 @@ class TextFieldCustom extends StatelessWidget {
       borderRadius: BorderRadius.circular(radius),
     );
 
-    return TextField(
+    return TextFormField(
       controller: textController,
       style: style,
       textAlign: textAlign,
@@ -64,6 +64,9 @@ class TextFieldCustom extends StatelessWidget {
       ),
       onTap: onTap,
       onChanged: onChanged,
+      onTapOutside: (event) {
+        FocusScope.of(context).unfocus();
+      },
     );
   }
 }

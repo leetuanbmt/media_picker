@@ -1,20 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 import '../core/config.dart';
 import '../core/models/models.dart';
 import '../core/utilities/utilities.dart';
 
 typedef Json = Map<String, dynamic>;
-
-final googleProvider = Provider((ref) => GoogleSignIn());
-
-final facebookProvider = Provider((ref) => FacebookAuth.instance);
-
-final firebaseAuthProvider =
-    Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
 
 final firestoreProvider =
     Provider<FirebaseFirestore>((ref) => FirebaseFirestore.instance);
@@ -26,7 +17,7 @@ final userFirestoreProvider =
 );
 
 final authStateChangesProvider = StreamProvider<User?>(
-  (ref) => ref.watch(firebaseAuthProvider).authStateChanges(),
+  (ref) => FirebaseAuth.instance.authStateChanges(),
 );
 
 final userChangeFirebase =

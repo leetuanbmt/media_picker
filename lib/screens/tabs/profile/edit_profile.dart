@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../../core/config.dart';
 import '../../../providers/firebase_provider.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
@@ -11,7 +13,7 @@ class EditProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userId = ref.read(firebaseAuthProvider).currentUser!.uid;
+    final userId = FirebaseAuth.instance.currentUser!.uid;
     final userFuture = ref.watch(userChangeFirebase(userId));
 
     return Scaffold(
