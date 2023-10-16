@@ -1,6 +1,8 @@
 import 'package:biometric_storage/biometric_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../core/config.dart';
 import '../../core/models/models.dart';
@@ -16,11 +18,15 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
   AuthNotifier(this.ref) : super(const AuthenticationState.initial());
   final Ref ref;
 
+  final firebaseAuth = FirebaseAuth.instance;
+  final googleSignIn = GoogleSignIn();
+  final facebookSignIn = FacebookAuth.instance;
+
   Future<void> loginGoogle() async {
     try {
       state = const AuthenticationState.loading();
-      final auth = ref.read(firebaseAuthProvider);
-      final googleSignInAccount = await ref.read(googleProvider).signIn();
+
+      final googleSignInAccount = await googleSignIn.signIn();
       if (googleSignInAccount == null) {
         state = const AuthenticationState.initial();
         return;
@@ -30,7 +36,9 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
         accessToken: authentication.accessToken,
         idToken: authentication.idToken,
       );
-      final userCredential = await auth.signInWithCredential(credential);
+      final userCredential = await firebaseAuth.signInWithCredential(
+        credential,
+      );
       await checkAndCreatedUser(userCredential.user);
       state = AuthenticationState.success(userCredential.user);
     } on FirebaseAuthException catch (e) {
@@ -44,8 +52,8 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
   ) async {
     try {
       state = const AuthenticationState.loading();
-      final auth = ref.read(firebaseAuthProvider);
-      final userCredential = await auth.signInWithEmailAndPassword(
+
+      final userCredential = await firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -57,13 +65,14 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
 
   Future<void> loginFacebook() async {
     state = const AuthenticationState.loading();
-    final result = await ref.read(facebookProvider).login();
+    final result = await facebookSignIn.login();
     switch (result.status) {
       case LoginStatus.success:
         final accessToken = result.accessToken!;
         final credential = FacebookAuthProvider.credential(accessToken.token);
-        final userCredential =
-            await FirebaseAuth.instance.signInWithCredential(credential);
+        final userCredential = await firebaseAuth.signInWithCredential(
+          credential,
+        );
         state = AuthenticationState.success(userCredential.user);
       case LoginStatus.cancelled:
         state = const AuthenticationState.initial();
@@ -82,8 +91,7 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
   ) async {
     try {
       state = const AuthenticationState.loading();
-      final auth = ref.read(firebaseAuthProvider);
-      final userCredential = await auth.createUserWithEmailAndPassword(
+      final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -109,7 +117,10 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
   }
 
   Future<void> loginTwitter() async {
-    state = const AuthenticationState.loading();
+    state = const AuthenticationState.initial();
+    state = const AuthenticationState.error(message: 'Not support yet');
+    // state = const AuthenticationState.loading();
+
     // final twitterLogin = TwitterLogin(
     //   apiKey: AppConfig.twitterConsumerKey,
     //   apiSecretKey: AppConfig.twitterConsumerSecret,
@@ -139,6 +150,32 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
     // }
   }
 
+  Future<void> loginApple() async {
+    try {
+      state = const AuthenticationState.loading();
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      final credential = OAuthProvider('apple.com').credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
+      final userCredential = await firebaseAuth.signInWithCredential(
+        credential,
+      );
+      state = AuthenticationState.success(userCredential.user);
+      await checkAndCreatedUser(userCredential.user);
+    } on SignInWithAppleAuthorizationException catch (e) {
+      e.code == AuthorizationErrorCode.canceled
+          ? state = const AuthenticationState.initial()
+          : state = AuthenticationState.error(message: e.toString());
+    }
+  }
+
   Future<void> loginFaceID(BuildContext context) async {
     final response = await BiometricStorage().canAuthenticate();
     if (response == CanAuthenticateResponse.success) {
@@ -154,9 +191,9 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
 
   Future<void> logout() async {
     try {
-      await ref.read(firebaseAuthProvider).signOut();
-      await ref.read(googleProvider).signOut();
-      await ref.read(facebookProvider).logOut();
+      await firebaseAuth.signOut();
+      await googleSignIn.signOut();
+      await facebookSignIn.logOut();
       AppNavigator.goToLogin();
     } catch (e) {
       Logger.log("Logout error: $e");

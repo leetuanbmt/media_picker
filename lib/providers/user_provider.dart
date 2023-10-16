@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -56,7 +57,7 @@ class UserProvider extends ChangeNotifier {
   StreamSubscription? _callListen;
 
   void initialize() {
-    final userId = ref.read(firebaseAuthProvider).currentUser?.uid;
+    final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId != null) {
       _userSubscription = ref
           .firestore()

@@ -59,6 +59,7 @@ dependencies:
   media_kit_libs_video: ^1.0.3
   animations: ^2.0.8
   uuid: ^3.0.7
+  sign_in_with_apple: ^5.0.0
 
 dev_dependencies:
   flutter_test:

@@ -21,34 +21,28 @@ class RootApp extends StatelessWidget {
           return Consumer(
             builder: (context, ref, child) {
               final appGlobal = ref.watch(appGlobalProvider);
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                },
-                child: MaterialApp.router(
-                  title: AppConfig.title,
-                  localizationsDelegates: context.localizationDelegates,
-                  supportedLocales: context.supportedLocales,
-                  locale: context.locale,
-                  debugShowCheckedModeBanner: false,
-                  showPerformanceOverlay: false,
-                  showSemanticsDebugger: false,
-                  theme: AppTheme.appTheme.copyWith(
-                    primaryColor: appGlobal.themeColor,
-                  ),
-                  routerConfig: AppNavigator.instance.appRouter.config(
-                    navigatorObservers: () => [MyObserver()],
-                  ),
-                  builder: (context, child) {
-                    return MediaQuery(
-                      data: MediaQuery.of(context).copyWith(
-                        textScaleFactor: 1.0,
-                      ),
-                      child: LoadingWrapperScreen(child!),
-                    );
-                  },
+              return MaterialApp.router(
+                title: AppConfig.title,
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                debugShowCheckedModeBanner: false,
+                showPerformanceOverlay: false,
+                showSemanticsDebugger: false,
+                theme: AppTheme.appTheme.copyWith(
+                  primaryColor: appGlobal.themeColor,
                 ),
+                routerConfig: AppNavigator.instance.appRouter.config(
+                  navigatorObservers: () => [MyObserver()],
+                ),
+                builder: (context, child) {
+                  return MediaQuery(
+                    data: MediaQuery.of(context).copyWith(
+                      textScaleFactor: 1.0,
+                    ),
+                    child: LoadingWrapperScreen(child!),
+                  );
+                },
               );
             },
           );

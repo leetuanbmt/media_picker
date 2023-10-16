@@ -1,29 +1,42 @@
-import 'package:flutter_svg/svg.dart';
-
 import '../../../core/config.dart';
 import '../../../gen/assets.gen.dart';
+
+enum SocialType {
+  google,
+  facebook,
+  twitter,
+  apple,
+}
 
 class SocialButton extends StatelessWidget {
   const SocialButton({
     super.key,
-    required this.path,
+    required this.type,
     this.onPressed,
-    this.colorFilter,
   });
-  final String path;
+  final SocialType type;
   final VoidCallback? onPressed;
-  final ColorFilter? colorFilter;
   @override
   Widget build(BuildContext context) {
+    Widget child = switch (type) {
+      SocialType.google => Assets.iconsIconGoogle.svg(),
+      SocialType.twitter => Assets.iconsIcTwitter.svg(),
+      SocialType.facebook => Assets.iconsIconFacebook.svg(),
+      SocialType.apple => DecoratedBox(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: AppTheme.black.withOpacity(0.1),
+            ),
+          ),
+          child: const Icon(Icons.apple, size: 40),
+        ),
+    };
     return IconButton(
       onPressed: onPressed,
       icon: SizedBox.square(
         dimension: 48.r,
-        child: SvgPicture.asset(
-          path,
-          fit: BoxFit.contain,
-          colorFilter: colorFilter,
-        ),
+        child: child,
       ),
     );
   }
@@ -35,10 +48,12 @@ class SocialList extends StatelessWidget {
     this.loginGoogle,
     this.loginFacebook,
     this.loginTwitter,
+    this.loginApple,
   });
   final VoidCallback? loginGoogle;
   final VoidCallback? loginFacebook;
   final VoidCallback? loginTwitter;
+  final VoidCallback? loginApple;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,21 +67,25 @@ class SocialList extends StatelessWidget {
         ),
         SizedBox(height: 20.h),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 90.w),
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SocialButton(
                 onPressed: loginTwitter,
-                path: Assets.iconsIconTwitter.path,
+                type: SocialType.twitter,
               ),
               SocialButton(
                 onPressed: loginGoogle,
-                path: Assets.iconsIconGoogle.path,
+                type: SocialType.google,
               ),
               SocialButton(
-                onPressed: loginGoogle,
-                path: Assets.iconsIconFacebook.path,
+                onPressed: loginFacebook,
+                type: SocialType.facebook,
+              ),
+              SocialButton(
+                onPressed: loginApple,
+                type: SocialType.apple,
               ),
             ],
           ),

@@ -1,20 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 import '../core/config.dart';
 import '../core/models/models.dart';
 import '../core/utilities/utilities.dart';
 
 typedef Json = Map<String, dynamic>;
-
-final googleProvider = Provider((ref) => GoogleSignIn());
-
-final facebookProvider = Provider((ref) => FacebookAuth.instance);
-
-final firebaseAuthProvider =
-    Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
 
 final firestoreProvider =
     Provider<FirebaseFirestore>((ref) => FirebaseFirestore.instance);
@@ -26,7 +17,7 @@ final userFirestoreProvider =
 );
 
 final authStateChangesProvider = StreamProvider<User?>(
-  (ref) => ref.watch(firebaseAuthProvider).authStateChanges(),
+  (ref) => FirebaseAuth.instance.authStateChanges(),
 );
 
 final userChangeFirebase =
@@ -67,7 +58,8 @@ final categoriesProvider = FutureProvider<List<String>>((ref) async {
   return categories.docs.map((e) => e.data()['title'] as String).toList();
 });
 
-final callHistoryProvider = StreamProvider.autoDispose((ref) {
+final callHistoryProvider =
+    StreamProvider.autoDispose<List<CallHistory>>((ref) {
   final authState = ref.watch(authStateChangesProvider);
   if (authState.value?.uid == null) {
     return const Stream.empty();
@@ -79,7 +71,7 @@ final callHistoryProvider = StreamProvider.autoDispose((ref) {
       .collection(DbCollection.callHistories)
       .orderBy(DbKey.callTime, descending: true)
       .snapshots()
-      .map((e) => e.docs.map((e) => CallHistory.fromJson(e.data())));
+      .map((e) => e.docs.map((e) => CallHistory.fromJson(e.data())).toList());
 });
 
 final creatorOnlineProvider = StreamProvider.autoDispose<List<UserModel>>(
@@ -97,25 +89,21 @@ final creatorOnlineProvider = StreamProvider.autoDispose<List<UserModel>>(
         .map((e) => e.docs.map((e) => UserModel.fromJson(e.data())).toList());
   },
 );
-
-final creatorByCategory =
-    StreamProvider.autoDispose<Map<String, List<UserModel>>>(
-  (ref) {
-    final authState = ref.watch(authStateChangesProvider);
-    if (authState.value?.uid == null) {
-      return const Stream.empty();
-    }
+final userByCategory =
+    StreamProvider.autoDispose.family<List<UserModel>, String>(
+  (ref, category) {
     return ref
-        .watch(firestoreProvider)
+        .read(firestoreProvider)
         .collection(DbCollection.users)
-        .where(DbKey.type, isEqualTo: UserType.creator.value)
-        .snapshots()
-        .map(
-          (e) => e.docs
-              .map((e) => UserModel.fromJson(e.data()))
-              .where((element) => element.listCategory.isNotEmpty),
+        .where('listCategory', arrayContainsAny: [category])
+        .withConverter<UserModel>(
+          fromFirestore: (snapshot, _) {
+            return UserModel.fromJson(snapshot.data()!);
+          },
+          toFirestore: (user, _) => user.toJson(),
         )
-        .map((e) => e.groupBy((e) => e.firstCategory));
+        .snapshots()
+        .map((event) => event.docs.map((e) => e.data()).toList());
   },
 );
 
@@ -134,3 +122,24 @@ final userCheckExits = FutureProvider.autoDispose.family<bool, String>(
     return doc.docs.isNotEmpty;
   },
 );
+
+final followCreator =
+    FutureProvider.autoDispose.family<void, String>((ref, createId) {
+  return ref
+      .read(firestoreProvider)
+      .collection(DbCollection.users)
+      .doc(createId)
+      .set({
+    'followers': FieldValue.arrayUnion([createId]),
+  });
+});
+final unFollow =
+    FutureProvider.autoDispose.family<void, String>((ref, createId) {
+  return ref
+      .read(firestoreProvider)
+      .collection(DbCollection.users)
+      .doc(createId)
+      .set({
+    'followers': FieldValue.arrayRemove([createId]),
+  });
+});

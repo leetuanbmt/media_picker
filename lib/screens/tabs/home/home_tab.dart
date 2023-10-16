@@ -46,20 +46,12 @@ class HomeScreen extends ConsumerWidget {
             SizedBox(height: 5.h),
             Consumer(
               builder: (context, ref, child) {
-                return ref.watch(creatorByCategory).when(
-                      data: (result) {
+                return ref.watch(categoriesProvider).when(
+                      data: (categories) {
                         return Column(
-                          children: [
-                            ...result.entries
-                                .map(
-                                  (e) => ListCreator(
-                                    title: e.key,
-                                    users: e.value,
-                                    showMore: true,
-                                  ),
-                                )
-                                .toList(),
-                          ],
+                          children: categories
+                              .map((e) => UserListByCategory(category: e))
+                              .toList(),
                         );
                       },
                       loading: () => const TurnLoading(),
@@ -70,6 +62,27 @@ class HomeScreen extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class UserListByCategory extends ConsumerWidget {
+  const UserListByCategory({super.key, required this.category});
+  final String category;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userAsync = ref.watch(userByCategory(category));
+    return userAsync.maybeWhen(
+      data: (users) {
+        if (users.isEmpty) return Dimensions.empty;
+        return ListCreator(
+          title: category.removeIcon,
+          users: users,
+        );
+      },
+      orElse: () {
+        return Dimensions.empty;
+      },
     );
   }
 }

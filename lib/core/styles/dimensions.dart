@@ -100,6 +100,7 @@ class Dimensions {
   static const height60 = SizedBox(height: Dimensions.size60);
   static const height62 = SizedBox(height: Dimensions.size62);
   static const height65 = SizedBox(height: Dimensions.size65);
+
   static const empty = SizedBox();
 
   /* width */
