@@ -47,7 +47,7 @@ class DeviceConnected extends StatelessWidget {
             height: 18.h,
           ),
           Text(
-            '接続中の機器',
+            context.tr(LocaleKeys.connectedDevices),
             style: style.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -82,10 +82,11 @@ class DeviceConnected extends StatelessWidget {
           ),
           Center(
             child: ButtonCustom(
-              'コントロールリクエスト',
+              context.tr(LocaleKeys.controlRequest),
               height: 32.h,
               width: 212.w,
               type: ButtonType.outline,
+              fontSize: 13.sp,
               onPressed: () {
                 context.router.push(const DeviceConnectedRoute());
               },
@@ -201,7 +202,7 @@ class UserNotification extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '$date月',
+                  '$date${context.tr(LocaleKeys.day)}',
                   style: style.copyWith(
                     fontSize: 10.sp,
                   ),
@@ -212,7 +213,7 @@ class UserNotification extends StatelessWidget {
                     style: style.copyWith(fontSize: 18.sp),
                     children: [
                       TextSpan(
-                        text: '日',
+                        text: context.tr(LocaleKeys.month),
                         style: style.copyWith(fontSize: 10.sp),
                       ),
                     ],
@@ -246,7 +247,9 @@ class UserNotification extends StatelessWidget {
 }
 
 class ListRankingUser extends StatelessWidget {
-  const ListRankingUser({super.key});
+  const ListRankingUser({super.key, required this.padding});
+
+  final double padding;
 
   @override
   Widget build(BuildContext context) {
@@ -272,7 +275,7 @@ class ListRankingUser extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: ((context, index) {
                   return Padding(
-                    padding: EdgeInsets.only(right: 16.w),
+                    padding: EdgeInsets.only(right: padding),
                     child: Stack(
                       children: [
                         SizedBox.square(

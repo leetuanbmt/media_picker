@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../core/config.dart';
+import '../core/models/models.dart';
 import '../core/utilities/utilities.dart';
 import 'firebase_provider.dart';
 
@@ -40,7 +43,7 @@ class MyPageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void followUser() {
+  void followUsers() {
     isFollowed = !isFollowed;
     notifyListeners();
   }
@@ -84,6 +87,42 @@ class MyPageProvider extends ChangeNotifier {
     delayController.text;
     notifyListeners();
   }
+
+  CollectionReference users =
+      FirebaseFirestore.instance.collection(DbCollection.users);
+
+  Future<void> updateUser() {
+    return users
+        .doc('TxQHXq13rmbDtEW4kbCseMSepI23')
+        .update({'following': []})
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+    //return users.doc('41AV2ifXGiTYAiOO20ye4kLmeM73').snapshots().first;
+  }
+
+  Future<void> followUser(String userID) async {
+    final currentUser = ref.read(firebaseAuthProvider).currentUser!.uid;
+    await ref
+        .watch(firestoreProvider)
+        .collection(DbCollection.users)
+        .doc(currentUser)
+        .update({
+      'following': FieldValue.arrayUnion([userID]),
+    });
+
+    notifyListeners();
+  }
+
+  Future<void> unFollowUser(String userID) async {
+    final currentUser = ref.read(firebaseAuthProvider).currentUser!.uid;
+    return ref
+        .watch(firestoreProvider)
+        .collection(DbCollection.users)
+        .doc(currentUser)
+        .update({
+      'following': FieldValue.arrayRemove([userID]),
+    });
+  }
 }
 
 final userRankingProvider = FutureProvider<List<String>>((ref) async {
@@ -106,6 +145,18 @@ final userFollowProvider = FutureProvider<List<String>>((ref) async {
   return userFollow.docs
       .map((e) => e.data()['profile_photo'] as String)
       .toList();
+});
+
+final userCheckFollow = StreamProvider.autoDispose((ref) {
+  final currentUser = ref.read(firebaseAuthProvider).currentUser!.uid;
+  final userSnapshot = ref
+      .watch(firestoreProvider)
+      .collection(DbCollection.users)
+      .doc(currentUser)
+      .snapshots()
+      .map((event) => UserModel.fromJson(event.data() as Json));
+  print(userSnapshot);
+  return userSnapshot;
 });
 
 // final creatorFirestoreProvider =

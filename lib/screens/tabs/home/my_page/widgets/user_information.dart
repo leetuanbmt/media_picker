@@ -107,13 +107,15 @@ class UserInformation extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Column(
-                        children: [
-                          Assets.iconsIconApp.svg(height: 17.h),
-                          TextItem(
-                            value: '${creator.points.toCurrency}pt',
-                          ),
-                        ],
+                      Flexible(
+                        child: Column(
+                          children: [
+                            Assets.iconsIconApp.svg(height: 17.h),
+                            TextItem(
+                              value: '${creator.points.toCurrency}pt',
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -163,7 +165,7 @@ class TextItem extends StatelessWidget {
       value,
       overflow: TextOverflow.ellipsis,
       maxLines: 1,
-      style: context.bodySmall!.copyWith(
+      style: context.labelMedium!.copyWith(
         fontSize: 12.sp,
         fontWeight: FontWeight.w600,
         color: Colors.white,
@@ -246,6 +248,9 @@ class UserBio extends ConsumerWidget {
                             : Icons.keyboard_arrow_down,
                         color: Colors.white,
                         size: 30,
+                      ),
+                      style: IconButton.styleFrom(
+                        highlightColor: Colors.transparent,
                       ),
                     ),
                   )

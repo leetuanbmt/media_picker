@@ -3,8 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../../../../../core/config.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
-import '../../../../../widgets/commons/button_custom.dart';
-import '../../../../../widgets/dialogs.dart';
+import 'my_page_bottom_sheet.dart';
 
 class MyPageLeading extends StatelessWidget {
   const MyPageLeading({
@@ -29,8 +28,8 @@ class MyPageLeading extends StatelessWidget {
   }
 }
 
-class UserOnline extends StatelessWidget {
-  const UserOnline({
+class UserStatus extends StatelessWidget {
+  const UserStatus({
     super.key,
   });
 
@@ -82,67 +81,39 @@ class MyPageAction extends ConsumerWidget {
       color: const Color(0xffEB5757),
     );
 
-    final border = OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(3.r)),
-      borderSide: BorderSide(
-        width: 1.r,
-        color: AppTheme.box,
-      ),
-    );
     return IconButton(
       onPressed: () {
         showCupertinoModalPopup(
           context: context,
           builder: (ctx) {
             return CupertinoActionSheet(
-              title: Text(
-                'ユーザーを報告する',
-                style: style,
-              ),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(ctx).pop();
-                    AppDialog.showAppBottomSheet(
-                      context,
-                      title: 'ユーザーの報告',
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 110.h,
-                            width: 343.w,
-                            child: TextField(
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                hintText: 'ユーザーの違反行為などを報告',
-                                hintStyle: context.titleSmall!.copyWith(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w300,
-                                  color: AppTheme.boxFont,
-                                ),
-                                enabledBorder: border,
-                                focusedBorder: border,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 32.h,
-                          ),
-                          ButtonCustom(
-                            '報告する',
-                            height: 48.h,
-                            width: 327.w,
-                            onPressed: () {
-                              Navigator.pop(context);
-                              ref.read(myPageProvider).blockUser();
-                            },
-                          ),
-                        ],
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      constraints: BoxConstraints(
+                        maxHeight: context.screenHeight * 0.8,
                       ),
+                      builder: (context) {
+                        return const ReportUserBottomSheet();
+                      },
                     );
                   },
                   child: Text(
-                    'ブロックする',
+                    context.tr(LocaleKeys.reportUser),
+                    style: style,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    ref.read(myPageProvider).blockUser();
+                  },
+                  child: Text(
+                    context.tr(LocaleKeys.block),
                     style: style.copyWith(
                       color: const Color(0xff007AFF),
                     ),
