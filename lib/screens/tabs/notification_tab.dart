@@ -1,5 +1,4 @@
 import '../../core/config.dart';
-import '../contact_list.dart';
 
 @RoutePage()
 class NotificationScreen extends ConsumerWidget {
@@ -7,6 +6,13 @@ class NotificationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const ContactList();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(context.tr(LocaleKeys.notification)),
+      ),
+      body: const Center(
+        child: Text("Notification Screen"),
+      ),
+    );
   }
 }
