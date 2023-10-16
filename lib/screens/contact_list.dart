@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../core/config.dart';
 import '../core/models/models.dart';
 import '../providers/call_provider.dart';
@@ -11,6 +13,7 @@ class ContactList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    Logger.log(FirebaseAuth.instance.currentUser?.uid);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Contact List"),
@@ -36,6 +39,14 @@ class ContactList extends ConsumerWidget {
                     return _UserItem(user: user);
                   },
                 ),
+                error: (error, stackTrace) {
+                  return Center(
+                    child: Text(
+                      error.toString(),
+                      style: context.titleMedium,
+                    ),
+                  );
+                },
                 orElse: () => const TurnLoading(),
               ),
         ),

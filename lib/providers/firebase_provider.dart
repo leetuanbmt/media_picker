@@ -58,7 +58,8 @@ final categoriesProvider = FutureProvider<List<String>>((ref) async {
   return categories.docs.map((e) => e.data()['title'] as String).toList();
 });
 
-final callHistoryProvider = StreamProvider.autoDispose((ref) {
+final callHistoryProvider =
+    StreamProvider.autoDispose<List<CallHistory>>((ref) {
   final authState = ref.watch(authStateChangesProvider);
   if (authState.value?.uid == null) {
     return const Stream.empty();
@@ -70,7 +71,7 @@ final callHistoryProvider = StreamProvider.autoDispose((ref) {
       .collection(DbCollection.callHistories)
       .orderBy(DbKey.callTime, descending: true)
       .snapshots()
-      .map((e) => e.docs.map((e) => CallHistory.fromJson(e.data())));
+      .map((e) => e.docs.map((e) => CallHistory.fromJson(e.data())).toList());
 });
 
 final creatorOnlineProvider = StreamProvider.autoDispose<List<UserModel>>(
