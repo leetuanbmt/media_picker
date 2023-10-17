@@ -29,7 +29,7 @@ dependencies:
   toast: ^0.3.0
   pinput: ^3.0.1
   flutter_webrtc: ^0.9.45
-  web_socket_client: ^0.1.0
+  # web_socket_client: ^0.1.0
   audioplayers: ^5.1.0
   sentry_flutter: ^7.10.1
   synchronized: ^3.1.0
@@ -39,9 +39,11 @@ dependencies:
 
   mobile_scanner: ^3.4.1
   biometric_storage: ^5.0.0+4
-  flutter_local_notifications: ^16.0.0+1
+  # flutter_local_notifications: ^16.0.0+1
   cached_network_image: ^3.2.3
   photo_view: ^0.14.0
+  flutter_slidable: ^3.0.0
+  flutter_cache_manager: ^3.3.1
 
   # firebase
   firebase_core: ^2.17.0
@@ -54,12 +56,18 @@ dependencies:
   flutter_facebook_auth: ^6.0.1
 
   # media_kit
-  media_kit: ^1.1.8
-  media_kit_video: ^1.2.1
-  media_kit_libs_video: ^1.0.3
+  # media_kit: ^1.1.8
+  # media_kit_video: ^1.2.1
+  # media_kit_libs_video: ^1.0.3
+
   animations: ^2.0.8
   uuid: ^3.0.7
   sign_in_with_apple: ^5.0.0
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  extended_image: ^8.1.1
+  timeago: ^3.5.0
+  video_player: ^2.7.2
 
 dev_dependencies:
   flutter_test:

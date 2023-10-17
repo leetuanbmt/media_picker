@@ -69,7 +69,7 @@ final callHistoryProvider =
       .collection(DbCollection.users)
       .doc(authState.value?.uid)
       .collection(DbCollection.callHistories)
-      .orderBy(DbKey.callTime, descending: true)
+      .orderBy(DbKeys.callTime, descending: true)
       .snapshots()
       .map((e) => e.docs.map((e) => CallHistory.fromJson(e.data())).toList());
 });
@@ -83,8 +83,8 @@ final creatorOnlineProvider = StreamProvider.autoDispose<List<UserModel>>(
     return ref
         .watch(firestoreProvider)
         .collection(DbCollection.users)
-        .where(DbKey.type, isEqualTo: UserType.creator.value)
-        .where(DbKey.isOnline, isEqualTo: true)
+        .where(DbKeys.type, isEqualTo: UserType.creator.value)
+        .where(DbKeys.isOnline, isEqualTo: true)
         .snapshots()
         .map((e) => e.docs.map((e) => UserModel.fromJson(e.data())).toList());
   },

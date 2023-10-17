@@ -77,7 +77,7 @@ class CallHistoryItem extends ConsumerWidget {
         children: [
           CacheImage(
             image: history.image,
-            dimension: 50,
+            dimension: const Size.square(50),
             radius: 100,
           ),
           if (history.started != null && history.ended != null)
@@ -96,7 +96,7 @@ class CallHistoryItem extends ConsumerWidget {
       subtitle: Row(
         children: [
           Icon(
-            history.type == DbKey.incoming
+            history.type == DbKeys.incoming
                 ? (history.started == null
                     ? Icons.call_missed
                     : Icons.call_received)

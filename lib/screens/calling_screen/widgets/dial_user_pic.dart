@@ -31,7 +31,7 @@ class DialUserPic extends StatelessWidget {
       ),
       child: CacheImage(
         image: image,
-        dimension: dimension,
+        dimension: Size.square(dimension),
       ),
     );
   }
