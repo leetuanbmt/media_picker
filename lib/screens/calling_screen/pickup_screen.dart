@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 
 import '../../core/config.dart';
 import '../../core/models/call/call.dart';
@@ -12,6 +10,7 @@ import '../../core/utilities/utilities.dart';
 import '../../providers/call_provider.dart';
 import '../../providers/firebase_provider.dart';
 import '../../routes/app_routes.gr.dart';
+import '../../widgets/commons/cache_image.dart';
 import 'widgets/dial_button.dart';
 
 @RoutePage()
@@ -25,7 +24,6 @@ class PickupScreen extends ConsumerStatefulWidget {
 class _PickupScreenState extends ConsumerState<PickupScreen> {
   bool isCallMissed = true;
   String get currentUser => FirebaseAuth.instance.currentUser?.uid ?? '';
-  ProviderSubscription? _callStream;
 
   void addToLocalStorage({required CallStatus callStatus}) {
     final call = CallHistory(
@@ -38,7 +36,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
       channelId: widget.call.channelId,
       hasDialled: widget.call.hasDialled,
       callTime: DateTime.now(),
-      type: DbKey.incoming,
+      type: DbKeys.incoming,
     );
 
     // add call to local storage
@@ -64,7 +62,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
 
   @override
   void initState() {
-    _callStream = ref.listenManual(callStream(currentUser), (previous, next) {
+    ref.listenManual(callStream(currentUser), (previous, next) {
       if (next.value != null && !next.value!.exists) {
         Navigator.pop(context);
       }
@@ -77,7 +75,6 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
     if (isCallMissed) {
       addToLocalStorage(callStatus: CallStatus.missed);
     }
-    _callStream?.close();
     super.deactivate();
   }
 
@@ -91,15 +88,10 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              kIsWeb
-                  ? Image.network(
-                      widget.call.callerPic,
-                      fit: BoxFit.cover,
-                    )
-                  : CachedNetworkImage(
-                      imageUrl: widget.call.callerPic,
-                      fit: BoxFit.cover,
-                    ),
+              CacheImage(
+                image: widget.call.callerPic,
+                dimension: MediaQuery.of(context).size,
+              ),
               Column(
                 children: <Widget>[
                   SizedBox(height: context.screenHeight * .2),

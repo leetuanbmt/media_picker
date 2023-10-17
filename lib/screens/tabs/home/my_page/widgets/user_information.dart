@@ -65,7 +65,7 @@ class UserInformation extends StatelessWidget {
             CacheImage(
               image: creator.avatar,
               radius: 100.r,
-              dimension: 92.w,
+              dimension: Size.square(92.r),
               isZoom: true,
             ),
             SizedBox(

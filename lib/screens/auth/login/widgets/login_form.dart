@@ -23,7 +23,7 @@ class LoginForm extends HookConsumerWidget {
       } else if (next is AuthSuccess) {
         AppConfig.email.setString(emailController.text);
         AppConfig.password.setString(passwordController.text);
-        AppNavigator.goToDashboard();
+        AppNavigator.instance.goToDashboard();
       }
     });
 

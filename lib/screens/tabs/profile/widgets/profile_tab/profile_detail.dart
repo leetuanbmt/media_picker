@@ -5,6 +5,7 @@ import '../../../../../core/models/models.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/auth/auth_notify.dart';
 import '../../../../../routes/app_routes.gr.dart';
+import '../../my_stories.dart';
 import 'card_profile.dart';
 
 class ProfileDetail extends StatelessWidget {
@@ -58,7 +59,9 @@ class ProfileDetail extends StatelessWidget {
           _ProfileItem(
             title: context.tr(LocaleKeys.faq),
             assetIcon: Assets.iconsIcQna.path,
-            onTap: () {},
+            onTap: () {
+              context.nextPage(const MyStoriesScreen());
+            },
           ),
           _ProfileItem(
             title: context.tr(LocaleKeys.usageGuide),
@@ -70,7 +73,9 @@ class ProfileDetail extends StatelessWidget {
           _ProfileItem(
             title: context.tr(LocaleKeys.announcementDistribution),
             assetIcon: Assets.iconsIcComment.path,
-            onTap: () {},
+            onTap: () {
+              context.navigator(ChatRoute(chatId: '11111111'));
+            },
           ),
           _ProfileItem(
             title: context.tr(LocaleKeys.notificationSettings),

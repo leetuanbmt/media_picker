@@ -283,7 +283,8 @@ class ListRankingUser extends StatelessWidget {
                           child: CacheImage(
                             image: result[index],
                             radius: 100.r,
-                            dimension: 58.r,
+                            // dimension: 58.r,
+                            dimension: Size.square(58.r),
                           ),
                         ),
                         Positioned(
@@ -339,7 +340,7 @@ class ListFollowUser extends StatelessWidget {
                       result.length,
                       (index) => CacheImage(
                         image: result[index],
-                        dimension: 34.r,
+                        dimension: Size.square(34.r),
                         radius: 100.r,
                       ),
                     ),

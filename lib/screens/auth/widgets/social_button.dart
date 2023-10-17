@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../../../core/config.dart';
 import '../../../gen/assets.gen.dart';
 
@@ -66,29 +68,28 @@ class SocialList extends StatelessWidget {
           ),
         ),
         SizedBox(height: 20.h),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SocialButton(
-                onPressed: loginTwitter,
-                type: SocialType.twitter,
-              ),
-              SocialButton(
-                onPressed: loginGoogle,
-                type: SocialType.google,
-              ),
-              SocialButton(
-                onPressed: loginFacebook,
-                type: SocialType.facebook,
-              ),
+        Wrap(
+          spacing: 10,
+          children: [
+            SocialButton(
+              onPressed: loginTwitter,
+              type: SocialType.twitter,
+            ),
+            SocialButton(
+              onPressed: loginGoogle,
+              type: SocialType.google,
+            ),
+            SocialButton(
+              onPressed: loginFacebook,
+              type: SocialType.facebook,
+            ),
+            // only support IOS
+            if (Platform.isIOS)
               SocialButton(
                 onPressed: loginApple,
                 type: SocialType.apple,
               ),
-            ],
-          ),
+          ],
         ),
       ],
     );

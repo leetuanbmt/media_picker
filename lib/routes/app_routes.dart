@@ -55,6 +55,8 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
     AutoRoute(page: CallRoute.page),
     AutoRoute(page: PickupRoute.page),
     AutoRoute(page: CallHistoryRoute.page),
+    AutoRoute(page: ChatRoute.page),
+    AutoRoute(page: StoryViewRoute.page),
     RedirectRoute(path: '*', redirectTo: '/dashboard'),
   ];
 

@@ -99,30 +99,40 @@ class _BottomNavigation extends StatelessWidget {
       ),
     ];
     return SafeArea(
-      child: SizedBox(
+      top: false,
+      child: Container(
         height: kBottomNavigationBarHeight.h,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          child: Row(
-            children: tabs
-                .asMap()
-                .entries
-                .map(
-                  (e) => e.key != 2
-                      ? _BottomTabItem(
-                          tab: e.value,
-                          index: e.key,
-                          currentIndex: currentIndex,
-                          onTap: onChange,
-                        )
-                      : _MainTabCustom(
-                          tab: e.value,
-                          index: e.key,
-                          onTap: onChange,
-                        ),
-                )
-                .toList(),
-          ),
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          //box shadow top navigator bar
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, -1),
+            ),
+          ],
+        ),
+        child: Row(
+          children: tabs
+              .asMap()
+              .entries
+              .map(
+                (e) => e.key != 2
+                    ? _BottomTabItem(
+                        tab: e.value,
+                        index: e.key,
+                        currentIndex: currentIndex,
+                        onTap: onChange,
+                      )
+                    : _MainTabCustom(
+                        tab: e.value,
+                        index: e.key,
+                        onTap: onChange,
+                      ),
+              )
+              .toList(),
         ),
       ),
     );

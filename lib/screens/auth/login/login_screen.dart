@@ -1,4 +1,5 @@
 import 'package:flutter/gestures.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../../../core/config.dart';
 import '../../../gen/assets.gen.dart';
@@ -9,9 +10,100 @@ import '../widgets/social_button.dart';
 import 'widgets/login_form.dart';
 
 @RoutePage()
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key, this.onResult});
   final Function(bool didLogin)? onResult;
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    // WidgetsBinding.instance.endOfFrame.then((value) => checkUserInJapan());
+    super.initState();
+  }
+
+  void checkUserInJapan() {
+    Logger.log('checkUserInJapan');
+    isUserInJapan().then(
+      (isInJapan) {
+        if (!isInJapan) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Location Restriction'),
+                content: const Text('Login is only available in Japan.'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      },
+      onError: (e) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Location Restriction'),
+              content: Text(e.toString()),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<bool> isUserInJapan() async {
+    try {
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          // Permissions are denied, next time you could try
+          // requesting permissions again (this is also where
+          // Android's shouldShowRequestPermissionRationale
+          // returned true. According to Android guidelines
+          // your App should show an explanatory UI now.
+          return Future.error('Location permissions are denied');
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        // Permissions are denied forever, handle appropriately.
+        return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.',
+        );
+      }
+
+      // Use a geo location library like 'geolocator' to get the user's location
+      final Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      Logger.log(position.toJson());
+      // Implement your logic to determine if the user is in Japan based on their location
+      // For simplicity, let's assume that if the latitude is between 24 and 46 (roughly Japan's latitudinal range),
+      // we consider the user to be in Japan
+      return position.latitude >= 24 && position.latitude <= 46;
+    } catch (e) {
+      Logger.log("error: $e");
+      rethrow;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +126,50 @@ class LoginScreen extends StatelessWidget {
                   );
                 },
               ),
+              // ButtonCustom(
+              //   'Text',
+              //   onPressed: () async {
+              //     context.startLoading();
+              //     // const address = "Microsoft Building 25 Redmond WA USA";
+              //     // final locations = await locationFromAddress(address);
+              //     final currentPosition = await Geolocator.getCurrentPosition(
+              //       desiredAccuracy: LocationAccuracy.high,
+              //     );
+              //     final Location location = Location(
+              //       latitude: currentPosition.latitude,
+              //       longitude: currentPosition.longitude,
+              //       timestamp: DateTime.now(),
+              //     );
+              //     final List<Placemark> placemarks =
+              //         await placemarkFromCoordinates(
+              //       location.latitude,
+              //       location.longitude,
+              //       localeIdentifier: 'en_US',
+              //     );
+              //     // full address is stored in placemark
+              //     String? address;
+              //  address =
+              //           '${placemark.street}, ${placemark.locality}, ${placemark.administrativeArea} ${placemark.postalCode}, ${placemark.country}';
+              //     if (placemarks.isNotEmpty) {
+              //       final Placemark placemark = placemarks[0];
+              //       if (placemark.street.isNotEmptyAndNotNull) {
+              //         address = placemark.street;
+              //       }
+              //       if (placemark.subAdministrativeArea.isNotEmptyAndNotNull) {
+              //         address = '$address, ${placemark.subAdministrativeArea}';
+              //       }
+              //       if (placemark.administrativeArea.isNotEmptyAndNotNull) {
+              //         address = '$address, ${placemark.administrativeArea}';
+              //       }
+
+              //       if (placemark.country.isNotEmptyAndNotNull) {
+              //         address = '$address, ${placemark.country}';
+              //       }
+              //     }
+              //     if (mounted) context.endLoading();
+              //     Logger.log(address);
+              //   },
+              // ),
               const LoginByFaceID(),
               const LoginInformation(),
             ],

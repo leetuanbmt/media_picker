@@ -19,7 +19,7 @@ class AppNavigator {
 
   // Current context
 
-  static goToLogin() {
+  goToLogin() {
     if (instance.currentRouter.name == LoginRoute.name) return;
 
     instance.appRouter.pushAndPopUntil(
@@ -28,11 +28,15 @@ class AppNavigator {
     );
   }
 
-  static goToDashboard() {
+  goToDashboard() {
     if (instance.currentRouter.name == DashboardRoute.name) return;
     instance.appRouter.pushAndPopUntil(
       const DashboardRoute(),
       predicate: (route) => false,
     );
+  }
+
+  navigator(PageRouteInfo routePage) {
+    instance.appRouter.navigate(routePage);
   }
 }
