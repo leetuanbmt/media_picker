@@ -4,10 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/config.dart';
 import '../../../core/models/models.dart';
 import '../../../core/models/story/story.dart';
-import '../../../core/utilities/navigator.dart';
 import '../../../core/utilities/utilities.dart';
-import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/commons/cache_image.dart';
+import '../../story_screen/story_screen.dart';
 
 final storyProvider = StreamProvider.autoDispose<List<StoryModel>>(
   (_) async* {
@@ -41,16 +40,13 @@ class MyStoriesScreen extends ConsumerWidget {
         .get();
 
     final userModel = UserModel.fromJson(user.data()!);
-    AppNavigator.instance.navigator(
-      StoryViewRoute(
-        stories: [
-          StoryList(
-            user: userModel,
-            stories: stories.map((e) => StoryItem(info: e)).toList(),
-          ),
-        ],
-        storyInitPage: index,
-      ),
+    if (!context.mounted) return;
+    StoryViewPage.openStory(
+      context,
+      stories: [
+        StoryList(user: userModel, stories: stories),
+      ],
+      storyInitPage: index,
     );
   }
 

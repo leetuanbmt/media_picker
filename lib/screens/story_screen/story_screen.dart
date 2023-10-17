@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/services.dart';
 
 import 'package:video_player/video_player.dart';
 
@@ -10,11 +9,16 @@ import '../../core/config.dart';
 import '../../core/models/story/story.dart';
 import '../../core/models/user/user_model.dart';
 import '../../core/utilities/utilities.dart';
+import '../../core/utilities/video_manager.dart';
 import '../../widgets/commons/cache_image.dart';
 import '../../widgets/commons/indicators/loading_indicator.dart';
 
+final videoProvider = ChangeNotifierProvider<VideoManager>(
+  (ref) => VideoManager(),
+);
+
 @RoutePage()
-class StoryViewPage extends StatefulWidget {
+class StoryViewPage extends ConsumerStatefulWidget {
   const StoryViewPage({
     Key? key,
     required this.stories,
@@ -25,10 +29,32 @@ class StoryViewPage extends StatefulWidget {
   final int initialPage;
   final int storyInitPage;
   @override
-  State<StoryViewPage> createState() => _StoryViewPageState();
+  ConsumerState<StoryViewPage> createState() => _StoryViewPageState();
+  static openStory(
+    BuildContext context, {
+    required List<StoryList> stories,
+    int initialPage = 0,
+    int storyInitPage = 0,
+  }) {
+    Navigator.of(context, rootNavigator: true).push(
+      PageRouteBuilder(
+        settings: const RouteSettings(name: 'StoryViewPage'),
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return FadeTransition(
+            opacity: animation,
+            child: StoryViewPage(
+              stories: stories,
+              initialPage: initialPage,
+              storyInitPage: storyInitPage,
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
 
-class _StoryViewPageState extends State<StoryViewPage>
+class _StoryViewPageState extends ConsumerState<StoryViewPage>
     with SingleTickerProviderStateMixin {
   late PageController _pageController;
   late double currentPageValue;
@@ -44,38 +70,7 @@ class _StoryViewPageState extends State<StoryViewPage>
         currentPageValue = _pageController.page!;
       });
     });
-
-    // set bottom navigator bar dark
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Colors.white,
-      ),
-    );
     super.initState();
-  }
-
-  @override
-  void deactivate() {
-    // for (UserModel user in _users) {
-    //   for (StoryData item in user.storyData) {
-    //     item.dispose();
-    //   }
-    // }
-
-    for (var element in _stories) {
-      element.dispose();
-    }
-
-// set bottom navigator bar light
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        systemNavigationBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: Colors.black,
-      ),
-    );
-
-    super.deactivate();
   }
 
   @override
@@ -91,11 +86,17 @@ class _StoryViewPageState extends State<StoryViewPage>
         controller: _pageController,
         itemCount: _stories.length,
         itemBuilder: (_, int index) {
+          // check if story is leaving or entering
           final bool isLeaving = (index - currentPageValue) <= 0;
+
+          // calculate rotation of page
           final double t = index - currentPageValue;
           final double? rotationY = lerpDouble(0, 30, t);
+
           final Matrix4 transform = Matrix4.identity();
+          // set perspective to transform
           transform.setEntry(3, 2, 0.003);
+          // set translate to transform
           transform.rotateY(-rotationY! * (pi / 180.0));
           return Transform(
             alignment: isLeaving ? Alignment.centerRight : Alignment.centerLeft,
@@ -121,7 +122,7 @@ class _StoryViewPageState extends State<StoryViewPage>
   }
 }
 
-class StoryScreen extends StatefulWidget {
+class StoryScreen extends ConsumerStatefulWidget {
   const StoryScreen({
     Key? key,
     required this.stories,
@@ -131,65 +132,57 @@ class StoryScreen extends StatefulWidget {
     required this.author,
     this.initialPage = 0,
   }) : super(key: key);
-  final List<StoryItem> stories;
+  final List<StoryModel> stories;
   final UserModel author;
   final bool isLast;
   final int currentIndexStory, initialPage;
   final Function(int) animationPage;
   @override
-  State<StoryScreen> createState() => _StoryScreenState();
+  ConsumerState<StoryScreen> createState() => _StoryScreenState();
 }
 
-class _StoryScreenState extends State<StoryScreen>
-    with SingleTickerProviderStateMixin {
-  ValueNotifier<bool> showLoading = ValueNotifier<bool>(false);
+class _StoryScreenState extends ConsumerState<StoryScreen>
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+  final videoManager = VideoManager();
 
   late PageController _pageController;
   late AnimationController _animationController;
   int _currentIndex = 0;
-  List<StoryItem> stories = <StoryItem>[];
-  late UserModel author;
+  List<StoryModel> get stories => widget.stories;
 
-  StoryItem get _story => stories[_currentIndex];
+  UserModel get author => widget.author;
+
+  StoryModel get _story => stories[_currentIndex];
 
   @override
   void initState() {
-    super.initState();
-
-    author = widget.author;
-
-    stories = widget.stories;
+    // init page controller
     _pageController = PageController(initialPage: widget.initialPage);
+
+    // init animation controller
     _animationController = AnimationController(vsync: this);
 
     // init view page index
     _currentIndex = widget.initialPage;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _loadStory(stories[_currentIndex], animateToPage: false);
-      await _initializeNextVideo();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadStory(stories[_currentIndex], animateToPage: false);
     });
-    _animationController.addStatusListener(_listenVideoPlayer);
-  }
 
-// initialize next video
-  Future<void> _initializeNextVideo() async {
-    if (_currentIndex + 1 < stories.length) {
-      Logger.log("Loading next video ${_currentIndex + 1}");
-      final StoryItem nextStory = stories[_currentIndex + 1];
-      if (nextStory.info.isVideo) {
-        await _initializeVideo(nextStory);
-      }
-    }
+    // listen animation status
+    _animationController.addStatusListener(_listenVideoPlayer);
+
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
   }
 
   // listen video end next story or next page
   Future<void> _listenVideoPlayer(AnimationStatus status) async {
     if (status != AnimationStatus.completed) return;
-    // if finished video
-
+    // if finished video go to next story
     _animationController.stop();
     _animationController.reset();
+
     if (_currentIndex + 1 < stories.length) {
       // if not last story go to next story
       if (!mounted) return;
@@ -197,7 +190,6 @@ class _StoryScreenState extends State<StoryScreen>
         _currentIndex += 1;
       });
       await _loadStory(stories[_currentIndex]);
-      await _initializeNextVideo();
     } else {
       if (widget.isLast) {
         // if last story and last page close story screen
@@ -210,8 +202,27 @@ class _StoryScreenState extends State<StoryScreen>
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      // check if app is resumed play video
+      case AppLifecycleState.resumed:
+        ref.read(videoProvider).resume();
+        _animationController.forward();
+        break;
+      // check if app is paused pause video
+      case AppLifecycleState.paused:
+        ref.read(videoProvider).pause();
+        _animationController.stop();
+        break;
+      default:
+    }
+
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
   void deactivate() {
-    _pauseAll();
+    ref.read(videoProvider).pause();
     super.deactivate();
   }
 
@@ -219,6 +230,7 @@ class _StoryScreenState extends State<StoryScreen>
   void dispose() {
     _pageController.dispose();
     _animationController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -230,52 +242,45 @@ class _StoryScreenState extends State<StoryScreen>
         onTapDown: _onTapDown,
         child: Stack(
           children: <Widget>[
-            switch (_story.info.type) {
-              DbKeys.image => CacheImage(
-                  image: _story.info.url,
-                  dimension: Size.infinite,
-                ),
-              DbKeys.video => Container(
-                  width: context.screenWidth,
-                  height: context.screenHeight,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: ExtendedNetworkImageProvider(
-                        _story.info.thumbnail,
-                        cache: true,
+            Center(
+              child: switch (_story.type) {
+                DbKeys.image => AspectRatio(
+                    aspectRatio: _story.aspectRatio,
+                    child: CacheImage(
+                      image: _story.url,
+                      dimension: Size.infinite,
+                    ),
+                  ),
+                DbKeys.video => Container(
+                    width: context.screenWidth,
+                    height: context.screenHeight,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: ExtendedNetworkImageProvider(
+                          _story.thumbnail,
+                          cache: true,
+                        ),
+                      ),
+                    ),
+                    child: Center(
+                      child: Consumer(
+                        builder: (_, ref, child) {
+                          final video = ref.watch(
+                            videoProvider.select((value) => value.video),
+                          );
+                          return video != null && video.value.isInitialized
+                              ? AspectRatio(
+                                  aspectRatio: video.value.aspectRatio,
+                                  child: VideoPlayer(video),
+                                )
+                              : const LoadingIndicator();
+                        },
                       ),
                     ),
                   ),
-                  child: Stack(
-                    children: <Widget>[
-                      if (_story.player != null &&
-                          _story.player!.value.isInitialized)
-                        Center(
-                          child: AspectRatio(
-                            aspectRatio: _story.player!.value.aspectRatio,
-                            child: VideoPlayer(_story.player!),
-                          ),
-                        ),
-                      Positioned.fill(
-                        child: ValueListenableBuilder<bool>(
-                          valueListenable: showLoading,
-                          builder: (_, bool isLoading, __) {
-                            return AnimatedOpacity(
-                              opacity: isLoading ? 1.0 : 0.0,
-                              duration: kThemeAnimationDuration,
-                              child: const Stack(
-                                alignment: Alignment.center,
-                                children: <Widget>[LoadingIndicator()],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              _ => const SizedBox.shrink(),
-            },
+                _ => const SizedBox.shrink(),
+              },
+            ),
             _author(),
           ],
         ),
@@ -308,7 +313,7 @@ class _StoryScreenState extends State<StoryScreen>
               horizontal: 1.5,
               vertical: 10.0,
             ),
-            child: UserInfo(user: author, timeAgo: _story.info.timeAgo),
+            child: UserInfo(user: author, timeAgo: _story.timeAgo),
           ),
         ],
       ),
@@ -316,6 +321,7 @@ class _StoryScreenState extends State<StoryScreen>
   }
 
   void _onTapDown(TapDownDetails details) {
+    final manager = ref.read(videoProvider);
     final double screenWidth = MediaQuery.of(context).size.width;
     final double dx = details.globalPosition.dx;
     if (dx < screenWidth / 3) {
@@ -340,35 +346,22 @@ class _StoryScreenState extends State<StoryScreen>
         });
       }
     } else {
-      if (_story.info.type == DbKeys.video) {
-        if (_story.player!.value.isPlaying) {
-          _story.player?.pause();
+      if (_story.type == DbKeys.video) {
+        if (manager.isPlaying) {
+          manager.pause();
           _animationController.stop();
         } else {
-          _story.player?.play();
+          manager.resume();
           _animationController.forward();
         }
       }
     }
   }
 
-  void _pauseAll() {
-    for (int i = 0; i < stories.length; i++) {
-      final StoryItem storyModel = stories[i];
-      if (storyModel.info.isVideo && storyModel.player != null) {
-        storyModel.player?.pause();
-      }
-    }
-  }
-
-  Future<void> _loadStory(
-    StoryItem story, {
-    bool animateToPage = true,
-  }) async {
+  Future<void> _loadStory(StoryModel story, {bool animateToPage = true}) async {
     _animationController.stop();
     _animationController.reset();
-    _pauseAll();
-    switch (story.info.type) {
+    switch (story.type) {
       case DbKeys.image:
         _animationController.duration = const Duration(seconds: 3);
         _animationController.forward();
@@ -386,57 +379,11 @@ class _StoryScreenState extends State<StoryScreen>
     }
   }
 
-  Future<void> _initializeVideo(StoryItem story) async {
-    try {
-      if (story.isLoading) return;
-      story.isLoading = true;
-      if (story.player != null && story.player!.value.isInitialized) return;
-      final fileInfo = await CustomCacheManager.instance.getFile(
-        story.info.url,
-        isAutoDownload: true,
-      );
-      if (!mounted) return;
-      if (fileInfo == null) {
-        story.player = VideoPlayerController.networkUrl(
-          Uri.parse(story.info.url),
-        );
-      } else {
-        Logger.log('Playing for cache');
-        story.player = VideoPlayerController.file(fileInfo.file);
-      }
-      await story.player?.initialize();
-      story.isLoading = false;
-    } catch (e) {
-      Logger.log("Error init video: $e");
-    }
-  }
-
-  Future<void> _loadingVideo(StoryItem story) async {
-    try {
-      if (story.player != null && story.player!.value.isInitialized) {
-        _animationController.duration = Duration(seconds: story.info.duration);
-        _animationController.forward();
-        story.player!.seekTo(const Duration());
-        story.player!.play();
-      } else {
-        showLoading.value = true;
-        await _initializeVideo(story);
-        if (!_animationController.toStringDetails().contains('DISPOSED')) {
-          showLoading.value = false;
-          _animationController.duration = Duration(
-            seconds: story.info.duration,
-          );
-          _animationController.forward();
-          story.player!.play();
-          story.player!.setLooping(true);
-        }
-        if (mounted) {
-          setState(() {});
-        }
-      }
-    } catch (e) {
-      Logger.log(e);
-    }
+  Future<void> _loadingVideo(StoryModel story) async {
+    ref.read(videoProvider).play(story.url);
+    if (_animationController.toStringDetails().contains('DISPOSED')) return;
+    _animationController.duration = Duration(seconds: story.duration);
+    _animationController.forward();
   }
 }
 

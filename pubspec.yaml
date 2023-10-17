@@ -68,6 +68,7 @@ dependencies:
   extended_image: ^8.1.1
   timeago: ^3.5.0
   video_player: ^2.7.2
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:

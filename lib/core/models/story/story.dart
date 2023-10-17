@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:video_player/video_player.dart';
 import '../../extensions/extension.dart';
 import '../../utilities/utilities.dart';
 import '../models.dart';
@@ -36,26 +35,5 @@ abstract class StoryModel with _$StoryModel {
 class StoryList {
   const StoryList({required this.user, required this.stories});
   final UserModel user;
-  final List<StoryItem> stories;
-
-  void dispose() {
-    for (var element in stories) {
-      element.dispose();
-    }
-  }
-}
-
-class StoryItem {
-  StoryItem({
-    required this.info,
-    this.player,
-  });
-  final StoryModel info;
-  bool isLoading = false;
-  VideoPlayerController? player;
-
-  void dispose() {
-    player?.dispose();
-    player = null;
-  }
+  final List<StoryModel> stories;
 }
