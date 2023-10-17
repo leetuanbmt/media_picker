@@ -25,11 +25,8 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   }
 
   Future<void> _initializeList() async {
-    _animatedList?.removeAllItems(
-      (context, animation) => _NotificationItem(animation: animation),
-    );
     for (int i = 0; i < 10; i++) {
-      await Future.delayed(const Duration(milliseconds: 50));
+      await Future.delayed(Duration(milliseconds: i * 50));
       _animatedList?.insertItem(i);
     }
   }
@@ -89,6 +86,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
                       key: listKey,
                       itemBuilder: (context, index, animation) {
                         return _NotificationItem(
+                          index: index,
                           animation: animation,
                           onDeleted: () {
                             removeItem(index);
@@ -111,16 +109,20 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
 }
 
 class _NotificationItem extends StatelessWidget {
-  const _NotificationItem({required this.animation, this.onDeleted});
+  const _NotificationItem({
+    required this.animation,
+    this.onDeleted,
+    this.index,
+  });
   final Animation<double> animation;
   final VoidCallback? onDeleted;
+  final int? index;
   @override
   Widget build(BuildContext context) {
     return SizeTransition(
       sizeFactor: animation,
       child: Slidable(
         groupTag: 'notification',
-        key: UniqueKey(),
         endActionPane: ActionPane(
           extentRatio: 0.25,
           motion: const ScrollMotion(),
