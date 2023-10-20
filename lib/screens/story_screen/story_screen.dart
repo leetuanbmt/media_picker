@@ -165,9 +165,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
     // init view page index
     _currentIndex = widget.initialPage;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadStory(stories[_currentIndex], animateToPage: false);
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => _initialize());
 
     // listen animation status
     _animationController.addStatusListener(_listenVideoPlayer);
@@ -175,6 +173,23 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
     WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
+
+  // play video when page is loaded
+  Future<void> _initialize() async {
+    await _loadStory(stories[_currentIndex], animateToPage: false);
+    // await _initializeNextVideo();
+  }
+
+// // initialize next video
+//   Future<void> _initializeNextVideo() async {
+//     if (_currentIndex + 1 < stories.length) {
+//       Logger.log("Loading next video ${_currentIndex + 1}");
+//       final StoryModel nextStory = stories[_currentIndex + 1];
+//       if (nextStory.isVideo) {
+//         ref.read(videoProvider).initializeNextVideo(nextStory.url);
+//       }
+//     }
+//   }
 
   // listen video end next story or next page
   Future<void> _listenVideoPlayer(AnimationStatus status) async {
@@ -222,7 +237,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
 
   @override
   void deactivate() {
-    ref.read(videoProvider).pause();
+    ref.read(videoProvider).pauseAll();
     super.deactivate();
   }
 

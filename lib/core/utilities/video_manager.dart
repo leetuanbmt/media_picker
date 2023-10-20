@@ -64,11 +64,45 @@ class VideoManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  // // init next video
+  // void initializeNextVideo(String url) async {
+  //   if (_controllers.containsKey(url)) {
+  //     Logger.log("Play video from cache from state");
+  //     video = _controllers[url];
+  //   } else {
+  //     // get video from cache and if not found download it
+  //     final fileInfo = await CustomCacheManager.instance.getFile(
+  //       url,
+  //       isAutoDownload: true,
+  //     );
+
+  //     // if file is not found then initialize video controller with network url
+
+  //     if (fileInfo == null) {
+  //       Logger.log("Play video from network");
+  //       video = VideoPlayerController.networkUrl(Uri.parse(url));
+  //     }
+  //     Logger.log("Play video from cache");
+  //     video = VideoPlayerController.file(fileInfo!.file);
+
+  //     // initialize video controller
+  //     video?.initialize();
+  //     // set video controller to cache list
+  //     _controllers[url] = video!;
+  //   }
+  // }
+
   void resume() {
     video?.play();
   }
 
   void pause() {
     video?.pause();
+  }
+
+  void pauseAll() {
+    for (var element in _controllers.values) {
+      element.pause();
+    }
   }
 }

@@ -25,8 +25,11 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   }
 
   Future<void> _initializeList() async {
+    _animatedList?.removeAllItems(
+      (context, animation) => _NotificationItem(animation: animation),
+    );
     for (int i = 0; i < 10; i++) {
-      await Future.delayed(Duration(milliseconds: i * 50));
+      await Future.delayed(const Duration(milliseconds: 50));
       _animatedList?.insertItem(i);
     }
   }
@@ -123,6 +126,7 @@ class _NotificationItem extends StatelessWidget {
       sizeFactor: animation,
       child: Slidable(
         groupTag: 'notification',
+        key: index == null ? null : ValueKey("notification_$index"),
         endActionPane: ActionPane(
           extentRatio: 0.25,
           motion: const ScrollMotion(),

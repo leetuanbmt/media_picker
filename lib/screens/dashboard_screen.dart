@@ -98,42 +98,41 @@ class _BottomNavigation extends StatelessWidget {
         image: Assets.iconsIconPerson.path,
       ),
     ];
-    return SafeArea(
-      top: false,
-      child: Container(
-        height: kBottomNavigationBarHeight.h,
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          //box shadow top navigator bar
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, -1),
-            ),
-          ],
-        ),
-        child: Row(
-          children: tabs
-              .asMap()
-              .entries
-              .map(
-                (e) => e.key != 2
-                    ? _BottomTabItem(
-                        tab: e.value,
-                        index: e.key,
-                        currentIndex: currentIndex,
-                        onTap: onChange,
-                      )
-                    : _MainTabCustom(
-                        tab: e.value,
-                        index: e.key,
-                        onTap: onChange,
-                      ),
-              )
-              .toList(),
-        ),
+    return Container(
+      height: kBottomNavigationBarHeight.h + context.screenPadding.bottom,
+      padding: EdgeInsets.symmetric(horizontal: 10.w).copyWith(
+        bottom: context.screenPadding.bottom / 2,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        //box shadow top navigator bar
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, -1),
+          ),
+        ],
+      ),
+      child: Row(
+        children: tabs
+            .asMap()
+            .entries
+            .map(
+              (e) => e.key != 2
+                  ? _BottomTabItem(
+                      tab: e.value,
+                      index: e.key,
+                      currentIndex: currentIndex,
+                      onTap: onChange,
+                    )
+                  : _MainTabCustom(
+                      tab: e.value,
+                      index: e.key,
+                      onTap: onChange,
+                    ),
+            )
+            .toList(),
       ),
     );
   }
