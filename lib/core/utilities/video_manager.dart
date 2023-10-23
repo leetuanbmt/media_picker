@@ -49,6 +49,8 @@ class VideoManager extends ChangeNotifier {
     if (!isInitialized) {
       await video?.initialize();
       video?.setLooping(true);
+    } else {
+      video?.seekTo(Duration.zero);
     }
     await video?.play();
     isLoading = false;
@@ -74,7 +76,9 @@ class VideoManager extends ChangeNotifier {
       Logger.log("Initialize next from cache");
       _controllers[url] = VideoPlayerController.file(fileInfo.file);
     }
-    await _controllers[url]?.initialize();
+    if (!_controllers[url]!.value.isInitialized) {
+      await _controllers[url]?.initialize();
+    }
     _isInitNextVideo = false;
   }
 
