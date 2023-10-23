@@ -114,7 +114,6 @@ class MyStoriesScreen extends ConsumerWidget {
                   itemCount: stories.length,
                   itemBuilder: (BuildContext context, int index) {
                     final story = stories[index];
-
                     return Stack(
                       children: [
                         Positioned.fill(
