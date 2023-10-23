@@ -3,12 +3,6 @@ import 'package:video_player/video_player.dart';
 
 import 'utilities.dart';
 
-// class CacheVideoItem {
-//   CacheVideoItem(this.url, this.controller);
-//   final String url;
-//   final VideoPlayerController controller;
-// }
-
 class VideoManager extends ChangeNotifier {
 // cache video list controller
   final Map<String, VideoPlayerController> _controllers = {};
@@ -48,8 +42,6 @@ class VideoManager extends ChangeNotifier {
         video = VideoPlayerController.file(fileInfo.file);
       }
 
-      // initialize video controller
-
       // set video controller to cache list
       _controllers[url] = video!;
     }
@@ -57,9 +49,6 @@ class VideoManager extends ChangeNotifier {
     if (!isInitialized) {
       await video?.initialize();
       video?.setLooping(true);
-    } else {
-      // if video is already initialized then play it and seek to start
-      video?.seekTo(const Duration());
     }
     await video?.play();
     isLoading = false;
