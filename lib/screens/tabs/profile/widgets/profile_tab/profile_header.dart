@@ -24,7 +24,7 @@ class ProfileHeader extends StatelessWidget {
               children: [
                 CacheImage(
                   radius: 100,
-                  dimension: 88.r,
+                  dimension: Size.square(88.r),
                   image: user?.avatar,
                   isZoom: true,
                 ),

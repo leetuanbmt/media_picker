@@ -26,7 +26,7 @@ class EditProfileHeader extends StatelessWidget {
           child: CacheImage(
             image: user?.avatar,
             radius: 100.r,
-            dimension: 88.w,
+            dimension: Size.square(88.r),
           ),
         ),
       ],

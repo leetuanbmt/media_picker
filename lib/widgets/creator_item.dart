@@ -18,7 +18,7 @@ class CreatorItem extends StatelessWidget {
       leading: CacheImage(
         image: avatar,
         radius: 100.r,
-        dimension: 50.w,
+        dimension: Size.square(50.r),
       ),
       title: Text(
         name,

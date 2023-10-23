@@ -1,4 +1,4 @@
-part of event_emitter;
+part of 'event.dart';
 
 typedef OnDisposeFunc = Future<void> Function();
 

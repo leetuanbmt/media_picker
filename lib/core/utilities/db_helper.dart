@@ -1,5 +1,5 @@
-class DbKey {
-  DbKey._();
+class DbKeys {
+  DbKeys._();
   static const String isOnline = 'isOnline';
   static const String callStatus = 'callStatus';
   static const String outgoing = 'outgoing';
@@ -8,6 +8,10 @@ class DbKey {
   static const String started = 'started';
   static const String callTime = 'callTime';
   static const String type = 'type';
+  static const String timestamp = 'timestamp';
+  static const String audio = 'audio';
+  static const String image = 'image';
+  static const String video = 'video';
 }
 
 class DbCollection {
@@ -20,6 +24,7 @@ class DbCollection {
   static const String rooms = 'rooms';
   static const String callerCandidates = 'callerCandidates';
   static const String calleeCandidates = 'calleeCandidates';
+  static const String stories = 'stories';
 }
 
 // dao/person_dao.dart

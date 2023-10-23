@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import '../config.dart';
 
@@ -47,5 +48,37 @@ class AppUtils {
     );
     textPainter.layout(maxWidth: textWidth);
     return textPainter.height;
+  }
+}
+
+class CustomCacheManager {
+  CustomCacheManager._();
+
+  factory CustomCacheManager() => instance;
+
+  static final CustomCacheManager instance = CustomCacheManager._();
+
+  static const key = 'goTipCache';
+
+  static final cache = CacheManager(
+    Config(
+      key,
+      stalePeriod: const Duration(days: 7),
+      maxNrOfCacheObjects: 100,
+      repo: JsonCacheInfoRepository(databaseName: key),
+      fileService: HttpFileService(),
+    ),
+  );
+
+  Future<FileInfo?> getFile(String url, {bool isAutoDownload = false}) async {
+    final fileInfo = await cache.getFileFromCache(url);
+    if (isAutoDownload && fileInfo == null) {
+      downloadFile(url).then((value) => Logger.log("Download Success"));
+    }
+    return fileInfo;
+  }
+
+  Future<void> downloadFile(String url) async {
+    await cache.downloadFile(url);
   }
 }

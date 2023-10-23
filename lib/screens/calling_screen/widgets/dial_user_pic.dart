@@ -4,10 +4,10 @@ import '../../../widgets/commons/cache_image.dart';
 
 class DialUserPic extends StatelessWidget {
   const DialUserPic({
-    Key? key,
+    super.key,
     this.dimension = 192,
     required this.image,
-  }) : super(key: key);
+  });
 
   final double dimension;
   final String image;
@@ -31,7 +31,7 @@ class DialUserPic extends StatelessWidget {
       ),
       child: CacheImage(
         image: image,
-        dimension: dimension,
+        dimension: Size.square(dimension),
       ),
     );
   }

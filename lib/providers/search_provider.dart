@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../core/config.dart';
@@ -24,20 +26,21 @@ class SearchNotifier extends StateNotifier<SearchState> {
     initialize();
   }
   final Ref ref;
+
   final String? category;
   // list of all creators
   List<UserModel> items = [];
 
   bool isLoading = true;
-
+  StreamSubscription? _subscription;
   void initialize() async {
     try {
       state = const SearchState.loading();
       final collection = ref
           .read(firestoreProvider)
           .collection(DbCollection.users)
-          .where(DbKey.type, isEqualTo: UserType.creator.value);
-      final snapshot = await (category.isNotEmptyAndNotNull
+          .where(DbKeys.type, isEqualTo: UserType.creator.value);
+      _subscription = (category.isNotEmptyAndNotNull
               ? collection.where('listCategory', arrayContainsAny: [category])
               : collection)
           .withConverter<UserModel>(
@@ -46,10 +49,12 @@ class SearchNotifier extends StateNotifier<SearchState> {
             },
             toFirestore: (user, _) => user.toJson(),
           )
-          .get();
-      items = snapshot.docs.map((e) => e.data()).toList();
-      state = SearchState.loaded(items);
-      isLoading = false;
+          .snapshots()
+          .listen((event) {
+        items = event.docs.map((e) => e.data()).toList();
+        state = SearchState.loaded(items);
+        isLoading = false;
+      });
     } catch (e) {
       Logger.log(e);
     }
@@ -61,8 +66,14 @@ class SearchNotifier extends StateNotifier<SearchState> {
       return;
     }
     // search by name
-    state = SearchState.loaded(
-      items.where((element) => element.name.contains(val)).toList(),
-    );
+    final searchItems = items.where((e) => e.name.contains(val)).toList();
+    Logger.log(val);
+    state = SearchState.loaded(searchItems);
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
   }
 }

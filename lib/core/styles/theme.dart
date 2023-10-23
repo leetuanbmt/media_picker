@@ -1,4 +1,4 @@
-part of config;
+part of '../config.dart';
 
 class AppTheme {
   AppTheme._();
@@ -83,6 +83,11 @@ class AppTheme {
   static const dividerColor = Color(0xffE5E5E5);
   static const defaultGrey = Color(0xffBDBDBD);
 
+  static const LinearGradient storyGradient = LinearGradient(
+    colors: <Color>[Colors.blue, Colors.purple],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
   static ThemeData get appTheme {
     ColorScheme colorScheme = ColorScheme.light(
       primary: primaryColor,

@@ -3,8 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Loading extends StatefulWidget {
-  const Loading({Key? key, this.radius = 30.0, this.dotRadius = 3.0})
-      : super(key: key);
+  const Loading({super.key, this.radius = 30.0, this.dotRadius = 3.0});
 
   final double radius;
   final double dotRadius;
@@ -169,8 +168,7 @@ class _ColorLoader3State extends State<Loading>
 }
 
 class Dot extends StatelessWidget {
-  const Dot({Key? key, required this.radius, required this.color})
-      : super(key: key);
+  const Dot({super.key, required this.radius, required this.color});
 
   final double radius;
   final Color color;

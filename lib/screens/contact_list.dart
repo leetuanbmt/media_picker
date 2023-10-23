@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
 import '../core/config.dart';
 import '../core/models/models.dart';
 import '../providers/call_provider.dart';
@@ -13,7 +11,6 @@ class ContactList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Logger.log(FirebaseAuth.instance.currentUser?.uid);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Contact List"),
@@ -66,7 +63,7 @@ class _UserItem extends StatelessWidget {
       contentPadding: const EdgeInsets.only(left: 16, right: 8),
       leading: CacheImage(
         image: user?.avatar,
-        dimension: 50,
+        dimension: const Size.square(50),
         radius: 100,
       ),
       title: Text(

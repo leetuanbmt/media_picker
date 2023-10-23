@@ -42,7 +42,7 @@ class UserOffline extends StatelessWidget {
                   CacheImage(
                     image: user.avatar,
                     radius: 100.r,
-                    dimension: 79.w,
+                    dimension: Size.square(79.r),
                     isZoom: true,
                   ),
                   SizedBox(

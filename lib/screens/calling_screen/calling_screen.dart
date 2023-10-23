@@ -2,10 +2,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../core/config.dart';
@@ -15,6 +13,7 @@ import '../../core/models/enum/enum.dart';
 import '../../core/utilities/utilities.dart';
 import '../../providers/call_provider.dart';
 import '../../providers/firebase_provider.dart';
+import '../../widgets/commons/cache_image.dart';
 import 'controls.dart';
 import 'peer_connection.dart';
 
@@ -94,7 +93,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
       channelId: call.channelId,
       hasDialled: call.hasDialled,
       callTime: DateTime.now(),
-      type: DbKey.outgoing,
+      type: DbKeys.outgoing,
     );
 
     _callStatus = ref
@@ -151,27 +150,27 @@ class _CallScreenState extends ConsumerState<CallScreen> {
     if (call.hasDialled) {
       _playCallingTone();
       callerCollection.set(
-        callHistory.copyWith(hasDialled: true, type: DbKey.outgoing).toJson(),
+        callHistory.copyWith(hasDialled: true, type: DbKeys.outgoing).toJson(),
         SetOptions(merge: true),
       );
       receiverCollection.set(
-        callHistory.copyWith(hasDialled: false, type: DbKey.incoming).toJson(),
+        callHistory.copyWith(hasDialled: false, type: DbKeys.incoming).toJson(),
         SetOptions(merge: true),
       );
     } else {
       receiverCollection.set(
         {
-          DbKey.started: DateTime.now(),
-          DbKey.callStatus: CallStatus.inCall.value,
-          DbKey.type: DbKey.incoming,
+          DbKeys.started: DateTime.now(),
+          DbKeys.callStatus: CallStatus.inCall.value,
+          DbKeys.type: DbKeys.incoming,
         },
         SetOptions(merge: true),
       );
       callerCollection.set(
         {
-          DbKey.started: DateTime.now(),
-          DbKey.callStatus: CallStatus.inCall.value,
-          DbKey.type: DbKey.outgoing,
+          DbKeys.started: DateTime.now(),
+          DbKeys.callStatus: CallStatus.inCall.value,
+          DbKeys.type: DbKeys.outgoing,
         },
         SetOptions(merge: true),
       );
@@ -180,7 +179,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
 
   void listenStatusCall(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     if (snapshot.exists && snapshot.data() != null) {
-      callStatus = CallStatus.fromString(snapshot.data()![DbKey.callStatus]);
+      callStatus = CallStatus.fromString(snapshot.data()![DbKeys.callStatus]);
       setState(() {});
       stopCallingSound();
       switch (callStatus) {
@@ -291,16 +290,10 @@ class _CallScreenState extends ConsumerState<CallScreen> {
           fit: StackFit.expand,
           alignment: Alignment.center,
           children: [
-            kIsWeb
-                ? Image.network(
-                    call.hasDialled ? call.receiverPic : call.callerPic,
-                    fit: BoxFit.cover,
-                  )
-                : CachedNetworkImage(
-                    imageUrl:
-                        call.hasDialled ? call.receiverPic : call.callerPic,
-                    fit: BoxFit.cover,
-                  ),
+            CacheImage(
+              image: call.hasDialled ? call.receiverPic : call.callerPic,
+              dimension: MediaQuery.of(context).size,
+            ),
             Container(
               color: Colors.black.withOpacity(.5),
               child: Column(
@@ -404,15 +397,15 @@ class _CallScreenState extends ConsumerState<CallScreen> {
     DateTime now = DateTime.now();
     await callerCollection.set(
       {
-        DbKey.callStatus: CallStatus.ended.value,
-        DbKey.ended: now,
+        DbKeys.callStatus: CallStatus.ended.value,
+        DbKeys.ended: now,
       },
       SetOptions(merge: true),
     );
     await receiverCollection.set(
       {
-        DbKey.callStatus: CallStatus.ended.value,
-        DbKey.ended: now,
+        DbKeys.callStatus: CallStatus.ended.value,
+        DbKeys.ended: now,
       },
       SetOptions(merge: true),
     );

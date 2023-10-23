@@ -28,7 +28,7 @@ class FollowingItem extends StatelessWidget {
           CacheImage(
             image: creator?.avatar,
             radius: 100.r,
-            dimension: 64.w,
+            dimension: Size.square(64.r),
           ),
           Flexible(
             child: TagName(

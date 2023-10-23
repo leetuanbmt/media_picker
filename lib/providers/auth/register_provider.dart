@@ -261,7 +261,7 @@ class RegisterProvider extends ChangeNotifier {
       final currentUser = FirebaseAuth.instance.currentUser!.uid;
       await createUser(currentUser, userType).whenComplete(() {
         ref.loading(false);
-        AppNavigator.goToDashboard();
+        AppNavigator.instance.goToDashboard();
       });
     } catch (e) {
       ref.loading(false);
