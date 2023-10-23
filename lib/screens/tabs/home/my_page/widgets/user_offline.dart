@@ -5,9 +5,9 @@ import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../widgets/commons/button_custom.dart';
 import '../../../../../widgets/commons/cache_image.dart';
-import '../../../../../widgets/commons/indicators/loading_manager.dart';
 import 'my_page_body.dart';
 import 'user_information.dart';
+import 'widget.dart';
 
 class UserOffline extends StatelessWidget {
   const UserOffline({super.key, required this.user});
@@ -16,7 +16,7 @@ class UserOffline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.titleMedium!.copyWith(
+    final style = context.bodyMedium!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w600,
       color: AppTheme.blackBold,
@@ -29,8 +29,8 @@ class UserOffline extends StatelessWidget {
               height: 293.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30.r),
-                  bottomRight: Radius.circular(30.r),
+                  bottomLeft: Radius.circular(20.r),
+                  bottomRight: Radius.circular(20.r),
                 ),
                 color: AppTheme.primaryColor,
               ),
@@ -50,7 +50,7 @@ class UserOffline extends StatelessWidget {
                   ),
                   Text(
                     user.name,
-                    style: context.titleLarge!.copyWith(
+                    style: context.titleMedium!.copyWith(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xffFFFFFF),
@@ -86,7 +86,7 @@ class UserOffline extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          Assets.iconsIconApp.svg(height: 17.h),
+                          Assets.iconsIconApp.svg(height: 15.h),
                           TextItem(
                             value: '${user.points.toCurrency}pt',
                           ),
@@ -143,7 +143,7 @@ class UserOffline extends StatelessWidget {
                       height: 23.93.h,
                     ),
                     Text(
-                      'ユーザーランキング',
+                      context.tr(LocaleKeys.userRanking),
                       style: style,
                     ),
                     SizedBox(
@@ -156,12 +156,14 @@ class UserOffline extends StatelessWidget {
                       height: 36.h,
                     ),
                     Text(
-                      '告知',
+                      context.tr(LocaleKeys.inform),
                       style: style,
+                    ),
+                    SizedBox(
+                      height: 10.h,
                     ),
                     Container(
                       height: 148.h,
-                      margin: EdgeInsets.only(top: 10.h),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(
@@ -194,50 +196,43 @@ class UserOffline extends StatelessWidget {
         ),
         Consumer(
           builder: (context, ref, child) {
-            final followed = ref.watch(userCheckFollow);
-            return followed.when(
-              data: (value) {
-                return value.following!.contains(user.id)
-                    ? Padding(
-                        padding: EdgeInsets.only(
-                          bottom: context.screenPadding.bottom,
-                        ),
-                        child: Center(
-                          child: ButtonCustom(
-                            context.tr(LocaleKeys.following),
-                            backgroundColor:
-                                AppTheme.primaryColor.withOpacity(0.7),
-                            height: 44.h,
-                            width: 156.w,
-                            fontSize: 15.sp,
-                            onPressed: () {
-                              ref.read(myPageProvider).updateUser();
-                            },
-                          ),
-                        ),
-                      )
-                    : Padding(
-                        padding: EdgeInsets.only(
-                          bottom: context.screenPadding.bottom,
-                        ),
-                        child: Center(
-                          child: ButtonCustom(
-                            '+ ${context.tr(LocaleKeys.follow)}',
-                            type: ButtonType.outline,
-                            borderWidth: 2.r,
-                            height: 50.h,
-                            width: 156.w,
-                            fontSize: 18.sp,
-                            onPressed: () {
-                              ref.read(myPageProvider).followUser(user.id);
-                            },
-                          ),
-                        ),
-                      );
-              },
-              error: ((error, stackTrace) => const SizedBox()),
-              loading: () => const TurnLoading(),
+            final isFollowing = ref.watch(
+              myPageProvider.select((value) => value.checkFollowUser(user.id)),
             );
+            return isFollowing
+                ? Padding(
+                    padding: EdgeInsets.only(
+                      bottom: context.screenPadding.bottom,
+                    ),
+                    child: Center(
+                      child: ButtonCustom(
+                        context.tr(LocaleKeys.following),
+                        backgroundColor: AppTheme.primaryColor.withOpacity(0.7),
+                        height: 44.h,
+                        width: 156.w,
+                        fontSize: 15.sp,
+                        onPressed: () {},
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: EdgeInsets.only(
+                      bottom: context.screenPadding.bottom,
+                    ),
+                    child: Center(
+                      child: ButtonCustom(
+                        '+ ${context.tr(LocaleKeys.follow)}',
+                        type: ButtonType.outline,
+                        borderWidth: 2.r,
+                        height: 50.h,
+                        width: 156.w,
+                        fontSize: 18.sp,
+                        onPressed: () {
+                          ref.read(myPageProvider).followUser(user.id);
+                        },
+                      ),
+                    ),
+                  );
           },
         ),
       ],

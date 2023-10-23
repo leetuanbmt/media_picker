@@ -101,5 +101,15 @@
   "following": "Following",
   "underControl": "Under control",
   "addEquipment": "Add equipment",
-  "remaining": "Remaining"
+  "remaining": "Remaining",
+  "controlRequestSent": "Control request sent",
+  "controlRequestSettings": "Control request settings",
+  "sendRequest": "Send request",
+  "requesting": "Requesting",
+  "requestRequires": "Request requires 10000 points or less",
+  "spentAllPoint": "I spent all my points",
+  "isControllingYourDevice": "is controlling your device",
+  "confirmFinish": "I haven't used all my points.\nDo you want to finish?",
+  "finish": "Finish",
+  "remainingPoints": "Remaining points"
 }

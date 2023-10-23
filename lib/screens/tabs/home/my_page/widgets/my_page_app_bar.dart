@@ -13,15 +13,15 @@ class MyPageLeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox.square(
-      dimension: 32.h,
-      child: InkWell(
-        onTap: () {
+      dimension: 36.h,
+      child: IconButton(
+        onPressed: () {
           context.back();
         },
-        child: Assets.iconsIconBackArrow.svg(
-          width: 8.w,
-          height: 15.11.h,
-          fit: BoxFit.scaleDown,
+        icon: Assets.iconsIconBackArrow.svg(
+          width: 36.w,
+          height: 36.h,
+          fit: BoxFit.contain,
         ),
       ),
     );
@@ -31,7 +31,10 @@ class MyPageLeading extends StatelessWidget {
 class UserStatus extends StatelessWidget {
   const UserStatus({
     super.key,
+    required this.isOnline,
   });
+
+  final bool isOnline;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,7 @@ class UserStatus extends StatelessWidget {
         borderRadius: BorderRadius.all(
           Radius.circular(30.r),
         ),
-        color: AppTheme.pink,
+        color: isOnline ? AppTheme.pink : AppTheme.icon,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +58,9 @@ class UserStatus extends StatelessWidget {
             width: 6.w,
           ),
           Text(
-            'オンライン',
+            isOnline
+                ? context.tr(LocaleKeys.online)
+                : context.tr(LocaleKeys.offline),
             style: context.labelMedium!.copyWith(
               fontSize: 12.sp,
               fontWeight: FontWeight.w600,
@@ -68,78 +73,87 @@ class UserStatus extends StatelessWidget {
   }
 }
 
-class MyPageAction extends ConsumerWidget {
+class MyPageAction extends StatelessWidget {
   const MyPageAction({
+    required this.isOnline,
     super.key,
   });
 
+  final bool isOnline;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final style = context.titleMedium!.copyWith(
       fontSize: 20.sp,
       fontWeight: FontWeight.w400,
       color: const Color(0xffEB5757),
     );
 
-    return IconButton(
-      onPressed: () {
-        showCupertinoModalPopup(
-          context: context,
-          builder: (ctx) {
-            return CupertinoActionSheet(
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    showModalBottomSheet(
+    return Padding(
+      padding: EdgeInsets.only(right: 10.w),
+      child: Consumer(
+        builder: (context, ref, child) {
+          final isBlocked =
+              ref.watch(myPageProvider.select((value) => value.isBlocked));
+          return IconButton(
+            onPressed: () {
+              (isBlocked || !isOnline)
+                  ? null
+                  : showCupertinoModalPopup(
                       context: context,
-                      isScrollControlled: true,
-                      constraints: BoxConstraints(
-                        maxHeight: context.screenHeight * 0.8,
-                      ),
-                      builder: (context) {
-                        return const ReportUserBottomSheet();
+                      builder: (ctx) {
+                        return CupertinoActionSheet(
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(ctx).pop();
+                                MyPageBottomSheet().showBottomSheet(
+                                  context,
+                                  const ReportUserBottomSheet(),
+                                  null,
+                                );
+                              },
+                              child: Text(
+                                context.tr(LocaleKeys.reportUser),
+                                style: style,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                ref.read(myPageProvider).blockUser();
+                              },
+                              child: Text(
+                                context.tr(LocaleKeys.block),
+                                style: style.copyWith(
+                                  color: const Color(0xff007AFF),
+                                ),
+                              ),
+                            ),
+                          ],
+                          cancelButton: TextButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop();
+                            },
+                            child: Text(
+                              'Cancel',
+                              style: style.copyWith(
+                                color: const Color(0xff007AFF),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        );
                       },
                     );
-                  },
-                  child: Text(
-                    context.tr(LocaleKeys.reportUser),
-                    style: style,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    ref.read(myPageProvider).blockUser();
-                  },
-                  child: Text(
-                    context.tr(LocaleKeys.block),
-                    style: style.copyWith(
-                      color: const Color(0xff007AFF),
-                    ),
-                  ),
-                ),
-              ],
-              cancelButton: TextButton(
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-                child: Text(
-                  'Cancel',
-                  style: style.copyWith(
-                    color: const Color(0xff007AFF),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            );
-          },
-        );
-      },
-      icon: const Icon(
-        Icons.more_horiz,
-        color: Colors.white,
-        size: 30,
+            },
+            icon: Icon(
+              Icons.more_horiz_rounded,
+              color: Colors.white,
+              size: 30.sp,
+            ),
+          );
+        },
       ),
     );
   }

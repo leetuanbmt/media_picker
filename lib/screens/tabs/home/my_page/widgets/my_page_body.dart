@@ -6,6 +6,7 @@ import '../../../../../widgets/commons/button_custom.dart';
 import '../../../../../widgets/commons/cache_image.dart';
 import '../../../../../widgets/commons/indicators/loading_manager.dart';
 import '../device_connected.dart';
+import 'my_page_bottom_sheet.dart';
 
 class DeviceConnected extends StatelessWidget {
   const DeviceConnected({super.key});
@@ -17,7 +18,7 @@ class DeviceConnected extends StatelessWidget {
       {'device': '扇風機', "status": true},
     ];
 
-    final style = context.titleSmall!.copyWith(
+    final style = context.bodyMedium!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w400,
     );
@@ -81,14 +82,74 @@ class DeviceConnected extends StatelessWidget {
             ),
           ),
           Center(
-            child: ButtonCustom(
-              context.tr(LocaleKeys.controlRequest),
-              height: 32.h,
-              width: 212.w,
-              type: ButtonType.outline,
-              fontSize: 13.sp,
-              onPressed: () {
-                context.router.push(const DeviceConnectedRoute());
+            child: Consumer(
+              builder: (context, ref, child) {
+                final status = ref.watch(
+                  myPageProvider.select((value) => value.requestStatus),
+                );
+                final provider = ref.read(myPageProvider);
+                return status == 'requestControl'
+                    ? ButtonCustom(
+                        context.tr(LocaleKeys.controlRequest),
+                        height: 32.h,
+                        width: 212.w,
+                        type: ButtonType.outline,
+                        fontSize: 13.sp,
+                        onPressed: () {
+                          MyPageBottomSheet().showBottomSheet(
+                              context, const ControlRequestBottomSheet(), () {
+                            Future.delayed(const Duration(seconds: 3), () {
+                              final controlStatus = provider.requestStatus;
+
+                              if (controlStatus == 'requesting') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Center(
+                                      child: Text(
+                                        context
+                                            .tr(LocaleKeys.controlRequestSent),
+                                        style: style.copyWith(
+                                          color: AppTheme.primaryColor,
+                                        ),
+                                      ),
+                                    ),
+                                    duration: const Duration(seconds: 4),
+                                    backgroundColor: Colors.white,
+                                    elevation: 0,
+                                    behavior: SnackBarBehavior.floating,
+                                    margin: EdgeInsets.only(
+                                      bottom: context.screenHeight - 140,
+                                      left: 30.w,
+                                      right: 30.w,
+                                    ),
+                                  ),
+                                );
+                                provider.updateRequestStatus('underControl');
+                                provider.updateShowDeviceControlling();
+                              }
+                            });
+                          });
+                        },
+                      )
+                    : status == 'requesting'
+                        ? ButtonCustom(
+                            context.tr(LocaleKeys.requesting),
+                            height: 32.h,
+                            width: 212.w,
+                            backgroundColor:
+                                AppTheme.primaryColor.withOpacity(0.8),
+                            onPressed: () {},
+                          )
+                        : ButtonCustom(
+                            context.tr(LocaleKeys.underControl),
+                            height: 32.h,
+                            width: 212.h,
+                            backgroundColor:
+                                AppTheme.primaryColor.withOpacity(0.8),
+                            onPressed: () {
+                              context.router.push(const DeviceConnectedRoute());
+                            },
+                          );
               },
             ),
           ),
@@ -283,6 +344,7 @@ class ListRankingUser extends StatelessWidget {
                         ),
                         Positioned(
                           bottom: 0,
+                          left: 0,
                           child: CacheImage(
                             image: result[index],
                             radius: 100.r,
@@ -290,7 +352,7 @@ class ListRankingUser extends StatelessWidget {
                           ),
                         ),
                         Positioned(
-                          left: 39.w,
+                          right: 0,
                           top: 0,
                           child: SizedBox.square(
                             dimension: 22.r,

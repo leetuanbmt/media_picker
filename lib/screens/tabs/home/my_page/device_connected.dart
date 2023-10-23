@@ -2,10 +2,28 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/config.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../../providers/my_page_provider.dart';
+import 'widgets/my_page_dialog.dart';
+import 'widgets/my_page_footer.dart';
 
 @RoutePage()
-class DeviceConnectedScreen extends StatelessWidget {
+class DeviceConnectedScreen extends StatefulWidget {
   const DeviceConnectedScreen({super.key});
+
+  @override
+  State<DeviceConnectedScreen> createState() => _DeviceConnectedScreenState();
+}
+
+class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        MyPageDialog().showDialogSpentAllPoint(context);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +147,21 @@ class DeviceConnectedScreen extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+          const Spacer(),
+          Consumer(
+            builder: (context, ref, child) {
+              final isShow = ref.watch(
+                myPageProvider.select((value) => value.showDeviceControlling),
+              );
+              return isShow
+                  ? Padding(
+                      padding:
+                          EdgeInsets.only(bottom: context.screenPadding.bottom),
+                      child: const DeviceControlling(),
+                    )
+                  : const SizedBox();
+            },
           ),
         ],
       ),

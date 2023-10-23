@@ -101,5 +101,15 @@
   "following": "Đang theo dõi",
   "underControl": "Trong tầm kiểm soát",
   "addEquipment": "Thêm thiết bị",
-  "remaining": "còn lại"
+  "remaining": "còn lại",
+  "controlRequestSent": "Đã gửi yêu cầu kiểm soát",
+  "controlRequestSettings": "Kiểm soát cài đặt yêu cầu",
+  "sendRequest": "Gửi yêu cầu",
+  "requesting": "Đang yêu cầu",
+  "requestRequires": "Yêu cầu đòi hỏi 10000 điểm trở xuống",
+  "spentAllPoint": "Tôi đã tiêu hết điểm của mình",
+  "isControllingYourDevice": "đang điều khiển thiết bị của bạn",
+  "confirmFinish": "Tôi chưa sử dụng hết điểm của mình.\nBạn có muốn kết thúc?",
+  "finish": "Kết thúc",
+  "remainingPoints": "Số điểm còn lại"
 }

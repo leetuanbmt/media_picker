@@ -7,26 +7,46 @@ import 'widgets/user_offline.dart';
 import 'widgets/user_online.dart';
 
 @RoutePage()
-class MyProfileScreen extends StatelessWidget {
+class MyProfileScreen extends ConsumerWidget {
   const MyProfileScreen(this.id, {super.key});
 
   final String id;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final creatorAsync = ref.watch(userChangeFirebase(id));
+
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
         leading: const MyPageLeading(),
-        actions: const [
-          UserStatus(),
-          MyPageAction(),
+        leadingWidth: 82.w,
+        actions: [
+          Consumer(
+            builder: (context, ref, child) {
+              return creatorAsync.when(
+                data: (creator) {
+                  return Row(
+                    children: [
+                      UserStatus(
+                        isOnline: creator!.isOnline,
+                      ),
+                      MyPageAction(
+                        isOnline: creator.isOnline,
+                      ),
+                    ],
+                  );
+                },
+                error: (error, stack) => const SizedBox(),
+                loading: () => const SizedBox(),
+              );
+            },
+          ),
         ],
         backgroundColor: AppTheme.primaryColor,
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          final creatorAsync = ref.watch(userChangeFirebase(id));
           final isBlocked =
               ref.watch(myPageProvider.select((value) => value.isBlocked));
 

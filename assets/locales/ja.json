@@ -83,7 +83,7 @@
   "report": "報告する",
   "reportViolationsByUser": "ユーザーの違反行為などを報告",
   "unblock": "ブロックを解除",
-  "hasBlocked": "さんはブロック されています",
+  "hasBlocked": "さんはブロック\nされています",
   "possessionPoints": "所持ポイント",
   "charge": "チャージする",
   "delaySetting": "遅延設定",
@@ -101,5 +101,15 @@
   "following": "フォロー中",
   "underControl": "コントロール中",
   "addEquipment": "機器を追加",
-  "remaining": "残り"
+  "remaining": "残り",
+  "controlRequestSent": "コントロールリクエストが送信されました",
+  "controlRequestSettings": "コントロールリクエスト設定",
+  "sendRequest": "リクエスト送る",
+  "requesting": "リクエスト中",
+  "requestRequires": "リクエストには10000以下のポイントが必要です",
+  "spentAllPoint": "ポイントをすべて消費しました",
+  "isControllingYourDevice": "さんがあなたの機器をコントロールしています",
+  "confirmFinish": "ポイントを全て消費していません。\n終了しますか。",
+  "finish": "終了する",
+  "remainingPoints": "残ポイント"
 }
