@@ -5,7 +5,7 @@ import '../../routes/app_routes.gr.dart';
 
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   const AppBarCustom({
-    Key? key,
+    super.key,
     this.title,
     this.leading,
     this.automaticallyImplyLeading = true,
@@ -21,7 +21,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
     this.titleSpacing = 0,
     this.showSearch = false,
     this.searchAppBar,
-  }) : super(key: key);
+  });
   final String? title;
   final Widget? leading;
   final bool automaticallyImplyLeading, centerTitle, showSearch;

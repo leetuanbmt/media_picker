@@ -14,7 +14,8 @@ final storyProvider = StreamProvider.autoDispose<List<StoryModel>>(
     final collection = FirebaseFirestore.instance
         .collection(DbCollection.users)
         .doc(uid)
-        .collection(DbCollection.stories);
+        .collection(DbCollection.stories)
+        .orderBy(DbKeys.timestamp, descending: true);
 
     yield* collection.snapshots().map(
           (event) => event.docs.map((e) {
@@ -71,13 +72,13 @@ class MyStoriesScreen extends ConsumerWidget {
       StoryModel(
         author: uid,
         type: DbKeys.video,
-        thumbnail: '',
-        url: '',
         width: 576,
         height: 1024,
-        duration: 10,
-        timestamp: 1649016232913,
+        duration: 1,
+        timestamp: DateTime.now().millisecondsSinceEpoch,
         name: '',
+        thumbnail: '',
+        url: '',
       ).toJson(),
     );
   }
@@ -88,7 +89,10 @@ class MyStoriesScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('My Stories'),
         // actions: [
-        //   IconButton(onPressed: insertStory, icon: const Icon(Icons.add)),
+        //   IconButton(
+        //     onPressed: insertStory,
+        //     icon: const Icon(Icons.add),
+        //   ),
         // ],
       ),
       body: SafeArea(
@@ -110,6 +114,7 @@ class MyStoriesScreen extends ConsumerWidget {
                   itemCount: stories.length,
                   itemBuilder: (BuildContext context, int index) {
                     final story = stories[index];
+
                     return Stack(
                       children: [
                         Positioned.fill(

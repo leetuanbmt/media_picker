@@ -16,17 +16,17 @@ class Shimmer extends StatefulWidget {
   final bool enabled;
 
   const Shimmer({
-    Key? key,
+    super.key,
     required this.child,
     required this.gradient,
     this.direction = ShimmerDirection.ltr,
     this.period = const Duration(milliseconds: 1500),
     this.loop = 0,
     this.enabled = true,
-  }) : super(key: key);
+  });
 
   Shimmer.fromColors({
-    Key? key,
+    super.key,
     required this.child,
     required Color baseColor,
     required Color highlightColor,
@@ -34,7 +34,7 @@ class Shimmer extends StatefulWidget {
     this.direction = ShimmerDirection.ltr,
     this.loop = 0,
     this.enabled = true,
-  })  : gradient = LinearGradient(
+  }) : gradient = LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.centerRight,
           colors: <Color>[
@@ -51,8 +51,7 @@ class Shimmer extends StatefulWidget {
             0.65,
             1.0,
           ],
-        ),
-        super(key: key);
+        );
 
   @override
   State<Shimmer> createState() => _ShimmerState();
@@ -139,11 +138,11 @@ class _Shimmer extends SingleChildRenderObjectWidget {
   final Gradient gradient;
 
   const _Shimmer({
-    Widget? child,
+    super.child,
     required this.percent,
     required this.direction,
     required this.gradient,
-  }) : super(child: child);
+  });
 
   @override
   _ShimmerFilter createRenderObject(BuildContext context) {
@@ -239,11 +238,11 @@ class _ShimmerFilter extends RenderProxyBox {
 
 class ItemSkeleton extends StatelessWidget {
   const ItemSkeleton({
-    Key? key,
+    super.key,
     this.width,
     this.height,
     this.child,
-  }) : super(key: key);
+  });
 
   final double? width, height;
   final Widget? child;
@@ -267,13 +266,13 @@ class ItemSkeleton extends StatelessWidget {
 
 class ItemLoading extends StatelessWidget {
   const ItemLoading({
-    Key? key,
+    super.key,
     this.width = double.infinity,
     this.height = double.infinity,
     this.color = Colors.white,
     this.child,
     this.radius = 0,
-  }) : super(key: key);
+  });
   final double width, height, radius;
   final Color color;
   final Widget? child;
@@ -296,7 +295,7 @@ class ItemLoading extends StatelessWidget {
 }
 
 class LoadingBuilder extends StatelessWidget {
-  const LoadingBuilder({Key? key, this.padding}) : super(key: key);
+  const LoadingBuilder({super.key, this.padding});
   final EdgeInsets? padding;
   @override
   Widget build(BuildContext context) {

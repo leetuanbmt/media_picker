@@ -82,7 +82,7 @@ class UsagePlayScreen extends StatelessWidget {
                     ],
                   ),
                 );
-              }).toList(),
+              }),
               SizedBox(height: 25.h),
               Align(
                 alignment: Alignment.centerLeft,
@@ -113,7 +113,7 @@ class UsagePlayScreen extends StatelessWidget {
                           ),
                         );
                       },
-                    ).toList(),
+                    ),
                   ],
                 ),
               ),

@@ -12,11 +12,12 @@ import 'root.dart';
 Future<void> initService() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    await Preferences.setPreferences();
-
+    await Future.wait([
+      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+      Preferences.setPreferences(),
+      if (kReleaseMode)
+        SentryFlutter.init((options) => options.dsn = AppConfig.sentryDsn),
+    ]);
     // set image cache size
     PaintingBinding.instance.imageCache
       ..maximumSize = 1000
@@ -28,13 +29,6 @@ Future<void> initService() async {
 
 void main() async {
   runZonedGuarded(() async {
-    if (kReleaseMode) {
-      await SentryFlutter.init(
-        (options) {
-          options.dsn = AppConfig.sentryDsn;
-        },
-      );
-    }
     await initService();
 
     runApp(

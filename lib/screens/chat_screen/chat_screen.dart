@@ -22,9 +22,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
 class VideoState extends InheritedWidget {
   const VideoState({
-    Key? key,
-    required Widget child,
-  }) : super(key: key, child: child);
+    super.key,
+    required super.child,
+  });
 
   static VideoState of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<VideoState>()!;

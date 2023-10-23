@@ -81,10 +81,8 @@ class EventsListener<T> extends EventsListenable<T> {
 
   EventsListener(
     this.emitter, {
-    bool synchronized = false,
-  }) : super(
-          synchronized: synchronized,
-        );
+    super.synchronized = false,
+  });
 }
 
 // ensures all listeners will close on dispose
