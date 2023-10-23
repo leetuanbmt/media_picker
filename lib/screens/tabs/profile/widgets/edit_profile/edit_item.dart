@@ -3,14 +3,14 @@ import '../../../../../core/config.dart';
 
 class EditItem extends StatelessWidget {
   const EditItem({
-    Key? key,
+    super.key,
     this.textContent,
     this.content,
     this.showTrailing = true,
     this.onTap,
     this.title,
     this.isLastItem = false,
-  }) : super(key: key);
+  });
   final String? title, textContent;
   final Widget? content;
   final bool showTrailing;

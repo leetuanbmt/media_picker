@@ -2,7 +2,7 @@ import '../../core/config.dart';
 import '../../providers/firebase_provider.dart';
 
 class OnlineDotIndicator extends ConsumerWidget {
-  const OnlineDotIndicator({Key? key, required this.uid}) : super(key: key);
+  const OnlineDotIndicator({super.key, required this.uid});
   final String uid;
 
   @override

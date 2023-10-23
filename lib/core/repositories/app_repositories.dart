@@ -1,4 +1,4 @@
-part of repositories;
+part of 'base_repository.dart';
 
 sealed class AppRepositories {
   Future<Result<dynamic>> fetchUserInfo({

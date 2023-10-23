@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class LoadingIndicator extends StatelessWidget {
   const LoadingIndicator({
-    Key? key,
+    super.key,
     this.width = 30.0,
     this.color,
     this.isSeparatePlatform = true,
     this.strokeWidth = 3.0,
     this.padding = 10.0,
-  }) : super(key: key);
+  });
   final double strokeWidth, padding;
   final double width;
   final Color? color;

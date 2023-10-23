@@ -21,6 +21,8 @@ class VideoManager extends ChangeNotifier {
 
   bool isLoading = false;
 
+  bool _isInitNextVideo = false;
+
   Future<void> play(String url) async {
     video?.pause();
     isLoading = true;
@@ -41,9 +43,10 @@ class VideoManager extends ChangeNotifier {
       if (fileInfo == null) {
         Logger.log("Play video from network");
         video = VideoPlayerController.networkUrl(Uri.parse(url));
+      } else {
+        Logger.log("Play video from cache");
+        video = VideoPlayerController.file(fileInfo.file);
       }
-      Logger.log("Play video from cache");
-      video = VideoPlayerController.file(fileInfo!.file);
 
       // initialize video controller
 
@@ -53,44 +56,38 @@ class VideoManager extends ChangeNotifier {
     // if current video is not initialized then initialize it
     if (!isInitialized) {
       await video?.initialize();
-      video?.play();
       video?.setLooping(true);
     } else {
       // if video is already initialized then play it and seek to start
       video?.seekTo(const Duration());
-      video?.play();
     }
+    await video?.play();
     isLoading = false;
     notifyListeners();
   }
 
-  // // init next video
-  // void initializeNextVideo(String url) async {
-  //   if (_controllers.containsKey(url)) {
-  //     Logger.log("Play video from cache from state");
-  //     video = _controllers[url];
-  //   } else {
-  //     // get video from cache and if not found download it
-  //     final fileInfo = await CustomCacheManager.instance.getFile(
-  //       url,
-  //       isAutoDownload: true,
-  //     );
+  // init next video
+  void initializeNextVideo(String url) async {
+    if (_isInitNextVideo) return;
+    _isInitNextVideo = true;
 
-  //     // if file is not found then initialize video controller with network url
-
-  //     if (fileInfo == null) {
-  //       Logger.log("Play video from network");
-  //       video = VideoPlayerController.networkUrl(Uri.parse(url));
-  //     }
-  //     Logger.log("Play video from cache");
-  //     video = VideoPlayerController.file(fileInfo!.file);
-
-  //     // initialize video controller
-  //     video?.initialize();
-  //     // set video controller to cache list
-  //     _controllers[url] = video!;
-  //   }
-  // }
+    if (_controllers.containsKey(url)) return;
+    // get video from cache and if not found download it
+    final fileInfo = await CustomCacheManager.instance.getFile(
+      url,
+      isAutoDownload: true,
+    );
+    // if file is not found then initialize video controller with network url
+    if (fileInfo == null) {
+      Logger.log("Initialize next video from network");
+      _controllers[url] = VideoPlayerController.networkUrl(Uri.parse(url));
+    } else {
+      Logger.log("Initialize next from cache");
+      _controllers[url] = VideoPlayerController.file(fileInfo.file);
+    }
+    await _controllers[url]?.initialize();
+    _isInitNextVideo = false;
+  }
 
   void resume() {
     video?.play();

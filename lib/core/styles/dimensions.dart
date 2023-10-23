@@ -1,4 +1,4 @@
-part of config;
+part of '../config.dart';
 
 class Dimensions {
   factory Dimensions() => _instance;

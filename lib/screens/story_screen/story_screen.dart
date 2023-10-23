@@ -20,11 +20,11 @@ final videoProvider = ChangeNotifierProvider<VideoManager>(
 @RoutePage()
 class StoryViewPage extends ConsumerStatefulWidget {
   const StoryViewPage({
-    Key? key,
+    super.key,
     required this.stories,
     this.initialPage = 0,
     this.storyInitPage = 0,
-  }) : super(key: key);
+  });
   final List<StoryList> stories;
   final int initialPage;
   final int storyInitPage;
@@ -124,14 +124,14 @@ class _StoryViewPageState extends ConsumerState<StoryViewPage>
 
 class StoryScreen extends ConsumerStatefulWidget {
   const StoryScreen({
-    Key? key,
+    super.key,
     required this.stories,
     required this.isLast,
     required this.animationPage,
     required this.currentIndexStory,
     required this.author,
     this.initialPage = 0,
-  }) : super(key: key);
+  });
   final List<StoryModel> stories;
   final UserModel author;
   final bool isLast;
@@ -177,19 +177,18 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
   // play video when page is loaded
   Future<void> _initialize() async {
     await _loadStory(stories[_currentIndex], animateToPage: false);
-    // await _initializeNextVideo();
   }
 
-// // initialize next video
-//   Future<void> _initializeNextVideo() async {
-//     if (_currentIndex + 1 < stories.length) {
-//       Logger.log("Loading next video ${_currentIndex + 1}");
-//       final StoryModel nextStory = stories[_currentIndex + 1];
-//       if (nextStory.isVideo) {
-//         ref.read(videoProvider).initializeNextVideo(nextStory.url);
-//       }
-//     }
-//   }
+// initialize next video
+  Future<void> _initializeNextVideo() async {
+    if (_currentIndex + 1 < stories.length) {
+      Logger.log("Loading next video ${_currentIndex + 1}");
+      final StoryModel nextStory = stories[_currentIndex + 1];
+      if (nextStory.isVideo) {
+        ref.read(videoProvider).initializeNextVideo(nextStory.url);
+      }
+    }
+  }
 
   // listen video end next story or next page
   Future<void> _listenVideoPlayer(AnimationStatus status) async {
@@ -280,9 +279,8 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
                     child: Center(
                       child: Consumer(
                         builder: (_, ref, child) {
-                          final video = ref.watch(
-                            videoProvider.select((value) => value.video),
-                          );
+                          final videoAsync = ref.watch(videoProvider);
+                          final video = videoAsync.video;
                           return video != null && video.value.isInitialized
                               ? AspectRatio(
                                   aspectRatio: video.value.aspectRatio,
@@ -396,6 +394,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
 
   Future<void> _loadingVideo(StoryModel story) async {
     ref.read(videoProvider).play(story.url);
+    await _initializeNextVideo();
     if (_animationController.toStringDetails().contains('DISPOSED')) return;
     _animationController.duration = Duration(seconds: story.duration);
     _animationController.forward();
@@ -404,11 +403,11 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
 
 class AnimatedBar extends StatelessWidget {
   const AnimatedBar({
-    Key? key,
+    super.key,
     required this.animController,
     required this.position,
     required this.currentIndex,
-  }) : super(key: key);
+  });
   final AnimationController animController;
   final int position;
   final int currentIndex;
@@ -463,10 +462,10 @@ class AnimatedBar extends StatelessWidget {
 
 class UserInfo extends StatelessWidget {
   const UserInfo({
-    Key? key,
+    super.key,
     required this.user,
     required this.timeAgo,
-  }) : super(key: key);
+  });
   final UserModel user;
   final String timeAgo;
   @override

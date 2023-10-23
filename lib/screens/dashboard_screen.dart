@@ -67,10 +67,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
 class _BottomNavigation extends StatelessWidget {
   const _BottomNavigation({
-    Key? key,
     required this.currentIndex,
     required this.onChange,
-  }) : super(key: key);
+  });
   final int currentIndex;
   final ValueChanged<int> onChange;
 
@@ -140,12 +139,11 @@ class _BottomNavigation extends StatelessWidget {
 
 class _BottomTabItem extends StatelessWidget {
   const _BottomTabItem({
-    Key? key,
     required this.tab,
     required this.onTap,
     required this.index,
     this.currentIndex = 0,
-  }) : super(key: key);
+  });
 
   final TabItem tab;
 
