@@ -6,6 +6,7 @@ import '../../../core/models/models.dart';
 import '../../../core/models/story/story.dart';
 import '../../../core/utilities/utilities.dart';
 import '../../../widgets/commons/cache_image.dart';
+import '../../../widgets/commons/shimmer.dart';
 import '../../story_screen/story_screen.dart';
 
 final storyProvider = StreamProvider.autoDispose<List<StoryModel>>(
@@ -100,9 +101,7 @@ class MyStoriesScreen extends ConsumerWidget {
               error: (error, stackTrace) => const Center(
                 child: Text('Error'),
               ),
-              loading: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
+              loading: () => const _LoadingGrid(),
               data: (stories) {
                 return GridView.builder(
                   padding: const EdgeInsets.all(10),
@@ -153,6 +152,26 @@ class MyStoriesScreen extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _LoadingGrid extends StatelessWidget {
+  const _LoadingGrid();
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      padding: const EdgeInsets.all(10),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
+      ),
+      itemCount: 18,
+      itemBuilder: (BuildContext context, int index) {
+        return const ItemLoading();
+      },
     );
   }
 }

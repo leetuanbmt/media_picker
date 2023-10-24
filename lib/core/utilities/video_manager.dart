@@ -13,13 +13,10 @@ class VideoManager extends ChangeNotifier {
 
   bool get isInitialized => video?.value.isInitialized ?? false;
 
-  bool isLoading = false;
-
   bool _isInitNextVideo = false;
 
   Future<void> play(String url) async {
     video?.pause();
-    isLoading = true;
     notifyListeners();
     // check if video is already cached
     if (_controllers.containsKey(url)) {
@@ -53,7 +50,6 @@ class VideoManager extends ChangeNotifier {
       video?.seekTo(Duration.zero);
     }
     await video?.play();
-    isLoading = false;
     notifyListeners();
   }
 
@@ -82,13 +78,9 @@ class VideoManager extends ChangeNotifier {
     _isInitNextVideo = false;
   }
 
-  void resume() {
-    video?.play();
-  }
+  void resume() => video?.play();
 
-  void pause() {
-    video?.pause();
-  }
+  void pause() => video?.pause();
 
   void pauseAll() {
     for (var element in _controllers.values) {
