@@ -52,14 +52,12 @@ class UserProvider extends ChangeNotifier {
 
   UserModel? user;
 
-  StreamSubscription? _userSubscription;
-
-  StreamSubscription? _callListen;
+  final List<StreamSubscription> subscriptions = [];
 
   void initialize() {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId != null) {
-      _userSubscription = ref
+      final listenerUser = ref
           .firestore()
           .collection(DbCollection.users)
           .doc(userId)
@@ -70,13 +68,14 @@ class UserProvider extends ChangeNotifier {
           notifyListeners();
         }
       });
-
-      _callListen = ref
+      subscriptions.add(listenerUser);
+      final listenerCall = ref
           .firestore()
           .collection(DbCollection.calls)
           .doc(userId)
           .snapshots()
           .listen(listenPickup);
+      subscriptions.add(listenerCall);
     }
   }
 
@@ -90,10 +89,10 @@ class UserProvider extends ChangeNotifier {
   }
 
   void stopStream() {
-    _callListen?.cancel();
-    _userSubscription?.cancel();
-    _callListen = null;
-    _userSubscription = null;
+    for (var element in subscriptions) {
+      element.cancel();
+    }
+    subscriptions.clear();
   }
 
   @override

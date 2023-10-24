@@ -80,7 +80,9 @@ class ProfileDetail extends StatelessWidget {
           _ProfileItem(
             title: context.tr(LocaleKeys.notificationSettings),
             assetIcon: Assets.iconsIconNotifications.path,
-            onTap: () {},
+            onTap: () {
+              AutoTabsRouter.of(context).navigate(const NotificationRoute());
+            },
           ),
         ],
         Consumer(

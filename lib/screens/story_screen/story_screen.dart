@@ -281,9 +281,9 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
                         builder: (_, ref, child) {
                           final videoAsync = ref.watch(videoProvider);
                           final video = videoAsync.video;
-                          return video != null && video.value.isInitialized
+                          return video != null && videoAsync.isInitialized
                               ? AspectRatio(
-                                  aspectRatio: video.value.aspectRatio,
+                                  aspectRatio: _story.aspectRatio,
                                   child: VideoPlayer(video),
                                 )
                               : const LoadingIndicator();
@@ -395,7 +395,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
   Future<void> _loadingVideo(StoryModel story) async {
     ref.read(videoProvider).play(story.url);
     await _initializeNextVideo();
-    if (_animationController.toStringDetails().contains('DISPOSED')) return;
+    // if (_animationController.toStringDetails().contains('DISPOSED')) return;
     _animationController.duration = Duration(seconds: story.duration);
     _animationController.forward();
   }
