@@ -80,15 +80,64 @@ class MyPageAction extends StatelessWidget {
   });
 
   final bool isOnline;
+  void showOptionsAction(BuildContext context, WidgetRef ref) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (ctx) {
+        final style = context.titleMedium!.copyWith(
+          fontSize: 20.sp,
+          fontWeight: FontWeight.w400,
+          color: const Color(0xffEB5757),
+        );
+
+        return CupertinoActionSheet(
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                MyPageBottomSheet().showBottomSheet(
+                  context,
+                  const ReportUserBottomSheet(),
+                  null,
+                );
+              },
+              child: Text(
+                context.tr(LocaleKeys.reportUser),
+                style: style,
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                ref.read(myPageProvider).blockUser();
+              },
+              child: Text(
+                context.tr(LocaleKeys.block),
+                style: style.copyWith(
+                  color: const Color(0xff007AFF),
+                ),
+              ),
+            ),
+          ],
+          cancelButton: TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+            child: Text(
+              'Cancel',
+              style: style.copyWith(
+                color: const Color(0xff007AFF),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final style = context.titleMedium!.copyWith(
-      fontSize: 20.sp,
-      fontWeight: FontWeight.w400,
-      color: const Color(0xffEB5757),
-    );
-
     return Padding(
       padding: EdgeInsets.only(right: 10.w),
       child: Consumer(
@@ -97,55 +146,7 @@ class MyPageAction extends StatelessWidget {
               ref.watch(myPageProvider.select((value) => value.isBlocked));
           return IconButton(
             onPressed: () {
-              (isBlocked || !isOnline)
-                  ? null
-                  : showCupertinoModalPopup(
-                      context: context,
-                      builder: (ctx) {
-                        return CupertinoActionSheet(
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(ctx).pop();
-                                MyPageBottomSheet().showBottomSheet(
-                                  context,
-                                  const ReportUserBottomSheet(),
-                                  null,
-                                );
-                              },
-                              child: Text(
-                                context.tr(LocaleKeys.reportUser),
-                                style: style,
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                ref.read(myPageProvider).blockUser();
-                              },
-                              child: Text(
-                                context.tr(LocaleKeys.block),
-                                style: style.copyWith(
-                                  color: const Color(0xff007AFF),
-                                ),
-                              ),
-                            ),
-                          ],
-                          cancelButton: TextButton(
-                            onPressed: () {
-                              Navigator.of(ctx).pop();
-                            },
-                            child: Text(
-                              'Cancel',
-                              style: style.copyWith(
-                                color: const Color(0xff007AFF),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
+              (isBlocked || !isOnline) ? null : showOptionsAction(context, ref);
             },
             icon: Icon(
               Icons.more_horiz_rounded,

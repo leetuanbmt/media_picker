@@ -23,7 +23,7 @@ class RegisterSuccessDialog {
                   height: 40.01.h,
                 ),
                 Text(
-                  '登録が完了しました！',
+                  context.tr(LocaleKeys.registerCompleted),
                   style: context.bodyLarge!.copyWith(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w600,

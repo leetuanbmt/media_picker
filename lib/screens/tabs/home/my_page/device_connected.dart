@@ -21,6 +21,9 @@ class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         MyPageDialog().showDialogSpentAllPoint(context);
+        Future.delayed(const Duration(seconds: 3), () {
+          context.back();
+        });
       },
     );
   }

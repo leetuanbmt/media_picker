@@ -23,115 +23,110 @@ class UserOffline extends StatelessWidget {
     );
     return ListView(
       children: [
-        Stack(
-          children: [
-            Container(
-              height: 293.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20.r),
-                  bottomRight: Radius.circular(20.r),
-                ),
-                color: AppTheme.primaryColor,
-              ),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20.r),
+              bottomRight: Radius.circular(20.r),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              child: Column(
-                children: [
-                  CacheImage(
-                    image: user.avatar,
-                    radius: 100.r,
-                    dimension: Size.square(79.r),
-                    isZoom: true,
+            color: AppTheme.primaryColor,
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: Column(
+              children: [
+                CacheImage(
+                  image: user.avatar,
+                  radius: 100.r,
+                  dimension: Size.square(79.r),
+                  isZoom: true,
+                ),
+                SizedBox(
+                  height: 12.h,
+                ),
+                Text(
+                  user.name,
+                  style: context.titleMedium!.copyWith(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xffFFFFFF),
                   ),
-                  SizedBox(
-                    height: 12.h,
-                  ),
-                  Text(
-                    user.name,
-                    style: context.titleMedium!.copyWith(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xffFFFFFF),
+                ),
+                SizedBox(
+                  height: 6.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        TextItem(value: context.tr(LocaleKeys.follow)),
+                        TextItem(
+                          value: user.follow.toCompactCurrency,
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 6.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          TextItem(value: context.tr(LocaleKeys.follow)),
-                          TextItem(
-                            value: user.follow.toCompactCurrency,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 22.w,
-                      ),
-                      Column(
-                        children: [
-                          TextItem(value: context.tr(LocaleKeys.followers)),
-                          TextItem(
-                            value: user.followers.toCompactCurrency,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 22.w,
-                      ),
-                      Column(
-                        children: [
-                          Assets.iconsIconApp.svg(height: 15.h),
-                          TextItem(
-                            value: '${user.points.toCurrency}pt',
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 9.h,
-                  ),
-                  Wrap(
-                    spacing: 8.w,
-                    runSpacing: 4.h,
-                    children: [
-                      ...List.generate(
-                        user.listCategory.length,
-                        (index) => Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 6.w,
-                            vertical: 1.h,
-                          ),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                          child: Text(
-                            user.listCategory[index],
-                            style: context.labelMedium!.copyWith(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppTheme.primaryColor,
-                            ),
+                    SizedBox(
+                      width: 22.w,
+                    ),
+                    Column(
+                      children: [
+                        TextItem(value: context.tr(LocaleKeys.followers)),
+                        TextItem(
+                          value: user.followers.toCompactCurrency,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 22.w,
+                    ),
+                    Column(
+                      children: [
+                        Assets.iconsIconApp.svg(height: 15.h),
+                        TextItem(
+                          value: '${user.points.toCurrency}pt',
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 9.h,
+                ),
+                Wrap(
+                  spacing: 8.w,
+                  runSpacing: 4.h,
+                  children: [
+                    ...List.generate(
+                      user.listCategory.length,
+                      (index) => Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 6.w,
+                          vertical: 1.h,
+                        ),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: Text(
+                          user.listCategory[index],
+                          style: context.labelMedium!.copyWith(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppTheme.primaryColor,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  UserBio(creator: user),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
+                UserBio(creator: user),
+              ],
             ),
-          ],
+          ),
         ),
         user.type == UserType.creator
             ? Padding(

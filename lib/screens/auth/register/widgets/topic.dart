@@ -22,7 +22,7 @@ class RegisterTopicScreen extends StatelessWidget {
             height: 37.h,
           ),
           Text(
-            'ユーザー名を決定しましょう',
+            context.tr(LocaleKeys.purposeUse),
             style: context.titleLarge!.copyWith(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,
@@ -73,7 +73,7 @@ class RegisterTopicScreen extends StatelessWidget {
                     registerProvider.select((value) => value.checkUsageEmpty),
                   );
                   return ButtonCustom(
-                    "次へ",
+                    context.tr(LocaleKeys.toTheNext),
                     height: 48.h,
                     width: 162.w,
                     backgroundColor: isActiveButton

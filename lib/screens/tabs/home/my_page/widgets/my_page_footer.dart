@@ -10,7 +10,24 @@ class MyPageFooter extends StatelessWidget {
 
   final UserModel creator;
 
-  void showCoinSheet(BuildContext context) {}
+  void showCoinSheet(BuildContext context, WidgetRef ref) {
+    MyPageBottomSheet().showBottomSheet(context, const SelectCoinBottomSheet(),
+        () {
+      final isSendPoint = ref.read(myPageProvider).isShowTimeRemaining;
+
+      if (isSendPoint) {
+        Future.delayed(const Duration(seconds: 10), () {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return const AutoDialog();
+            },
+          );
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,23 +90,7 @@ class MyPageFooter extends StatelessWidget {
                     width: 327.w,
                     fontSize: 15.sp,
                     onPressed: () {
-                      MyPageBottomSheet().showBottomSheet(
-                          context, const SelectCoinBottomSheet(), () {
-                        final isSendPoint =
-                            ref.read(myPageProvider).isShowTimeRemaining;
-
-                        if (isSendPoint) {
-                          Future.delayed(const Duration(seconds: 10), () {
-                            showDialog(
-                              barrierDismissible: false,
-                              context: context,
-                              builder: (context) {
-                                return const AutoDialog();
-                              },
-                            );
-                          });
-                        }
-                      });
+                      showCoinSheet(context, ref);
                     },
                   )
                 : Padding(

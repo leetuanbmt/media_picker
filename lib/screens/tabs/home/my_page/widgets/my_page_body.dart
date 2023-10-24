@@ -1,4 +1,5 @@
 import '../../../../../core/config.dart';
+import '../../../../../core/models/enum/enum.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../routes/app_routes.gr.dart';
@@ -10,6 +11,44 @@ import 'my_page_bottom_sheet.dart';
 
 class DeviceConnected extends StatelessWidget {
   const DeviceConnected({super.key});
+
+  void controlRequest(BuildContext context, WidgetRef ref) {
+    final provider = ref.read(myPageProvider);
+
+    MyPageBottomSheet()
+        .showBottomSheet(context, const ControlRequestBottomSheet(), () {
+      Future.delayed(const Duration(seconds: 3), () {
+        final controlStatus = provider.requestStatus;
+        if (controlStatus == RequestControlStatus.requesting) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Center(
+                child: Text(
+                  context.tr(LocaleKeys.controlRequestSent),
+                  style: context.bodyMedium!.copyWith(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.primaryColor,
+                  ),
+                ),
+              ),
+              duration: const Duration(seconds: 4),
+              backgroundColor: Colors.white,
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.only(
+                bottom: context.screenHeight - 140,
+                left: 30.w,
+                right: 30.w,
+              ),
+            ),
+          );
+          provider.updateRequestStatus(RequestControlStatus.underControl);
+          provider.updateShowDeviceControlling();
+        }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +63,6 @@ class DeviceConnected extends StatelessWidget {
     );
 
     return Container(
-      height: 190.2.h,
       width: 343.w,
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       decoration: BoxDecoration(
@@ -54,7 +92,6 @@ class DeviceConnected extends StatelessWidget {
             ),
           ),
           Container(
-            height: 83.h,
             width: 303.w,
             margin: EdgeInsets.only(top: 9.1.h, bottom: 13.44.h),
             decoration: BoxDecoration(
@@ -78,6 +115,9 @@ class DeviceConnected extends StatelessWidget {
                     ),
                   );
                 }),
+                SizedBox(
+                  height: 9.h,
+                ),
               ],
             ),
           ),
@@ -87,8 +127,7 @@ class DeviceConnected extends StatelessWidget {
                 final status = ref.watch(
                   myPageProvider.select((value) => value.requestStatus),
                 );
-                final provider = ref.read(myPageProvider);
-                return status == 'requestControl'
+                return status == RequestControlStatus.requestControl
                     ? ButtonCustom(
                         context.tr(LocaleKeys.controlRequest),
                         height: 32.h,
@@ -96,42 +135,10 @@ class DeviceConnected extends StatelessWidget {
                         type: ButtonType.outline,
                         fontSize: 13.sp,
                         onPressed: () {
-                          MyPageBottomSheet().showBottomSheet(
-                              context, const ControlRequestBottomSheet(), () {
-                            Future.delayed(const Duration(seconds: 3), () {
-                              final controlStatus = provider.requestStatus;
-
-                              if (controlStatus == 'requesting') {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Center(
-                                      child: Text(
-                                        context
-                                            .tr(LocaleKeys.controlRequestSent),
-                                        style: style.copyWith(
-                                          color: AppTheme.primaryColor,
-                                        ),
-                                      ),
-                                    ),
-                                    duration: const Duration(seconds: 4),
-                                    backgroundColor: Colors.white,
-                                    elevation: 0,
-                                    behavior: SnackBarBehavior.floating,
-                                    margin: EdgeInsets.only(
-                                      bottom: context.screenHeight - 140,
-                                      left: 30.w,
-                                      right: 30.w,
-                                    ),
-                                  ),
-                                );
-                                provider.updateRequestStatus('underControl');
-                                provider.updateShowDeviceControlling();
-                              }
-                            });
-                          });
+                          controlRequest(context, ref);
                         },
                       )
-                    : status == 'requesting'
+                    : status == RequestControlStatus.requesting
                         ? ButtonCustom(
                             context.tr(LocaleKeys.requesting),
                             height: 32.h,
@@ -152,6 +159,9 @@ class DeviceConnected extends StatelessWidget {
                           );
               },
             ),
+          ),
+          SizedBox(
+            height: 14.46.h,
           ),
         ],
       ),

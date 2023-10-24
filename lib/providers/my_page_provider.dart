@@ -1,4 +1,5 @@
 import '../core/config.dart';
+import '../core/models/enum/enum.dart';
 import '../core/utilities/utilities.dart';
 import 'firebase_provider.dart';
 
@@ -133,7 +134,7 @@ class MyPageProvider extends ChangeNotifier {
   final controlRequestController = TextEditingController();
   String get controlRequest => controlRequestController.text;
 
-  String requestStatus = 'requestControl';
+  RequestControlStatus requestStatus = RequestControlStatus.requestControl;
 
   bool showDeviceControlling = false;
 
@@ -156,7 +157,7 @@ class MyPageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateRequestStatus(String value) {
+  void updateRequestStatus(RequestControlStatus value) {
     requestStatus = value;
     notifyListeners();
   }

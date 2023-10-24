@@ -61,7 +61,7 @@ class SocialList extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'SNSアカウントでログイン',
+          context.tr(LocaleKeys.logInWithYourSNSAccount),
           style: context.bodyMedium!.copyWith(
             color: AppTheme.blackBold,
             fontWeight: FontWeight.w600,

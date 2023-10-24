@@ -19,7 +19,7 @@ class RegisterBankAccountScreen extends StatelessWidget {
               height: 40.h,
             ),
             Text(
-              'Stripeアカウントを登録してくださ\nい',
+              context.tr(LocaleKeys.registerYourStripeAccount),
               textAlign: TextAlign.center,
               style: context.titleLarge!.copyWith(
                 fontSize: 20.sp,
@@ -31,7 +31,7 @@ class RegisterBankAccountScreen extends StatelessWidget {
               height: 16.h,
             ),
             Text(
-              '獲得したポイントを出金出来る口座を登録します。',
+              context.tr(LocaleKeys.registerAccountWithdrawPoint),
               style: context.bodyMedium!.copyWith(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w300,
@@ -42,7 +42,7 @@ class RegisterBankAccountScreen extends StatelessWidget {
               height: 52.h,
             ),
             ButtonCustom(
-              "登録する",
+              context.tr(LocaleKeys.signUp),
               fontSize: 15.sp,
               height: 48.h,
               width: 327.w,
@@ -55,12 +55,12 @@ class RegisterBankAccountScreen extends StatelessWidget {
                 Consumer(
                   builder: (context, ref, child) {
                     return ButtonCustom(
-                      "SKIPする",
+                      context.tr(LocaleKeys.skip),
                       fontSize: 15.sp,
                       height: 48.h,
                       width: 162.w,
                       type: ButtonType.outline,
-                      borderWidth: 2,
+                      borderWidth: 2.r,
                       onPressed: () {
                         ref.read(registerProvider).register(context, userType);
                       },

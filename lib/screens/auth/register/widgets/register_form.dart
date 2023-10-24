@@ -18,7 +18,7 @@ class RegisterForm extends ConsumerWidget {
           children: [
             TextFieldCustom(
               textController: provider.emailController,
-              hintText: "メールアドレス",
+              hintText: context.tr(LocaleKeys.emailAddress),
               keyboardType: TextInputType.emailAddress,
             ),
             SizedBox(
@@ -26,7 +26,7 @@ class RegisterForm extends ConsumerWidget {
             ),
             TextFieldCustom(
               textController: provider.passwordController,
-              hintText: 'パスワード（6文字以上の半角英数字）',
+              hintText: context.tr(LocaleKeys.password),
               obscureText: true,
             ),
             SizedBox(
@@ -39,7 +39,7 @@ class RegisterForm extends ConsumerWidget {
                       .select((value) => value.checkEmailPasswordEmpty),
                 );
                 return ButtonCustom(
-                  "新規登録",
+                  context.tr(LocaleKeys.signUp),
                   width: double.infinity,
                   height: 48.h,
                   onPressed: () {

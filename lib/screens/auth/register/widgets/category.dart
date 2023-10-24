@@ -36,7 +36,7 @@ class RegisterCategoryScreen extends StatelessWidget {
             height: 40.h,
           ),
           Text(
-            'あなたにあてはまるカテゴリを\n選択してください',
+            context.tr(LocaleKeys.categoryAppliesToYou),
             textAlign: TextAlign.center,
             style: context.titleLarge!.copyWith(
               fontSize: 20.sp,
@@ -88,7 +88,7 @@ class RegisterCategoryScreen extends StatelessWidget {
                         .select((value) => value.checkCategoryEmpty),
                   );
                   return ButtonCustom(
-                    "次へ",
+                    context.tr(LocaleKeys.toTheNext),
                     height: 48.h,
                     width: 162.w,
                     backgroundColor: isActiveButton

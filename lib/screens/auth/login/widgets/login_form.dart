@@ -67,14 +67,14 @@ class LoginForm extends HookConsumerWidget {
           children: [
             TextFieldCustom(
               textController: emailController,
-              hintText: "メールアドレス",
+              hintText: context.tr(LocaleKeys.emailAddress),
               keyboardType: TextInputType.emailAddress,
             ),
             Padding(
               padding: EdgeInsets.only(top: 12.h),
               child: TextFieldCustom(
                 textController: passwordController,
-                hintText: 'パスワード（6文字以上の半角英数字）',
+                hintText: context.tr(LocaleKeys.password),
                 obscureText: true,
               ),
             ),
@@ -103,7 +103,7 @@ class LoginForm extends HookConsumerWidget {
                       AppConfig.checkSaveAccount.setBool(isSaveAccount.value);
                     },
                     child: Text(
-                      '次回から自動でログイン',
+                      context.tr(LocaleKeys.logInAutomaticallyNextTime),
                       style: context.bodySmall!.copyWith(
                         color: AppTheme.fontGrayLead,
                         fontWeight: FontWeight.w300,
@@ -114,7 +114,7 @@ class LoginForm extends HookConsumerWidget {
               ),
             ),
             ButtonCustom(
-              "ログイン",
+              context.tr(LocaleKeys.logIn),
               height: 48.h,
               width: double.infinity,
               onPressed: () {

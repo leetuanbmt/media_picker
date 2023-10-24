@@ -49,7 +49,7 @@ class RegisterUserInformation extends ConsumerWidget {
           Padding(
             padding: EdgeInsets.only(top: 30.h, bottom: 40.h),
             child: Text(
-              '本人情報を入力してください',
+              context.tr(LocaleKeys.enterYourPersonalInformation),
               style: context.titleLarge!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -61,7 +61,7 @@ class RegisterUserInformation extends ConsumerWidget {
             runSpacing: 30.h,
             children: [
               InputInformation(
-                title: '代理店コード（お持ちの方）',
+                title: context.tr(LocaleKeys.agencyCode),
                 hintText: '0000000000',
                 controller: provider.agencyCodeController,
               ),
@@ -69,8 +69,8 @@ class RegisterUserInformation extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: InputInformation(
-                      title: "姓",
-                      hintText: "(例)山田",
+                      title: context.tr(LocaleKeys.surname),
+                      hintText: "(${context.tr(LocaleKeys.example)})山田",
                       controller: provider.firstNameController,
                     ),
                   ),
@@ -79,8 +79,8 @@ class RegisterUserInformation extends ConsumerWidget {
                   ),
                   Expanded(
                     child: InputInformation(
-                      title: "姓",
-                      hintText: "(例)太郎",
+                      title: context.tr(LocaleKeys.surname),
+                      hintText: "(${context.tr(LocaleKeys.example)})太郎",
                       controller: provider.middleNameController,
                     ),
                   ),
@@ -90,8 +90,8 @@ class RegisterUserInformation extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: InputInformation(
-                      title: "セイ",
-                      hintText: "(例)ヤマダ",
+                      title: context.tr(LocaleKeys.name),
+                      hintText: "(${context.tr(LocaleKeys.example)})ヤマダ",
                       controller: provider.lastNameController,
                     ),
                   ),
@@ -100,16 +100,16 @@ class RegisterUserInformation extends ConsumerWidget {
                   ),
                   Expanded(
                     child: InputInformation(
-                      title: "メイ",
-                      hintText: "(例)タロウ",
+                      title: context.tr(LocaleKeys.may),
+                      hintText: "(${context.tr(LocaleKeys.example)})タロウ",
                       controller: provider.anotherNameController,
                     ),
                   ),
                 ],
               ),
               InputInformation(
-                title: "生年月日",
-                hintText: "選択する",
+                title: context.tr(LocaleKeys.dateOfBirth),
+                hintText: context.tr(LocaleKeys.select),
                 controller: provider.dateInputController,
                 onTap: () async {
                   final DateTime? picked = await showDatePicker(
@@ -128,14 +128,14 @@ class RegisterUserInformation extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '性別',
+                    context.tr(LocaleKeys.gender),
                     style: style,
                   ),
                   SizedBox(
                     height: 7.h,
                   ),
                   DropdownMenu<String>(
-                    hintText: '選択する',
+                    hintText: context.tr(LocaleKeys.select),
                     textStyle: dropStyle,
                     width: 343.w,
                     controller: provider.genderController,
@@ -160,7 +160,7 @@ class RegisterUserInformation extends ConsumerWidget {
                 ],
               ),
               InputInformation(
-                title: "電話番号",
+                title: context.tr(LocaleKeys.telephoneNumber),
                 hintText: "09011112222",
                 controller: provider.phoneNumberController,
               ),
@@ -179,7 +179,7 @@ class RegisterUserInformation extends ConsumerWidget {
                         .select((value) => value.checkInformationEmpty),
                   );
                   return ButtonCustom(
-                    "次へ",
+                    context.tr(LocaleKeys.toTheNext),
                     width: 162.w,
                     height: 48.h,
                     backgroundColor: isDisableButton

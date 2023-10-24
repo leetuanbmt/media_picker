@@ -3,33 +3,39 @@ import 'package:flutter/cupertino.dart';
 import '../../../../../core/config.dart';
 
 class TimeReMainingIndicator extends StatefulWidget {
-  const TimeReMainingIndicator({super.key});
+  const TimeReMainingIndicator({
+    super.key,
+    this.sliderValue = 8.0,
+  });
+
+  final double sliderValue;
 
   @override
   State<TimeReMainingIndicator> createState() => _TimeReMainingIndicatorState();
 }
 
 class _TimeReMainingIndicatorState extends State<TimeReMainingIndicator> {
-  double _sliderValue = 8.0;
-  double buttonPosition = 0.0;
   List<Color> itemColors = [];
+
+  double defaultSliderValue = 0;
+  ValueNotifier<double> sliderValue = ValueNotifier<double>(0);
+  ValueNotifier<double> dragPosition = ValueNotifier<double>(0);
 
   @override
   void initState() {
     super.initState();
+    sliderValue.value = widget.sliderValue;
     itemColors = List<Color>.filled(27, AppTheme.box);
   }
 
   void updateItemColors() {
-    setState(() {
-      for (int i = 0; i < itemColors.length; i++) {
-        if (i < buttonPosition) {
-          itemColors[i] = AppTheme.pink;
-        } else {
-          itemColors[i] = AppTheme.box;
-        }
+    for (int i = 0; i < itemColors.length; i++) {
+      if (i < dragPosition.value) {
+        itemColors[i] = AppTheme.pink;
+      } else {
+        itemColors[i] = AppTheme.box;
       }
-    });
+    }
   }
 
   @override
@@ -44,13 +50,18 @@ class _TimeReMainingIndicatorState extends State<TimeReMainingIndicator> {
             borderRadius: BorderRadius.all(Radius.circular(10.r)),
             color: AppTheme.blackBold,
           ),
-          child: Text(
-            '${(buttonPosition * 11.12).toInt()}mb', // MAX 300mp /27 = 11.12
-            style: context.titleMedium!.copyWith(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-            ),
+          child: ValueListenableBuilder(
+            valueListenable: dragPosition,
+            builder: (context, value, child) {
+              return Text(
+                '${(dragPosition.value * 11.12).toInt()}mb', // MAX 300mp /27 = 11.12
+                style: context.titleMedium!.copyWith(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              );
+            },
           ),
         ),
         CustomPaint(
@@ -60,30 +71,29 @@ class _TimeReMainingIndicatorState extends State<TimeReMainingIndicator> {
         SizedBox(
           height: 10.h,
         ),
-        Container(
-          height: 52.h,
-          width: 343.w,
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(12.r)),
-            color: Colors.white,
-          ),
-          child: GestureDetector(
-            onHorizontalDragUpdate: (details) {
-              setState(() {
-                buttonPosition += details.delta.dx / 6;
-                if (buttonPosition < 0) {
-                  buttonPosition = 0;
-                } else if (buttonPosition > 27) {
-                  buttonPosition = 27;
-                }
-                updateItemColors();
-              });
-            },
-            child: Stack(
-              children: [
-                Row(
+        ValueListenableBuilder(
+          valueListenable: dragPosition,
+          builder: (context, value, child) {
+            return Container(
+              height: 52.h,
+              width: 343.w,
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(12.r)),
+                color: Colors.white,
+              ),
+              child: GestureDetector(
+                onHorizontalDragUpdate: (details) {
+                  dragPosition.value += details.delta.dx / 11.12;
+                  if (dragPosition.value < 0) {
+                    dragPosition.value = 0;
+                  } else if (dragPosition.value > 27) {
+                    dragPosition.value = 27;
+                  }
+                  updateItemColors();
+                },
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: List.generate(
                     27,
@@ -97,9 +107,9 @@ class _TimeReMainingIndicatorState extends State<TimeReMainingIndicator> {
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
         SizedBox(
           height: 15.57.h,
@@ -118,47 +128,57 @@ class _TimeReMainingIndicatorState extends State<TimeReMainingIndicator> {
               ),
             ],
           ),
-          child: SliderTheme(
-            data: SliderTheme.of(context).copyWith(
-              trackHeight: _sliderValue > 0 ? 44.h : 0,
-              thumbShape: RoundSliderThumbShape(
-                enabledThumbRadius: _sliderValue >= 1 ? 22.7 : 1,
-                elevation: 0,
-              ),
-              trackShape: CustomSliderTrackShape(),
-              activeTrackColor: const Color(0xff8F3FFC),
-              inactiveTrackColor: const Color(0xffF2F2F2),
-              thumbColor: _sliderValue >= 1
-                  ? const Color(0xff8F3FFC)
-                  : const Color(0xffF2F2F2),
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Slider(
-                  value: _sliderValue,
-                  min: 0,
-                  max: 10.0,
-                  onChanged: (newValue) {
-                    setState(() {
-                      _sliderValue = newValue;
-                    });
+          child: ValueListenableBuilder(
+            valueListenable: sliderValue,
+            builder: (context, value, child) {
+              return SliderTheme(
+                data: SliderTheme.of(context).copyWith(
+                  trackHeight: sliderValue.value > 0 ? 44.h : 0,
+                  thumbShape: RoundSliderThumbShape(
+                    enabledThumbRadius: sliderValue.value >= 1 ? 22.7 : 1,
+                    elevation: 0,
+                  ),
+                  trackShape: CustomSliderTrackShape(),
+                  activeTrackColor: const Color(0xff8F3FFC),
+                  inactiveTrackColor: const Color(0xffF2F2F2),
+                  thumbColor: sliderValue.value >= 1
+                      ? const Color(0xff8F3FFC)
+                      : const Color(0xffF2F2F2),
+                ),
+                child: ValueListenableBuilder(
+                  valueListenable: sliderValue,
+                  builder: (context, value, child) {
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Slider(
+                          value: sliderValue.value,
+                          min: 0,
+                          max: 10.0,
+                          onChanged: (newValue) {
+                            setState(() {
+                              sliderValue.value = newValue;
+                            });
+                          },
+                        ),
+                        if (sliderValue.value > 1)
+                          Positioned(
+                            left: sliderValue.value * 15.2,
+                            child: Text(
+                              '${sliderValue.value.round().toString()}${context.tr(LocaleKeys.seconds)}',
+                              style: context.bodyMedium!.copyWith(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
                   },
                 ),
-                if (_sliderValue > 1)
-                  Positioned(
-                    left: _sliderValue * 15.2,
-                    child: Text(
-                      '${_sliderValue.round().toString()}${context.tr(LocaleKeys.seconds)}',
-                      style: context.bodyMedium!.copyWith(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ],

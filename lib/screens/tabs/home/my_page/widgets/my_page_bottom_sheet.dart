@@ -1,4 +1,5 @@
 import '../../../../../core/config.dart';
+import '../../../../../core/models/enum/enum.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../widgets/commons/button_custom.dart';
@@ -915,9 +916,9 @@ class ControlRequestBottomSheet extends ConsumerWidget {
                     onPressed: () {
                       if (provider.checkValidControlRequest()) {
                         Navigator.of(context).pop();
-                        ref
-                            .read(myPageProvider)
-                            .updateRequestStatus('requesting');
+                        ref.read(myPageProvider).updateRequestStatus(
+                              RequestControlStatus.requesting,
+                            );
                       }
                     },
                   ),
