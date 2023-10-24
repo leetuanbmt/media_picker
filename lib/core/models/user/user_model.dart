@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../utilities/utilities.dart';
 import '../enum/enum.dart';
+import 'following_model.dart';
 
 part 'user_model.freezed.dart';
 part 'user_model.g.dart';
@@ -25,7 +26,7 @@ class UserModel with _$UserModel {
     @JsonKey(fromJson: AppUtils.fromJsonTime, toJson: AppUtils.toJsonTime)
     DateTime? birthday,
     String? bio,
-    List<String>? following,
+    List<FollowingModel>? following,
     @Default(false) bool isOnline,
     String? firstName,
     String? middleName,
