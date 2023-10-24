@@ -45,7 +45,7 @@ class SearchCreatorScreen extends HookConsumerWidget {
                     if (users.isEmpty) {
                       return Center(
                         child: Text(
-                          "検索結果がありません",
+                          context.tr(LocaleKeys.noSearchResult),
                           style: context.bodyMedium,
                         ),
                       );

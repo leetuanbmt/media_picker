@@ -150,5 +150,8 @@
   "forDistributorsOrStores": "Nhà phân phối/cửa hàng",
   "startAsFan": "Người hâm mộ",
   "personWhoTipsMoney": "Người tip tiền",
-  "settingThemeColor": "Đặt màu chủ đề"
+  "settingThemeColor": "Đặt màu chủ đề",
+  "noSearchResult": "Không có kết quả tìm kiếm",
+  "QRCode": "Mã QR",
+  "reading": "Đang đọc..."
 }

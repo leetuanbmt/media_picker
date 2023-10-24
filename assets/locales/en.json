@@ -150,5 +150,8 @@
   "forDistributorsOrStores": "For distributors/stores",
   "startAsFan": "Start as a fan",
   "personWhoTipsMoney": "Person who tips money",
-  "settingThemeColor": "Setting theme color"
+  "settingThemeColor": "Setting theme color",
+  "noSearchResult": "There is no search result",
+  "QRCode": "QR code",
+  "reading": "Reading..."
 }

@@ -150,5 +150,8 @@
   "forDistributorsOrStores": "配信者・店舗の方",
   "startAsFan": "ファンとして始める",
   "personWhoTipsMoney": "投げ銭する方",
-  "settingThemeColor": "テーマカラーの設定"
+  "settingThemeColor": "テーマカラーの設定",
+  "noSearchResult": "検索結果がありません",
+  "QRCode": "QRコード",
+  "reading": "読み取り中..."
 }

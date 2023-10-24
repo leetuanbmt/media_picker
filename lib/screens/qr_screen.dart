@@ -16,7 +16,7 @@ class QRScreen extends StatelessWidget {
       backgroundColor: AppTheme.fontBoldLight,
       appBar: AppBar(
         backgroundColor: AppTheme.primaryColor,
-        title: const Text('QRコード'),
+        title: Text(context.tr(LocaleKeys.QRCode)),
         leading: const BackButton(),
       ),
       body: Column(
@@ -28,7 +28,7 @@ class QRScreen extends StatelessWidget {
           ),
           SizedBox(height: 60.h),
           Text(
-            '読み取り中...',
+            context.tr(LocaleKeys.reading),
             style: context.titleMedium?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w600,
