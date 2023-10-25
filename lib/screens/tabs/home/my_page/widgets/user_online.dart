@@ -50,30 +50,49 @@ class UserNormal extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  Stack(
+                  Column(
                     children: [
-                      Container(
-                        height: 310.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(20.r),
-                            bottomRight: Radius.circular(20.r),
+                      ColoredBox(
+                        color: AppTheme.primaryColor,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.16.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              UserID(creator: creator),
+                              SizedBox(
+                                height: 6.77.h,
+                              ),
+                              UserInformation(creator: creator),
+                              UserBio(creator: creator),
+                            ],
                           ),
-                          color: AppTheme.primaryColor,
                         ),
+                      ),
+                      Stack(
+                        alignment: Alignment.topCenter,
+                        children: [
+                          SizedBox(
+                            height: 190.h,
+                          ),
+                          Container(
+                            height: 68.42.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20.r),
+                                bottomRight: Radius.circular(20.r),
+                              ),
+                              color: AppTheme.primaryColor,
+                            ),
+                          ),
+                          const DeviceConnected(),
+                        ],
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.16.w),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            UserID(creator: creator),
-                            SizedBox(
-                              height: 6.77.h,
-                            ),
-                            UserInformation(creator: creator),
-                            UserBio(creator: creator),
-                            const DeviceConnected(),
                             SizedBox(
                               height: 20.42.h,
                             ),
