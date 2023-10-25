@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../gen/assets.gen.dart';
@@ -99,7 +99,7 @@ extension ContextEx on BuildContext {
     } else {
       return kIsWeb
           ? NetworkImage(image)
-          : CachedNetworkImageProvider(image) as ImageProvider;
+          : ExtendedNetworkImageProvider(image, cache: true) as ImageProvider;
     }
   }
 }

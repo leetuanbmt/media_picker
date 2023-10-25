@@ -54,28 +54,30 @@ class VideoManager extends ChangeNotifier {
   }
 
   // init next video
-  void initializeNextVideo(String url) async {
+  void initializeNextVideo(String url) {
+    if (_controllers.containsKey(url)) return;
     if (_isInitNextVideo) return;
     _isInitNextVideo = true;
-
-    if (_controllers.containsKey(url)) return;
     // get video from cache and if not found download it
-    final fileInfo = await CustomCacheManager.instance.getFile(
-      url,
-      isAutoDownload: true,
-    );
-    // if file is not found then initialize video controller with network url
-    if (fileInfo == null) {
-      Logger.log("Initialize next video from network");
-      _controllers[url] = VideoPlayerController.networkUrl(Uri.parse(url));
-    } else {
-      Logger.log("Initialize next from cache");
-      _controllers[url] = VideoPlayerController.file(fileInfo.file);
-    }
-    if (!_controllers[url]!.value.isInitialized) {
-      await _controllers[url]?.initialize();
-    }
-    _isInitNextVideo = false;
+    CustomCacheManager.instance
+        .getFile(url, isAutoDownload: true)
+        .then((fileInfo) {
+      // if file is not found then initialize video controller with network url
+      if (fileInfo == null) {
+        Logger.log("Initialize next video from network");
+        _controllers[url] = VideoPlayerController.networkUrl(Uri.parse(url));
+      } else {
+        Logger.log("Initialize next from cache");
+        _controllers[url] = VideoPlayerController.file(fileInfo.file);
+      }
+      if (!_controllers[url]!.value.isInitialized) {
+        _controllers[url]?.initialize().then((value) {
+          _isInitNextVideo = false;
+        });
+      } else {
+        _isInitNextVideo = false;
+      }
+    });
   }
 
   void resume() => video?.play();
