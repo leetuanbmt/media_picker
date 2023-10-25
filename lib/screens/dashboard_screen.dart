@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../core/config.dart';
+import '../core/utilities/db_helper.dart';
 import '../gen/assets.gen.dart';
 import '../providers/user_provider.dart';
 import '../routes/app_routes.gr.dart';
@@ -23,17 +26,50 @@ class DashboardScreen extends ConsumerStatefulWidget {
   ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends ConsumerState<DashboardScreen> {
+class _DashboardScreenState extends ConsumerState<DashboardScreen>
+    with WidgetsBindingObserver {
   @override
   void initState() {
     ref.read(userProvider).initialize();
+    setUserState(true);
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    Logger.log(state);
+    switch (state) {
+      case AppLifecycleState.resumed:
+        setUserState(true);
+        break;
+      case AppLifecycleState.paused:
+      case AppLifecycleState.inactive:
+        setUserState(false);
+        break;
+      default:
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
   void deactivate() {
     ref.read(userProvider).stopStream();
     super.deactivate();
+  }
+
+  void setUserState(bool isOnline) {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    FirebaseFirestore.instance
+        .collection(DbCollection.users)
+        .doc(uid)
+        .update(<String, dynamic>{"isOnline": isOnline});
   }
 
   @override

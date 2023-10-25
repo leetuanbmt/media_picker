@@ -1,4 +1,18 @@
+library chat_module;
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_parsed_text/flutter_parsed_text.dart';
+
 import '../../core/config.dart';
+import '../../core/models/models.dart';
+import '../../providers/chart/chat_provider.dart';
+import '../../widgets/commons/cache_image.dart';
+import '../../widgets/commons/indicators/loading_indicator.dart';
+import '../../widgets/commons/indicators/loading_manager.dart';
+
+part 'widgets/chat_controls.dart';
+part 'widgets/chat_item.dart';
+part 'widgets/chat_list.dart';
 
 @RoutePage()
 class ChatScreen extends StatefulWidget {
@@ -10,28 +24,25 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  String get chatId => widget.chatId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.tr(LocaleKeys.announcementDistribution)),
+        title: Row(
+          children: [
+            const AuthAvatar(Size.square(40)),
+            Dimensions.width10,
+            Text(context.tr(LocaleKeys.announcementDistribution)),
+          ],
+        ),
+      ),
+      body: Column(
+        children: [
+          Expanded(child: ChartList(chatId)),
+          ChatControls(chatId),
+        ],
       ),
     );
-  }
-}
-
-class VideoState extends InheritedWidget {
-  const VideoState({
-    super.key,
-    required super.child,
-  });
-
-  static VideoState of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<VideoState>()!;
-  }
-
-  @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return false;
   }
 }

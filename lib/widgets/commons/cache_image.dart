@@ -1,8 +1,13 @@
 import 'package:extended_image/extended_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:uuid/uuid.dart';
 import '../../core/config.dart';
+import '../../providers/firebase_provider.dart';
+import 'online_dot_indicator.dart';
 import 'shimmer.dart';
+
+const _defaultImage = 'https://i.stack.imgur.com/l60Hf.png';
 
 class CacheImage extends StatelessWidget {
   const CacheImage({
@@ -19,9 +24,35 @@ class CacheImage extends StatelessWidget {
   final Size dimension;
   final bool isZoom, isHighlighted;
   final VoidCallback? onTap;
+  void gotoZoomImage(
+    BuildContext context,
+    ImageProvider imageProvider,
+    String tag,
+  ) {
+    if (image.isNotEmptyAndNotNull && isZoom) {
+      Navigator.of(context, rootNavigator: true).push(
+        PageRouteBuilder(
+          settings: const RouteSettings(
+            name: 'PhotoViewScreen',
+          ),
+          pageBuilder: (_, animation, __) {
+            return FadeTransition(
+              opacity: animation,
+              child: PhotoViewScreen(
+                imageProvider: imageProvider,
+                tag: tag,
+              ),
+            );
+          },
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final tag = const Uuid().v4();
+    final imageProvider = context.imageProvider(image ?? _defaultImage);
     return SizedBox.fromSize(
       size: dimension,
       child: Hero(
@@ -30,24 +61,7 @@ class CacheImage extends StatelessWidget {
           onTap: onTap ??
               (isZoom
                   ? () {
-                      if (image.isNotEmptyAndNotNull && isZoom) {
-                        Navigator.of(context, rootNavigator: true).push(
-                          PageRouteBuilder(
-                            settings:
-                                const RouteSettings(name: 'PhotoViewScreen'),
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: PhotoViewScreen(
-                                  imageProvider: context.imageProvider(image),
-                                  tag: tag,
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      }
+                      gotoZoomImage(context, imageProvider, tag);
                     }
                   : null),
           child: DecoratedBox(
@@ -59,10 +73,7 @@ class CacheImage extends StatelessWidget {
               padding: EdgeInsets.all(isHighlighted ? 2.0 : 0),
               child: ExtendedImage(
                 fit: BoxFit.cover,
-                image: ExtendedNetworkImageProvider(
-                  image ?? 'https://i.stack.imgur.com/l60Hf.png',
-                  cache: true,
-                ),
+                image: imageProvider,
                 loadStateChanged: (state) {
                   switch (state.extendedImageLoadState) {
                     case LoadState.loading:
@@ -149,6 +160,31 @@ class PhotoViewScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class AuthAvatar extends ConsumerWidget {
+  const AuthAvatar(this.dimension, {super.key});
+  final Size dimension;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    final user = ref.watch(userChangeFirebase(uid)).value;
+    return SizedBox.fromSize(
+      size: dimension,
+      child: Stack(
+        children: [
+          CacheImage(
+            image: user?.avatar,
+            radius: 100,
+            dimension: dimension,
+          ),
+          OnlineDotIndicator(
+            isOnline: user?.isOnline ?? false,
+          ),
+        ],
+      ),
     );
   }
 }

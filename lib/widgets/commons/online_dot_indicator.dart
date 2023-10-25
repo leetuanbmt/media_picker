@@ -1,17 +1,10 @@
 import '../../core/config.dart';
-import '../../providers/firebase_provider.dart';
 
 class OnlineDotIndicator extends ConsumerWidget {
-  const OnlineDotIndicator({super.key, required this.uid});
-  final String uid;
-
+  const OnlineDotIndicator({super.key, required this.isOnline});
+  final bool isOnline;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isOnline = ref.watch(
-      userChangeFirebase(uid)
-          .select((value) => value.valueOrNull?.isOnline ?? false),
-    );
-
     return Align(
       alignment: Alignment.bottomRight,
       child: Container(

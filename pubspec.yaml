@@ -69,6 +69,7 @@ dependencies:
   timeago: ^3.5.0
   video_player: ^2.7.2
   provider: ^6.0.5
+  flutter_parsed_text: ^2.2.1
 
 dev_dependencies:
   flutter_test:
