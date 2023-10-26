@@ -8,7 +8,7 @@ class ChartList extends ConsumerWidget {
     final messageAsync = ref.watch(chartProvider(chatId));
     return messageAsync.maybeWhen(
       orElse: () => Dimensions.empty,
-      loading: () => const TurnLoading(),
+      loading: () => const Loading(),
       success: (messages) {
         return ListView.builder(
           itemCount: messages.length,

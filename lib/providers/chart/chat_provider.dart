@@ -10,10 +10,16 @@ final chartProvider = StateNotifierProvider.autoDispose
 
 class ChatProvider extends StateNotifier<ChatState> {
   ChatProvider() : super(const ChatState.initial()) {
-    getMessageList(0);
+    getMessageList();
   }
 
+  int _page = 0;
+  int _totalPage = 0;
+
+  bool get _canLoadMore => _page < _totalPage;
+
   final messages = <Message>[];
+
   final sender = const UserModel(
     id: 'id',
     email: 'email',
@@ -28,7 +34,8 @@ class ChatProvider extends StateNotifier<ChatState> {
     avatar:
         'https://afamilycdn.com/150157425591193600/2023/10/12/photo-8-1697085570941464931779-1697097873648-1697097874897831840782.jpg',
   );
-  Future<void> getMessageList(int page) async {
+  Future<void> getMessageList() async {
+    _page = 0;
     state = const ChatState.loading();
     await Future.delayed(1.seconds);
     messages.addAll(
@@ -53,14 +60,20 @@ class ChatProvider extends StateNotifier<ChatState> {
         ),
       ],
     );
+    _totalPage = 1;
     state = ChatState.success(messages);
+  }
+
+  Future<void> loadMore() async {
+    if (!_canLoadMore) return;
+    _page++;
   }
 
   Future<void> sendMessage(String text) async {
     final message = Message(
       id: Random().nextInt(10000).toString(),
       type: 'text',
-      message: text.trim(),
+      message: text,
       timestamp: DateTime.now(),
       sender: sender,
       receiver: receiver,
@@ -69,6 +82,7 @@ class ChatProvider extends StateNotifier<ChatState> {
     state = ChatState.success(messages);
   }
 
+// remove message from list
   void removeItem(Message message) {
     messages.remove(message);
     state = ChatState.success(messages);

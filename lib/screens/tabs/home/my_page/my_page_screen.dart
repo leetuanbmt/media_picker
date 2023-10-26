@@ -1,7 +1,7 @@
 import '../../../../core/config.dart';
 import '../../../../providers/firebase_provider.dart';
 import '../../../../providers/my_page_provider.dart';
-import '../../../../widgets/commons/indicators/loading_manager.dart';
+import '../../../../widgets/commons/commons.dart';
 import 'widgets/my_page_app_bar.dart';
 import 'widgets/user_offline.dart';
 import 'widgets/user_online.dart';
@@ -64,7 +64,7 @@ class MyProfileScreen extends ConsumerWidget {
             error: (error, stack) => Center(
               child: Text(error.toString()),
             ),
-            loading: () => const TurnLoading(),
+            loading: () => const Loading(),
           );
         },
       ),

@@ -1,7 +1,5 @@
-import 'dart:math';
-
 import '../../../core/config.dart';
-import '../../../gen/assets.gen.dart';
+import 'loading.dart';
 
 class LoadingManager {
   factory LoadingManager() => instance;
@@ -24,7 +22,7 @@ class LoadingManager {
       routeSettings: const RouteSettings(name: "LoadingManager"),
       builder: (context) => WillPopScope(
         onWillPop: () => Future.value(false),
-        child: const Center(child: TurnLoading()),
+        child: const Center(child: Loading()),
       ),
     ).whenComplete(() {
       showLoading = false;
@@ -39,29 +37,29 @@ class LoadingManager {
   }
 }
 
-class TurnLoading extends HookWidget {
-  const TurnLoading({super.key});
+// class TurnLoading extends HookWidget {
+//   const TurnLoading({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    final animate = useAnimationController(
-      duration: const Duration(seconds: 2),
-      initialValue: 0,
-    )..repeat();
-    return Center(
-      child: AnimatedBuilder(
-        animation: animate,
-        builder: (context, child) {
-          return Transform.rotate(
-            angle: animate.value * 2 * pi,
-            child: child,
-          );
-        },
-        child: SizedBox.square(
-          dimension: 50.r,
-          child: Assets.iconsIconLoading.svg(),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final animate = useAnimationController(
+//       duration: const Duration(seconds: 2),
+//       initialValue: 0,
+//     )..repeat();
+//     return Center(
+//       child: AnimatedBuilder(
+//         animation: animate,
+//         builder: (context, child) {
+//           return Transform.rotate(
+//             angle: animate.value * 2 * pi,
+//             child: child,
+//           );
+//         },
+//         child: SizedBox.square(
+//           dimension: 50.r,
+//           child: Assets.iconsIconLoading.svg(),
+//         ),
+//       ),
+//     );
+//   }
+// }

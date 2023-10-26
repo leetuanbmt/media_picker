@@ -1,8 +1,7 @@
 import '../../../../core/config.dart';
 import '../../../providers/search_provider.dart';
 import '../../../routes/app_routes.gr.dart';
-import '../../../widgets/commons/app_bar_custom.dart';
-import '../../../widgets/commons/indicators/loading_manager.dart';
+import '../../../widgets/commons/commons.dart';
 import '../../../widgets/creator_item.dart';
 import '../../../widgets/search_app_bar.dart';
 
@@ -38,8 +37,8 @@ class SearchCreatorScreen extends HookConsumerWidget {
               builder: (context, ref, _) {
                 final searchAsync = ref.watch(searchNotifier(category));
                 return searchAsync.when(
-                  initial: () => const TurnLoading(),
-                  loading: () => const TurnLoading(),
+                  initial: () => const Loading(),
+                  loading: () => const Loading(),
                   error: (message) => Center(child: Text(message)),
                   loaded: (users) {
                     if (users.isEmpty) {

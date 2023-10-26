@@ -3,9 +3,7 @@ import '../../../../../core/models/enum/enum.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../routes/app_routes.gr.dart';
-import '../../../../../widgets/commons/button_custom.dart';
-import '../../../../../widgets/commons/cache_image.dart';
-import '../../../../../widgets/commons/indicators/loading_manager.dart';
+import '../../../../../widgets/commons/commons.dart';
 import '../device_connected.dart';
 import 'my_page_bottom_sheet.dart';
 
@@ -392,7 +390,7 @@ class ListRankingUser extends StatelessWidget {
             );
           },
           error: (error, stackTrace) => Text('Error: $error'),
-          loading: () => const TurnLoading(),
+          loading: () => const Loading(),
         );
       },
     );
@@ -450,7 +448,7 @@ class ListFollowUser extends StatelessWidget {
             );
           },
           error: (error, stackTrace) => Text('Error: $error'),
-          loading: () => const TurnLoading(),
+          loading: () => const Loading(),
         );
       },
     );

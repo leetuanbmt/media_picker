@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../../core/extensions/extension.dart';
+
 class Loading extends StatefulWidget {
   const Loading({super.key, this.radius = 30.0, this.dotRadius = 3.0});
 
@@ -76,83 +78,87 @@ class _ColorLoader3State extends State<Loading>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 100,
-      height: 100,
-      child: Center(
-        child: RotationTransition(
-          turns: animationRotation,
-          child: Center(
-            child: Stack(
-              children: <Widget>[
-                Transform.translate(
-                  offset: const Offset(0.0, 0.0),
-                  child: Dot(
-                    radius: radius,
-                    color: Colors.black12,
+    return Center(
+      child: SizedBox(
+        width: 100,
+        height: 100,
+        child: Center(
+          child: RotationTransition(
+            turns: animationRotation,
+            child: Center(
+              child: Stack(
+                children: <Widget>[
+                  Transform.translate(
+                    offset: const Offset(0.0, 0.0),
+                    child: Dot(
+                      radius: radius,
+                      color: context.primary.withOpacity(.2),
+                    ),
                   ),
-                ),
-                Transform.translate(
-                  offset: Offset(
-                    radius * cos(0.0),
-                    radius * sin(0.0),
+                  Transform.translate(
+                    offset: Offset(
+                      radius * cos(0.0),
+                      radius * sin(0.0),
+                    ),
+                    child: Dot(
+                      radius: dotRadius, color: context.primary,
+                      // color: const Color.fromRGBO(28, 150, 206, 1),
+                    ),
                   ),
-                  child: Dot(
-                    radius: dotRadius,
-                    color: const Color.fromRGBO(28, 150, 206, 1),
+                  Transform.translate(
+                    offset: Offset(
+                      radius * cos(0.0 + 1 * pi / 3),
+                      radius * sin(0.0 + 1 * pi / 3),
+                    ),
+                    child: Dot(
+                      radius: dotRadius, color: context.primary,
+                      // color: const Color.fromRGBO(30, 41, 121, 1),
+                    ),
                   ),
-                ),
-                Transform.translate(
-                  offset: Offset(
-                    radius * cos(0.0 + 1 * pi / 3),
-                    radius * sin(0.0 + 1 * pi / 3),
+                  Transform.translate(
+                    offset: Offset(
+                      radius * cos(0.0 + 2 * pi / 3),
+                      radius * sin(0.0 + 2 * pi / 3),
+                    ),
+                    child: Dot(
+                      radius: dotRadius,
+                      color: context.primary,
+                      // color: const Color.fromRGBO(210, 23, 118, 1),
+                    ),
                   ),
-                  child: Dot(
-                    radius: dotRadius,
-                    color: const Color.fromRGBO(30, 41, 121, 1),
+                  Transform.translate(
+                    offset: Offset(
+                      radius * cos(0.0 + 3 * pi / 3),
+                      radius * sin(0.0 + 3 * pi / 3),
+                    ),
+                    child: Dot(
+                      radius: dotRadius, color: context.primary,
+                      // color: const Color.fromRGBO(215, 41, 34, 1),
+                    ),
                   ),
-                ),
-                Transform.translate(
-                  offset: Offset(
-                    radius * cos(0.0 + 2 * pi / 3),
-                    radius * sin(0.0 + 2 * pi / 3),
+                  Transform.translate(
+                    offset: Offset(
+                      radius * cos(0.0 + 4 * pi / 3),
+                      radius * sin(0.0 + 4 * pi / 3),
+                    ),
+                    child: Dot(
+                      radius: dotRadius, color: context.primary,
+                      // color: const Color.fromRGBO(244, 229, 42, 1),
+                    ),
                   ),
-                  child: Dot(
-                    radius: dotRadius,
-                    color: const Color.fromRGBO(210, 23, 118, 1),
+                  Transform.translate(
+                    offset: Offset(
+                      radius * cos(0.0 + 5 * pi / 3),
+                      radius * sin(0.0 + 5 * pi / 3),
+                    ),
+                    child: Dot(
+                      color: context.primary,
+                      radius: dotRadius,
+                      // color: const Color.fromRGBO(17, 145, 74, 1),
+                    ),
                   ),
-                ),
-                Transform.translate(
-                  offset: Offset(
-                    radius * cos(0.0 + 3 * pi / 3),
-                    radius * sin(0.0 + 3 * pi / 3),
-                  ),
-                  child: Dot(
-                    radius: dotRadius,
-                    color: const Color.fromRGBO(215, 41, 34, 1),
-                  ),
-                ),
-                Transform.translate(
-                  offset: Offset(
-                    radius * cos(0.0 + 4 * pi / 3),
-                    radius * sin(0.0 + 4 * pi / 3),
-                  ),
-                  child: Dot(
-                    radius: dotRadius,
-                    color: const Color.fromRGBO(244, 229, 42, 1),
-                  ),
-                ),
-                Transform.translate(
-                  offset: Offset(
-                    radius * cos(0.0 + 5 * pi / 3),
-                    radius * sin(0.0 + 5 * pi / 3),
-                  ),
-                  child: Dot(
-                    radius: dotRadius,
-                    color: const Color.fromRGBO(17, 145, 74, 1),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
