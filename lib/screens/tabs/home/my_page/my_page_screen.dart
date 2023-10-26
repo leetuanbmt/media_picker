@@ -1,8 +1,7 @@
 import '../../../../core/config.dart';
 import '../../../../providers/firebase_provider.dart';
 import '../../../../providers/my_page_provider.dart';
-import '../../../../widgets/commons/button_custom.dart';
-import '../../../../widgets/commons/indicators/loading_manager.dart';
+import '../../../../widgets/commons/commons.dart';
 import 'widgets/my_page_app_bar.dart';
 import 'widgets/my_page_body.dart';
 import 'widgets/my_page_footer.dart';
@@ -185,7 +184,7 @@ class MyProfileScreen extends StatelessWidget {
               error: (error, stack) => Center(
                 child: Text(error.toString()),
               ),
-              loading: () => const TurnLoading(),
+              loading: () => const Loading(),
             );
           },
         ),

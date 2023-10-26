@@ -1,7 +1,7 @@
 import '../../core/config.dart';
 import '../../core/models/activity/activity.dart';
 import '../../providers/activity_provider.dart';
-import '../../widgets/commons/indicators/loading_manager.dart';
+import '../../widgets/commons/commons.dart';
 
 @RoutePage()
 class MainScreen extends ConsumerWidget {
@@ -28,7 +28,7 @@ class MainScreen extends ConsumerWidget {
               // An error is available, so we render it.
               AsyncValue(:final error?) => Text('Error: $error'),
               // No data/error, so we're in loading state.
-              _ => const TurnLoading(),
+              _ => const Loading(),
             },
           ],
         ),

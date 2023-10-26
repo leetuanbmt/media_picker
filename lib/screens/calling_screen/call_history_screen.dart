@@ -3,8 +3,7 @@ import '../../core/models/call_history/call_history.dart';
 import '../../core/utilities/utilities.dart';
 import '../../providers/call_provider.dart';
 import '../../providers/firebase_provider.dart';
-import '../../widgets/commons/cache_image.dart';
-import '../../widgets/commons/indicators/loading_manager.dart';
+import '../../widgets/commons/commons.dart';
 
 @RoutePage()
 class CallHistoryScreen extends ConsumerWidget {
@@ -57,7 +56,7 @@ class CallHistoryScreen extends ConsumerWidget {
                     },
                   );
                 },
-                loading: () => const TurnLoading(),
+                loading: () => const Loading(),
                 error: context.buildError,
               ),
         ),

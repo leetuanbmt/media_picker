@@ -176,6 +176,7 @@ class AuthAvatar extends ConsumerWidget {
       child: Stack(
         children: [
           CacheImage(
+            isZoom: true,
             image: user?.avatar,
             radius: 100,
             dimension: dimension,

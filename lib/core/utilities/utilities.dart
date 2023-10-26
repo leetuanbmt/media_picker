@@ -1,5 +1,11 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../config.dart';
 
@@ -11,6 +17,11 @@ export 'preferences.dart';
 class AppUtils {
   AppUtils._();
 
+  factory AppUtils() => instance;
+
+  static final AppUtils instance = AppUtils._();
+
+// show toast message
   static void toast(BuildContext context, String? msg) {
     WidgetsBinding.instance.endOfFrame.then((value) {
       VxToast.show(
@@ -22,21 +33,25 @@ class AppUtils {
     });
   }
 
+// format timestamp to date time
   static Timestamp? toJsonTime(DateTime? dateTime) {
     if (dateTime == null) return null;
     return Timestamp.fromDate(dateTime);
   }
 
+// format date time to timestamp
   static DateTime? fromJsonTime(Timestamp? timestamp) {
     return timestamp?.toDate();
   }
 
+// convert string to duration
   static String formatDuration(Duration duration) {
     return <int>[duration.inMinutes, duration.inSeconds]
         .map((int e) => e.remainder(60).toString().padLeft(2, "0"))
         .join(':');
   }
 
+// get text height by text style
   static double getTextHeight(
     String text,
     TextStyle textStyle,
@@ -48,6 +63,22 @@ class AppUtils {
     );
     textPainter.layout(maxWidth: textWidth);
     return textPainter.height;
+  }
+
+  // crop and share screenshot widget by key
+  static Future<void> cropAndShareByKey(GlobalKey globalKey) async {
+    final BuildContext? context = globalKey.currentContext;
+    if (context == null) return;
+    final boundary = context.findRenderObject() as RenderRepaintBoundary;
+    final image = await boundary.toImage();
+    final byteData = await image.toByteData(format: ImageByteFormat.png);
+    final pngBytes = byteData?.buffer.asUint8List();
+    if (pngBytes == null) return;
+    final directory = (await getApplicationDocumentsDirectory()).path;
+    final imgFile = File('$directory/screenshot.png');
+    imgFile.writeAsBytes(pngBytes).then((value) {
+      Share.shareXFiles([XFile(value.path)]);
+    });
   }
 }
 

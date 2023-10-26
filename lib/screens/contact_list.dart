@@ -3,8 +3,7 @@ import '../core/models/models.dart';
 import '../providers/call_provider.dart';
 import '../providers/firebase_provider.dart';
 import '../routes/app_routes.gr.dart';
-import '../widgets/commons/cache_image.dart';
-import '../widgets/commons/indicators/loading_manager.dart';
+import '../widgets/commons/commons.dart';
 
 class ContactList extends ConsumerWidget {
   const ContactList({super.key});
@@ -44,7 +43,7 @@ class ContactList extends ConsumerWidget {
                     ),
                   );
                 },
-                orElse: () => const TurnLoading(),
+                orElse: () => const Loading(),
               ),
         ),
       ),

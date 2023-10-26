@@ -1,8 +1,7 @@
 import '../../../core/config.dart';
 import '../../../providers/firebase_provider.dart';
 import '../../../routes/app_routes.gr.dart';
-import '../../../widgets/commons/app_bar_custom.dart';
-import '../../../widgets/commons/indicators/loading_manager.dart';
+import '../../../widgets/commons/commons.dart';
 import '../../../widgets/search_app_bar.dart';
 import 'widgets/list_creator.dart';
 
@@ -54,7 +53,7 @@ class HomeScreen extends ConsumerWidget {
                               .toList(),
                         );
                       },
-                      loading: () => const TurnLoading(),
+                      loading: () => const Loading(),
                       error: (error, stackTrace) => Text('Error: $error'),
                     );
               },

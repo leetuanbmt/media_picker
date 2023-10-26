@@ -2,8 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../core/config.dart';
 import '../../../providers/firebase_provider.dart';
-import '../../../widgets/commons/app_bar_custom.dart';
-import '../../../widgets/commons/indicators/loading_manager.dart';
+import '../../../widgets/commons/commons.dart';
 import 'widgets/edit_profile/edit_detail.dart';
 import 'widgets/edit_profile/edit_profile_header.dart';
 
@@ -23,7 +22,7 @@ class EditProfileScreen extends ConsumerWidget {
       ),
       body: SingleChildScrollView(
         child: userFuture.when(
-          loading: () => const TurnLoading(),
+          loading: () => const Loading(),
           error: (error, stack) => Center(
             child: Text(error.toString()),
           ),

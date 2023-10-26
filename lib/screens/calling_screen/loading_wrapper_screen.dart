@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import '../../core/config.dart';
 import '../../providers/global_provider.dart';
-import '../../widgets/commons/indicators/loading_manager.dart';
+import '../../widgets/commons/indicators/loading.dart';
 
 class LoadingWrapperScreen extends HookConsumerWidget {
   const LoadingWrapperScreen(this.child, {super.key});
@@ -17,7 +17,7 @@ class LoadingWrapperScreen extends HookConsumerWidget {
             return ref.watch(loadingProvider)
                 ? ColoredBox(
                     color: Colors.black.withOpacity(0.5),
-                    child: const TurnLoading(),
+                    child: const Loading(),
                   )
                 : const SizedBox();
           },
