@@ -85,7 +85,7 @@ class UserInformation extends StatelessWidget {
                     Text(
                       creator.name,
                       style: context.titleLarge!.copyWith(
-                        fontSize: 20,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
                       ),
@@ -218,7 +218,7 @@ class UserBio extends ConsumerWidget {
                           ? maxLines.ceil()
                           : ((!showBio && maxLines.ceil() >= 2) ? 2 : 1)),
                 ),
-                if (!showBio && maxLines.ceil() >= 2 && !isBlocked)
+                if (!showBio && maxLines.ceil() > 2 && !isBlocked)
                   Container(
                     width: double.infinity,
                     height: 18.h,
@@ -236,7 +236,7 @@ class UserBio extends ConsumerWidget {
                   ),
               ],
             ),
-            (!isBlocked && creator.bio!.isNotEmpty)
+            (maxLines.ceil() > 2 && !isBlocked)
                 ? Center(
                     child: IconButton(
                       onPressed: () {

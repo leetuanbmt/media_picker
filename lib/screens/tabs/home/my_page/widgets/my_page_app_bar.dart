@@ -13,7 +13,7 @@ class MyPageLeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox.square(
-      dimension: 36.h,
+      dimension: 36.r,
       child: IconButton(
         onPressed: () {
           context.back();

@@ -330,6 +330,11 @@ class ListRankingUser extends StatelessWidget {
       Color(0xff895F0D),
       Color(0xff00BAAF),
       Color(0xffFFDC56),
+      Color(0xffDCBB3C),
+      Color(0xffBEC2C2),
+      Color(0xff895F0D),
+      Color(0xff00BAAF),
+      Color(0xffFFDC56),
     ];
 
     return Consumer(
@@ -356,9 +361,8 @@ class ListRankingUser extends StatelessWidget {
                           bottom: 0,
                           left: 0,
                           child: CacheImage(
-                            image: result[index],
+                            image: result[index].avatar,
                             radius: 100.r,
-                            // dimension: 58.r,
                             dimension: Size.square(58.r),
                           ),
                         ),
@@ -414,7 +418,7 @@ class ListFollowUser extends StatelessWidget {
                     ...List.generate(
                       result.length,
                       (index) => CacheImage(
-                        image: result[index],
+                        image: result[index].avatar,
                         dimension: Size.square(34.r),
                         radius: 100.r,
                       ),

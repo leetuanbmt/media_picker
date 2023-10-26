@@ -49,7 +49,7 @@ class UserOffline extends StatelessWidget {
                   style: context.titleMedium!.copyWith(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w700,
-                    color: const Color(0xffFFFFFF),
+                    color: Colors.white,
                   ),
                 ),
                 SizedBox(
@@ -97,16 +97,17 @@ class UserOffline extends StatelessWidget {
                   spacing: 8.w,
                   runSpacing: 4.h,
                   children: [
-                    ...List.generate(
-                      user.listCategory.length,
+                    ...user.listCategory.generate(
                       (index) => Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: 6.w,
                           vertical: 1.h,
                         ),
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20.r),
+                          ),
                           color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
                         child: Text(
                           user.listCategory[index],

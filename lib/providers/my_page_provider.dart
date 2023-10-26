@@ -1,5 +1,6 @@
 import '../core/config.dart';
 import '../core/models/enum/enum.dart';
+import '../core/models/user/user_model.dart';
 import '../core/utilities/utilities.dart';
 import 'firebase_provider.dart';
 
@@ -165,26 +166,24 @@ class MyPageProvider extends ChangeNotifier {
 //
 }
 
-final userRankingProvider = FutureProvider<List<String>>((ref) async {
+final userRankingProvider = FutureProvider<List<UserModel>>((ref) async {
   final userRanking = await ref
       .watch(firestoreProvider)
       .collection(DbCollection.users)
-      .limit(5)
+      .orderBy(DbKeys.followers, descending: true)
+      .where(DbKeys.type, isEqualTo: UserType.creator.value)
+      .limit(10)
       .get();
-  return userRanking.docs
-      .map((e) => e.data()['profile_photo'] as String)
-      .toList();
+  return userRanking.docs.map((e) => UserModel.fromJson(e.data())).toList();
 });
 
-final userFollowProvider = FutureProvider<List<String>>((ref) async {
+final userFollowProvider = FutureProvider<List<UserModel>>((ref) async {
   final userFollow = await ref
       .watch(firestoreProvider)
       .collection(DbCollection.users)
       .limit(6)
       .get();
-  return userFollow.docs
-      .map((e) => e.data()['profile_photo'] as String)
-      .toList();
+  return userFollow.docs.map((e) => UserModel.fromJson(e.data())).toList();
 });
 
 // final creatorFirestoreProvider =

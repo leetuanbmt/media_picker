@@ -122,7 +122,7 @@ class _TimeReMainingIndicatorState extends State<TimeReMainingIndicator> {
             color: const Color(0xffF2F2F2),
             boxShadow: const [
               BoxShadow(
-                color: Color(0xffFFFFFF),
+                color: Colors.white,
                 blurRadius: 8,
                 offset: Offset(0, 1),
               ),
@@ -328,7 +328,7 @@ class SwitchButtonSetting extends StatelessWidget {
                         ),
                         onPressed: onPressed,
                         child: Text(
-                          '変更',
+                          context.tr(LocaleKeys.change),
                           style: style.copyWith(
                             color: AppTheme.primaryColor,
                           ),
