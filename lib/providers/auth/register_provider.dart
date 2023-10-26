@@ -158,9 +158,7 @@ class RegisterProvider extends ChangeNotifier {
   final anotherNameController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final genderController = TextEditingController();
-  final dateInputController = TextEditingController(
-    text: '選択する',
-  );
+  final dateInputController = TextEditingController();
 
   String get agencyCode => agencyCodeController.text;
   String get firstName => firstNameController.text;
@@ -179,7 +177,7 @@ class RegisterProvider extends ChangeNotifier {
         lastNameController.text.isEmpty ||
         genderController.text.isEmpty ||
         phoneNumberController.text.isEmpty ||
-        dateInputController.text == '選択する';
+        dateInputController.text.isEmpty;
   }
 
   void informationListener() {

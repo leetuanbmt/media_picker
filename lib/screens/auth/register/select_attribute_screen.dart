@@ -22,7 +22,7 @@ class SelectAttributeScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 5.w),
               child: Text(
-                'ユーザー属性の選択',
+                context.tr(LocaleKeys.selectUserAttributes),
                 style: context.headlineSmall!.copyWith(
                   color: Colors.white,
                   fontSize: 24.sp,
@@ -36,7 +36,7 @@ class SelectAttributeScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 5.w),
               child: Text(
-                'クリエイター・ファンのどちらで登録しても後から\nいつでも変更できます。',
+                context.tr(LocaleKeys.selectUserAttributesInform),
                 style: context.bodySmall!.copyWith(
                   fontWeight: FontWeight.w300,
                   color: Colors.white,
@@ -51,8 +51,8 @@ class SelectAttributeScreen extends StatelessWidget {
                 height: 76.h,
                 width: 76.w,
               ),
-              titleMedium: "クリエイターとして始める",
-              titleSmall: "配信者・店舗の方",
+              titleMedium: context.tr(LocaleKeys.startAsCreator),
+              titleSmall: context.tr(LocaleKeys.forDistributorsOrStores),
               onTap: () {
                 context.router
                     .push(RegisterUserRoute(userType: UserType.creator));
@@ -66,8 +66,8 @@ class SelectAttributeScreen extends StatelessWidget {
                 height: 76.h,
                 width: 76.w,
               ),
-              titleMedium: "ファンとして始める",
-              titleSmall: "投げ銭する方",
+              titleMedium: context.tr(LocaleKeys.startAsFan),
+              titleSmall: context.tr(LocaleKeys.personWhoTipsMoney),
               onTap: () {
                 context.router.push(RegisterUserRoute(userType: UserType.fan));
               },
@@ -106,41 +106,51 @@ class UserOption extends StatelessWidget {
         child: SizedBox(
           height: 140.h,
           width: 335.w,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              svgFile,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 8.h),
-                    child: Text(
-                      titleMedium,
-                      style: context.bodyMedium!.copyWith(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.supportColors.last,
-                      ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    svgFile,
+                    SizedBox(
+                      width: 12.w,
                     ),
-                  ),
-                  Text(
-                    titleSmall,
-                    style: context.bodySmall!.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.fontGrayLead,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 8.h),
+                          child: Text(
+                            titleMedium,
+                            style: context.bodyMedium!.copyWith(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.supportColors.last,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          titleSmall,
+                          style: context.bodySmall!.copyWith(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppTheme.fontGrayLead,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              Assets.iconsIconArrowRight.svg(
-                height: 35.h,
-                width: 35.w,
-              ),
-            ],
+                  ],
+                ),
+                Assets.iconsIconArrowRight.svg(
+                  height: 35.h,
+                  width: 35.w,
+                ),
+              ],
+            ),
           ),
         ),
       ),

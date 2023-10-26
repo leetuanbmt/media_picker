@@ -2,10 +2,31 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/config.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../../providers/my_page_provider.dart';
+import 'widgets/my_page_dialog.dart';
+import 'widgets/my_page_footer.dart';
 
 @RoutePage()
-class DeviceConnectedScreen extends StatelessWidget {
+class DeviceConnectedScreen extends StatefulWidget {
   const DeviceConnectedScreen({super.key});
+
+  @override
+  State<DeviceConnectedScreen> createState() => _DeviceConnectedScreenState();
+}
+
+class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        MyPageDialog().showDialogSpentAllPoint(context);
+        Future.delayed(const Duration(seconds: 3), () {
+          context.back();
+        });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +42,7 @@ class DeviceConnectedScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '接続中',
+          context.tr(LocaleKeys.callVideo_connecting),
           style: context.titleLarge!.copyWith(
             fontSize: 20.sp,
             fontWeight: FontWeight.w600,
@@ -67,7 +88,7 @@ class DeviceConnectedScreen extends StatelessWidget {
                     height: 18.h,
                   ),
                   Text(
-                    '接続中の機器',
+                    context.tr(LocaleKeys.connectedDevices),
                     style: style.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -88,7 +109,7 @@ class DeviceConnectedScreen extends StatelessWidget {
                           height: 11.58.h,
                         ),
                         Text(
-                          'コントロール中',
+                          context.tr(LocaleKeys.underControl),
                           style: context.bodySmall!.copyWith(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
@@ -117,7 +138,7 @@ class DeviceConnectedScreen extends StatelessWidget {
                     onTap: () {},
                     child: Center(
                       child: Text(
-                        '機器を追加',
+                        context.tr(LocaleKeys.addEquipment),
                         style: style.copyWith(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w600,
@@ -129,6 +150,21 @@ class DeviceConnectedScreen extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+          const Spacer(),
+          Consumer(
+            builder: (context, ref, child) {
+              final isShow = ref.watch(
+                myPageProvider.select((value) => value.showDeviceControlling),
+              );
+              return isShow
+                  ? Padding(
+                      padding:
+                          EdgeInsets.only(bottom: context.screenPadding.bottom),
+                      child: const DeviceControlling(),
+                    )
+                  : const SizedBox();
+            },
           ),
         ],
       ),

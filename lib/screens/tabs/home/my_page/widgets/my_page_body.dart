@@ -1,12 +1,52 @@
 import '../../../../../core/config.dart';
+import '../../../../../core/models/enum/enum.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../routes/app_routes.gr.dart';
 import '../../../../../widgets/commons/commons.dart';
 import '../device_connected.dart';
+import 'my_page_bottom_sheet.dart';
 
 class DeviceConnected extends StatelessWidget {
   const DeviceConnected({super.key});
+
+  void controlRequest(BuildContext context, WidgetRef ref) {
+    final provider = ref.read(myPageProvider);
+
+    MyPageBottomSheet()
+        .showBottomSheet(context, const ControlRequestBottomSheet(), () {
+      Future.delayed(const Duration(seconds: 3), () {
+        final controlStatus = provider.requestStatus;
+        if (controlStatus == RequestControlStatus.requesting) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Center(
+                child: Text(
+                  context.tr(LocaleKeys.controlRequestSent),
+                  style: context.bodyMedium!.copyWith(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.primaryColor,
+                  ),
+                ),
+              ),
+              duration: const Duration(seconds: 4),
+              backgroundColor: Colors.white,
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.only(
+                bottom: context.screenHeight - 140,
+                left: 30.w,
+                right: 30.w,
+              ),
+            ),
+          );
+          provider.updateRequestStatus(RequestControlStatus.underControl);
+          provider.updateShowDeviceControlling();
+        }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +55,12 @@ class DeviceConnected extends StatelessWidget {
       {'device': '扇風機', "status": true},
     ];
 
-    final style = context.titleSmall!.copyWith(
+    final style = context.bodyMedium!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w400,
     );
 
     return Container(
-      height: 190.2.h,
       width: 343.w,
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       decoration: BoxDecoration(
@@ -45,13 +84,12 @@ class DeviceConnected extends StatelessWidget {
             height: 18.h,
           ),
           Text(
-            '接続中の機器',
+            context.tr(LocaleKeys.connectedDevices),
             style: style.copyWith(
               fontWeight: FontWeight.w600,
             ),
           ),
           Container(
-            height: 83.h,
             width: 303.w,
             margin: EdgeInsets.only(top: 9.1.h, bottom: 13.44.h),
             decoration: BoxDecoration(
@@ -75,19 +113,53 @@ class DeviceConnected extends StatelessWidget {
                     ),
                   );
                 }),
+                SizedBox(
+                  height: 9.h,
+                ),
               ],
             ),
           ),
           Center(
-            child: ButtonCustom(
-              'コントロールリクエスト',
-              height: 32.h,
-              width: 212.w,
-              type: ButtonType.outline,
-              onPressed: () {
-                context.router.push(const DeviceConnectedRoute());
+            child: Consumer(
+              builder: (context, ref, child) {
+                final status = ref.watch(
+                  myPageProvider.select((value) => value.requestStatus),
+                );
+                return status == RequestControlStatus.requestControl
+                    ? ButtonCustom(
+                        context.tr(LocaleKeys.controlRequest),
+                        height: 32.h,
+                        width: 212.w,
+                        type: ButtonType.outline,
+                        fontSize: 13.sp,
+                        onPressed: () {
+                          controlRequest(context, ref);
+                        },
+                      )
+                    : status == RequestControlStatus.requesting
+                        ? ButtonCustom(
+                            context.tr(LocaleKeys.requesting),
+                            height: 32.h,
+                            width: 212.w,
+                            backgroundColor:
+                                AppTheme.primaryColor.withOpacity(0.8),
+                            onPressed: () {},
+                          )
+                        : ButtonCustom(
+                            context.tr(LocaleKeys.underControl),
+                            height: 32.h,
+                            width: 212.h,
+                            backgroundColor:
+                                AppTheme.primaryColor.withOpacity(0.8),
+                            onPressed: () {
+                              context.router.push(const DeviceConnectedRoute());
+                            },
+                          );
               },
             ),
+          ),
+          SizedBox(
+            height: 14.46.h,
           ),
         ],
       ),
@@ -199,7 +271,7 @@ class UserNotification extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '$date月',
+                  '$date${context.tr(LocaleKeys.day)}',
                   style: style.copyWith(
                     fontSize: 10.sp,
                   ),
@@ -210,7 +282,7 @@ class UserNotification extends StatelessWidget {
                     style: style.copyWith(fontSize: 18.sp),
                     children: [
                       TextSpan(
-                        text: '日',
+                        text: context.tr(LocaleKeys.month),
                         style: style.copyWith(fontSize: 10.sp),
                       ),
                     ],
@@ -244,11 +316,18 @@ class UserNotification extends StatelessWidget {
 }
 
 class ListRankingUser extends StatelessWidget {
-  const ListRankingUser({super.key});
+  const ListRankingUser({super.key, required this.padding});
+
+  final double padding;
 
   @override
   Widget build(BuildContext context) {
     List colorRank = const [
+      Color(0xffDCBB3C),
+      Color(0xffBEC2C2),
+      Color(0xff895F0D),
+      Color(0xff00BAAF),
+      Color(0xffFFDC56),
       Color(0xffDCBB3C),
       Color(0xffBEC2C2),
       Color(0xff895F0D),
@@ -270,7 +349,7 @@ class ListRankingUser extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: ((context, index) {
                   return Padding(
-                    padding: EdgeInsets.only(right: 16.w),
+                    padding: EdgeInsets.only(right: padding),
                     child: Stack(
                       children: [
                         SizedBox.square(
@@ -278,15 +357,15 @@ class ListRankingUser extends StatelessWidget {
                         ),
                         Positioned(
                           bottom: 0,
+                          left: 0,
                           child: CacheImage(
-                            image: result[index],
+                            image: result[index].avatar,
                             radius: 100.r,
-                            // dimension: 58.r,
                             dimension: Size.square(58.r),
                           ),
                         ),
                         Positioned(
-                          left: 39.w,
+                          right: 0,
                           top: 0,
                           child: SizedBox.square(
                             dimension: 22.r,
@@ -337,7 +416,7 @@ class ListFollowUser extends StatelessWidget {
                     ...List.generate(
                       result.length,
                       (index) => CacheImage(
-                        image: result[index],
+                        image: result[index].avatar,
                         dimension: Size.square(34.r),
                         radius: 100.r,
                       ),

@@ -7,6 +7,7 @@ import '../../../../../core/utilities/utilities.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../widgets/commons/cache_image.dart';
+import 'widget.dart';
 
 class UserID extends StatelessWidget {
   const UserID({super.key, required this.creator});
@@ -51,9 +52,14 @@ class UserID extends StatelessWidget {
 }
 
 class UserInformation extends StatelessWidget {
-  const UserInformation({super.key, required this.creator});
+  const UserInformation({
+    super.key,
+    required this.creator,
+    this.isBlocked = false,
+  });
 
   final UserModel creator;
+  final bool isBlocked;
 
   @override
   Widget build(BuildContext context) {
@@ -65,34 +71,52 @@ class UserInformation extends StatelessWidget {
             CacheImage(
               image: creator.avatar,
               radius: 100.r,
-              dimension: Size.square(92.r),
+              dimension: isBlocked ? Size.square(85.r) : Size.square(92.r),
               isZoom: true,
             ),
             SizedBox(
-              width: 16.w,
+              width: isBlocked ? 10.w : 16.w,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  creator.name,
-                  style: context.titleLarge!.copyWith(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      creator.name,
+                      style: context.titleLarge!.copyWith(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 1.w,
+                    ),
+                    isBlocked
+                        ? CircleAvatar(
+                            backgroundColor: const Color(0xff03CDC1),
+                            radius: 12.r,
+                            child: Icon(
+                              Icons.check_rounded,
+                              size: 18.sp,
+                            ),
+                          )
+                        : const SizedBox(),
+                  ],
                 ),
                 SizedBox(
                   height: 7.64.h,
                 ),
                 SizedBox(
-                  width: 203.w,
+                  width: isBlocked ? 200.w : 203.w,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
                         children: [
-                          const TextItem(value: "フォロー"),
+                          TextItem(value: context.tr(LocaleKeys.follow)),
                           TextItem(
                             value: creator.follow.toCompactCurrency,
                           ),
@@ -100,19 +124,21 @@ class UserInformation extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          const TextItem(value: 'フォロワー'),
+                          TextItem(value: context.tr(LocaleKeys.followers)),
                           TextItem(
                             value: creator.followers.toCompactCurrency,
                           ),
                         ],
                       ),
-                      Column(
-                        children: [
-                          Assets.iconsIconApp.svg(height: 17.h),
-                          TextItem(
-                            value: '${creator.points.toCurrency}pt',
-                          ),
-                        ],
+                      Flexible(
+                        child: Column(
+                          children: [
+                            Assets.iconsIconApp.svg(height: 17.h),
+                            TextItem(
+                              value: '${creator.points.toCurrency}pt',
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -126,17 +152,17 @@ class UserInformation extends StatelessWidget {
         ),
         if (creator.listCategory.isNotEmpty)
           Container(
-            padding: EdgeInsets.fromLTRB(6.w, 1.h, 6.w, 0.h),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+            padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
+            decoration: BoxDecoration(
+              color: isBlocked ? const Color(0xff03CDC1) : Colors.white,
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
             ),
             child: Text(
               creator.listCategory.first,
               style: context.labelMedium!.copyWith(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
-                color: AppTheme.primaryColor,
+                color: isBlocked ? Colors.white : AppTheme.primaryColor,
               ),
             ),
           ),
@@ -144,27 +170,6 @@ class UserInformation extends StatelessWidget {
           height: 9.4.h,
         ),
       ],
-    );
-  }
-}
-
-class TextItem extends StatelessWidget {
-  const TextItem({
-    super.key,
-    required this.value,
-  });
-
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      value,
-      style: context.labelMedium!.copyWith(
-        fontSize: 12.sp,
-        fontWeight: FontWeight.w600,
-        color: Colors.white,
-      ),
     );
   }
 }
@@ -209,11 +214,11 @@ class UserBio extends ConsumerWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: isBlocked
                       ? 1
-                      : ((showBio && maxLines >= 2)
-                          ? maxLines.toInt()
-                          : ((!showBio && maxLines >= 2) ? 2 : 1)),
+                      : ((showBio && maxLines.ceil() >= 1)
+                          ? maxLines.ceil()
+                          : ((!showBio && maxLines.ceil() >= 2) ? 2 : 1)),
                 ),
-                if (!showBio && maxLines >= 2 && !isBlocked)
+                if (!showBio && maxLines.ceil() > 2 && !isBlocked)
                   Container(
                     width: double.infinity,
                     height: 18.h,
@@ -231,21 +236,27 @@ class UserBio extends ConsumerWidget {
                   ),
               ],
             ),
-            if (!isBlocked)
-              Center(
-                child: IconButton(
-                  onPressed: () {
-                    ref.read(myPageProvider).showBio();
-                  },
-                  icon: Icon(
-                    showBio
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                    color: Colors.white,
-                    size: 30,
+            (maxLines.ceil() > 2 && !isBlocked)
+                ? Center(
+                    child: IconButton(
+                      onPressed: () {
+                        ref.read(myPageProvider).showBio();
+                      },
+                      icon: Icon(
+                        showBio
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      style: IconButton.styleFrom(
+                        highlightColor: Colors.transparent,
+                      ),
+                    ),
+                  )
+                : SizedBox(
+                    height: 20.h,
                   ),
-                ),
-              ),
           ],
         );
       },

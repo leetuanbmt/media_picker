@@ -1,5 +1,6 @@
 import '../../../core/config.dart';
 import '../../../core/models/models.dart';
+import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/creator_item.dart';
 
 @RoutePage()
@@ -20,7 +21,7 @@ class ListUserScreen extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.h),
                 child: Text(
-                  "${items.length}人",
+                  "${items.length}${context.tr(LocaleKeys.people)}",
                   style: context.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -43,7 +44,9 @@ class ListUserScreen extends StatelessWidget {
                   return CreatorItem(
                     name: creator.name,
                     avatar: creator.avatar,
-                    onPressed: () {},
+                    onPressed: () {
+                      context.router.push(MyProfileRoute(id: creator.id));
+                    },
                   );
                 },
               ),

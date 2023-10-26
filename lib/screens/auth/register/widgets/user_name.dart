@@ -15,7 +15,7 @@ class RegisterUserName extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final register = ref.read(registerProvider.notifier);
+    final provider = ref.read(registerProvider.notifier);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -25,7 +25,7 @@ class RegisterUserName extends ConsumerWidget {
             height: 32.h,
           ),
           Text(
-            'ユーザー名を決定しましょう',
+            context.tr(LocaleKeys.decideOnUsername),
             style: context.titleLarge!.copyWith(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,
@@ -36,8 +36,8 @@ class RegisterUserName extends ConsumerWidget {
             height: 24.h,
           ),
           TextFieldCustom(
-            hintText: 'ユーザー名',
-            textController: register.userNameController,
+            hintText: context.tr(LocaleKeys.username),
+            textController: provider.userNameController,
           ),
           const Spacer(),
           Row(
@@ -50,7 +50,7 @@ class RegisterUserName extends ConsumerWidget {
                         .select((value) => value.checkUsernameEmpty),
                   );
                   return ButtonCustom(
-                    "次へ",
+                    context.tr(LocaleKeys.toTheNext),
                     height: 48.h,
                     width: 162.w,
                     backgroundColor: isDisableButton

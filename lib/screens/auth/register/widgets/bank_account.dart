@@ -4,12 +4,12 @@ import '../../../../core/models/models.dart';
 import '../../../../providers/auth/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 
-class RegisterBankAccountScreen extends ConsumerWidget {
+class RegisterBankAccountScreen extends StatelessWidget {
   const RegisterBankAccountScreen({super.key, required this.userType});
   final UserType userType;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Center(
@@ -19,7 +19,7 @@ class RegisterBankAccountScreen extends ConsumerWidget {
               height: 40.h,
             ),
             Text(
-              'Stripeアカウントを登録してくださ\nい',
+              context.tr(LocaleKeys.registerYourStripeAccount),
               textAlign: TextAlign.center,
               style: context.titleLarge!.copyWith(
                 fontSize: 20.sp,
@@ -31,7 +31,7 @@ class RegisterBankAccountScreen extends ConsumerWidget {
               height: 16.h,
             ),
             Text(
-              '獲得したポイントを出金出来る口座を登録します。',
+              context.tr(LocaleKeys.registerAccountWithdrawPoint),
               style: context.bodyMedium!.copyWith(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w300,
@@ -42,7 +42,7 @@ class RegisterBankAccountScreen extends ConsumerWidget {
               height: 52.h,
             ),
             ButtonCustom(
-              "登録する",
+              context.tr(LocaleKeys.signUp),
               fontSize: 15.sp,
               height: 48.h,
               width: 327.w,
@@ -52,15 +52,19 @@ class RegisterBankAccountScreen extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ButtonCustom(
-                  "SKIPする",
-                  fontSize: 15.sp,
-                  height: 48.h,
-                  width: 162.w,
-                  type: ButtonType.outline,
-                  borderWidth: 2,
-                  onPressed: () {
-                    ref.watch(registerProvider).register(context, userType);
+                Consumer(
+                  builder: (context, ref, child) {
+                    return ButtonCustom(
+                      context.tr(LocaleKeys.skip),
+                      fontSize: 15.sp,
+                      height: 48.h,
+                      width: 162.w,
+                      type: ButtonType.outline,
+                      borderWidth: 2.r,
+                      onPressed: () {
+                        ref.read(registerProvider).register(context, userType);
+                      },
+                    );
                   },
                 ),
               ],

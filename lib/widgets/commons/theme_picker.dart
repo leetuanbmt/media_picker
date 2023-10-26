@@ -8,7 +8,7 @@ class ThemePicker extends HookWidget {
   static show(BuildContext context) {
     return AppDialog.showAppBottomSheet(
       context,
-      title: 'テーマカラーの設定',
+      title: context.tr(LocaleKeys.settingThemeColor),
       child: const ThemePicker(),
       name: 'ThemePicker',
     );
@@ -42,7 +42,7 @@ class ThemePicker extends HookWidget {
         Consumer(
           builder: (context, ref, child) {
             return ButtonCustom(
-              '設定する',
+              context.tr(LocaleKeys.set),
               height: 48.h,
               width: context.screenWidth,
               backgroundColor: colorTheme.value,

@@ -2,14 +2,12 @@ import '../../../../core/config.dart';
 import '../../../../providers/auth/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 
-class RegisterCategoryScreen extends ConsumerWidget {
+class RegisterCategoryScreen extends StatelessWidget {
   const RegisterCategoryScreen({super.key, required this.onNextPage});
   final Function onNextPage;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final register = ref.watch(registerProvider.notifier);
-
+  Widget build(BuildContext context) {
     List<String> listCategories = [
       '🕺 ステージ',
       '🎵 音楽',
@@ -38,7 +36,7 @@ class RegisterCategoryScreen extends ConsumerWidget {
             height: 40.h,
           ),
           Text(
-            'あなたにあてはまるカテゴリを\n選択してください',
+            context.tr(LocaleKeys.categoryAppliesToYou),
             textAlign: TextAlign.center,
             style: context.titleLarge!.copyWith(
               fontSize: 20.sp,
@@ -60,6 +58,8 @@ class RegisterCategoryScreen extends ConsumerWidget {
                         registerProvider
                             .select((value) => value.checkCategoryActive(e)),
                       );
+                      final register = ref.watch(registerProvider.notifier);
+
                       return ButtonCustom(
                         e,
                         fontSize: 15.sp,
@@ -88,7 +88,7 @@ class RegisterCategoryScreen extends ConsumerWidget {
                         .select((value) => value.checkCategoryEmpty),
                   );
                   return ButtonCustom(
-                    "次へ",
+                    context.tr(LocaleKeys.toTheNext),
                     height: 48.h,
                     width: 162.w,
                     backgroundColor: isActiveButton
