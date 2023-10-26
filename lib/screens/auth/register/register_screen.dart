@@ -48,13 +48,13 @@ class RegisterInformation extends StatelessWidget {
             text: TextSpan(
               style: style,
               children: <TextSpan>[
-                const TextSpan(text: '上記からはじめることで、'),
+                TextSpan(text: context.tr(LocaleKeys.byStartingFromAbove)),
                 TextSpan(
-                  text: '利用規約',
+                  text: context.tr(LocaleKeys.termsOfService),
                   style: style.copyWith(color: AppTheme.primaryColor),
                   recognizer: TapGestureRecognizer()..onTap = () {},
                 ),
-                const TextSpan(text: 'に同意します。'),
+                TextSpan(text: context.tr(LocaleKeys.IAgree)),
               ],
             ),
           ),
@@ -65,11 +65,11 @@ class RegisterInformation extends StatelessWidget {
             text: TextSpan(
               children: <TextSpan>[
                 TextSpan(
-                  text: 'アカウントをお持ちでない方',
+                  text: context.tr(LocaleKeys.alreadyHaveAccount),
                   style: style,
                 ),
                 TextSpan(
-                  text: '新規登録',
+                  text: context.tr(LocaleKeys.logIn),
                   style: style.copyWith(color: AppTheme.primaryColor),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {

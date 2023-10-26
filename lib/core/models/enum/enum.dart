@@ -26,3 +26,12 @@ enum CallStatus {
     return CallStatus.values.firstWhere((e) => e.value == value);
   }
 }
+
+enum RequestControlStatus {
+  requestControl('requestControl'),
+  requesting('requesting'),
+  underControl('underControl');
+
+  final String value;
+  const RequestControlStatus(this.value);
+}

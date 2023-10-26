@@ -1,7 +1,6 @@
 import '../../../../core/config.dart';
 import '../../../../core/models/models.dart';
 import '../../../../routes/app_routes.gr.dart';
-import '../../../../widgets/commons/category_picker.dart';
 import 'creator_online_item.dart';
 import 'following_item.dart';
 
@@ -78,12 +77,17 @@ class ListCreator extends StatelessWidget {
               return onlineList
                   ? CreatorOnlineItem(
                       creator: users[index],
-                      onPressed: () {},
+                      onPressed: () {
+                        context.router
+                            .push(MyProfileRoute(id: users[index].id));
+                      },
                     )
                   : FollowingItem(
                       creator: users[index],
                       onPressed: () {
-                        CategoryPicker.show(context);
+                        context.router
+                            .push(MyProfileRoute(id: users[index].id));
+                        //CategoryPicker.show(context);
                       },
                     );
             },

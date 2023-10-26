@@ -9,7 +9,7 @@ class RegisterForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final register = ref.read(registerProvider.notifier);
+    final provider = ref.read(registerProvider.notifier);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 45.h),
@@ -17,16 +17,16 @@ class RegisterForm extends ConsumerWidget {
         child: Column(
           children: [
             TextFieldCustom(
-              textController: register.emailController,
-              hintText: "メールアドレス",
+              textController: provider.emailController,
+              hintText: context.tr(LocaleKeys.emailAddress),
               keyboardType: TextInputType.emailAddress,
             ),
             SizedBox(
               height: 12.h,
             ),
             TextFieldCustom(
-              textController: register.passwordController,
-              hintText: 'パスワード（6文字以上の半角英数字）',
+              textController: provider.passwordController,
+              hintText: context.tr(LocaleKeys.password),
               obscureText: true,
             ),
             SizedBox(
@@ -39,14 +39,14 @@ class RegisterForm extends ConsumerWidget {
                       .select((value) => value.checkEmailPasswordEmpty),
                 );
                 return ButtonCustom(
-                  "新規登録",
+                  context.tr(LocaleKeys.signUp),
                   width: double.infinity,
                   height: 48.h,
                   onPressed: () {
                     areFieldsEmpty
                         ? null
                         : ref
-                            .read(registerProvider.notifier)
+                            .watch(registerProvider.notifier)
                             .checkEmailPassword(context);
                   },
                   backgroundColor: areFieldsEmpty

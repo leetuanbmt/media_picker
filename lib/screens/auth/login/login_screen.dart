@@ -195,17 +195,17 @@ class LoginInformation extends StatelessWidget {
           text: TextSpan(
             style: style,
             children: <TextSpan>[
-              const TextSpan(
-                text: '上記からはじめることで、',
+              TextSpan(
+                text: context.tr(LocaleKeys.byStartingFromAbove),
                 // style: style,
               ),
               TextSpan(
-                text: '利用規約',
+                text: context.tr(LocaleKeys.termsOfService),
                 style: style.copyWith(color: AppTheme.primaryColor),
                 recognizer: TapGestureRecognizer()..onTap = () {},
               ),
-              const TextSpan(
-                text: 'に同意します。',
+              TextSpan(
+                text: context.tr(LocaleKeys.IAgree),
                 // style: style,
               ),
             ],
@@ -216,11 +216,11 @@ class LoginInformation extends StatelessWidget {
           text: TextSpan(
             children: <TextSpan>[
               TextSpan(
-                text: 'アカウントをお持ちでない方',
+                text: context.tr(LocaleKeys.doNotHaveAccount),
                 style: style,
               ),
               TextSpan(
-                text: '新規登録',
+                text: context.tr(LocaleKeys.signUp),
                 style: style.copyWith(color: AppTheme.primaryColor),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
@@ -244,7 +244,7 @@ class LoginByFaceID extends ConsumerWidget {
       children: [
         SizedBox(height: 20.h),
         Text(
-          'Face IDでログイン',
+          context.tr(LocaleKeys.logInWithFaceID),
           style: context.bodyMedium?.copyWith(
             fontWeight: FontWeight.w600,
             color: AppTheme.fontBoldLight,

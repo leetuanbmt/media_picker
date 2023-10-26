@@ -15,20 +15,22 @@ class RegisterUserScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final register = ref.watch(registerProvider);
+    final provider = ref.read(registerProvider);
+    final activePage =
+        ref.watch(registerProvider.select((value) => value.activePage));
 
     final List<Widget> pageTab = [
       RegisterUserInformation(
-        onNextPage: () => register.changePage(),
+        onNextPage: () => provider.changePage(),
       ),
       RegisterUserName(
-        onNextPage: () => register.changePage(),
+        onNextPage: () => provider.changePage(),
       ),
       RegisterTopicScreen(
-        onNextPage: () => register.changePage(),
+        onNextPage: () => provider.changePage(),
       ),
       RegisterCategoryScreen(
-        onNextPage: () => register.changePage(),
+        onNextPage: () => provider.changePage(),
       ),
       RegisterBankAccountScreen(
         userType: userType,
@@ -44,13 +46,13 @@ class RegisterUserScreen extends ConsumerWidget {
           dimension: 24.h,
           child: InkWell(
             onTap: () {
-              if (register.activePage > 0) {
-                register.pageController.previousPage(
+              if (activePage > 0) {
+                provider.pageController.previousPage(
                   duration: const Duration(milliseconds: 400),
                   curve: Curves.linearToEaseOut,
                 );
               } else {
-                ref.read(registerProvider).refresh(userType);
+                provider.refresh(userType);
                 context.back();
               }
             },
@@ -77,7 +79,7 @@ class RegisterUserScreen extends ConsumerWidget {
                           dimension: 8,
                           child: CircleAvatar(
                             backgroundColor: Colors.white.withOpacity(
-                              register.activePage == index ? 1 : 0.7,
+                              activePage == index ? 1 : 0.7,
                             ),
                           ),
                         ),
@@ -92,10 +94,10 @@ class RegisterUserScreen extends ConsumerWidget {
         backgroundColor: AppTheme.primaryColor,
       ),
       body: PageView(
-        controller: register.pageController,
+        controller: provider.pageController,
         physics: const NeverScrollableScrollPhysics(),
         onPageChanged: (int page) {
-          register.changeActivePage(page);
+          provider.changeActivePage(page);
         },
         children: pageTab.map((e) => _KeepAliveTab(child: e)).toList(),
       ),

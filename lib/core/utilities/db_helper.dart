@@ -12,6 +12,7 @@ class DbKeys {
   static const String audio = 'audio';
   static const String image = 'image';
   static const String video = 'video';
+  static const String followers = 'followers';
 }
 
 class DbCollection {
