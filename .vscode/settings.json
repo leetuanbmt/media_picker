@@ -34,7 +34,8 @@
     "unfocus",
     "videocam",
     "vsync",
-    "webrtc"
+    "webrtc",
+    "xcodebuild"
   ],
   "dart.flutterSdkPath": "/Users/tuanvm/Downloads/flutter/bin",
   "cSpell.ignorePaths": [
