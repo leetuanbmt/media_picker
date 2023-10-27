@@ -35,3 +35,14 @@ enum RequestControlStatus {
   final String value;
   const RequestControlStatus(this.value);
 }
+
+enum MessageType {
+  text('text'),
+  image('image'),
+  video('video'),
+  audio('audio'),
+  url('url');
+
+  final String value;
+  const MessageType(this.value);
+}

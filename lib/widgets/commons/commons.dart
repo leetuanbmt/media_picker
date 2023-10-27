@@ -2,6 +2,7 @@ export 'app_bar_custom.dart';
 export 'button_custom.dart';
 export 'cache_image.dart';
 export 'indicators/loading.dart';
+export 'indicators/loading_indicator.dart';
 export 'indicators/loading_manager.dart';
 export 'keep_alive_wrapper.dart';
 export 'measure_size.dart';

@@ -14,6 +14,12 @@
         <queries>
           <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
       </queries>
+      <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+      <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+      <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+      <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29"/>
     <application
         android:label="GoTip"
         android:name="${applicationName}"

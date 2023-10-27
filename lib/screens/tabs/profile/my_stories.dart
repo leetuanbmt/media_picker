@@ -9,7 +9,7 @@ import '../../../widgets/commons/cache_image.dart';
 import '../../../widgets/commons/shimmer.dart';
 import '../../story_screen/story_screen.dart';
 
-final storyProvider = StreamProvider.autoDispose<List<StoryModel>>(
+final storyProvider = StreamProvider<List<StoryModel>>(
   (_) async* {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     final collection = FirebaseFirestore.instance
@@ -63,12 +63,26 @@ class MyStoriesScreen extends ConsumerWidget {
   }
 
   void insertStory() async {
+    // FirebaseFirestore.instance
+    //     .collection(DbCollection.users)
+    //     .doc('y1kEuKFdz5bH6zSkLslOLhhibRo1')
+    //     .collection(DbCollection.stories)
+    //     .get()
+    //     .then((value) {
+    //   value.docs.forEach((element) {
+    //     final uid = FirebaseAuth.instance.currentUser!.uid;
+    //     FirebaseFirestore.instance
+    //         .collection(DbCollection.users)
+    //         .doc(uid)
+    //         .collection(DbCollection.stories)
+    //         .add(element.data());
+    //   });
+    // });
     final uid = FirebaseAuth.instance.currentUser!.uid;
     final collection = FirebaseFirestore.instance
         .collection(DbCollection.users)
         .doc(uid)
         .collection(DbCollection.stories);
-
     await collection.add(
       StoryModel(
         author: uid,

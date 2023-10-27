@@ -92,7 +92,7 @@ class _ColorLoader3State extends State<Loading>
                     offset: const Offset(0.0, 0.0),
                     child: Dot(
                       radius: radius,
-                      color: context.primary.withOpacity(.2),
+                      color: context.primary,
                     ),
                   ),
                   Transform.translate(
@@ -101,8 +101,8 @@ class _ColorLoader3State extends State<Loading>
                       radius * sin(0.0),
                     ),
                     child: Dot(
-                      radius: dotRadius, color: context.primary,
-                      // color: const Color.fromRGBO(28, 150, 206, 1),
+                      radius: dotRadius,
+                      color: context.primary.withOpacity(.5),
                     ),
                   ),
                   Transform.translate(
@@ -111,8 +111,8 @@ class _ColorLoader3State extends State<Loading>
                       radius * sin(0.0 + 1 * pi / 3),
                     ),
                     child: Dot(
-                      radius: dotRadius, color: context.primary,
-                      // color: const Color.fromRGBO(30, 41, 121, 1),
+                      radius: dotRadius,
+                      color: context.primary,
                     ),
                   ),
                   Transform.translate(
@@ -122,8 +122,7 @@ class _ColorLoader3State extends State<Loading>
                     ),
                     child: Dot(
                       radius: dotRadius,
-                      color: context.primary,
-                      // color: const Color.fromRGBO(210, 23, 118, 1),
+                      color: context.primary.withOpacity(.5),
                     ),
                   ),
                   Transform.translate(
@@ -132,8 +131,8 @@ class _ColorLoader3State extends State<Loading>
                       radius * sin(0.0 + 3 * pi / 3),
                     ),
                     child: Dot(
-                      radius: dotRadius, color: context.primary,
-                      // color: const Color.fromRGBO(215, 41, 34, 1),
+                      radius: dotRadius,
+                      color: context.primary,
                     ),
                   ),
                   Transform.translate(
@@ -142,8 +141,8 @@ class _ColorLoader3State extends State<Loading>
                       radius * sin(0.0 + 4 * pi / 3),
                     ),
                     child: Dot(
-                      radius: dotRadius, color: context.primary,
-                      // color: const Color.fromRGBO(244, 229, 42, 1),
+                      radius: dotRadius,
+                      color: context.primary.withOpacity(.5),
                     ),
                   ),
                   Transform.translate(
@@ -152,9 +151,8 @@ class _ColorLoader3State extends State<Loading>
                       radius * sin(0.0 + 5 * pi / 3),
                     ),
                     child: Dot(
-                      color: context.primary,
                       radius: dotRadius,
-                      // color: const Color.fromRGBO(17, 145, 74, 1),
+                      color: context.primary,
                     ),
                   ),
                 ],

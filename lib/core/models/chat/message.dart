@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../enum/enum.dart';
 import '../user/user_model.dart';
 
 part 'message.freezed.dart';
@@ -10,7 +11,7 @@ class Message with _$Message {
   const Message._();
   const factory Message({
     required String id,
-    required String type,
+    @Default(MessageType.text) MessageType type,
     required String message,
     required DateTime timestamp,
     @Default(false) bool isRead,
