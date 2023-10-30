@@ -7,11 +7,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' show PreviewData;
 import 'package:flutter_link_previewer/flutter_link_previewer.dart' hide Size;
 import 'package:flutter_parsed_text/flutter_parsed_text.dart';
+import 'package:gmo_media_picker/media_picker.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../core/config.dart';
 import '../../core/models/models.dart';
-import '../../core/utilities/media_picker/media_picker.dart';
 import '../../core/utilities/utilities.dart';
 import '../../gen/assets.gen.dart';
 import '../../providers/chart/chat_provider.dart';
