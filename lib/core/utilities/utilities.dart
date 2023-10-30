@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -79,6 +80,29 @@ class AppUtils {
     imgFile.writeAsBytes(pngBytes).then((value) {
       Share.shareXFiles([XFile(value.path)]);
     });
+  }
+
+// get image size by target size
+  static Size sizeImage(
+    double currentWidth,
+    double currentHeight, {
+    required double targetWidth,
+    required double targetHeight,
+    bool isMax = false,
+  }) {
+    double w = currentWidth;
+    double h = currentHeight;
+    final double wd = w / targetWidth;
+    final double hd = h / targetHeight;
+    final double be = isMax
+        ? math.min(1, math.min(wd, hd))
+        : math.max(
+            1,
+            math.max(wd, hd),
+          );
+    w = w / be;
+    h = h / be;
+    return Size(w, h);
   }
 }
 

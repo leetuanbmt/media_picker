@@ -9,6 +9,7 @@ class ChatControls extends HookConsumerWidget {
     final provider = ref.read(chartProvider(chatId).notifier);
     final loading = useState(false);
     final textCtl = useTextEditingController();
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -30,7 +31,14 @@ class ChatControls extends HookConsumerWidget {
           Padding(
             padding: EdgeInsets.only(bottom: 5.h),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                AssetPicker.pickAssets(
+                  context,
+                  pickerConfig: AssetPickerConfig(
+                    pickerTheme: AppTheme.appTheme,
+                  ),
+                );
+              },
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 10.w,
@@ -73,7 +81,7 @@ class ChatControls extends HookConsumerWidget {
               shape: BoxShape.circle,
             ),
             child: loading.value
-                ? const LoadingIndicator()
+                ? const LoadingIndicator(color: Colors.white)
                 : IconButton(
                     icon: const Icon(
                       Icons.send,

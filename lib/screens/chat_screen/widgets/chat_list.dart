@@ -13,7 +13,6 @@ class ChartList extends ConsumerWidget {
         return ListView.builder(
           itemCount: messages.length,
           reverse: true,
-          padding: const EdgeInsets.all(10),
           itemBuilder: (BuildContext context, int index) {
             final message = messages.elementAt(index);
             return ChartListItem(message: message, chatId: chatId);

@@ -100,6 +100,7 @@ class AppTheme {
       colorScheme: colorScheme,
       brightness: colorScheme.brightness,
       scaffoldBackgroundColor: Colors.white,
+      dividerColor: const Color(0x1F000000),
       appBarTheme: AppBarTheme(
         scrolledUnderElevation: 0,
         backgroundColor: primaryColor,
@@ -112,6 +113,7 @@ class AppTheme {
           color: Colors.white,
         ),
       ),
+      buttonTheme: ButtonThemeData(buttonColor: primaryColor),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         selectedItemColor: primaryColor,
         unselectedItemColor: Colors.grey,
