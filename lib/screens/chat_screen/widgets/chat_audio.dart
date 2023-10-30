@@ -18,21 +18,36 @@ class _ChatAudioState extends State<ChatAudio> {
   final _durationStream = StreamController<Duration>.broadcast();
   final _sliderValue = ValueNotifier<double>(0.0);
   bool _dragging = false;
-  bool isLoaded = false;
+
+  bool isLoading = false;
+
   bool isPlaying = false;
+
   bool get isControllerPlaying => _controller?.value.isPlaying ?? false;
 
-  @override
-  void didUpdateWidget(ChatAudio oldWidget) {
-    if (oldWidget.message != widget.message) {
-      _dispose();
-    }
-    super.didUpdateWidget(oldWidget);
-  }
+  bool get isLoaded => _controller?.value.isInitialized ?? false;
+
+  // @override
+  // void didUpdateWidget(ChatAudio oldWidget) {
+  //   if (oldWidget.message != widget.message) {
+  //     _dispose();
+  //   }
+  //   super.didUpdateWidget(oldWidget);
+  // }
 
   Future<void> openAudioFile() async {
     try {
-      _controller = VideoPlayerController.networkUrl(Uri.parse(url));
+      setState(() => isLoading = true);
+      final fileInfo = await CustomCacheManager.instance.getFile(
+        url,
+        isAutoDownload: true,
+      );
+      // if file cache is exist play from cache
+      if (fileInfo?.file.existsSync() == true) {
+        _controller = VideoPlayerController.file(fileInfo!.file);
+      } else {
+        _controller = VideoPlayerController.networkUrl(Uri.parse(url));
+      }
       await _controller?.initialize();
       _controller?.addListener(audioPlayerListener);
     } catch (e) {
@@ -40,10 +55,8 @@ class _ChatAudioState extends State<ChatAudio> {
         context.toast('Error when opening audio file: $e');
       }
     } finally {
-      isLoaded = true;
-      if (mounted) {
-        setState(() {});
-      }
+      isLoading = false;
+      setState(() => isLoading = false);
     }
   }
 
@@ -73,8 +86,23 @@ class _ChatAudioState extends State<ChatAudio> {
     super.dispose();
   }
 
+  void pauseAndPlay() {
+    if (isPlaying) {
+      _controller?.pause();
+    } else {
+      if (!isLoaded) {
+        openAudioFile().then((value) {
+          _controller?.play();
+        });
+      } else {
+        _controller?.play();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    Logger.log(isLoading, tag: "Loading");
     return Container(
       margin: const EdgeInsets.only(top: 5),
       padding: const EdgeInsets.all(5),
@@ -90,23 +118,27 @@ class _ChatAudioState extends State<ChatAudio> {
       child: Row(
         children: [
           InkWell(
-            onTap: () {
-              if (isPlaying) {
-                _controller?.pause();
-              } else {
-                if (!isLoaded) {
-                  openAudioFile().then((value) {
-                    _controller?.play();
-                  });
-                }
-              }
-            },
-            child: Icon(
-              isPlaying
-                  ? Icons.pause_circle_filled
-                  : Icons.play_circle_filled_sharp,
-              size: 40,
-              color: context.primary,
+            onTap: pauseAndPlay,
+            child: SizedBox.square(
+              dimension: 40,
+              child: isLoading
+                  ? const LoadingIndicator(
+                      color: Colors.white,
+                      width: 40,
+                      strokeWidth: 1,
+                    )
+                      .box
+                      .margin(const EdgeInsets.all(3))
+                      .color(context.primary)
+                      .roundedFull
+                      .make()
+                  : Icon(
+                      isPlaying
+                          ? Icons.pause_circle_filled
+                          : Icons.play_circle_filled_sharp,
+                      size: 40,
+                      color: context.primary,
+                    ),
             ),
           ),
           durationIndicator,
@@ -125,7 +157,7 @@ class _ChatAudioState extends State<ChatAudio> {
           }
           double max = duration.toDouble();
 
-          if (data.data!.inSeconds > max) {
+          if (value > max) {
             return const SizedBox();
           }
           return Expanded(
@@ -172,8 +204,7 @@ class _ChatAudioState extends State<ChatAudio> {
                           min: 0,
                           max: max,
                           value: value.toDouble(),
-                          label:
-                              AppUtils.formatDuration(Duration(seconds: value)),
+                          label: AppUtils.formatDuration(value.seconds),
                           divisions: 100,
                           onChangeStart: (_) => _dragging = true,
                           onChangeEnd: (double val) {
@@ -191,11 +222,7 @@ class _ChatAudioState extends State<ChatAudio> {
                 Dimensions.width5,
                 Center(
                   child: Text(
-                    AppUtils.formatDuration(
-                      Duration(
-                        seconds: duration - data.data!.inSeconds,
-                      ),
-                    ),
+                    AppUtils.formatDuration((duration - value).seconds),
                     style: context.labelMedium?.copyWith(
                       fontWeight: FontWeight.normal,
                       color: context.primary,

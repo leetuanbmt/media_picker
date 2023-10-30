@@ -37,7 +37,6 @@ class ChatProvider extends StateNotifier<ChatState> {
   Future<void> getMessageList() async {
     _page = 0;
     state = const ChatState.loading();
-    await Future.delayed(1.seconds);
     messages.addAll(
       [
         Message(

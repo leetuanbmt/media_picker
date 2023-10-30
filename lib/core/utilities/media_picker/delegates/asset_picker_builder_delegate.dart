@@ -1895,15 +1895,6 @@ class DefaultAssetPickerBuilderDelegate
         children: <Widget>[accessLimitedBottomTip(context), child],
       );
     }
-    child = ClipRect(
-      child: BackdropFilter(
-        filter: ui.ImageFilter.blur(
-          sigmaX: appleOSBlurRadius,
-          sigmaY: appleOSBlurRadius,
-        ),
-        child: child,
-      ),
-    );
     return child;
   }
 

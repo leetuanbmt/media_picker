@@ -264,7 +264,7 @@ class DefaultAssetPickerViewerBuilderDelegate
 
   final SpecialPickerType? specialPickerType;
 
-  bool get isWeChatMoment => specialPickerType == SpecialPickerType.moment;
+  bool get isMoment => specialPickerType == SpecialPickerType.moment;
 
   bool get hasVideo =>
       previewAssets.any((AssetEntity e) => e.type == AssetType.video) ||
@@ -284,7 +284,7 @@ class DefaultAssetPickerViewerBuilderDelegate
       AssetType.video => VideoPageBuilder(
           asset: asset,
           delegate: this,
-          hasOnlyOneVideoAndMoment: isWeChatMoment && hasVideo,
+          hasOnlyOneVideoAndMoment: isMoment && hasVideo,
         ),
       AssetType.other => Center(
           child: ScaleText(
@@ -436,8 +436,7 @@ class DefaultAssetPickerViewerBuilderDelegate
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  if (provider != null || isWeChatMoment)
-                    confirmButton(context),
+                  if (provider != null || isMoment) confirmButton(context),
                 ],
               ),
             ),
@@ -619,12 +618,12 @@ class DefaultAssetPickerViewerBuilderDelegate
       child: Consumer<AssetPickerViewerProvider<AssetEntity>?>(
         builder: (_, AssetPickerViewerProvider<AssetEntity>? provider, __) {
           assert(
-            isWeChatMoment || provider != null,
+            isMoment || provider != null,
             'Viewer provider must not be null '
-            'when the special type is not WeChat moment.',
+            'when the special type is not moment.',
           );
           Future<void> onPressed() async {
-            if (isWeChatMoment && hasVideo) {
+            if (isMoment && hasVideo) {
               Navigator.of(context).pop(<AssetEntity>[currentAsset]);
               return;
             }
@@ -641,7 +640,7 @@ class DefaultAssetPickerViewerBuilderDelegate
           }
 
           String buildText() {
-            if (isWeChatMoment && hasVideo) {
+            if (isMoment && hasVideo) {
               return textDelegate.confirm;
             }
             if (provider!.isSelectedNotEmpty) {
@@ -658,10 +657,9 @@ class DefaultAssetPickerViewerBuilderDelegate
               previewAssets.isEmpty ||
               selectedNotifier.value == 0;
           return MaterialButton(
-            minWidth:
-                (isWeChatMoment && hasVideo) || provider!.isSelectedNotEmpty
-                    ? 48
-                    : 20,
+            minWidth: (isMoment && hasVideo) || provider!.isSelectedNotEmpty
+                ? 48
+                : 20,
             height: 32,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             color: themeData.primaryColor,
@@ -681,7 +679,7 @@ class DefaultAssetPickerViewerBuilderDelegate
               overflow: TextOverflow.fade,
               softWrap: false,
               semanticsLabel: () {
-                if (isWeChatMoment && hasVideo) {
+                if (isMoment && hasVideo) {
                   return semanticsTextDelegate.confirm;
                 }
                 if (provider!.isSelectedNotEmpty) {
@@ -828,7 +826,7 @@ class DefaultAssetPickerViewerBuilderDelegate
           child: Stack(
             children: <Widget>[
               Positioned.fill(child: _pageViewBuilder(context)),
-              if (isWeChatMoment && hasVideo) ...<Widget>[
+              if (isMoment && hasVideo) ...<Widget>[
                 momentVideoBackButton(context),
                 PositionedDirectional(
                   end: 16,
@@ -838,7 +836,7 @@ class DefaultAssetPickerViewerBuilderDelegate
               ] else ...<Widget>[
                 appBar(context),
                 if (selectedAssets != null ||
-                    (isWeChatMoment && hasVideo && isAppleOS(context)))
+                    (isMoment && hasVideo && isAppleOS(context)))
                   bottomDetailBuilder(context),
               ],
             ],
