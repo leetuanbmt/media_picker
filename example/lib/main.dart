@@ -128,17 +128,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void picker(RequestType type) {
-    GmoMediaPicker.picker(
-      context,
-      isMulti: isMulti,
-      type: type,
-      isReview: isReview,
-      mulCallback: (List<AssetEntity> assets) {
-        //return list if isMulti true
-      },
-      singleCallback: (AssetEntity asset) {
-        //return single item if  isMulti false
-      },
-    );
+    AssetPicker.pickAssets(context);
   }
 }

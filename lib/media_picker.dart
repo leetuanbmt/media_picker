@@ -1,169 +1,49 @@
 library media_picker;
 
 import 'dart:async';
-import 'dart:developer' as developer;
-import 'dart:io';
+import 'dart:io' show Platform;
 import 'dart:math' as math;
-import 'dart:typed_data';
+import 'dart:typed_data' as typed_data;
 import 'dart:ui' as ui;
-
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'mixins/after_layout.dart';
-import 'mixins/loadmore_mixin.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:video_player/video_player.dart';
+import 'package:provider/provider.dart';
 
+import 'constants/custom_scroll_physics.dart';
+import 'constants/extensions.dart';
+import 'internal/singleton.dart';
+import 'widget/builder/audio_page_builder.dart';
+import 'widget/builder/fade_image_builder.dart';
+import 'widget/builder/image_page_builder.dart';
+import 'widget/builder/value_listenable_builder_2.dart';
+import 'widget/builder/video_page_builder.dart';
+import 'widget/gaps.dart';
+import 'widget/platform_progress_indicator.dart';
+import 'widget/scale_text.dart';
 export 'package:photo_manager/photo_manager.dart';
+part 'constants/config.dart';
+part 'constants/constants.dart';
+part 'constants/enums.dart';
+part 'constants/typedefs.dart';
 
-part 'asset_entity_image_provider.dart';
-part 'builder/asset_picker_builder.dart';
-part 'builder/media_builder_preview.dart';
-part 'builder/audio_page_builder.dart';
-part 'builder/image_page_builder.dart';
-part 'builder/video_page_builder.dart';
-part 'builder/video_progress.dart';
-part 'widgets/path_entity_selector.dart';
-part 'widgets/path_entity_widget.dart';
-part 'widgets/select_indicator.dart';
-part 'widgets/path_list_entity.dart';
-part 'widgets/audio_item_viewer.dart';
-part 'widgets/duration_indicator.dart';
-part 'widgets/image_item_viewer.dart';
-part 'widgets/confirm_button.dart';
-part 'widgets/list_backdrop.dart';
+part 'delegates/asset_picker_builder_delegate.dart';
+part 'delegates/asset_picker_delegate.dart';
+part 'delegates/asset_picker_text_delegate.dart';
+part 'delegates/asset_picker_viewer_builder_delegate.dart';
+part 'delegates/sort_path_delegate.dart';
 
-class ZoomImageItem {
-  ZoomImageItem({this.path, this.isVideo = false, this.thumbnail});
-  final String? path;
-  final bool isVideo;
-  final String? thumbnail;
-}
+part 'models/path_wrapper.dart';
 
-typedef MulCallback = void Function(List<AssetEntity>);
+part 'provider/asset_picker_provider.dart';
+part 'provider/asset_picker_viewer_provider.dart';
 
-typedef SingleCallback = void Function(AssetEntity);
-
-typedef Callback = void Function(AssetEntity);
-
-class GmoMediaPicker {
-  factory GmoMediaPicker() => _instance;
-  GmoMediaPicker._internal();
-  static final GmoMediaPicker _instance = GmoMediaPicker._internal();
-
-  static void picker(
-    BuildContext context, {
-    RequestType type = RequestType.common,
-    int limit = 10,
-    MulCallback? mulCallback,
-    SingleCallback? singleCallback,
-    Duration routeDuration = const Duration(milliseconds: 300),
-    bool isMulti = false,
-    bool isReview = true,
-    WidgetBuilder? leadingBuilder,
-    FilterOptionGroup? filterOptions,
-  }) async {
-    final bool isPermission = await PhotoManager.requestPermission();
-    if (isPermission) {
-      Navigator.of(context)
-          .push(
-        MaterialPageRoute(
-          builder: (_) => AssetPickerBuilder(
-            routeDuration: routeDuration,
-            type: type,
-            isMulti: isMulti,
-            limit: limit,
-            leadingBuilder: leadingBuilder,
-            filterOptions: filterOptions,
-            isReview: isReview,
-          ),
-        ),
-      )
-          .then(
-        (data) {
-          if (data != null) {
-            if (mulCallback != null && isMulti) {
-              mulCallback(data as List<AssetEntity>);
-            } else if (singleCallback != null && !isMulti) {
-              singleCallback.call(data.first as AssetEntity);
-            }
-          }
-        },
-      );
-    } else {
-      PhotoManager.openSetting();
-    }
-  }
-
-  static String formatDuration(Duration duration) {
-    return <int>[duration.inMinutes, duration.inSeconds]
-        .map((int e) => e.remainder(60).toString().padLeft(2, "0"))
-        .join(':');
-  }
-
-  static void log(dynamic message, {String tag = ''}) {
-    developer.log(message.toString(), name: tag);
-  }
-
-  static Size sizeImage(
-    double currentWidth,
-    double currentHeight, {
-    required double targetWidth,
-    required double targetHeight,
-  }) {
-    double w = currentWidth;
-    double h = currentHeight;
-    final double wd = w / targetWidth;
-    final double hd = h / targetHeight;
-    final double be = math.max(1, math.max(wd, hd));
-    w = w / be;
-    h = h / be;
-    return Size(w, h);
-  }
-}
-
-extension ContextExt on BuildContext {
-  MediaQueryData get mediaQuery => MediaQuery.of(this);
-  ThemeData get theme => Theme.of(this);
-  ColorScheme get colorScheme => theme.colorScheme;
-  Color get primary => colorScheme.primary;
-  Size get size => mediaQuery.size;
-  double get width => size.width;
-  double get height => size.height;
-  int get gridCount => (width / 100) ~/ math.min(1, (width / 100) / 4);
-  EdgeInsets get padding => mediaQuery.padding;
-}
-
-class Loading extends StatelessWidget {
-  const Loading({
-    Key? key,
-    this.width = 50.0,
-    this.padding,
-    this.color,
-  }) : super(key: key);
-
-  final double width;
-  final Color? color;
-  final EdgeInsets? padding;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: padding ?? const EdgeInsets.all(10.0),
-        child: SizedBox(
-          width: width,
-          height: width,
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(
-              color ?? context.primary,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+part 'widget/asset_picker.dart';
+part 'widget/asset_picker_app_bar.dart';
+part 'widget/asset_picker_page_route.dart';
+part 'widget/asset_picker_viewer.dart';
+part 'widget/builder/asset_entity_grid_item_builder.dart';

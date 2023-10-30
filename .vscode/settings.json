@@ -1,3 +1,8 @@
 {
-  "cSpell.ignoreWords": ["pubspec"]
+  "cSpell.ignoreWords": [
+    "pubspec"
+  ],
+  "cSpell.words": [
+    "audiotrack"
+  ]
 }
