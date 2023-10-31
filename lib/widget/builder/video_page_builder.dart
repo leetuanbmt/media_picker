@@ -1,12 +1,4 @@
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
-
-import '../../internal/singleton.dart';
-import '../../media_picker.dart';
-import '../scale_text.dart';
-import 'locally_available_builder.dart';
+part of '../../media_picker.dart';
 
 class VideoPageBuilder extends StatefulWidget {
   const VideoPageBuilder({

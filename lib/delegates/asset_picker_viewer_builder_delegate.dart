@@ -571,7 +571,7 @@ class DefaultAssetPickerViewerBuilderDelegate
                 ),
               ),
             ),
-            if (!isAppleOS(context) && specialPickerType == null)
+            if (specialPickerType == null)
               Expanded(
                 child: Center(
                   child: Semantics(
@@ -697,7 +697,7 @@ class DefaultAssetPickerViewerBuilderDelegate
     );
   }
 
-  Widget _appleOSSelectButton(
+  Widget _selectButton(
     BuildContext context,
     bool isSelected,
     AssetEntity asset,
@@ -720,28 +720,17 @@ class DefaultAssetPickerViewerBuilderDelegate
             border: !isSelected
                 ? Border.all(color: themeData.iconTheme.color!)
                 : null,
-            color: isSelected ? themeData.colorScheme.secondary : null,
+            color: isSelected ? themeData.colorScheme.secondary : Colors.white,
             shape: BoxShape.circle,
           ),
-          child: const Center(child: Icon(Icons.check, size: 20.0)),
+          child: Center(
+              child: Icon(
+            Icons.check,
+            size: 20.0,
+            color: isSelected ? Colors.white : Colors.black,
+          )),
         ),
       ),
-    );
-  }
-
-  Widget _androidSelectButton(
-    BuildContext context,
-    bool isSelected,
-    AssetEntity asset,
-  ) {
-    return Checkbox(
-      value: isSelected,
-      activeColor: themeData.primaryColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(999999),
-      ),
-      onChanged: (_) => onChangingSelected(context, asset, isSelected),
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     );
   }
 
@@ -769,20 +758,16 @@ class DefaultAssetPickerViewerBuilderDelegate
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    if (isAppleOS(context))
-                      _appleOSSelectButton(c, isSelected, asset)
-                    else
-                      _androidSelectButton(c, isSelected, asset),
-                    if (!isAppleOS(context))
-                      ScaleText(
-                        textDelegate.select,
-                        style: const TextStyle(
-                          fontSize: 17,
-                          height: 1.2,
-                          color: Colors.white,
-                        ),
-                        semanticsLabel: semanticsTextDelegate.select,
+                    _selectButton(c, isSelected, asset),
+                    ScaleText(
+                      textDelegate.select,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        height: 1.2,
+                        color: Colors.white,
                       ),
+                      semanticsLabel: semanticsTextDelegate.select,
+                    ),
                   ],
                 ),
               );

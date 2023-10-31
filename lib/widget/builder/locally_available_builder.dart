@@ -1,15 +1,4 @@
-// Copyright 2019 The FlutterCandies author. All rights reserved.
-// Use of this source code is governed by an Apache license that can be found
-// in the LICENSE file.
-
-import 'dart:developer' as dev;
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:photo_manager/photo_manager.dart';
-
-import '../../constants/extensions.dart';
-import '../scale_text.dart';
+part of '../../media_picker.dart';
 
 class LocallyAvailableBuilder extends StatefulWidget {
   const LocallyAvailableBuilder({
@@ -110,8 +99,7 @@ class _LocallyAvailableBuilderState extends State<LocallyAvailableBuilder> {
                 ScaleText(
                   '  iCloud ${(progress * 100).toInt()}%',
                   style: TextStyle(
-                    color: context.textTheme.bodyMedium?.color
-                        ?.withOpacity(.4),
+                    color: context.textTheme.bodyMedium?.color?.withOpacity(.4),
                   ),
                 ),
             ],

@@ -1,10 +1,4 @@
-// Copyright 2019 The FlutterCandies author. All rights reserved.
-// Use of this source code is governed by an Apache license that can be found
-// in the LICENSE file.
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+part of '../media_picker.dart';
 
 /// Progress Indicator. Used in loading data.
 class PlatformProgressIndicator extends StatelessWidget {
@@ -26,9 +20,9 @@ class PlatformProgressIndicator extends StatelessWidget {
   final Brightness? brightness;
 
   bool get isAppleOS => switch (defaultTargetPlatform) {
-    TargetPlatform.iOS || TargetPlatform.macOS => true,
-    _ => false,
-  };
+        TargetPlatform.iOS || TargetPlatform.macOS => true,
+        _ => false,
+      };
 
   @override
   Widget build(BuildContext context) {

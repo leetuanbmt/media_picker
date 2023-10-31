@@ -1,12 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter/material.dart';
-import 'package:photo_manager/photo_manager.dart';
-import 'package:video_player/video_player.dart';
-
-import '../../constants/extensions.dart';
-import '../../internal/singleton.dart';
-import '../scale_text.dart';
+part of '../../media_picker.dart';
 
 class AudioPageBuilder extends StatefulWidget {
   const AudioPageBuilder({super.key, required this.asset});

@@ -16,8 +16,11 @@ extension BuildContextExtension on BuildContext {
   double get bottomPadding => MediaQuery.paddingOf(this).bottom;
 
   double get bottomInsets => MediaQuery.viewInsetsOf(this).bottom;
+
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
+
   Color get primary => colorScheme.primary;
+
   Color get background => colorScheme.background;
 }
 

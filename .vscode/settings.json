@@ -3,6 +3,12 @@
     "pubspec"
   ],
   "cSpell.words": [
-    "audiotrack"
+    "audiotrack",
+    "Cupertino",
+    "focusable",
+    "lerp",
+    "typedefs",
+    "videocam",
+    "vsync"
   ]
 }

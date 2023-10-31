@@ -1,16 +1,4 @@
-// Copyright 2019 The FlutterCandies author. All rights reserved.
-// Use of this source code is governed by an Apache license that can be found
-// in the LICENSE file.
-
-import 'dart:io';
-
-import 'package:extended_image/extended_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:video_player/video_player.dart';
-
-import '../../media_picker.dart';
-import 'locally_available_builder.dart';
+part of '../../media_picker.dart';
 
 class ImagePageBuilder extends StatefulWidget {
   const ImagePageBuilder({
