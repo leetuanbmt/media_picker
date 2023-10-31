@@ -29,7 +29,7 @@ class ChatImage extends StatelessWidget {
         child: CacheImage(
           image: image,
           dimension: context.screenSize,
-          onTap: () {
+          onTap: (_) {
             ZoomMedia.show(
               context,
               files: [ZoomImageItem(path: image)],
@@ -67,12 +67,12 @@ class ChatImage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
-            flex: 196,
+            flex: 2,
             child: _aspectRatioImage(images[0], 4 / 3, 0, context),
           ),
           _spacer(),
           Expanded(
-            flex: 97,
+            flex: 1,
             child: Column(
               children: <Widget>[
                 _aspectRatioImage(images[1], 4 / 3, 1, context),
@@ -208,11 +208,12 @@ class ChatImage extends StatelessWidget {
         child: CacheImage(
           image: image,
           dimension: context.screenSize,
-          onTap: () {
+          onTap: (tag) {
             ZoomMedia.show(
               context,
               index: index,
-              files: images.map((e) => ZoomImageItem(path: e)).toList(),
+              files:
+                  images.map((e) => ZoomImageItem(path: e, tag: tag)).toList(),
             );
           },
         ),

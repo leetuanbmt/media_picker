@@ -10,12 +10,17 @@ class ChartList extends ConsumerWidget {
       orElse: () => Dimensions.empty,
       loading: () => const Loading(),
       success: (messages) {
-        return ListView.builder(
-          itemCount: messages.length,
+        return AnimatedList(
+          key: ref.read(chartProvider(chatId).notifier).listKey,
+          initialItemCount: messages.length,
           reverse: true,
-          itemBuilder: (BuildContext context, int index) {
+          itemBuilder: (_, int index, Animation<double> animation) {
             final message = messages.elementAt(index);
-            return ChartListItem(message: message, chatId: chatId);
+            return ChartListItem(
+              message: message,
+              chatId: chatId,
+              animation,
+            );
           },
         );
       },

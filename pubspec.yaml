@@ -77,8 +77,8 @@ dependencies:
   photo_manager: ^2.7.2
   gmo_media_picker:
     git:
-      url: https://github.com/TuanMinhVan/media_picker
-      ref: 6683d18c2b2927053171025b561df219c49df975
+      url: https://devops.runsystem.info/hcm_flutter/gmo_camera_picker
+      ref: 4b5354411207f705e9381a1d93cf534249875c71
 
 dev_dependencies:
   flutter_test:

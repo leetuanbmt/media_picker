@@ -132,7 +132,7 @@ class MyStoriesScreen extends ConsumerWidget {
                         Positioned.fill(
                           child: CacheImage(
                             image: story.isImage ? story.url : story.thumbnail,
-                            onTap: () {
+                            onTap: (_) {
                               openStory(context, stories, index);
                             },
                           ),

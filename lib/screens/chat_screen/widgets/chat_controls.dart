@@ -29,26 +29,20 @@ class ChatControls extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Padding(
-            padding: EdgeInsets.only(bottom: 5.h),
-            child: GestureDetector(
+            padding: EdgeInsets.only(bottom: 5.h, right: 5.w),
+            child: IconButtonCustom(
+              iconData: CupertinoIcons.photo,
+              color: context.primary,
               onTap: () {
                 AssetPicker.pickAssets(
                   context,
-                  pickerConfig: AssetPickerConfig(
-                    pickerTheme: AppTheme.appTheme,
-                  ),
-                );
+                ).then((List<AssetEntity>? assets) {
+                  Logger.log(
+                    assets?.map((e) => e.relativePath).toList().toString(),
+                    tag: "assets",
+                  );
+                });
               },
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 10.w,
-                  vertical: 5.h,
-                ),
-                child: Icon(
-                  CupertinoIcons.photo,
-                  color: context.primary,
-                ),
-              ),
             ),
           ),
           Expanded(
@@ -93,9 +87,9 @@ class ChatControls extends HookConsumerWidget {
                       if (text.isEmptyOrNull) return;
                       textCtl.clear();
                       loading.value = true;
-                      provider.sendMessage(text).whenComplete(
-                            () => loading.value = false,
-                          );
+                      provider
+                          .sendMessage(text)
+                          .whenComplete(() => loading.value = false);
                     },
                   ),
           ),

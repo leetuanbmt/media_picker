@@ -191,12 +191,13 @@ class _ChatAudioState extends State<ChatAudio> {
                         data: const SliderThemeData(
                           trackHeight: 20,
                           thumbShape: RoundSliderThumbShape(
-                            enabledThumbRadius: 0,
+                            enabledThumbRadius: 1,
+                            elevation: 0,
                           ),
                           overlayShape: RoundSliderOverlayShape(
                             overlayRadius: 0,
                           ),
-                          thumbColor: Colors.transparent,
+                          thumbColor: Colors.white,
                           activeTrackColor: Colors.transparent,
                           inactiveTrackColor: Colors.transparent,
                         ),

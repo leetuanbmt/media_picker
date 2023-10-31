@@ -1,30 +1,31 @@
 library media_review;
 
 import 'dart:async';
-import 'dart:io';
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_manager/photo_manager.dart';
+import 'package:gmo_media_picker/media_picker.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../core/utilities/utilities.dart';
 
-part 'asset_entity_image_provider.dart';
 part 'image_page_builder.dart';
 part 'video_page_builder.dart';
 part 'audio_page_builder.dart';
 part 'video_progress.dart';
 
 class ZoomImageItem {
-  ZoomImageItem({required this.path, this.isVideo = false, this.thumbnail});
+  const ZoomImageItem({
+    required this.path,
+    this.isVideo = false,
+    this.thumbnail,
+    this.tag,
+  });
   final String path;
   final bool isVideo;
-  final String? thumbnail;
+  final String? thumbnail, tag;
 }
 
 String formatDuration(Duration duration) {
@@ -215,8 +216,10 @@ class _MediaBuilderPreviewBuilderState
       if (asset.isVideo) {
         return VideoPageBuilder(
           url: asset.path,
-          thumbnail:
-              ExtendedNetworkImageProvider(asset.thumbnail!, cache: true),
+          thumbnail: ExtendedNetworkImageProvider(
+            asset.thumbnail!,
+            cache: true,
+          ),
           autoPlay: true,
           onFinish: () {
             if (index < total - 1) {

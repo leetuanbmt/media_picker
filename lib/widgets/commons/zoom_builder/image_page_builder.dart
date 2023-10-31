@@ -7,10 +7,11 @@ class ImagePageBuilder extends StatelessWidget {
     this.previewThumbSize,
     this.updateAnimation,
     this.url,
+    this.tag,
   }) : assert(asset == null || url == null, 'please exit asset or ur');
   final Function(ExtendedImageGestureState)? updateAnimation;
   final AssetEntity? asset;
-  final String? url;
+  final String? url, tag;
   final List<int>? previewThumbSize;
 
   @override

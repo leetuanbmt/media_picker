@@ -4,69 +4,78 @@ const tagPattern = r"\[(@[^:]+):([^\]]+)\]";
 final customRegExp = RegExp(tagPattern);
 
 class ChartListItem extends ConsumerWidget {
-  const ChartListItem({super.key, required this.message, required this.chatId});
+  const ChartListItem(
+    this.animation, {
+    super.key,
+    required this.message,
+    required this.chatId,
+  });
   final Message message;
   final String chatId;
+  final Animation<double> animation;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final globalKey = GlobalKey();
-    return RepaintBoundary(
-      key: globalKey,
-      child: Container(
-        color: Colors.white,
-        padding: EdgeInsets.symmetric(
-          horizontal: 10.w,
-          vertical: 10.h,
-        ),
-        constraints: BoxConstraints(maxWidth: context.screenWidth * .8),
-        child: GestureDetector(
-          onLongPress: () => _bottomSheetActions(context, ref, globalKey),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CacheImage(
-                isZoom: true,
-                image: message.avatar,
-                dimension: const Size.square(40),
-                radius: 100,
-              ),
-              Dimensions.width10,
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text.rich(
-                      TextSpan(
-                        text: message.name,
-                        style: context.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                        children: [
-                          WidgetSpan(
-                            alignment: PlaceholderAlignment.middle,
-                            child: Text(
-                              ' ${message.timestamp.timeAgo()}',
-                              style: context.labelSmall,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 3, 20, 5),
-                      child: switch (message.type) {
-                        MessageType.url => ChatUrl(message),
-                        MessageType.image => ChatImage(message),
-                        MessageType.video => ChatVideo(message),
-                        MessageType.audio => ChatAudio(message),
-                        _ => ChatTextWidget(message),
-                      },
-                    ),
-                  ],
+    return SizeTransition(
+      sizeFactor: animation,
+      child: RepaintBoundary(
+        key: globalKey,
+        child: Container(
+          color: Colors.white,
+          padding: EdgeInsets.symmetric(
+            horizontal: 10.w,
+            vertical: 10.h,
+          ),
+          constraints: BoxConstraints(maxWidth: context.screenWidth * .8),
+          child: GestureDetector(
+            onLongPress: () => _bottomSheetActions(context, ref, globalKey),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CacheImage(
+                  isZoom: true,
+                  image: message.avatar,
+                  dimension: const Size.square(40),
+                  radius: 100,
                 ),
-              ),
-            ],
+                Dimensions.width10,
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text.rich(
+                        TextSpan(
+                          text: message.name,
+                          style: context.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          children: [
+                            WidgetSpan(
+                              alignment: PlaceholderAlignment.middle,
+                              child: Text(
+                                ' ${message.timestamp.timeAgo()}',
+                                style: context.labelSmall,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 3, 20, 5),
+                        child: switch (message.type) {
+                          MessageType.url => ChatUrl(message),
+                          MessageType.image => ChatImage(message),
+                          MessageType.video => ChatVideo(message),
+                          MessageType.audio => ChatAudio(message),
+                          _ => ChatTextWidget(message),
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

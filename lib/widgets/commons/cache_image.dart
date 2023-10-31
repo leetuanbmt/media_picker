@@ -23,7 +23,7 @@ class CacheImage extends StatelessWidget {
   final double radius;
   final Size dimension;
   final bool isZoom, isHighlighted;
-  final VoidCallback? onTap;
+  final Function(String tag)? onTap;
   void gotoZoomImage(
     BuildContext context,
     ImageProvider imageProvider,
@@ -58,12 +58,11 @@ class CacheImage extends StatelessWidget {
       child: Hero(
         tag: tag,
         child: GestureDetector(
-          onTap: onTap ??
-              (isZoom
-                  ? () {
-                      gotoZoomImage(context, imageProvider, tag);
-                    }
-                  : null),
+          onTap: onTap != null
+              ? () => onTap!(tag)
+              : isZoom
+                  ? () => gotoZoomImage(context, imageProvider, tag)
+                  : null,
           child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(radius),

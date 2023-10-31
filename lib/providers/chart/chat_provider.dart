@@ -2,23 +2,26 @@ import 'dart:math';
 
 import '../../core/config.dart';
 import '../../core/models/models.dart';
+import '../../screens/chat_screen/chat_screen.dart';
 
 final chartProvider = StateNotifierProvider.autoDispose
     .family<ChatProvider, ChatState, String>((ref, chartId) {
-  return ChatProvider();
+  return ChatProvider(chartId);
 });
 
 class ChatProvider extends StateNotifier<ChatState> {
-  ChatProvider() : super(const ChatState.initial()) {
+  ChatProvider(this.chatId) : super(const ChatState.initial()) {
     getMessageList();
   }
-
+  final String chatId;
   int _page = 0;
   int _totalPage = 0;
 
   bool get _canLoadMore => _page < _totalPage;
 
   final messages = <Message>[];
+
+  final listKey = GlobalKey<AnimatedListState>();
 
   final sender = const UserModel(
     id: 'id',
@@ -108,11 +111,20 @@ class ChatProvider extends StateNotifier<ChatState> {
       receiver: receiver,
     );
     messages.insert(0, message);
+    listKey.currentState?.insertItem(0);
     state = ChatState.success(messages);
   }
 
 // remove message from list
   void removeItem(Message message) {
+    listKey.currentState?.removeItem(
+      messages.indexOf(message),
+      (context, animation) => ChartListItem(
+        animation,
+        message: message,
+        chatId: chatId,
+      ),
+    );
     messages.remove(message);
     state = ChatState.success(messages);
   }

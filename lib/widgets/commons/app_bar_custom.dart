@@ -95,10 +95,11 @@ class IconButtonCustom extends StatelessWidget {
     super.key,
     required this.iconData,
     this.onTap,
+    this.color,
   });
   final IconData iconData;
   final VoidCallback? onTap;
-
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -109,7 +110,7 @@ class IconButtonCustom extends StatelessWidget {
         onTap: onTap,
         child: Padding(
           padding: EdgeInsets.all(8.0.r),
-          child: Icon(iconData),
+          child: Icon(iconData, color: color),
         ),
       ),
     );
