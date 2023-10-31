@@ -6,10 +6,18 @@ class ChatControls extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final key = GlobalKey<FlutterMentionsState>();
     final provider = ref.read(chartProvider(chatId).notifier);
     final loading = useState(false);
-    final textCtl = useTextEditingController();
-
+    const users = [
+      UserModel(
+        id: 'id',
+        email: 'email',
+        name: 'Flutter Parsed text',
+        avatar:
+            'https://afamilycdn.com/150157425591193600/2023/10/12/photo-8-1697085570941464931779-1697097873648-1697097874897831840782.jpg',
+      ),
+    ];
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -25,47 +33,74 @@ class ChatControls extends HookConsumerWidget {
         vertical: 10.h,
         horizontal: 10.w,
       ).copyWith(bottom: (context.screenPadding.bottom / 2) + 10.h),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(bottom: 5.h, right: 5.w),
-            child: IconButtonCustom(
-              iconData: CupertinoIcons.photo,
-              color: context.primary,
-              onTap: () {
-                AssetPicker.pickAssets(
-                  context,
-                ).then((List<AssetEntity>? assets) {
-                  Logger.log(
-                    assets?.map((e) => e.relativePath).toList().toString(),
-                    tag: "assets",
-                  );
-                });
-              },
-            ),
+      child: FlutterMentions(
+        key: key,
+        leading: [
+          IconButtonCustom(
+            iconData: CupertinoIcons.photo,
+            color: context.primary,
+            onTap: () {
+              AssetPicker.pickAssets(
+                context,
+              ).then((List<AssetEntity>? assets) {
+                Logger.log(
+                  assets?.map((e) => e.relativePath).toList().toString(),
+                  tag: "assets",
+                );
+              });
+            },
           ),
-          Expanded(
-            child: TextFormField(
-              controller: textCtl,
-              maxLines: 5,
-              minLines: 1,
-              decoration: const InputDecoration(
-                hintText: "Type a message",
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w400,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: EdgeInsets.fromLTRB(10, 5, 40, 5),
-                filled: true,
-                enabled: true,
-              ),
-            ),
+        ],
+        suggestionPosition: SuggestionPosition.Top,
+        decoration: const InputDecoration(
+          hintText: "Type a message",
+          hintStyle: TextStyle(
+            color: Colors.grey,
+            fontWeight: FontWeight.w400,
           ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            borderSide: BorderSide.none,
+          ),
+          contentPadding: EdgeInsets.fromLTRB(10, 5, 40, 5),
+          filled: true,
+          enabled: true,
+        ),
+        maxLines: 5,
+        minLines: 1,
+        mentions: [
+          Mention(
+            trigger: "@",
+            style: TextStyle(color: context.primary),
+            suggestionBuilder: (Map<String, dynamic> data) {
+              return Container(
+                color: context.colorScheme.surface,
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  children: <Widget>[
+                    CircleAvatar(
+                      backgroundImage: ExtendedNetworkImageProvider(
+                        data['photo'],
+                        cache: true,
+                      ),
+                    ),
+                    const SizedBox(width: 20.0),
+                    Text(data['display']),
+                  ],
+                ),
+              );
+            },
+            data: users.map((UserModel e) {
+              final Map<String, dynamic> res = <String, dynamic>{
+                'id': e.id,
+                'display': e.name,
+                'photo': e.avatar,
+              };
+              return res;
+            }).toList(),
+          ),
+        ],
+        trailing: [
           Container(
             width: 40.r,
             height: 40.r,
@@ -83,9 +118,11 @@ class ChatControls extends HookConsumerWidget {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      final text = textCtl.text.trim();
+                      Logger.log(key.currentState!.controller!.markupText);
+                      final text =
+                          key.currentState!.controller!.markupText.trim();
                       if (text.isEmptyOrNull) return;
-                      textCtl.clear();
+                      key.currentState!.controller!.clear();
                       loading.value = true;
                       provider
                           .sendMessage(text)

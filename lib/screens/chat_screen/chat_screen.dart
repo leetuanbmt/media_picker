@@ -3,9 +3,11 @@ library chat_module;
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' show PreviewData;
 import 'package:flutter_link_previewer/flutter_link_previewer.dart' hide Size;
+import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:flutter_parsed_text/flutter_parsed_text.dart';
 import 'package:gmo_media_picker/media_picker.dart';
 import 'package:video_player/video_player.dart';
