@@ -1,7 +1,6 @@
 library chat_module;
 
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +8,8 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' show PreviewData;
 import 'package:flutter_link_previewer/flutter_link_previewer.dart' hide Size;
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:flutter_parsed_text/flutter_parsed_text.dart';
-import 'package:gmo_media_picker/media_picker.dart';
+import 'package:photo_manager/photo_manager.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../core/config.dart';
@@ -17,6 +17,7 @@ import '../../core/models/models.dart';
 import '../../core/utilities/utilities.dart';
 import '../../gen/assets.gen.dart';
 import '../../providers/chart/chat_provider.dart';
+import '../../providers/firebase_provider.dart';
 import '../../widgets/commons/commons.dart';
 import '../../widgets/commons/zoom_builder/media_builder_preview.dart';
 
@@ -41,6 +42,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   String get chatId => widget.chatId;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

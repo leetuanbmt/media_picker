@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:gmo_media_picker/media_picker.dart';
+
 import '../../core/config.dart';
 import '../../core/models/models.dart';
 import '../../screens/chat_screen/chat_screen.dart';
@@ -23,6 +25,8 @@ class ChatProvider extends StateNotifier<ChatState> {
 
   final listKey = GlobalKey<AnimatedListState>();
 
+  final scroll = ScrollController();
+
   final sender = const UserModel(
     id: 'id',
     email: 'email',
@@ -45,7 +49,6 @@ class ChatProvider extends StateNotifier<ChatState> {
         Message(
           type: MessageType.video,
           id: Random().nextInt(10000).toString(),
-          message: '',
           sender: sender,
           receiver: receiver,
           timestamp: DateTime.now(),
@@ -53,7 +56,6 @@ class ChatProvider extends StateNotifier<ChatState> {
         Message(
           type: MessageType.audio,
           id: Random().nextInt(10000).toString(),
-          message: '',
           sender: sender,
           receiver: receiver,
           timestamp: DateTime.now(),
@@ -61,8 +63,11 @@ class ChatProvider extends StateNotifier<ChatState> {
         Message(
           type: MessageType.image,
           id: Random().nextInt(10000).toString(),
-          message:
-              '["https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fimages%2F1647478926922.png?alt=media&token=580fe80b-873b-4597-aabe-0c1cc39c2a2b","https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fimages%2F1647478932001.png?alt=media&token=fa0b5ca6-cea5-450e-b221-1f4bf09712dd","https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fimages%2F1647478936789.png?alt=media&token=5bc0369c-2494-4706-a120-e8a14b832b94"]',
+          images: [
+            "https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fimages%2F1647478926922.png?alt=media&token=580fe80b-873b-4597-aabe-0c1cc39c2a2b",
+            "https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fimages%2F1647478932001.png?alt=media&token=fa0b5ca6-cea5-450e-b221-1f4bf09712dd",
+            "https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fimages%2F1647478936789.png?alt=media&token=5bc0369c-2494-4706-a120-e8a14b832b94",
+          ],
           sender: sender,
           receiver: receiver,
           timestamp: DateTime.now(),
@@ -113,6 +118,7 @@ class ChatProvider extends StateNotifier<ChatState> {
     messages.insert(0, message);
     listKey.currentState?.insertItem(0);
     state = ChatState.success(messages);
+    scroll.animateTo(0, duration: 3.milliseconds, curve: Curves.easeOut);
   }
 
 // remove message from list
@@ -127,5 +133,27 @@ class ChatProvider extends StateNotifier<ChatState> {
     );
     messages.remove(message);
     state = ChatState.success(messages);
+  }
+
+  void chooseMedia(BuildContext context) {
+    AssetPicker.pickAssets(
+      context,
+      pickerConfig: const AssetPickerConfig(
+        requestType: RequestType.image,
+      ),
+    ).then((images) async {
+      if (images == null) return;
+      final message = Message(
+        id: Random().nextInt(10000).toString(),
+        timestamp: DateTime.now(),
+        sender: sender,
+        receiver: receiver,
+        assets: images,
+        type: MessageType.image,
+      );
+      messages.insert(0, message);
+      listKey.currentState?.insertItem(0);
+      state = ChatState.success(messages);
+    });
   }
 }

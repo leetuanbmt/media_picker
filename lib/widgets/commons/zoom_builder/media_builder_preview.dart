@@ -34,12 +34,13 @@ String formatDuration(Duration duration) {
       .join(':');
 }
 
-class ZoomMedia {
-  ZoomMedia.show(
+class PreviewMedia {
+  PreviewMedia.show(
     BuildContext context, {
-    required List<ZoomImageItem> files,
+    List<ZoomImageItem>? files,
+    List<AssetEntity>? assets,
     int index = 0,
-  }) {
+  }) : assert(files == null || assets == null, 'only exit assets or files') {
     Navigator.of(context, rootNavigator: true).push(
       PageRouteBuilder(
         settings: const RouteSettings(
@@ -50,6 +51,7 @@ class ZoomMedia {
             opacity: animation,
             child: _MediaBuilderPreviewBuilder(
               files: files,
+              assets: assets,
               index: index,
             ),
           );

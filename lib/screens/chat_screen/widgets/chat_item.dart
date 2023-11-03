@@ -26,7 +26,6 @@ class ChartListItem extends ConsumerWidget {
             horizontal: 10.w,
             vertical: 10.h,
           ),
-          constraints: BoxConstraints(maxWidth: context.screenWidth * .8),
           child: GestureDetector(
             onLongPress: () => _bottomSheetActions(context, ref, globalKey),
             child: Row(

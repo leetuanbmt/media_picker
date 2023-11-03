@@ -34,13 +34,13 @@ dependencies:
   sentry_flutter: ^7.10.1
   synchronized: ^3.1.0
   permission_handler: ^11.0.1
-  redacted: ^1.0.11
+  # redacted: ^1.0.11
   percent_indicator: ^4.2.3
 
   mobile_scanner: ^3.4.1
   biometric_storage: ^5.0.0+4
   # flutter_local_notifications: ^16.0.0+1
-  cached_network_image: ^3.2.3
+  # cached_network_image: ^3.2.3
   photo_view: ^0.14.0
   flutter_slidable: ^3.0.0
   flutter_cache_manager: ^3.3.1
@@ -81,6 +81,7 @@ dependencies:
       ref: 4b5354411207f705e9381a1d93cf534249875c71
   flutter_mentions: ^2.0.1
   flutter_portal: ^0.4.0
+  url_launcher: ^6.2.1
 
 dev_dependencies:
   flutter_test:

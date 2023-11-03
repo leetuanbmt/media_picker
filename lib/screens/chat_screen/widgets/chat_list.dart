@@ -11,6 +11,8 @@ class ChartList extends ConsumerWidget {
       loading: () => const Loading(),
       success: (messages) {
         return AnimatedList(
+          controller: ref.read(chartProvider(chatId).notifier).scroll,
+          padding: EdgeInsets.zero,
           key: ref.read(chartProvider(chatId).notifier).listKey,
           initialItemCount: messages.length,
           reverse: true,

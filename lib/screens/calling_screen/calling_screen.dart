@@ -137,6 +137,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
     }
 
     status = await Permission.microphone.request();
+
     if (status.isPermanentlyDenied) {
       Logger.log('Microphone Permission disabled');
     }
