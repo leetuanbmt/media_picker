@@ -5,6 +5,7 @@ import '../../../../../core/models/models.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/auth/auth_notify.dart';
 import '../../../../../routes/app_routes.gr.dart';
+import '../../../../../widgets/commons/download_button.dart';
 import '../../my_stories.dart';
 import 'card_profile.dart';
 
@@ -26,7 +27,9 @@ class ProfileDetail extends StatelessWidget {
           _ProfileItem(
             title: context.tr(LocaleKeys.usageGuide),
             assetIcon: Assets.iconsUsageGuideOutline.path,
-            onTap: () {},
+            onTap: () {
+              context.nextPage(const DownloadPageView());
+            },
           ),
           _ProfileItem(
             title: context.tr(LocaleKeys.notificationSettings),
@@ -49,7 +52,9 @@ class ProfileDetail extends StatelessWidget {
           _ProfileItem(
             title: context.tr(LocaleKeys.paymentSettings),
             assetIcon: Assets.iconsIcCreditCard1.path,
-            onTap: () {},
+            onTap: () {
+              context.nextPage(const DownloadPageView());
+            },
           ),
           _ProfileItem(
             title: context.tr(LocaleKeys.accountSettings),
