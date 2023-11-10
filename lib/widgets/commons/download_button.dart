@@ -1,394 +1,489 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+// import 'dart:io';
+// import 'dart:isolate';
+// import 'dart:ui';
 
-import '../../core/extensions/extension.dart';
-import '../../core/utilities/utilities.dart';
+// import 'package:android_path_provider/android_path_provider.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_downloader/flutter_downloader.dart';
+// import 'package:path_provider/path_provider.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
-@immutable
-class DownloadPageView extends StatefulWidget {
-  const DownloadPageView({super.key});
+// import '../../core/extensions/extension.dart';
+// import '../../core/utilities/utilities.dart';
 
-  @override
-  State<DownloadPageView> createState() => _DownloadPageViewState();
-}
+// @pragma('vm:entry-point')
+// void downloadCallback(
+//   String id,
+//   int status,
+//   int progress,
+// ) {
+//   IsolateNameServer.lookupPortByName('downloader_send_port')
+//       ?.send([id, status, progress]);
+// }
 
-class _DownloadPageViewState extends State<DownloadPageView> {
-  late final List<DownloadController> _downloadControllers;
+// @immutable
+// class DownloadPageView extends StatefulWidget {
+//   const DownloadPageView({super.key});
 
-  @override
-  void initState() {
-    super.initState();
-    _downloadControllers = List<DownloadController>.generate(
-      20,
-      (index) => SimulatedDownloadController(
-        onOpenDownload: () {
-          _openDownload(index);
-        },
-      ),
-    );
-  }
+//   @override
+//   State<DownloadPageView> createState() => _DownloadPageViewState();
+// }
 
-  void _openDownload(int index) {
-    Logger.log("Open app ${index + 1}");
-    context.toast('Open app ${index + 1}');
-  }
+// class _DownloadPageViewState extends State<DownloadPageView> {
+//   final files = <Reference>[];
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Apps')),
-      body: ListView.separated(
-        itemCount: _downloadControllers.length,
-        separatorBuilder: (_, __) => const Divider(),
-        itemBuilder: _buildListItem,
-      ),
-    );
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     getListFile();
+//   }
 
-  Widget _buildListItem(BuildContext context, int index) {
-    final theme = Theme.of(context);
-    final downloadController = _downloadControllers[index];
+//   getListFile() {
+//     Logger.log("Open app ");
+//     FirebaseStorage.instance
+//         .ref()
+//         .child('/images')
+//         .listAll()
+//         .then((value) async {
+//       files.addAll(value.items);
+//       setState(() {});
+//     }).catchError((error) {
+//       Logger.log(error);
+//     });
+//   }
 
-    return ListTile(
-      title: Text(
-        'App ${index + 1}',
-        overflow: TextOverflow.ellipsis,
-        style: theme.textTheme.titleLarge,
-      ),
-      subtitle: Text(
-        'Lorem ipsum dolor #${index + 1}',
-        overflow: TextOverflow.ellipsis,
-        style: theme.textTheme.bodySmall,
-      ),
-      trailing: SizedBox(
-        width: 96,
-        child: AnimatedBuilder(
-          animation: downloadController,
-          builder: (context, child) {
-            return DownloadButton(
-              status: downloadController.downloadStatus,
-              downloadProgress: downloadController.progress,
-              onDownload: downloadController.startDownload,
-              onCancel: downloadController.stopDownload,
-              onOpen: downloadController.openDownload,
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
+//   void _openDownload(int index) {
+//     Logger.log("Open app ${index + 1}");
+//     context.toast('Open app ${index + 1}');
+//   }
 
-@immutable
-class DemoAppIcon extends StatelessWidget {
-  const DemoAppIcon({super.key});
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('Apps')),
+//       body: ListView.separated(
+//         itemCount: files.length,
+//         separatorBuilder: (_, __) => const Divider(),
+//         itemBuilder: _buildListItem,
+//       ),
+//     );
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return const AspectRatio(
-      aspectRatio: 1,
-      child: FittedBox(
-        child: SizedBox(
-          width: 80,
-          height: 80,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.red, Colors.blue],
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-            ),
-            child: Center(
-              child: Icon(
-                Icons.ac_unit,
-                color: Colors.white,
-                size: 40,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   Widget _buildListItem(BuildContext context, int index) {
+//     final theme = Theme.of(context);
+//     final downloadController = DownloadController(
+//       onOpenDownload: () {
+//         _openDownload(index);
+//       },
+//     );
+//     final file = files[index];
+//     return ListTile(
+//       title: Text(
+//         'App ${index + 1}',
+//         overflow: TextOverflow.ellipsis,
+//         style: theme.textTheme.titleLarge,
+//       ),
+//       subtitle: Text(
+//         file.name,
+//         overflow: TextOverflow.ellipsis,
+//         style: theme.textTheme.bodySmall,
+//       ),
+//       trailing: SizedBox(
+//         width: 96,
+//         child: AnimatedBuilder(
+//           animation: downloadController,
+//           builder: (context, child) {
+//             return DownloadButton(
+//               status: downloadController.downloadStatus,
+//               downloadProgress: downloadController.progress,
+//               onOpen: downloadController.openDownload,
+//               onCancel: downloadController.stopDownload,
+//               onDownload: () async {
+//                 final url = await file.getDownloadURL();
+//                 downloadController.startDownload(url);
+//               },
+//             );
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-enum DownloadStatus {
-  notDownloaded,
-  fetchingDownload,
-  downloading,
-  downloaded,
-}
+// @immutable
+// class DemoAppIcon extends StatelessWidget {
+//   const DemoAppIcon({super.key});
 
-abstract class DownloadController implements ChangeNotifier {
-  DownloadStatus get downloadStatus;
-  double get progress;
+//   @override
+//   Widget build(BuildContext context) {
+//     return const AspectRatio(
+//       aspectRatio: 1,
+//       child: FittedBox(
+//         child: SizedBox(
+//           width: 80,
+//           height: 80,
+//           child: DecoratedBox(
+//             decoration: BoxDecoration(
+//               gradient: LinearGradient(
+//                 colors: [Colors.red, Colors.blue],
+//               ),
+//               borderRadius: BorderRadius.all(Radius.circular(20)),
+//             ),
+//             child: Center(
+//               child: Icon(
+//                 Icons.ac_unit,
+//                 color: Colors.white,
+//                 size: 40,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-  void startDownload();
-  void stopDownload();
-  void openDownload();
-}
+// enum DownloadStatus {
+//   notDownloaded,
+//   fetchingDownload,
+//   downloading,
+//   downloaded,
+// }
 
-class SimulatedDownloadController extends DownloadController
-    with ChangeNotifier {
-  SimulatedDownloadController({
-    DownloadStatus downloadStatus = DownloadStatus.notDownloaded,
-    double progress = 0.0,
-    required VoidCallback onOpenDownload,
-  })  : _downloadStatus = downloadStatus,
-        _progress = progress,
-        _onOpenDownload = onOpenDownload;
+// class DownloadController with ChangeNotifier {
+//   DownloadController({
+//     DownloadStatus downloadStatus = DownloadStatus.notDownloaded,
+//     double progress = 0.0,
+//     required VoidCallback onOpenDownload,
+//   })  : _downloadStatus = downloadStatus,
+//         _progress = progress,
+//         _onOpenDownload = onOpenDownload;
 
-  DownloadStatus _downloadStatus;
-  @override
-  DownloadStatus get downloadStatus => _downloadStatus;
+//   DownloadStatus _downloadStatus;
+//   DownloadStatus get downloadStatus => _downloadStatus;
 
-  double _progress;
-  @override
-  double get progress => _progress;
+//   double _progress;
+//   double get progress => _progress;
 
-  final VoidCallback _onOpenDownload;
+//   final VoidCallback _onOpenDownload;
 
-  bool _isDownloading = false;
+//   bool _isDownloading = false;
 
-  @override
-  void startDownload() {
-    if (downloadStatus == DownloadStatus.notDownloaded) {
-      _doSimulatedDownload();
-    }
-  }
+//   late String _localPath, _url;
 
-  @override
-  void stopDownload() {
-    if (_isDownloading) {
-      _isDownloading = false;
-      _downloadStatus = DownloadStatus.notDownloaded;
-      _progress = 0.0;
-      notifyListeners();
-    }
-  }
+//   String? taskId;
+//   final _portName = 'downloader_send_port';
 
-  @override
-  void openDownload() {
-    if (downloadStatus == DownloadStatus.downloaded) {
-      _onOpenDownload();
-    }
-  }
+//   final _port = ReceivePort();
 
-  Future<void> _doSimulatedDownload() async {
-    _isDownloading = true;
-    _downloadStatus = DownloadStatus.fetchingDownload;
-    notifyListeners();
+//   Future<void> _initialize() async {
+//     _prepareSaveDir();
+//     _port.listen((dynamic data) {
+//       final status = data[1] as DownloadTaskStatus;
+//       int progress = data[2];
+//       _progress = progress / 100;
+//       if (status == DownloadTaskStatus.complete) {
+//         _downloadStatus = DownloadStatus.downloaded;
+//       }
+//       notifyListeners();
+//     });
 
-    // Wait a second to simulate fetch time.
-    await Future<void>.delayed(const Duration(seconds: 1));
+//     FlutterDownloader.registerCallback(downloadCallback);
+//   }
 
-    // If the user chose to cancel the download, stop the simulation.
-    if (!_isDownloading) {
-      return;
-    }
+//   Future<bool> _checkPermission() async {
+//     final status = await Permission.storage.status;
+//     if (status != PermissionStatus.granted) {
+//       final result = await Permission.storage.request();
+//       if (result == PermissionStatus.granted) {
+//         return true;
+//       }
+//     } else {
+//       return true;
+//     }
+//     return false;
+//   }
 
-    // Shift to the downloading phase.
-    _downloadStatus = DownloadStatus.downloading;
-    notifyListeners();
+//   Future<void> _prepareSaveDir() async {
+//     _localPath = (await _findLocalPath())!;
+//     final savedDir = Directory(_localPath);
+//     final hasExisted = savedDir.existsSync();
+//     if (!hasExisted) {
+//       await savedDir.create();
+//     }
+//   }
 
-    const downloadProgressStops = [0.0, 0.15, 0.45, 0.8, 1.0];
-    for (final stop in downloadProgressStops) {
-      // Wait a second to simulate varying download speeds.
-      await Future<void>.delayed(const Duration(seconds: 1));
+//   Future<String?> _findLocalPath() async {
+//     String? externalStorageDirPath;
+//     if (Platform.isAndroid) {
+//       try {
+//         externalStorageDirPath = await AndroidPathProvider.downloadsPath;
+//       } catch (e) {
+//         final directory = await getExternalStorageDirectory();
+//         externalStorageDirPath = directory?.path;
+//       }
+//     } else if (Platform.isIOS) {
+//       externalStorageDirPath =
+//           (await getApplicationDocumentsDirectory()).absolute.path;
+//     }
+//     return externalStorageDirPath;
+//   }
 
-      // If the user chose to cancel the download, stop the simulation.
-      if (!_isDownloading) {
-        return;
-      }
+//   void _unbindBackgroundIsolate() {
+//     IsolateNameServer.removePortNameMapping(_portName);
+//   }
 
-      // Update the download progress.
-      _progress = stop;
-      notifyListeners();
-    }
+//   void startDownload(String url) async {
+//     _url = url;
+//     await _initialize();
+//     final permission = await _checkPermission();
+//     if (permission) {
+//       _downloadStatus = DownloadStatus.fetchingDownload;
+//       notifyListeners();
+//       taskId = await FlutterDownloader.enqueue(
+//         url: _url,
+//         savedDir: _localPath,
+//         showNotification: true,
+//         openFileFromNotification: true,
+//       );
+//     }
+//     if (downloadStatus == DownloadStatus.notDownloaded) {
+//       _doSimulatedDownload();
+//     }
+//   }
 
-    // Wait a second to simulate a final delay.
-    await Future<void>.delayed(const Duration(seconds: 1));
+//   void stopDownload() {
+//     if (_isDownloading) {
+//       _isDownloading = false;
+//       _downloadStatus = DownloadStatus.notDownloaded;
+//       _progress = 0.0;
+//       notifyListeners();
+//     }
+//   }
 
-    // If the user chose to cancel the download, stop the simulation.
-    if (!_isDownloading) {
-      return;
-    }
+//   void openDownload() {
+//     if (downloadStatus == DownloadStatus.downloaded) {
+//       _onOpenDownload();
+//     }
+//   }
 
-    // Shift to the downloaded state, completing the simulation.
-    _downloadStatus = DownloadStatus.downloaded;
-    _isDownloading = false;
-    notifyListeners();
-  }
-}
+//   Future<void> _doSimulatedDownload() async {
+//     _isDownloading = true;
+//     _downloadStatus = DownloadStatus.fetchingDownload;
+//     notifyListeners();
 
-@immutable
-class DownloadButton extends StatelessWidget {
-  const DownloadButton({
-    super.key,
-    required this.status,
-    this.downloadProgress = 0.0,
-    required this.onDownload,
-    required this.onCancel,
-    required this.onOpen,
-    this.transitionDuration = const Duration(milliseconds: 500),
-  });
+//     // Wait a second to simulate fetch time.
+//     await Future<void>.delayed(const Duration(seconds: 1));
 
-  final DownloadStatus status;
-  final double downloadProgress;
-  final VoidCallback onDownload;
-  final VoidCallback onCancel;
-  final VoidCallback onOpen;
-  final Duration transitionDuration;
+//     // If the user chose to cancel the download, stop the simulation.
+//     if (!_isDownloading) {
+//       return;
+//     }
 
-  bool get _isDownloading => status == DownloadStatus.downloading;
+//     // Shift to the downloading phase.
+//     _downloadStatus = DownloadStatus.downloading;
+//     notifyListeners();
 
-  bool get _isFetching => status == DownloadStatus.fetchingDownload;
+//     const downloadProgressStops = [0.0, 0.15, 0.45, 0.8, 1.0];
+//     for (final stop in downloadProgressStops) {
+//       // Wait a second to simulate varying download speeds.
+//       await Future<void>.delayed(const Duration(seconds: 1));
 
-  bool get _isDownloaded => status == DownloadStatus.downloaded;
+//       // If the user chose to cancel the download, stop the simulation.
+//       if (!_isDownloading) {
+//         return;
+//       }
 
-  void _onPressed() {
-    switch (status) {
-      case DownloadStatus.notDownloaded:
-        onDownload();
-      case DownloadStatus.fetchingDownload:
-        // do nothing.
-        break;
-      case DownloadStatus.downloading:
-        onCancel();
-      case DownloadStatus.downloaded:
-        onOpen();
-    }
-  }
+//       // Update the download progress.
+//       _progress = stop;
+//       notifyListeners();
+//     }
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _onPressed,
-      child: Stack(
-        children: [
-          ButtonShapeWidget(
-            transitionDuration: transitionDuration,
-            isDownloaded: _isDownloaded,
-            isDownloading: _isDownloading,
-            isFetching: _isFetching,
-          ),
-          Positioned.fill(
-            child: AnimatedOpacity(
-              duration: transitionDuration,
-              opacity: _isDownloading || _isFetching ? 1.0 : 0.0,
-              curve: Curves.ease,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  ProgressIndicatorWidget(
-                    downloadProgress: downloadProgress,
-                    isDownloading: _isDownloading,
-                    isFetching: _isFetching,
-                  ),
-                  if (_isDownloading)
-                    Icon(
-                      Icons.stop,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//     // Wait a second to simulate a final delay.
+//     await Future<void>.delayed(const Duration(seconds: 1));
 
-@immutable
-class ButtonShapeWidget extends StatelessWidget {
-  const ButtonShapeWidget({
-    super.key,
-    required this.isDownloading,
-    required this.isDownloaded,
-    required this.isFetching,
-    required this.transitionDuration,
-  });
+//     // If the user chose to cancel the download, stop the simulation.
+//     if (!_isDownloading) {
+//       return;
+//     }
 
-  final bool isDownloading;
-  final bool isDownloaded;
-  final bool isFetching;
-  final Duration transitionDuration;
+//     // Shift to the downloaded state, completing the simulation.
+//     _downloadStatus = DownloadStatus.downloaded;
+//     _isDownloading = false;
+//     notifyListeners();
+//   }
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    ShapeDecoration shape = const ShapeDecoration(
-      shape: StadiumBorder(),
-      color: CupertinoColors.lightBackgroundGray,
-    );
+// @immutable
+// class DownloadButton extends StatelessWidget {
+//   const DownloadButton({
+//     super.key,
+//     required this.status,
+//     this.downloadProgress = 0.0,
+//     required this.onDownload,
+//     required this.onCancel,
+//     required this.onOpen,
+//     this.transitionDuration = const Duration(milliseconds: 500),
+//   });
 
-    if (isDownloading || isFetching) {
-      shape = ShapeDecoration(
-        shape: const CircleBorder(),
-        color: Colors.white.withOpacity(0),
-      );
-    }
+//   final DownloadStatus status;
+//   final double downloadProgress;
+//   final VoidCallback onDownload;
+//   final VoidCallback onCancel;
+//   final VoidCallback onOpen;
+//   final Duration transitionDuration;
 
-    return AnimatedContainer(
-      duration: transitionDuration,
-      curve: Curves.ease,
-      width: double.infinity,
-      decoration: shape,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        child: AnimatedOpacity(
-          duration: transitionDuration,
-          opacity: isDownloading || isFetching ? 0.0 : 1.0,
-          curve: Curves.ease,
-          child: Text(
-            isDownloaded ? 'OPEN' : 'GET',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
-                ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   bool get _isDownloading => status == DownloadStatus.downloading;
 
-@immutable
-class ProgressIndicatorWidget extends StatelessWidget {
-  const ProgressIndicatorWidget({
-    super.key,
-    required this.downloadProgress,
-    required this.isDownloading,
-    required this.isFetching,
-  });
+//   bool get _isFetching => status == DownloadStatus.fetchingDownload;
 
-  final double downloadProgress;
-  final bool isDownloading;
-  final bool isFetching;
+//   bool get _isDownloaded => status == DownloadStatus.downloaded;
 
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0, end: downloadProgress),
-        duration: const Duration(milliseconds: 200),
-        builder: (context, progress, child) {
-          return CircularProgressIndicator(
-            backgroundColor: isDownloading
-                ? CupertinoColors.lightBackgroundGray
-                : Colors.white.withOpacity(0),
-            valueColor: AlwaysStoppedAnimation(
-              isFetching
-                  ? CupertinoColors.lightBackgroundGray
-                  : Theme.of(context).primaryColor,
-            ),
-            strokeWidth: 2,
-            value: isFetching ? null : progress,
-          );
-        },
-      ),
-    );
-  }
-}
+//   void _onPressed() {
+//     switch (status) {
+//       case DownloadStatus.notDownloaded:
+//         onDownload();
+//       case DownloadStatus.fetchingDownload:
+//         // do nothing.
+//         break;
+//       case DownloadStatus.downloading:
+//         onCancel();
+//       case DownloadStatus.downloaded:
+//         onOpen();
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: _onPressed,
+//       child: Stack(
+//         children: [
+//           ButtonShapeWidget(
+//             transitionDuration: transitionDuration,
+//             isDownloaded: _isDownloaded,
+//             isDownloading: _isDownloading,
+//             isFetching: _isFetching,
+//           ),
+//           Positioned.fill(
+//             child: AnimatedOpacity(
+//               duration: transitionDuration,
+//               opacity: _isDownloading || _isFetching ? 1.0 : 0.0,
+//               curve: Curves.ease,
+//               child: Stack(
+//                 alignment: Alignment.center,
+//                 children: [
+//                   ProgressIndicatorWidget(
+//                     downloadProgress: downloadProgress,
+//                     isDownloading: _isDownloading,
+//                     isFetching: _isFetching,
+//                   ),
+//                   if (_isDownloading)
+//                     Icon(
+//                       Icons.stop,
+//                       color: Theme.of(context).primaryColor,
+//                     ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// @immutable
+// class ButtonShapeWidget extends StatelessWidget {
+//   const ButtonShapeWidget({
+//     super.key,
+//     required this.isDownloading,
+//     required this.isDownloaded,
+//     required this.isFetching,
+//     required this.transitionDuration,
+//   });
+
+//   final bool isDownloading;
+//   final bool isDownloaded;
+//   final bool isFetching;
+//   final Duration transitionDuration;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     ShapeDecoration shape = const ShapeDecoration(
+//       shape: StadiumBorder(),
+//       color: CupertinoColors.lightBackgroundGray,
+//     );
+
+//     if (isDownloading || isFetching) {
+//       shape = ShapeDecoration(
+//         shape: const CircleBorder(),
+//         color: Colors.white.withOpacity(0),
+//       );
+//     }
+
+//     return AnimatedContainer(
+//       duration: transitionDuration,
+//       curve: Curves.ease,
+//       width: double.infinity,
+//       decoration: shape,
+//       child: Padding(
+//         padding: const EdgeInsets.symmetric(vertical: 6),
+//         child: AnimatedOpacity(
+//           duration: transitionDuration,
+//           opacity: isDownloading || isFetching ? 0.0 : 1.0,
+//           curve: Curves.ease,
+//           child: Text(
+//             isDownloaded ? 'OPEN' : 'GET',
+//             textAlign: TextAlign.center,
+//             style: Theme.of(context).textTheme.labelSmall?.copyWith(
+//                   fontWeight: FontWeight.bold,
+//                   color: Theme.of(context).primaryColor,
+//                 ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// @immutable
+// class ProgressIndicatorWidget extends StatelessWidget {
+//   const ProgressIndicatorWidget({
+//     super.key,
+//     required this.downloadProgress,
+//     required this.isDownloading,
+//     required this.isFetching,
+//   });
+
+//   final double downloadProgress;
+//   final bool isDownloading;
+//   final bool isFetching;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return AspectRatio(
+//       aspectRatio: 1,
+//       child: TweenAnimationBuilder<double>(
+//         tween: Tween(begin: 0, end: downloadProgress),
+//         duration: const Duration(milliseconds: 200),
+//         builder: (context, progress, child) {
+//           return CircularProgressIndicator(
+//             backgroundColor: isDownloading
+//                 ? CupertinoColors.lightBackgroundGray
+//                 : Colors.white.withOpacity(0),
+//             valueColor: AlwaysStoppedAnimation(
+//               isFetching
+//                   ? CupertinoColors.lightBackgroundGray
+//                   : Theme.of(context).primaryColor,
+//             ),
+//             strokeWidth: 2,
+//             value: isFetching ? null : progress,
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }

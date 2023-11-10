@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:math';
+
 import '../../../core/config.dart';
 import '../../../providers/firebase_provider.dart';
 import '../../../routes/app_routes.gr.dart';
@@ -9,6 +12,47 @@ import 'widgets/list_creator.dart';
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
+  void headSort(List<int> list, int n) {
+    for (int i = n ~/ 2 - 1; i >= 0; i--) {
+      heapify(list, n, i);
+    }
+    for (int i = n - 1; i >= 0; i--) {
+      int temp = list[0];
+      list[0] = list[i];
+      list[i] = temp;
+      heapify(list, i, 0);
+    }
+  }
+
+  void heapify(List<int> list, int n, int i) {
+    int largest = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+    if (l < n && list[l] > list[largest]) {
+      largest = l;
+    }
+    if (r < n && list[r] > list[largest]) {
+      largest = r;
+    }
+    if (largest != i) {
+      int swap = list[i];
+      list[i] = list[largest];
+      list[largest] = swap;
+      heapify(list, n, largest);
+    }
+  }
+
+  void checkSortFunction() {
+    Timeline.startSync("checkSortFunction");
+    final List<int> numbers =
+        List.generate(50000, (index) => Random().nextInt(10000)).toList();
+    headSort(numbers, numbers.length);
+    Logger.log(numbers);
+
+    /// doSomething();
+    Timeline.finishSync();
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -17,7 +61,8 @@ class HomeScreen extends ConsumerWidget {
         searchAppBar: SearchAppBar(
           readOnly: true,
           onTap: () {
-            context.navigator(SearchCreatorRoute());
+            // context.navigator(SearchCreatorRoute());
+            checkSortFunction();
           },
         ),
       ),
