@@ -26,9 +26,9 @@ class ChatVideo extends StatelessWidget {
       height: 1024,
       duration: 65,
       thumbnail:
-          "https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fvideos%2Fthumbnails%2F1647482010685.png?alt=media&token=6085bc41-fc15-4036-b013-e52f43eaf3b1",
+          'https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fvideos%2Fthumbnails%2F1647482010685.png?alt=media&token=6085bc41-fc15-4036-b013-e52f43eaf3b1',
       url:
-          "https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fvideos%2F1647482014775.png?alt=media&token=798b41b0-056c-4584-a45b-134dbddc0c5c",
+          'https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fvideos%2F1647482014775.png?alt=media&token=798b41b0-056c-4584-a45b-134dbddc0c5c',
     );
     final size = AppUtils.sizeImage(
       mediaItem.width!.toDouble(),

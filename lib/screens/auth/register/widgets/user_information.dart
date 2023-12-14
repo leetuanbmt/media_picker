@@ -36,9 +36,9 @@ class RegisterUserInformation extends ConsumerWidget {
     );
 
     final List<DropdownMenuEntry<String>> genders = [
-      const DropdownMenuEntry(value: "Male", label: "Male"),
-      const DropdownMenuEntry(value: "Female", label: "Female"),
-      const DropdownMenuEntry(value: "Another", label: "Another"),
+      const DropdownMenuEntry(value: 'Male', label: 'Male'),
+      const DropdownMenuEntry(value: 'Female', label: 'Female'),
+      const DropdownMenuEntry(value: 'Another', label: 'Another'),
     ];
 
     return SingleChildScrollView(
@@ -70,7 +70,7 @@ class RegisterUserInformation extends ConsumerWidget {
                   Expanded(
                     child: InputInformation(
                       title: context.tr(LocaleKeys.surname),
-                      hintText: "(${context.tr(LocaleKeys.example)})山田",
+                      hintText: '(${context.tr(LocaleKeys.example)})山田',
                       controller: provider.firstNameController,
                     ),
                   ),
@@ -80,7 +80,7 @@ class RegisterUserInformation extends ConsumerWidget {
                   Expanded(
                     child: InputInformation(
                       title: context.tr(LocaleKeys.surname),
-                      hintText: "(${context.tr(LocaleKeys.example)})太郎",
+                      hintText: '(${context.tr(LocaleKeys.example)})太郎',
                       controller: provider.middleNameController,
                     ),
                   ),
@@ -91,7 +91,7 @@ class RegisterUserInformation extends ConsumerWidget {
                   Expanded(
                     child: InputInformation(
                       title: context.tr(LocaleKeys.name),
-                      hintText: "(${context.tr(LocaleKeys.example)})ヤマダ",
+                      hintText: '(${context.tr(LocaleKeys.example)})ヤマダ',
                       controller: provider.lastNameController,
                     ),
                   ),
@@ -101,7 +101,7 @@ class RegisterUserInformation extends ConsumerWidget {
                   Expanded(
                     child: InputInformation(
                       title: context.tr(LocaleKeys.may),
-                      hintText: "(${context.tr(LocaleKeys.example)})タロウ",
+                      hintText: '(${context.tr(LocaleKeys.example)})タロウ',
                       controller: provider.anotherNameController,
                     ),
                   ),
@@ -161,7 +161,7 @@ class RegisterUserInformation extends ConsumerWidget {
               ),
               InputInformation(
                 title: context.tr(LocaleKeys.telephoneNumber),
-                hintText: "09011112222",
+                hintText: '09011112222',
                 controller: provider.phoneNumberController,
               ),
             ],
@@ -186,7 +186,8 @@ class RegisterUserInformation extends ConsumerWidget {
                         ? AppTheme.middleGray
                         : AppTheme.primaryColor,
                     onPressed: () {
-                      isDisableButton ? null : onNextPage();
+                      if (isDisableButton) return;
+                      onNextPage();
                     },
                   );
                 },

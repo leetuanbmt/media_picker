@@ -16,35 +16,35 @@ class ChatTextWidget extends StatelessWidget {
           renderText: renderTextTagUser,
           onTap: (String str) {
             final match = customRegExp.firstMatch(str)!;
-            context.toast("User ${match[2]}");
+            context.toast('User ${match[2]}');
           },
         ),
         MatchText(
           type: ParsedType.EMAIL,
           style: style?.copyWith(color: Colors.blue),
           onTap: (String email) {
-            context.toast("Email $email");
+            context.toast('Email $email');
           },
         ),
         MatchText(
           type: ParsedType.URL,
           style: style?.copyWith(color: Colors.blue),
           onTap: (String url) {
-            context.toast("Url $url");
+            context.toast('Url $url');
           },
         ),
         MatchText(
           type: ParsedType.PHONE,
           style: style?.copyWith(color: Colors.amber),
           onTap: (String phone) {
-            context.toast("Phone $phone");
+            context.toast('Phone $phone');
           },
         ),
         MatchText(
-          pattern: r"\B#+([\w]+)\b",
+          pattern: r'\B#+([\w]+)\b',
           style: style?.copyWith(color: Colors.indigo),
           onTap: (String tag) {
-            context.toast("Tag $tag");
+            context.toast('Tag $tag');
           },
         ),
       ],

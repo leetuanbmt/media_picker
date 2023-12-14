@@ -41,7 +41,7 @@ class ChatControls extends HookConsumerWidget {
                 ],
                 suggestionPosition: SuggestionPosition.Top,
                 decoration: const InputDecoration(
-                  hintText: "Type a message",
+                  hintText: 'Type a message',
                   hintStyle: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w400,
@@ -58,10 +58,10 @@ class ChatControls extends HookConsumerWidget {
                 minLines: 1,
                 mentions: [
                   Mention(
-                    trigger: "@",
+                    trigger: '@',
                     style: TextStyle(color: context.primary),
                     markupBuilder: (trigger, mention, value) {
-                      return "[@$value:$mention]";
+                      return '[@$value:$mention]';
                     },
                     suggestionBuilder: (Map<String, dynamic> data) {
                       return Container(

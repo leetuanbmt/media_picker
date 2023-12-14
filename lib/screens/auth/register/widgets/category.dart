@@ -95,7 +95,8 @@ class RegisterCategoryScreen extends StatelessWidget {
                         ? AppTheme.middleGray
                         : AppTheme.primaryColor,
                     onPressed: () {
-                      isActiveButton ? null : onNextPage();
+                      if (isActiveButton) return;
+                      onNextPage();
                     },
                   );
                 },

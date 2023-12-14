@@ -55,7 +55,7 @@ class CallUtils {
       final hasNotDialledMap = call.copyWith(hasDialled: false).toJson();
       await callCollection.doc(call.receiverId).set(hasNotDialledMap);
     } catch (e) {
-      Logger.log("makeCall error: $e");
+      Logger.log('makeCall error: $e');
     }
   }
 

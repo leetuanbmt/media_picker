@@ -35,16 +35,14 @@ mixin _Disposer {
 
 abstract class Disposable with _Disposer {
   @mustCallSuper
-  Future<bool> dispose() async {
-    return await _dispose();
-  }
+  Future<bool> dispose() => _dispose();
 }
 
 abstract class DisposableChangeNotifier extends ChangeNotifier with _Disposer {
   @override
-  Future<bool> dispose() async {
+  Future<bool> dispose() {
     if (!isDisposed) super.dispose();
-    return await super._dispose();
+    return super._dispose();
   }
 
   @override

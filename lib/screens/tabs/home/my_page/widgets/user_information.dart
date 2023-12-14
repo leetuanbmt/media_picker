@@ -186,7 +186,7 @@ class UserBio extends ConsumerWidget {
     final isBlocked =
         ref.watch(myPageProvider.select((value) => value.isBlocked));
 
-    double maxLines = (AppUtils.getTextHeight(
+    double maxLines = AppUtils.getTextHeight(
           creator.bio!.isNotEmpty ? creator.bio! : 'No bio description',
           context.labelMedium!.copyWith(
             fontSize: 12.sp,
@@ -195,7 +195,7 @@ class UserBio extends ConsumerWidget {
           ),
           343.61.w,
         ).h /
-        18.h);
+        18.h;
 
     return Consumer(
       builder: (context, ref, child) {

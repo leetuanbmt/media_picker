@@ -118,14 +118,11 @@ class LoginForm extends HookConsumerWidget {
               height: 48.h,
               width: double.infinity,
               onPressed: () {
-                checkFieldsEmpty.value
-                    ? null
-                    : ref
-                        .read(authProvider.notifier)
-                        .signInWithEmailAndPassword(
-                          emailController.text,
-                          passwordController.text,
-                        );
+                if (checkFieldsEmpty.value) return;
+                ref.read(authProvider.notifier).signInWithEmailAndPassword(
+                      emailController.text,
+                      passwordController.text,
+                    );
               },
               backgroundColor: checkFieldsEmpty.value
                   ? AppTheme.middleGray

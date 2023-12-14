@@ -19,7 +19,7 @@ class LoadingManager {
     showDialog(
       context: context,
       barrierDismissible: false,
-      routeSettings: const RouteSettings(name: "LoadingManager"),
+      routeSettings: const RouteSettings(name: 'LoadingManager'),
       builder: (context) => const PopScope(
         canPop: false,
         child: Center(child: Loading()),

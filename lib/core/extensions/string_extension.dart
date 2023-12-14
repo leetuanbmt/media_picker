@@ -33,5 +33,5 @@ extension StringGoTopExt on String? {
     return Preferences.getInt(this!);
   }
 
-  String get removeIcon => (this ?? '').split(" ").last;
+  String get removeIcon => (this ?? '').split(' ').last;
 }

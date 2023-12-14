@@ -10,15 +10,15 @@ part 'rest_client.g.dart';
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
-  @GET("users/{userId}")
+  @GET('users/{userId}')
   Future<dynamic> fetchUserInfo(
     @Path() String userId,
     @CancelRequest() CancelToken? cancelToken,
   );
-  @GET("users")
+  @GET('users')
   Future<UserResultState> getUserList(
-    @Query("page") int page,
-    @Query("per_page") int perPage,
+    @Query('page') int page,
+    @Query('per_page') int perPage,
     @CancelRequest() CancelToken? cancelToken,
   );
 }

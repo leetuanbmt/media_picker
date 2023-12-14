@@ -20,7 +20,7 @@ class VideoManager extends ChangeNotifier {
     notifyListeners();
     // check if video is already cached
     if (_controllers.containsKey(url)) {
-      Logger.log("Play video from cache from state");
+      Logger.log('Play video from cache from state');
       video = _controllers[url];
     } else {
       // get video from cache and if not found download it
@@ -32,10 +32,10 @@ class VideoManager extends ChangeNotifier {
       // if file is not found then initialize video controller with network url
 
       if (fileInfo == null) {
-        Logger.log("Play video from network");
+        Logger.log('Play video from network');
         video = VideoPlayerController.networkUrl(Uri.parse(url));
       } else {
-        Logger.log("Play video from cache");
+        Logger.log('Play video from cache');
         video = VideoPlayerController.file(fileInfo.file);
       }
 
@@ -64,10 +64,10 @@ class VideoManager extends ChangeNotifier {
         .then((fileInfo) {
       // if file is not found then initialize video controller with network url
       if (fileInfo == null) {
-        Logger.log("Initialize next video from network");
+        Logger.log('Initialize next video from network');
         _controllers[url] = VideoPlayerController.networkUrl(Uri.parse(url));
       } else {
-        Logger.log("Initialize next from cache");
+        Logger.log('Initialize next from cache');
         _controllers[url] = VideoPlayerController.file(fileInfo.file);
       }
       if (!_controllers[url]!.value.isInitialized) {

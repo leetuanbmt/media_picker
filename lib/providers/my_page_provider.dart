@@ -68,17 +68,17 @@ class MyPageProvider extends ChangeNotifier {
   int chargeSelected = -1;
 
   final List<DropdownMenuEntry<String>> autoItems = [
-    const DropdownMenuEntry(value: "5回", label: "5回"),
-    const DropdownMenuEntry(value: "10回", label: "10回"),
-    const DropdownMenuEntry(value: "15回", label: "15回"),
-    const DropdownMenuEntry(value: "20回", label: "20回"),
+    const DropdownMenuEntry(value: '5回', label: '5回'),
+    const DropdownMenuEntry(value: '10回', label: '10回'),
+    const DropdownMenuEntry(value: '15回', label: '15回'),
+    const DropdownMenuEntry(value: '20回', label: '20回'),
   ];
 
   final List<DropdownMenuEntry<String>> delayItems = [
-    const DropdownMenuEntry(value: "5秒", label: "5秒"),
-    const DropdownMenuEntry(value: "10秒", label: "10秒"),
-    const DropdownMenuEntry(value: "15秒", label: "15秒"),
-    const DropdownMenuEntry(value: "20秒", label: "20秒"),
+    const DropdownMenuEntry(value: '5秒', label: '5秒'),
+    const DropdownMenuEntry(value: '10秒', label: '10秒'),
+    const DropdownMenuEntry(value: '15秒', label: '15秒'),
+    const DropdownMenuEntry(value: '20秒', label: '20秒'),
   ];
 
   final delayController = TextEditingController(text: '5秒');

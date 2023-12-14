@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // we consider the user to be in Japan
       return position.latitude >= 24 && position.latitude <= 46;
     } catch (e) {
-      Logger.log("error: $e");
+      Logger.log('error: $e');
       rethrow;
     }
   }

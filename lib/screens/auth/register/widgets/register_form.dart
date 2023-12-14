@@ -43,11 +43,10 @@ class RegisterForm extends ConsumerWidget {
                   width: double.infinity,
                   height: 48.h,
                   onPressed: () {
-                    areFieldsEmpty
-                        ? null
-                        : ref
-                            .watch(registerProvider.notifier)
-                            .checkEmailPassword(context);
+                    if (areFieldsEmpty) return;
+                    ref
+                        .watch(registerProvider.notifier)
+                        .checkEmailPassword(context);
                   },
                   backgroundColor: areFieldsEmpty
                       ? AppTheme.middleGray

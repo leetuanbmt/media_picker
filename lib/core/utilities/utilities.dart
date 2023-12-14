@@ -48,7 +48,7 @@ class AppUtils {
 // convert string to duration
   static String formatDuration(Duration duration) {
     return <int>[duration.inMinutes, duration.inSeconds]
-        .map((int e) => e.remainder(60).toString().padLeft(2, "0"))
+        .map((int e) => e.remainder(60).toString().padLeft(2, '0'))
         .join(':');
   }
 
@@ -128,7 +128,7 @@ class CustomCacheManager {
   Future<FileInfo?> getFile(String url, {bool isAutoDownload = false}) async {
     final fileInfo = await cache.getFileFromCache(url);
     if (isAutoDownload && fileInfo == null) {
-      downloadFile(url).then((value) => Logger.log("Download Success"));
+      downloadFile(url).then((value) => Logger.log('Download Success'));
     }
     return fileInfo;
   }

@@ -105,7 +105,7 @@ class UserProvider extends ChangeNotifier {
 @freezed
 class UserResultState with _$UserResultState {
   const factory UserResultState({
-    @JsonKey(name: "total_pages") required int total,
+    @JsonKey(name: 'total_pages') required int total,
     @Default(false) bool isLoadMore,
     required List<UserModel> data,
   }) = _UserResultState;

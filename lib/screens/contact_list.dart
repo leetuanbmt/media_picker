@@ -12,7 +12,7 @@ class ContactList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Contact List"),
+        title: const Text('Contact List'),
         actions: [
           IconButton(
             icon: const Icon(Icons.history),

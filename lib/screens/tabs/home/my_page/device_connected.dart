@@ -31,8 +31,8 @@ class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> deviceConnected = [
-      {'device': 'ぬいぐるみ', "status": false},
-      {'device': '扇風機', "status": true},
+      {'device': 'ぬいぐるみ', 'status': false},
+      {'device': '扇風機', 'status': true},
     ];
 
     final style = context.titleSmall!.copyWith(

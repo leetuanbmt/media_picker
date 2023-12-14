@@ -182,7 +182,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
 // initialize next video
   Future<void> _initializeNextVideo() async {
     if (_currentIndex + 1 < stories.length) {
-      Logger.log("Loading next video ${_currentIndex + 1}");
+      Logger.log('Loading next video ${_currentIndex + 1}');
       final StoryModel nextStory = stories[_currentIndex + 1];
       if (nextStory.isVideo) {
         ref.read(videoProvider).initializeNextVideo(nextStory.url);

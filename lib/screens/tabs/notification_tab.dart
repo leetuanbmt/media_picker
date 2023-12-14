@@ -100,7 +100,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
                   ),
                 ),
                 const Center(
-                  child: Text("Maintenance"),
+                  child: Text('Maintenance'),
                 ),
               ],
             ),
@@ -126,7 +126,7 @@ class _NotificationItem extends StatelessWidget {
       sizeFactor: animation,
       child: Slidable(
         groupTag: 'notification',
-        key: index == null ? null : ValueKey("notification_$index"),
+        key: index == null ? null : ValueKey('notification_$index'),
         endActionPane: ActionPane(
           extentRatio: 0.25,
           motion: const ScrollMotion(),

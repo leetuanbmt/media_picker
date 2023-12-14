@@ -9,6 +9,7 @@ import 'package:flutter_link_previewer/flutter_link_previewer.dart' hide Size;
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:flutter_parsed_text/flutter_parsed_text.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 

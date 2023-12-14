@@ -69,7 +69,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
     FirebaseFirestore.instance
         .collection(DbCollection.users)
         .doc(uid)
-        .update(<String, dynamic>{"isOnline": isOnline});
+        .update(<String, dynamic>{'isOnline': isOnline});
   }
 
   @override

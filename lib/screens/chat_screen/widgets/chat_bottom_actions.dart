@@ -33,7 +33,7 @@ class ChatBottomActions extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.bookmark_border),
-            title: const Text("Save post"),
+            title: const Text('Save post'),
             onTap: () {
               Navigator.maybePop(context);
               onShare?.call();
@@ -41,21 +41,21 @@ class ChatBottomActions extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.circle_notifications),
-            title: const Text("Turn on notification"),
+            title: const Text('Turn on notification'),
             onTap: () {
               Navigator.maybePop(context);
             },
           ),
           ListTile(
             leading: const Icon(Icons.share),
-            title: const Text("Share"),
+            title: const Text('Share'),
             onTap: () {
               Navigator.maybePop(context);
             },
           ),
           ListTile(
             leading: const Icon(Icons.delete),
-            title: const Text("Delete"),
+            title: const Text('Delete'),
             onTap: () {
               Navigator.maybePop(context);
               onDeleted?.call();

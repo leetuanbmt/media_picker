@@ -49,7 +49,7 @@ class OTPScreen extends StatelessWidget {
               ),
             ),
             ButtonCustom(
-              "メールを再送する",
+              'メールを再送する',
               type: ButtonType.text,
               onPressed: () {},
             ),
@@ -89,7 +89,7 @@ class OTPTitle extends StatelessWidget {
           height: 120.h,
         ),
         Text(
-          "認証コードを入力してください",
+          '認証コードを入力してください',
           style: context.titleMedium!.copyWith(
             fontWeight: FontWeight.w600,
             color: AppTheme.blackBold,
@@ -99,7 +99,7 @@ class OTPTitle extends StatelessWidget {
           height: 40.h,
         ),
         Text(
-          "メールアドレスに送信した認証コードを入力し、登録\nを完成させましょう！",
+          'メールアドレスに送信した認証コードを入力し、登録\nを完成させましょう！',
           textAlign: TextAlign.center,
           style: context.bodySmall?.copyWith(
             fontWeight: FontWeight.w300,

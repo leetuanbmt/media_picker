@@ -196,7 +196,7 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
       await facebookSignIn.logOut();
       AppNavigator.instance.goToLogin();
     } catch (e) {
-      Logger.log("Logout error: $e");
+      Logger.log('Logout error: $e');
     }
   }
 }

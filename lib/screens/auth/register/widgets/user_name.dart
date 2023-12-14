@@ -57,7 +57,8 @@ class RegisterUserName extends ConsumerWidget {
                         ? AppTheme.middleGray
                         : AppTheme.primaryColor,
                     onPressed: () {
-                      isDisableButton ? null : confirmUsername(context);
+                      if (isDisableButton) return;
+                      confirmUsername(context);
                     },
                   );
                 },

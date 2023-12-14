@@ -42,7 +42,7 @@ class HomeScreen extends ConsumerWidget {
   }
 
   void checkSortFunction() {
-    Timeline.startSync("checkSortFunction");
+    Timeline.startSync('checkSortFunction');
     final List<int> numbers =
         List.generate(50000, (index) => Random().nextInt(10000)).toList();
     headSort(numbers, numbers.length);

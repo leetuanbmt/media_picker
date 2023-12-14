@@ -198,9 +198,9 @@ class PeerConnection {
       {
         'audio': false,
         'video': {
-          "frameRate": "30",
-          "width": "1280",
-          "height": "720",
+          'frameRate': '30',
+          'width': '1280',
+          'height': '720',
         },
       },
     );
@@ -252,7 +252,7 @@ class PeerConnection {
     };
 
     peerConnection?.onAddStream = (MediaStream stream) {
-      Logger.log("Add remote stream");
+      Logger.log('Add remote stream');
       onAddRemoteStream?.call(stream);
       remoteStream = stream;
     };

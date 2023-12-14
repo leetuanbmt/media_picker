@@ -1,6 +1,6 @@
 part of '../chat_screen.dart';
 
-const tagPattern = r"\[(@[^:]+):([^\]]+)\]";
+const tagPattern = r'\[(@[^:]+):([^\]]+)\]';
 final customRegExp = RegExp(tagPattern);
 
 class ChartListItem extends ConsumerWidget {

@@ -254,7 +254,7 @@ class ChatImage extends StatelessWidget {
                 color: Colors.white.withOpacity(0.5),
                 child: Center(
                   child: Text(
-                    "+$valueCount",
+                    '+$valueCount',
                     style: const TextStyle(fontSize: 32),
                   ),
                 ),

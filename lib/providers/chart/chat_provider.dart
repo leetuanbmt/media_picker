@@ -64,9 +64,9 @@ class ChatProvider extends StateNotifier<ChatState> {
           type: MessageType.image,
           id: Random().nextInt(10000).toString(),
           images: [
-            "https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fimages%2F1647478926922.png?alt=media&token=580fe80b-873b-4597-aabe-0c1cc39c2a2b",
-            "https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fimages%2F1647478932001.png?alt=media&token=fa0b5ca6-cea5-450e-b221-1f4bf09712dd",
-            "https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fimages%2F1647478936789.png?alt=media&token=5bc0369c-2494-4706-a120-e8a14b832b94",
+            'https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fimages%2F1647478926922.png?alt=media&token=580fe80b-873b-4597-aabe-0c1cc39c2a2b',
+            'https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fimages%2F1647478932001.png?alt=media&token=fa0b5ca6-cea5-450e-b221-1f4bf09712dd',
+            'https://firebasestorage.googleapis.com/v0/b/codebase-57bc1.appspot.com/o/chat%2Fimages%2F1647478936789.png?alt=media&token=5bc0369c-2494-4706-a120-e8a14b832b94',
           ],
           sender: sender,
           receiver: receiver,
@@ -82,7 +82,7 @@ class ChatProvider extends StateNotifier<ChatState> {
         ),
         Message(
           id: Random().nextInt(10000).toString(),
-          message: "https://flutter.dev",
+          message: 'https://flutter.dev',
           sender: sender,
           receiver: receiver,
           type: MessageType.url,
@@ -91,7 +91,7 @@ class ChatProvider extends StateNotifier<ChatState> {
         Message(
           id: Random().nextInt(10000).toString(),
           message:
-              "[@michael:51515151] Hello this is an example of the ParsedText, links like http://www.google.com or http://www.facebook.com are clickable and phone number 444-555-6666 can call too. But you can also do more with this package, for example Bob will change style and David too. foo@gmail.com And the magic number is 42! #react #react-native",
+              '[@michael:51515151] Hello this is an example of the ParsedText, links like http://www.google.com or http://www.facebook.com are clickable and phone number 444-555-6666 can call too. But you can also do more with this package, for example Bob will change style and David too. foo@gmail.com And the magic number is 42! #react #react-native',
           sender: sender,
           receiver: receiver,
           timestamp: DateTime.now(),

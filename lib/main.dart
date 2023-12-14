@@ -55,7 +55,7 @@ class LoggerProvider extends ProviderObserver {
   ) {
     Logger.log(
       '[${provider.name ?? provider.runtimeType}]',
-      tag: "didUpdateProvider",
+      tag: 'didUpdateProvider',
     );
   }
 
@@ -67,7 +67,7 @@ class LoggerProvider extends ProviderObserver {
   ) {
     Logger.log(
       '[${provider.name ?? provider.runtimeType}]',
-      tag: "didAddProvider",
+      tag: 'didAddProvider',
     );
   }
 
@@ -78,7 +78,7 @@ class LoggerProvider extends ProviderObserver {
   ) {
     Logger.log(
       '[${provider.name ?? provider.runtimeType}]',
-      tag: "didDisposeProvider",
+      tag: 'didDisposeProvider',
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gmo_media_picker/media_picker.dart';
+import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../core/utilities/utilities.dart';
@@ -30,7 +31,7 @@ class ZoomImageItem {
 
 String formatDuration(Duration duration) {
   return <int>[duration.inMinutes, duration.inSeconds]
-      .map((int e) => e.remainder(60).toString().padLeft(2, "0"))
+      .map((int e) => e.remainder(60).toString().padLeft(2, '0'))
       .join(':');
 }
 

@@ -138,7 +138,7 @@ class CategoryItem extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  category.split(" ").first,
+                  category.split(' ').first,
                   style: TextStyle(fontSize: 24.sp),
                 ),
               ),
@@ -146,7 +146,7 @@ class CategoryItem extends StatelessWidget {
           ),
           HeightBox(5.h),
           Text(
-            category.split(" ").last,
+            category.split(' ').last,
             style: context.labelMedium?.copyWith(
               fontWeight: FontWeight.w600,
             ),

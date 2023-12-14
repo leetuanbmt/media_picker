@@ -102,7 +102,6 @@ class _ChatAudioState extends State<ChatAudio> {
 
   @override
   Widget build(BuildContext context) {
-    Logger.log(isLoading, tag: "Loading");
     return Container(
       margin: const EdgeInsets.only(top: 5),
       padding: const EdgeInsets.all(5),

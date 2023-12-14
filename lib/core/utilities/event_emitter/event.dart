@@ -33,7 +33,7 @@ class EventsEmitter<T> extends EventsListenable<T> {
     bool listenSynchronized = false,
   }) : super(synchronized: listenSynchronized) {
     // clean up
-    onDispose(() async => await streamCtrl.close());
+    onDispose(() => streamCtrl.close());
   }
 
   @override
@@ -177,7 +177,7 @@ abstract class EventsListenable<T> extends Disposable {
       return await completer.future.timeout(
         duration,
         onTimeout:
-            onTimeout ?? () => throw TimeoutException("waitFor<$E> timed out"),
+            onTimeout ?? () => throw TimeoutException('waitFor<$E> timed out'),
       );
       // do not catch exceptions and pass it up
     } finally {

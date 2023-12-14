@@ -146,7 +146,8 @@ class MyPageAction extends StatelessWidget {
               ref.watch(myPageProvider.select((value) => value.isBlocked));
           return IconButton(
             onPressed: () {
-              (isBlocked || !isOnline) ? null : showOptionsAction(context, ref);
+              if (isBlocked || !isOnline) return;
+              showOptionsAction(context, ref);
             },
             icon: Icon(
               Icons.more_horiz_rounded,

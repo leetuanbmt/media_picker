@@ -51,8 +51,8 @@ class DeviceConnected extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> deviceConnected = [
-      {'device': 'ぬいぐるみ', "status": true},
-      {'device': '扇風機', "status": true},
+      {'device': 'ぬいぐるみ', 'status': true},
+      {'device': '扇風機', 'status': true},
     ];
 
     final style = context.bodyMedium!.copyWith(
@@ -347,7 +347,7 @@ class ListRankingUser extends StatelessWidget {
               child: ListView.builder(
                 itemCount: result.length,
                 scrollDirection: Axis.horizontal,
-                itemBuilder: ((context, index) {
+                itemBuilder: (context, index) {
                   return Padding(
                     padding: EdgeInsets.only(right: padding),
                     child: Stack(
@@ -385,7 +385,7 @@ class ListRankingUser extends StatelessWidget {
                       ],
                     ),
                   );
-                }),
+                },
               ),
             );
           },

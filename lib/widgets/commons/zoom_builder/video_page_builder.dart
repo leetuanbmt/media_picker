@@ -65,7 +65,7 @@ class _VideoPageBuilderState extends State<VideoPageBuilder>
     isLoading = widget.autoPlay;
     String? url = widget.url;
     if (widget.asset != null) {
-      url = (await widget.asset!.getMediaUrl())!;
+      url = await widget.asset!.getMediaUrl();
     } else {
       debugPrint('url ${widget.url}');
       debugPrint('thumbnail ${widget.thumbnail}');
