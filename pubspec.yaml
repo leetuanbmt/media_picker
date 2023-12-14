@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   photo_manager: ^2.7.2
+  photo_manager_image_provider: ^2.1.0
   provider: ^6.0.5
   video_player: ^2.7.2
 

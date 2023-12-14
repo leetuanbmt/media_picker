@@ -102,7 +102,7 @@ class AssetPickerConfig {
   /// @{macro media_picker.delegates.SortPathDelegate}
   final SortPathDelegate<AssetPathEntity>? sortPathDelegate;
 
-  /// {@template media_picker.constants.AssetPickerConfig.sortPathsByModifiedDate}
+  /// { media_picker.constants.AssetPickerConfig.sortPathsByModifiedDate}
   /// Whether to allow sort delegates to sort paths with
   /// [FilterOptionGroup.containsPathModified].
   /// [FilterOptionGroup.containsPathModified]
