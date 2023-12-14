@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:gmo_media_picker/media_picker.dart';
 
 import '../enum/enum.dart';
 import '../user/user_model.dart';
@@ -12,12 +13,16 @@ class Message with _$Message {
   const factory Message({
     required String id,
     @Default(MessageType.text) MessageType type,
-    required String message,
+    @Default('') String message,
     required DateTime timestamp,
     @Default(false) bool isRead,
     @Default(false) bool isMe,
     required UserModel sender,
     required UserModel receiver,
+    @Default([]) List<String> images,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    @Default([])
+    List<AssetEntity> assets,
   }) = _Message;
 
   factory Message.fromJson(Map<String, dynamic> json) =>

@@ -1,3 +1,5 @@
+import 'package:flutter_portal/flutter_portal.dart';
+
 import 'core/config.dart';
 import 'core/utilities/language.dart';
 import 'core/utilities/navigator.dart';
@@ -36,11 +38,13 @@ class RootApp extends StatelessWidget {
                   navigatorObservers: () => [MyObserver()],
                 ),
                 builder: (context, child) {
-                  return MediaQuery(
-                    data: MediaQuery.of(context).copyWith(
-                      textScaleFactor: 1.0,
+                  return Portal(
+                    child: MediaQuery(
+                      data: MediaQuery.of(context).copyWith(
+                        textScaler: const TextScaler.linear(1.0),
+                      ),
+                      child: LoadingWrapperScreen(child!),
                     ),
-                    child: LoadingWrapperScreen(child!),
                   );
                 },
               );

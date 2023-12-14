@@ -48,10 +48,19 @@ class _ChartUrlState extends State<ChatUrl> with AutomaticKeepAliveClientMixin {
                 previewData: map[e.key.toString()],
                 text: e.value,
                 width: context.screenWidth,
+                onLinkPressed: (url) {
+                  _launchUrl(url);
+                },
               ),
             ),
           )
           .toList(),
     );
+  }
+
+  Future<void> _launchUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
   }
 }

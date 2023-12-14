@@ -4,13 +4,23 @@ class ChatImage extends StatelessWidget {
   const ChatImage(this.message, {super.key});
   final Message message;
 
-  List<String> get images => jsonDecode(message.message).cast<String>();
+  List<String> get images => message.images;
+
+  List<AssetEntity> get assets => message.assets;
+
+  int get total => assets.isEmpty ? images.length : assets.length;
+
+// than more 4 images
+  final aspectRatio = 4 / 3;
+
+  // 2 images
+  final aspectRatioTwo = 4 / 6;
 
   @override
   Widget build(BuildContext context) {
-    return switch (images.length) {
+    return switch (total) {
       0 => Dimensions.empty,
-      1 => _buildSingleImage(context, images[0]),
+      1 => _buildSingleImage(context),
       2 => _buildTwoImages(context),
       3 => _buildThreeImages(context),
       4 => _buildFourImages(context),
@@ -18,25 +28,13 @@ class ChatImage extends StatelessWidget {
     };
   }
 
-  Widget _buildSingleImage(BuildContext context, String image) {
-    return Container(
-      constraints: const BoxConstraints(
-        maxHeight: 200,
-        maxWidth: 200,
+  Widget _buildSingleImage(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: context.screenWidth * .8,
+        maxHeight: context.screenWidth * .8,
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: CacheImage(
-          image: image,
-          dimension: context.screenSize,
-          onTap: (_) {
-            ZoomMedia.show(
-              context,
-              files: [ZoomImageItem(path: image)],
-            );
-          },
-        ),
-      ),
+      child: _aspectRatioImage(context: context, index: 0),
     );
   }
 
@@ -51,38 +49,76 @@ class ChatImage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Expanded(child: _aspectRatioImage(images[0], 4 / 3, 0, context)),
+          Expanded(
+            child: _aspectRatioImage(
+              context: context,
+              index: 0,
+              ratio: aspectRatioTwo,
+            ),
+          ),
           _spacer(),
-          Expanded(child: _aspectRatioImage(images[1], 4 / 3, 1, context)),
+          Expanded(
+            child: _aspectRatioImage(
+              context: context,
+              index: 1,
+              ratio: aspectRatioTwo,
+            ),
+          ),
         ],
       ),
     );
   }
 
   Widget _buildThreeImages(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: context.screenWidth),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: _aspectRatioImage(images[0], 4 / 3, 0, context),
+    return LayoutBuilder(
+      builder: (_, BoxConstraints constraints) {
+        final width = constraints.maxWidth;
+
+        final height = width * 1.2;
+
+        final aspectRatio = width / height;
+
+        const mainAxisSpacing = 2;
+
+        final aspectRatio2 = width / (height - mainAxisSpacing);
+
+        return ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: context.screenWidth),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: _aspectRatioImage(
+                  context: context,
+                  index: 0,
+                  ratio: aspectRatio,
+                ),
+              ),
+              _spacer(),
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: <Widget>[
+                    _aspectRatioImage(
+                      context: context,
+                      index: 1,
+                      ratio: aspectRatio2,
+                    ),
+                    _spacer(),
+                    _aspectRatioImage(
+                      context: context,
+                      index: 2,
+                      ratio: aspectRatio2,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          _spacer(),
-          Expanded(
-            flex: 1,
-            child: Column(
-              children: <Widget>[
-                _aspectRatioImage(images[1], 4 / 3, 1, context),
-                _spacer(),
-                _aspectRatioImage(images[2], 4 / 3, 2, context),
-              ],
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -95,11 +131,19 @@ class ChatImage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Expanded(
-                child: _aspectRatioImage(images[0], 4 / 3, 0, context),
+                child: _aspectRatioImage(
+                  context: context,
+                  index: 0,
+                  ratio: aspectRatio,
+                ),
               ),
               _spacer(),
               Expanded(
-                child: _aspectRatioImage(images[1], 4 / 3, 1, context),
+                child: _aspectRatioImage(
+                  context: context,
+                  index: 1,
+                  ratio: aspectRatio,
+                ),
               ),
             ],
           ),
@@ -108,11 +152,19 @@ class ChatImage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Expanded(
-                child: _aspectRatioImage(images[2], 4 / 3, 2, context),
+                child: _aspectRatioImage(
+                  context: context,
+                  index: 2,
+                  ratio: aspectRatio,
+                ),
               ),
               _spacer(),
               Expanded(
-                child: _aspectRatioImage(images[3], 4 / 3, 3, context),
+                child: _aspectRatioImage(
+                  context: context,
+                  index: 3,
+                  ratio: aspectRatio,
+                ),
               ),
             ],
           ),
@@ -130,11 +182,19 @@ class ChatImage extends StatelessWidget {
           Row(
             children: <Widget>[
               Expanded(
-                child: _aspectRatioImage(images[0], 4 / 3, 0, context),
+                child: _aspectRatioImage(
+                  context: context,
+                  index: 0,
+                  ratio: aspectRatio,
+                ),
               ),
               _spacer(),
               Expanded(
-                child: _aspectRatioImage(images[1], 4 / 3, 1, context),
+                child: _aspectRatioImage(
+                  context: context,
+                  index: 1,
+                  ratio: aspectRatio,
+                ),
               ),
             ],
           ),
@@ -142,17 +202,29 @@ class ChatImage extends StatelessWidget {
           Row(
             children: <Widget>[
               Expanded(
-                child: _aspectRatioImage(images[2], 4 / 3, 2, context),
+                child: _aspectRatioImage(
+                  context: context,
+                  index: 2,
+                  ratio: aspectRatio,
+                ),
               ),
               _spacer(),
               Expanded(
-                child: _aspectRatioImage(images[3], 4 / 3, 3, context),
+                child: _aspectRatioImage(
+                  context: context,
+                  index: 3,
+                  ratio: aspectRatio,
+                ),
               ),
               _spacer(),
               Expanded(
                 child: _plusMorePictures(
-                  valueCount: images.length - 5,
-                  child: _aspectRatioImage(images[4], 4 / 3, 4, context),
+                  valueCount: total - 5,
+                  child: _aspectRatioImage(
+                    context: context,
+                    index: 4,
+                    ratio: aspectRatio,
+                  ),
                   context: context,
                 ),
               ),
@@ -177,7 +249,7 @@ class ChatImage extends StatelessWidget {
           child,
           InkWell(
             child: AspectRatio(
-              aspectRatio: 1,
+              aspectRatio: aspectRatio,
               child: Container(
                 color: Colors.white.withOpacity(0.5),
                 child: Center(
@@ -188,36 +260,57 @@ class ChatImage extends StatelessWidget {
                 ),
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              PreviewMedia.show(
+                context,
+                index: 4,
+                assets: assets.isEmpty ? null : assets,
+                files: assets.isNotEmpty
+                    ? null
+                    : images.map((e) => ZoomImageItem(path: e)).toList(),
+              );
+            },
           ),
         ],
       );
     }
   }
 
-  Widget _aspectRatioImage(
-    String image,
-    double ratio,
-    int index,
-    BuildContext context,
-  ) {
-    return AspectRatio(
-      aspectRatio: ratio,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: CacheImage(
-          image: image,
-          dimension: context.screenSize,
-          onTap: (tag) {
-            ZoomMedia.show(
-              context,
-              index: index,
-              files:
-                  images.map((e) => ZoomImageItem(path: e, tag: tag)).toList(),
-            );
-          },
-        ),
-      ),
+  Widget _aspectRatioImage({
+    required BuildContext context,
+    required int index,
+    double? ratio,
+  }) {
+    final child = ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: assets.isNotEmpty
+          ? GestureDetector(
+              child: Image(
+                fit: BoxFit.cover,
+                image: AssetEntityImageProvider(
+                  assets.elementAt(index),
+                  isOriginal: false,
+                ),
+              ),
+              onTap: () {
+                PreviewMedia.show(context, index: index, assets: assets);
+              },
+            )
+          : CacheImage(
+              image: images.elementAt(index),
+              dimension: context.screenSize,
+              onTap: (tag) {
+                final list = images
+                    .map((e) => ZoomImageItem(path: e, tag: tag))
+                    .toList();
+                PreviewMedia.show(context, index: index, files: list);
+              },
+            ),
     );
+    if (ratio != null) {
+      return AspectRatio(aspectRatio: ratio, child: child);
+    } else {
+      return child;
+    }
   }
 }

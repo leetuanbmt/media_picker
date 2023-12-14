@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../core/config.dart';
@@ -80,8 +78,8 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => Future.value(false),
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         body: SafeArea(
           top: false,

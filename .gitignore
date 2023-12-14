@@ -52,3 +52,4 @@ app.*.map.json
 *.freezed.dart
 **lib/gen/
 **lib/generated/
+**server/node_modules/

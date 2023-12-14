@@ -40,7 +40,7 @@ class ChatVideo extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(0, 5, 20, 5),
       child: InkWell(
         onTap: () {
-          ZoomMedia.show(
+          PreviewMedia.show(
             context,
             files: [
               ZoomImageItem(

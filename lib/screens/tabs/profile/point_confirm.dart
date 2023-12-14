@@ -19,7 +19,6 @@ class PointConfirmScreen extends HookConsumerWidget {
     final transfer =
         ref.watch(historyProvider.select((value) => value.transfer));
     final tabController = useTabController(initialLength: 3);
-
     return Scaffold(
       appBar: AppBarCustom(
         title: context.tr(LocaleKeys.checkPoints),

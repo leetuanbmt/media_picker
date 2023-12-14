@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../../core/config.dart';
 import '../../../../../core/models/models.dart';
 import '../../../../../gen/assets.gen.dart';
+import '../../../../../math_screen.dart';
 import '../../../../../providers/auth/auth_notify.dart';
 import '../../../../../routes/app_routes.gr.dart';
 import '../../my_stories.dart';
@@ -49,7 +50,9 @@ class ProfileDetail extends StatelessWidget {
           _ProfileItem(
             title: context.tr(LocaleKeys.paymentSettings),
             assetIcon: Assets.iconsIcCreditCard1.path,
-            onTap: () {},
+            onTap: () {
+              context.nextPage(const MathScreen());
+            },
           ),
           _ProfileItem(
             title: context.tr(LocaleKeys.accountSettings),
@@ -97,6 +100,85 @@ class ProfileDetail extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  sortItem(List<int> arr) {
+    int len = arr.length;
+    for (int i = 0; i < len - 1; i++) {
+      if (arr[i] > arr[i + 1]) {
+        int temp = arr[i];
+        arr[i] = arr[i + 1];
+        arr[i + 1] = temp;
+      }
+    }
+  }
+
+  void bubbleShort(List<int> list, int n) {
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (list[j] > list[j + 1]) {
+          int temp = list[j];
+          list[j] = list[j + 1];
+          list[j + 1] = temp;
+        }
+      }
+    }
+  }
+
+  void headSort(List<int> list, int n) {
+    for (int i = n ~/ 2 - 1; i >= 0; i--) {
+      heapify(list, n, i);
+    }
+    for (int i = n - 1; i >= 0; i--) {
+      int temp = list[0];
+      list[0] = list[i];
+      list[i] = temp;
+      heapify(list, i, 0);
+    }
+  }
+
+  void heapify(List<int> list, int n, int i) {
+    int largest = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+    if (l < n && list[l] > list[largest]) {
+      largest = l;
+    }
+    if (r < n && list[r] > list[largest]) {
+      largest = r;
+    }
+    if (largest != i) {
+      int swap = list[i];
+      list[i] = list[largest];
+      list[largest] = swap;
+      heapify(list, n, largest);
+    }
+  }
+
+  void selectionShort(List<int> list, int n) {
+    for (int i = 0; i < n - 1; i++) {
+      int minIndex = i;
+      for (int j = i + 1; j < n; j++) {
+        if (list[j] < list[minIndex]) {
+          minIndex = j;
+        }
+      }
+      int temp = list[minIndex];
+      list[minIndex] = list[i];
+      list[i] = temp;
+    }
+  }
+
+  void insertShort(List<int> list, int n) {
+    for (int i = 1; i < n; i++) {
+      int key = list[i];
+      int j = i - 1;
+      while (j >= 0 && list[j] > key) {
+        list[j + 1] = list[j];
+        j = j - 1;
+      }
+      list[j + 1] = key;
+    }
   }
 }
 
