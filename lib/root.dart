@@ -41,7 +41,7 @@ class RootApp extends StatelessWidget {
                   return Portal(
                     child: MediaQuery(
                       data: MediaQuery.of(context).copyWith(
-                        textScaleFactor: 1.0,
+                        textScaler: const TextScaler.linear(1.0),
                       ),
                       child: LoadingWrapperScreen(child!),
                     ),

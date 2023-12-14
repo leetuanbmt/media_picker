@@ -20,9 +20,9 @@ class LoadingManager {
       context: context,
       barrierDismissible: false,
       routeSettings: const RouteSettings(name: "LoadingManager"),
-      builder: (context) => WillPopScope(
-        onWillPop: () => Future.value(false),
-        child: const Center(child: Loading()),
+      builder: (context) => const PopScope(
+        canPop: false,
+        child: Center(child: Loading()),
       ),
     ).whenComplete(() {
       showLoading = false;

@@ -14,7 +14,7 @@ class MathScreen extends StatefulWidget {
 class _MathScreenState extends State<MathScreen> {
   final permutations = ValueNotifier<List>([]);
   List get permutationsValue => permutations.value;
-  List _items = [];
+  final List _items = [];
   @override
   void initState() {
     List<int> elements = [1, 2, 3];
