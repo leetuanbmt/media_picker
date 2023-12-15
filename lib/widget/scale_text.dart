@@ -32,12 +32,13 @@ class ScaleText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mqd = MediaQuery.of(context);
-    final double effectiveFactor = mqd.textScaleFactor.clamp(
-      minScaleFactor,
-      maxScaleFactor,
+    final textScaler = mqd.textScaler.clamp(
+      minScaleFactor: minScaleFactor,
+      maxScaleFactor: maxScaleFactor,
     );
+
     return MediaQuery(
-      data: mqd.copyWith(textScaleFactor: effectiveFactor),
+      data: mqd.copyWith(textScaler: textScaler),
       child: Text(
         text,
         style: style,
