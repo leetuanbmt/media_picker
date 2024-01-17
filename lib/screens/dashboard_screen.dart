@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../core/config.dart';
 import '../core/utilities/db_helper.dart';
-import '../gen/assets.gen.dart';
 import '../providers/user_provider.dart';
 import '../routes/app_routes.gr.dart';
 
@@ -113,11 +112,11 @@ class _BottomNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     final tabs = [
       TabItem(
-        title: context.tr(LocaleKeys.home),
+        title: context.lang.home,
         image: Assets.iconsIconHome.path,
       ),
       TabItem(
-        title: context.tr(LocaleKeys.search),
+        title: context.lang.search,
         image: Assets.iconsIconSearch.path,
       ),
       TabItem(
@@ -125,11 +124,11 @@ class _BottomNavigation extends StatelessWidget {
         image: Assets.iconsIconApp.path,
       ),
       TabItem(
-        title: context.tr(LocaleKeys.notification),
+        title: context.lang.notification,
         image: Assets.iconsIconNotifications.path,
       ),
       TabItem(
-        title: context.tr(LocaleKeys.myPage),
+        title: context.lang.myPage,
         image: Assets.iconsIconPerson.path,
       ),
     ];

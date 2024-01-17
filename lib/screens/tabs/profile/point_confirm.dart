@@ -1,7 +1,5 @@
 import '../../../core/config.dart';
 import '../../../core/models/models.dart';
-import '../../../gen/assets.gen.dart';
-import '../../../gen/fonts.gen.dart';
 import '../../../providers/history_provider.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
 import 'widgets/point_confirm/point_confirm_detail.dart';
@@ -21,7 +19,7 @@ class PointConfirmScreen extends HookConsumerWidget {
     final tabController = useTabController(initialLength: 3);
     return Scaffold(
       appBar: AppBarCustom(
-        title: context.tr(LocaleKeys.checkPoints),
+        title: context.lang.checkPoints,
       ),
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -77,7 +75,7 @@ class HistoryItem extends StatelessWidget {
     Color pointColor = switch (history.type) {
       HistoryType.tip => const Color(0xffF4BF1A),
       HistoryType.purchase => const Color(0xffFF9687),
-      _ => AppTheme.primaryColor,
+      _ => context.primaryColor,
     };
     return InkWell(
       onTap: () {},

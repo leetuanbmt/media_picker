@@ -1,7 +1,6 @@
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../../../core/config.dart';
-import '../../../../../gen/assets.gen.dart';
 
 class MyPageDialog {
   void showDiaLogSuccess(BuildContext context) {
@@ -52,7 +51,7 @@ class MyPageDialog {
                   height: 36.h,
                 ),
                 Text(
-                  context.tr(LocaleKeys.spentAllPoint),
+                  context.lang.spentAllPoint,
                   style: context.titleLarge!.copyWith(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w600,
@@ -99,7 +98,7 @@ class DelayDialog extends StatelessWidget {
               radius: 110.r,
               lineWidth: 20.r,
               backgroundColor: const Color(0xffE0E0E0),
-              progressColor: AppTheme.primaryColor,
+              progressColor: context.primaryColor,
               percent: 1,
               circularStrokeCap: CircularStrokeCap.round,
               animation: true,
@@ -113,7 +112,7 @@ class DelayDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    context.tr(LocaleKeys.untilReceivePoints),
+                    context.lang.untilReceivePoints,
                     style: style.copyWith(
                       color: AppTheme.fontGrayLead,
                     ),
@@ -121,10 +120,7 @@ class DelayDialog extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        context.tr(LocaleKeys.after),
-                        style: style,
-                      ),
+                      Text(context.lang.after, style: style),
                       SizedBox(
                         width: 5.w,
                       ),
@@ -135,10 +131,7 @@ class DelayDialog extends StatelessWidget {
                       SizedBox(
                         width: 3.w,
                       ),
-                      Text(
-                        context.tr(LocaleKeys.seconds),
-                        style: style,
-                      ),
+                      Text(context.lang.seconds, style: style),
                     ],
                   ),
                 ],
@@ -152,13 +145,13 @@ class DelayDialog extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               child: Text(
-                context.tr(LocaleKeys.cancel),
+                context.lang.cancel,
                 style: context.titleSmall!.copyWith(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
-                  color: AppTheme.primaryColor,
+                  color: context.primaryColor,
                   decoration: TextDecoration.underline,
-                  decorationColor: AppTheme.primaryColor,
+                  decorationColor: context.primaryColor,
                 ),
               ),
             ),
@@ -227,7 +220,7 @@ class AutoDialog extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                context.tr(LocaleKeys.remaining),
+                                context.lang.remaining,
                                 style: style,
                               ),
                               Text(
@@ -312,13 +305,13 @@ class AutoDialog extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               child: Text(
-                context.tr(LocaleKeys.cancel),
+                context.lang.cancel,
                 style: context.titleSmall!.copyWith(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
-                  color: AppTheme.primaryColor,
+                  color: context.primaryColor,
                   decoration: TextDecoration.underline,
-                  decorationColor: AppTheme.primaryColor,
+                  decorationColor: context.primaryColor,
                 ),
               ),
             ),

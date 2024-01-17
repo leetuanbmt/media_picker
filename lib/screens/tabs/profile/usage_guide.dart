@@ -11,7 +11,7 @@ class UsageGuideScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBarCustom(
-        title: context.tr(LocaleKeys.usageGuide),
+        title: context.lang.usageGuide,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -26,7 +26,7 @@ class UsageGuideScreen extends StatelessWidget {
                 ),
               ),
               child: ListTile(
-                title: Text(context.tr(LocaleKeys.usageFlow)),
+                title: Text(context.lang.usageFlow),
                 trailing: const Icon(
                   Icons.keyboard_arrow_right,
                   color: AppTheme.fontGray,
@@ -47,7 +47,7 @@ class UsageGuideScreen extends StatelessWidget {
                 ),
               ),
               child: ListTile(
-                title: Text(context.tr(LocaleKeys.howToPlayGuide)),
+                title: Text(context.lang.howToPlayGuide),
                 trailing: const Icon(
                   Icons.keyboard_arrow_right,
                   color: AppTheme.fontGray,
@@ -67,7 +67,7 @@ class UsageGuideScreen extends StatelessWidget {
                 ),
               ),
               child: ListTile(
-                title: Text(context.tr(LocaleKeys.inquiry)),
+                title: Text(context.lang.inquiry),
                 trailing: const Icon(
                   Icons.keyboard_arrow_right,
                   color: AppTheme.fontGray,
@@ -84,7 +84,7 @@ class UsageGuideScreen extends StatelessWidget {
                 ),
               ),
               child: ListTile(
-                title: Text(context.tr(LocaleKeys.termsOfService)),
+                title: Text(context.lang.termsOfService),
                 trailing: const Icon(
                   Icons.keyboard_arrow_right,
                   color: AppTheme.fontGray,
@@ -96,7 +96,7 @@ class UsageGuideScreen extends StatelessWidget {
                 color: Colors.white,
               ),
               child: ListTile(
-                title: Text(context.tr(LocaleKeys.termsOfService)),
+                title: Text(context.lang.termsOfService),
                 trailing: const Icon(
                   Icons.keyboard_arrow_right,
                   color: AppTheme.fontGray,

@@ -1,5 +1,4 @@
 import '../../../../../core/config.dart';
-import '../../../../../gen/assets.gen.dart';
 import '../../../../../widgets/commons/button_custom.dart';
 
 class PointConfirmHeader extends HookWidget {
@@ -87,7 +86,7 @@ class _PointSlider extends StatelessWidget {
                 ),
                 SizedBox(width: 5.w),
                 Text(
-                  context.tr(LocaleKeys.pointEarned),
+                  context.lang.pointEarned,
                   style: context.titleSmall?.copyWith(
                     color: AppTheme.fontGrayLead,
                     fontSize: 12.sp,
@@ -125,7 +124,7 @@ class _PointSlider extends StatelessWidget {
               ),
             ),
             ButtonCustom(
-              context.tr(LocaleKeys.convertToTipPoints),
+              context.lang.convertToTipPoints,
               height: 36.h,
               width: double.infinity,
               onPressed: () {},

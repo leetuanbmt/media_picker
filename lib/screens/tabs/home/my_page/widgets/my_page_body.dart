@@ -1,6 +1,5 @@
 import '../../../../../core/config.dart';
 import '../../../../../core/models/enum/enum.dart';
-import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../routes/app_routes.gr.dart';
 import '../../../../../widgets/commons/commons.dart';
@@ -22,11 +21,11 @@ class DeviceConnected extends StatelessWidget {
             SnackBar(
               content: Center(
                 child: Text(
-                  context.tr(LocaleKeys.controlRequestSent),
+                  context.lang.controlRequest,
                   style: context.bodyMedium!.copyWith(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
-                    color: AppTheme.primaryColor,
+                    color: context.primaryColor,
                   ),
                 ),
               ),
@@ -84,7 +83,7 @@ class DeviceConnected extends StatelessWidget {
             height: 18.h,
           ),
           Text(
-            context.tr(LocaleKeys.connectedDevices),
+            context.lang.connectDevices,
             style: style.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -127,7 +126,7 @@ class DeviceConnected extends StatelessWidget {
                 );
                 return status == RequestControlStatus.requestControl
                     ? ButtonCustom(
-                        context.tr(LocaleKeys.controlRequest),
+                        context.lang.controlRequest,
                         height: 32.h,
                         width: 212.w,
                         type: ButtonType.outline,
@@ -138,19 +137,17 @@ class DeviceConnected extends StatelessWidget {
                       )
                     : status == RequestControlStatus.requesting
                         ? ButtonCustom(
-                            context.tr(LocaleKeys.requesting),
+                            context.lang.requesting,
                             height: 32.h,
                             width: 212.w,
-                            backgroundColor:
-                                AppTheme.primaryColor.withOpacity(0.8),
+                            backgroundColor: context.primary.withOpacity(0.8),
                             onPressed: () {},
                           )
                         : ButtonCustom(
-                            context.tr(LocaleKeys.underControl),
+                            context.lang.underControl,
                             height: 32.h,
                             width: 212.h,
-                            backgroundColor:
-                                AppTheme.primaryColor.withOpacity(0.8),
+                            backgroundColor: context.primary.withOpacity(0.8),
                             onPressed: () {
                               context.router.push(const DeviceConnectedRoute());
                             },
@@ -217,7 +214,7 @@ class HistoryDonate extends StatelessWidget {
                   style: style.copyWith(
                     color: lastDonate
                         ? const Color(0xff8F3FFC)
-                        : AppTheme.primaryColor,
+                        : context.primaryColor,
                   ),
                 ),
                 TextSpan(
@@ -271,7 +268,7 @@ class UserNotification extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '$date${context.tr(LocaleKeys.day)}',
+                  '$date${context.lang.day}',
                   style: style.copyWith(
                     fontSize: 10.sp,
                   ),
@@ -282,7 +279,7 @@ class UserNotification extends StatelessWidget {
                     style: style.copyWith(fontSize: 18.sp),
                     children: [
                       TextSpan(
-                        text: context.tr(LocaleKeys.month),
+                        text: context.lang.month,
                         style: style.copyWith(fontSize: 10.sp),
                       ),
                     ],
@@ -430,7 +427,7 @@ class ListFollowUser extends StatelessWidget {
                   width: 48.w,
                   height: 28.h,
                   decoration: BoxDecoration(
-                    color: AppTheme.primaryColor,
+                    color: context.primaryColor,
                     borderRadius: BorderRadius.all(Radius.circular(100.r)),
                   ),
                   child: Center(

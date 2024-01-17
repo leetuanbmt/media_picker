@@ -19,7 +19,7 @@ class RegisterBankAccountScreen extends StatelessWidget {
               height: 40.h,
             ),
             Text(
-              context.tr(LocaleKeys.registerYourStripeAccount),
+              context.lang.registerYourStripeAccount,
               textAlign: TextAlign.center,
               style: context.titleLarge!.copyWith(
                 fontSize: 20.sp,
@@ -31,7 +31,7 @@ class RegisterBankAccountScreen extends StatelessWidget {
               height: 16.h,
             ),
             Text(
-              context.tr(LocaleKeys.registerAccountWithdrawPoint),
+              context.lang.registerAccountWithdrawPoint,
               style: context.bodyMedium!.copyWith(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w300,
@@ -42,7 +42,7 @@ class RegisterBankAccountScreen extends StatelessWidget {
               height: 52.h,
             ),
             ButtonCustom(
-              context.tr(LocaleKeys.signUp),
+              context.lang.signUp,
               fontSize: 15.sp,
               height: 48.h,
               width: 327.w,
@@ -55,7 +55,7 @@ class RegisterBankAccountScreen extends StatelessWidget {
                 Consumer(
                   builder: (context, ref, child) {
                     return ButtonCustom(
-                      context.tr(LocaleKeys.skip),
+                      context.lang.skip,
                       fontSize: 15.sp,
                       height: 48.h,
                       width: 162.w,

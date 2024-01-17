@@ -1,5 +1,4 @@
 import '../../../core/config.dart';
-import '../../../gen/assets.gen.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
 import '../../../widgets/commons/measure_size.dart';
 
@@ -19,7 +18,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBarCustom(
-        title: context.tr(LocaleKeys.usageFlow),
+        title: context.lang.usageFlow,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
@@ -34,7 +33,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                   padding: EdgeInsets.only(bottom: 3.h),
                   child: RichText(
                     text: TextSpan(
-                      text: context.tr(LocaleKeys.fan),
+                      text: context.lang.fan,
                       style: context.titleMedium?.copyWith(
                         color: AppTheme.pink,
                         fontSize: 20.sp,
@@ -42,7 +41,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                       ),
                       children: [
                         TextSpan(
-                          text: context.tr(LocaleKeys.enjoyAs),
+                          text: context.lang.enjoyAs,
                           style: context.titleMedium?.copyWith(
                             fontSize: 15.sp,
                             color: Colors.black,
@@ -61,17 +60,17 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _UseGuideFlow(
-                  title: context.tr(LocaleKeys.buyPoints),
+                  title: context.lang.buyPoints,
                   color: AppTheme.pink1,
                   image: Assets.imagesFlowStep1.image(),
                 ),
                 _UseGuideFlow(
-                  title: context.tr(LocaleKeys.findCreators),
+                  title: context.lang.findCreators,
                   color: AppTheme.pink1,
                   image: Assets.imagesFlowStep2.image(),
                 ),
                 _UseGuideFlow(
-                  title: context.tr(LocaleKeys.donateMoney),
+                  title: context.lang.donateMoney,
                   color: AppTheme.pink1,
                   image: Assets.imagesFlowStep3.image(),
                 ),
@@ -86,7 +85,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                   });
                 },
                 child: Text(
-                  context.tr(LocaleKeys.controlRequest),
+                  context.lang.controlRequest,
                   style: context.titleLarge?.copyWith(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w700,
@@ -100,7 +99,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
               padding: EdgeInsets.only(bottom: 3.h),
               child: RichText(
                 text: TextSpan(
-                  text: context.tr(LocaleKeys.fan),
+                  text: context.lang.fan,
                   style: context.titleMedium?.copyWith(
                     color: AppTheme.purple,
                     fontSize: 20.sp,
@@ -108,7 +107,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                   ),
                   children: [
                     TextSpan(
-                      text: context.tr(LocaleKeys.enjoyAs),
+                      text: context.lang.enjoyAs,
                       style: context.titleMedium?.copyWith(
                         fontSize: 15.sp,
                         color: Colors.black,
@@ -124,17 +123,17 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _UseGuideFlow(
-                  title: context.tr(LocaleKeys.connectDevices),
+                  title: context.lang.connectDevices,
                   color: AppTheme.fontBlue1,
                   image: Assets.imagesFlowStep4.image(),
                 ),
                 _UseGuideFlow(
-                  title: context.tr(LocaleKeys.callTheFans),
+                  title: context.lang.callTheFans,
                   color: AppTheme.fontBlue1,
                   image: Assets.imagesFlowStep5.image(),
                 ),
                 _UseGuideFlow(
-                  title: context.tr(LocaleKeys.getATip),
+                  title: context.lang.getATip,
                   color: AppTheme.fontBlue1,
                   image: Assets.imagesFlowStep6.image(),
                 ),
@@ -149,7 +148,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                   });
                 },
                 child: Text(
-                  context.tr(LocaleKeys.tipsToEarnPoints),
+                  context.lang.tipsToEarnPoints,
                   style: context.titleLarge?.copyWith(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w700,
@@ -195,7 +194,7 @@ class _BubbleCustom extends StatelessWidget {
         ),
         padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
         child: Text(
-          context.tr(LocaleKeys.convertTipDescription),
+          context.lang.convertTipDescription,
           style: context.titleMedium?.copyWith(
             fontSize: 14.sp,
             fontWeight: FontWeight.w600,

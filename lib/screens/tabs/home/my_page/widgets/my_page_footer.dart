@@ -38,9 +38,7 @@ class MyPageFooter extends StatelessWidget {
 
     return Column(
       children: [
-        Divider(
-          color: AppTheme.primaryColor,
-        ),
+        Divider(color: context.primaryColor),
         SizedBox(
           height: 17.14.h,
         ),
@@ -49,7 +47,7 @@ class MyPageFooter extends StatelessWidget {
           children: [
             RichText(
               text: TextSpan(
-                text: context.tr(LocaleKeys.keep),
+                text: context.lang.keep,
                 style: style.copyWith(
                   color: AppTheme.fontGrayLead,
                 ),
@@ -59,7 +57,7 @@ class MyPageFooter extends StatelessWidget {
                     style: context.titleMedium!.copyWith(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
-                      color: AppTheme.primaryColor,
+                      color: context.primaryColor,
                     ),
                   ),
                   TextSpan(
@@ -85,7 +83,7 @@ class MyPageFooter extends StatelessWidget {
 
             return isFollowing
                 ? ButtonCustom(
-                    context.tr(LocaleKeys.sendPoints),
+                    context.lang.sendPoints,
                     height: 44.h,
                     width: 327.w,
                     fontSize: 15.sp,
@@ -99,14 +97,14 @@ class MyPageFooter extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ButtonCustom(
-                          context.tr(LocaleKeys.sendPoints),
+                          context.lang.sendPoints,
                           height: 44.h,
                           width: 208.w,
                           fontSize: 15.sp,
                           onPressed: () {},
                         ),
                         ButtonCustom(
-                          '+ ${context.tr(LocaleKeys.follow)}',
+                          '+ ${context.lang.follow}',
                           onPressed: () {
                             ref.read(myPageProvider).followUser(creator.id);
                           },
@@ -171,7 +169,7 @@ class DeviceControlling extends StatelessWidget {
         ),
         Center(
           child: Text(
-            '〇〇${context.tr(LocaleKeys.isControllingYourDevice)}',
+            '〇〇${context.lang.isControllingYourDevice}',
             style: context.bodySmall!.copyWith(
               fontWeight: FontWeight.w600,
               color: AppTheme.fontBoldLight,
@@ -185,7 +183,7 @@ class DeviceControlling extends StatelessWidget {
           padding: EdgeInsets.only(left: 131.5.w),
           child: RichText(
             text: TextSpan(
-              text: context.tr(LocaleKeys.remaining),
+              text: context.lang.remaining,
               style: context.labelLarge!.copyWith(
                 fontWeight: FontWeight.w600,
                 color: AppTheme.fontBoldLight,

@@ -28,7 +28,7 @@ class PointConfirmDetail extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: ButtonCustom(
-                    context.tr(LocaleKeys.toDay),
+                    context.lang.toDay,
                     onPressed: () {},
                     fontSize: 12.sp,
                     type: ButtonType.outline,
@@ -48,18 +48,18 @@ class PointConfirmDetail extends StatelessWidget {
                     elevation: 0,
                     shape: CircleBorder(
                       side: BorderSide(
-                        color: AppTheme.primaryColor,
+                        color: context.primaryColor,
                         width: 2.w,
                       ),
                     ),
                     child: Icon(
                       Icons.arrow_back_ios_new,
                       size: 15.sp,
-                      color: AppTheme.primaryColor,
+                      color: context.primaryColor,
                     ),
                   ),
                   Text(
-                    context.tr(LocaleKeys.thisMonth),
+                    context.lang.thisMonth,
                     style: context.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -72,14 +72,14 @@ class PointConfirmDetail extends StatelessWidget {
                       elevation: 0,
                       shape: CircleBorder(
                         side: BorderSide(
-                          color: AppTheme.primaryColor,
+                          color: context.primaryColor,
                           width: 2.w,
                         ),
                       ),
                       child: Icon(
                         Icons.arrow_forward_ios_rounded,
                         size: 15.sp,
-                        color: AppTheme.primaryColor,
+                        color: context.primaryColor,
                       ),
                     ),
                   ),
@@ -98,18 +98,18 @@ class PointConfirmDetail extends StatelessWidget {
                   indicator: UnderlineTabIndicator(
                     borderSide: BorderSide(
                       width: 2,
-                      color: AppTheme.primaryColor,
+                      color: context.primaryColor,
                     ),
                     insets: const EdgeInsets.fromLTRB(0.0, 0, 0, -.5),
                   ),
                   labelPadding: EdgeInsets.zero,
                   indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorColor: AppTheme.primaryColor,
+                  indicatorColor: context.primaryColor,
                   controller: tabController,
                   tabs: [
-                    Tab(text: context.tr(LocaleKeys.chipHistory)),
-                    Tab(text: context.tr(LocaleKeys.purchaseHistory)),
-                    Tab(text: context.tr(LocaleKeys.transferHistory)),
+                    Tab(text: context.lang.chipHistory),
+                    Tab(text: context.lang.purchaseHistory),
+                    Tab(text: context.lang.transferHistory),
                   ],
                 ),
               ),

@@ -1,5 +1,4 @@
 import '../core/config.dart';
-import '../gen/assets.gen.dart';
 
 class SearchAppBar extends StatefulWidget {
   const SearchAppBar({
@@ -48,7 +47,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
         focusNode: widget.focusNode,
         onChanged: widget.onChanged,
         decoration: InputDecoration(
-          hintText: context.tr(LocaleKeys.searchByUser),
+          hintText: context.lang.searchByUser,
           filled: true,
           fillColor: Colors.white,
           hintStyle: context.labelMedium?.copyWith(

@@ -1,7 +1,6 @@
-import 'dart:io';
+import 'package:flutter/foundation.dart';
 
 import '../../../core/config.dart';
-import '../../../gen/assets.gen.dart';
 
 enum SocialType {
   google,
@@ -61,7 +60,7 @@ class SocialList extends StatelessWidget {
     return Column(
       children: [
         Text(
-          context.tr(LocaleKeys.logInWithYourSNSAccount),
+          context.lang.logInWithYourSNSAccount,
           style: context.bodyMedium!.copyWith(
             color: AppTheme.blackBold,
             fontWeight: FontWeight.w600,
@@ -84,7 +83,7 @@ class SocialList extends StatelessWidget {
               type: SocialType.facebook,
             ),
             // only support IOS
-            if (Platform.isIOS)
+            if (defaultTargetPlatform == TargetPlatform.iOS)
               SocialButton(
                 onPressed: loginApple,
                 type: SocialType.apple,

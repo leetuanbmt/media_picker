@@ -12,7 +12,7 @@ class MainScreen extends ConsumerWidget {
     final activity = ref.watch(activityProvider);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppTheme.primaryColor,
+        backgroundColor: context.primaryColor,
         title: const Text('Main'),
       ),
       body: RefreshIndicator.adaptive(

@@ -21,7 +21,6 @@ class EditItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
         border: Border(
           top: const BorderSide(color: AppTheme.textiked),
           bottom: isLastItem

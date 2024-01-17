@@ -48,11 +48,11 @@ class ListCreator extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    context.tr(LocaleKeys.seeMore),
+                    context.lang.seeMore,
                     style: context.labelMedium?.copyWith(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
-                      color: AppTheme.primaryColor,
+                      color: context.primaryColor,
                     ),
                   ),
                   onPressed: () {

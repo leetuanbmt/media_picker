@@ -1,8 +1,8 @@
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../core/config.dart';
-import '../../widgets/commons/cache_image.dart';
-import '../../widgets/commons/keep_alive_wrapper.dart';
+import '../../widgets/commons/commons.dart';
+import '../contact_list.dart';
 
 final listKey = GlobalKey<AnimatedListState>();
 
@@ -48,7 +48,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(context.tr(LocaleKeys.notification)),
+        title: Text(context.lang.notification),
       ),
       body: Column(
         children: [
@@ -65,16 +65,16 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
               indicator: UnderlineTabIndicator(
                 borderSide: BorderSide(
                   width: 2,
-                  color: AppTheme.primaryColor,
+                  color: context.primaryColor,
                 ),
                 insets: const EdgeInsets.fromLTRB(0.0, 0, 0, -1),
               ),
               labelPadding: EdgeInsets.zero,
               indicatorSize: TabBarIndicatorSize.tab,
-              indicatorColor: AppTheme.primaryColor,
+              indicatorColor: context.primaryColor,
               controller: tabController,
               tabs: [
-                Tab(text: context.tr(LocaleKeys.delivery)),
+                Tab(text: context.lang.delivery),
                 const Tab(text: '店舖'),
               ],
             ),
@@ -99,9 +99,19 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
                     ),
                   ),
                 ),
-                const Center(
-                  child: Text('Maintenance'),
-                ),
+                Center(
+                  child: ButtonCustom(
+                    'Go to Contact List',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ContactList(),
+                        ),
+                      );
+                    },
+                  ),
+                )
               ],
             ),
           ),

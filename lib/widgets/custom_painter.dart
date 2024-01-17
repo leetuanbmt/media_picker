@@ -4,10 +4,12 @@ class CustomDecoration extends Decoration {
   final Color? backgroundColor;
   final double frameSFactor;
   final double? gap;
+  final Color primaryColor;
 
   const CustomDecoration({
     this.backgroundColor = Colors.transparent,
     required this.frameSFactor,
+    required this.primaryColor,
     this.gap,
   });
   @override
@@ -16,6 +18,7 @@ class CustomDecoration extends Decoration {
       backgroundColor: backgroundColor!,
       frameSFactor: frameSFactor,
       padding: gap ?? 0,
+      primaryColor: primaryColor,
     );
   }
 }
@@ -24,11 +27,12 @@ class CustomDecorationPainter extends BoxPainter {
   final Color backgroundColor;
   final double frameSFactor;
   final double padding;
-
+  final Color primaryColor;
   CustomDecorationPainter({
     required this.backgroundColor,
     required this.frameSFactor,
     required this.padding,
+    required this.primaryColor,
   });
 
   @override
@@ -48,7 +52,7 @@ class CustomDecorationPainter extends BoxPainter {
       paint..color = Colors.transparent,
     );
 
-    paint.color = AppTheme.primaryColor;
+    paint.color = primaryColor;
 
     /// top left
     canvas.drawLine(

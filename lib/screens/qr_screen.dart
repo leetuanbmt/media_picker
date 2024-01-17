@@ -15,8 +15,8 @@ class QRScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.fontBoldLight,
       appBar: AppBar(
-        backgroundColor: AppTheme.primaryColor,
-        title: Text(context.tr(LocaleKeys.QRCode)),
+        backgroundColor: context.primaryColor,
+        title: Text(context.lang.qrCode),
         leading: const BackButton(),
       ),
       body: Column(
@@ -28,7 +28,7 @@ class QRScreen extends StatelessWidget {
           ),
           SizedBox(height: 60.h),
           Text(
-            context.tr(LocaleKeys.reading),
+            context.lang.reading,
             style: context.titleMedium?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w600,
@@ -38,7 +38,10 @@ class QRScreen extends StatelessWidget {
             height: context.screenWidth - 26.h,
             alignment: Alignment.center,
             margin: EdgeInsets.symmetric(horizontal: 26.w, vertical: 35.h),
-            decoration: const CustomDecoration(frameSFactor: .13),
+            decoration: CustomDecoration(
+              frameSFactor: .13,
+              primaryColor: context.primaryColor,
+            ),
             child: SizedBox.square(
               dimension: 260.h,
               child: MobileScanner(

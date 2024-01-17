@@ -39,14 +39,18 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+			<key>NSAllowsArbitraryLoadsForMedia</key>
+			<true/>
+		</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) Camera Usage!</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) Microphone Usage!</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) Photo Library Usage!</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -85,7 +89,7 @@
 	</array>
 	<key>FacebookAutoLogAppEventsEnabled</key>
 	<false/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>In order to access your photo library</string>
+	<key>FLTEnableImpeller</key>
+ 	<false />
 </dict>
 </plist>

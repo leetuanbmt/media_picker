@@ -22,7 +22,7 @@ class RegisterTopicScreen extends StatelessWidget {
             height: 37.h,
           ),
           Text(
-            context.tr(LocaleKeys.purposeUse),
+            context.lang.purposeUse,
             style: context.titleLarge!.copyWith(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,
@@ -73,12 +73,12 @@ class RegisterTopicScreen extends StatelessWidget {
                     registerProvider.select((value) => value.checkUsageEmpty),
                   );
                   return ButtonCustom(
-                    context.tr(LocaleKeys.toTheNext),
+                    context.lang.toTheNext,
                     height: 48.h,
                     width: 162.w,
                     backgroundColor: isActiveButton
                         ? AppTheme.middleGray
-                        : AppTheme.primaryColor,
+                        : context.primaryColor,
                     onPressed: () {
                       if (isActiveButton) return;
                       onNextPage();

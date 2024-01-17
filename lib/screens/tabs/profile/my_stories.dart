@@ -27,6 +27,7 @@ final storyProvider = StreamProvider<List<StoryModel>>(
   },
 );
 
+@RoutePage()
 class MyStoriesScreen extends ConsumerWidget {
   const MyStoriesScreen({super.key});
   void openStory(
@@ -65,7 +66,7 @@ class MyStoriesScreen extends ConsumerWidget {
   void insertStory() async {
     // FirebaseFirestore.instance
     //     .collection(DbCollection.users)
-    //     .doc('y1kEuKFdz5bH6zSkLslOLhhibRo1')
+    //     .doc('')
     //     .collection(DbCollection.stories)
     //     .get()
     //     .then((value) {

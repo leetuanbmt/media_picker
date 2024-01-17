@@ -1,5 +1,4 @@
 import '../../../../core/config.dart';
-import '../../../../gen/assets.gen.dart';
 
 class RegisterSuccessDialog {
   void showSuccessDialog(BuildContext context) {
@@ -23,7 +22,7 @@ class RegisterSuccessDialog {
                   height: 40.01.h,
                 ),
                 Text(
-                  context.tr(LocaleKeys.registerCompleted),
+                  context.lang.registerCompleted,
                   style: context.bodyLarge!.copyWith(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w600,

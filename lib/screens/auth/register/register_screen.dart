@@ -48,13 +48,13 @@ class RegisterInformation extends StatelessWidget {
             text: TextSpan(
               style: style,
               children: <TextSpan>[
-                TextSpan(text: context.tr(LocaleKeys.byStartingFromAbove)),
+                TextSpan(text: context.lang.byStartingFromAbove),
                 TextSpan(
-                  text: context.tr(LocaleKeys.termsOfService),
-                  style: style.copyWith(color: AppTheme.primaryColor),
+                  text: context.lang.termsOfService,
+                  style: style.copyWith(color: context.primaryColor),
                   recognizer: TapGestureRecognizer()..onTap = () {},
                 ),
-                TextSpan(text: context.tr(LocaleKeys.IAgree)),
+                TextSpan(text: context.lang.iAgree),
               ],
             ),
           ),
@@ -65,12 +65,12 @@ class RegisterInformation extends StatelessWidget {
             text: TextSpan(
               children: <TextSpan>[
                 TextSpan(
-                  text: context.tr(LocaleKeys.alreadyHaveAccount),
+                  text: context.lang.alreadyHaveAccount,
                   style: style,
                 ),
                 TextSpan(
-                  text: context.tr(LocaleKeys.logIn),
-                  style: style.copyWith(color: AppTheme.primaryColor),
+                  text: context.lang.logIn,
+                  style: style.copyWith(color: context.primary),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       context.router.replace(LoginRoute());

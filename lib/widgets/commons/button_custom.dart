@@ -56,16 +56,16 @@ class ButtonCustom extends StatelessWidget {
     BorderSide side = switch (type) {
       ButtonType.outline => BorderSide(
           width: borderWidth,
-          color: borderColor ?? textColor ?? AppTheme.primaryColor,
+          color: borderColor ?? textColor ?? context.primaryColor,
         ),
       _ => BorderSide.none
     };
 
     Color bgColor = backgroundColor ??
-        (type == ButtonType.outline ? Colors.white : AppTheme.primaryColor);
+        (type == ButtonType.outline ? Colors.white : context.primaryColor);
 
     Color? titleColor = textColor ??
-        (type == ButtonType.outline ? AppTheme.primaryColor : Colors.white);
+        (type == ButtonType.outline ? context.primaryColor : Colors.white);
     return switch (type) {
       ButtonType.text => TextButton(
           style: TextButton.styleFrom(

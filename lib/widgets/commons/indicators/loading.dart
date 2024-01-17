@@ -1,8 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-
-import '../../../core/extensions/extension.dart';
+import '../../../core/config.dart';
 
 class Loading extends StatefulWidget {
   const Loading({super.key, this.radius = 30.0, this.dotRadius = 3.0});
@@ -92,7 +90,7 @@ class _ColorLoader3State extends State<Loading>
                     offset: const Offset(0.0, 0.0),
                     child: Dot(
                       radius: radius,
-                      color: context.primary,
+                      color: context.primaryColor,
                     ),
                   ),
                   Transform.translate(
@@ -102,7 +100,7 @@ class _ColorLoader3State extends State<Loading>
                     ),
                     child: Dot(
                       radius: dotRadius,
-                      color: context.primary.withOpacity(.5),
+                      color: context.primaryColor.withOpacity(.5),
                     ),
                   ),
                   Transform.translate(
@@ -112,7 +110,7 @@ class _ColorLoader3State extends State<Loading>
                     ),
                     child: Dot(
                       radius: dotRadius,
-                      color: context.primary,
+                      color: context.primaryColor,
                     ),
                   ),
                   Transform.translate(
@@ -122,7 +120,7 @@ class _ColorLoader3State extends State<Loading>
                     ),
                     child: Dot(
                       radius: dotRadius,
-                      color: context.primary.withOpacity(.5),
+                      color: context.primaryColor.withOpacity(.5),
                     ),
                   ),
                   Transform.translate(
@@ -132,7 +130,7 @@ class _ColorLoader3State extends State<Loading>
                     ),
                     child: Dot(
                       radius: dotRadius,
-                      color: context.primary,
+                      color: context.primaryColor,
                     ),
                   ),
                   Transform.translate(
@@ -142,7 +140,7 @@ class _ColorLoader3State extends State<Loading>
                     ),
                     child: Dot(
                       radius: dotRadius,
-                      color: context.primary.withOpacity(.5),
+                      color: context.primaryColor.withOpacity(.5),
                     ),
                   ),
                   Transform.translate(
@@ -152,7 +150,7 @@ class _ColorLoader3State extends State<Loading>
                     ),
                     child: Dot(
                       radius: dotRadius,
-                      color: context.primary,
+                      color: context.primaryColor,
                     ),
                   ),
                 ],

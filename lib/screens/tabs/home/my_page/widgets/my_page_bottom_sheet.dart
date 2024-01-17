@@ -1,6 +1,5 @@
 import '../../../../../core/config.dart';
 import '../../../../../core/models/enum/enum.dart';
-import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../widgets/commons/button_custom.dart';
 import 'widget.dart';
@@ -72,7 +71,7 @@ class ReportUserBottomSheet extends StatelessWidget {
               ),
             ),
             Text(
-              context.tr(LocaleKeys.userReports),
+              context.lang.userReports,
               style: context.headlineSmall!.copyWith(
                 fontWeight: FontWeight.w600,
                 color: const Color(0xff4F4F4F),
@@ -84,7 +83,7 @@ class ReportUserBottomSheet extends StatelessWidget {
             TextField(
               maxLines: 5,
               decoration: InputDecoration(
-                hintText: context.tr(LocaleKeys.reportViolationsByUser),
+                hintText: context.lang.reportViolationsByUser,
                 hintStyle: context.titleSmall!.copyWith(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w300,
@@ -104,7 +103,7 @@ class ReportUserBottomSheet extends StatelessWidget {
               child: Consumer(
                 builder: (context, ref, child) {
                   return ButtonCustom(
-                    context.tr(LocaleKeys.report),
+                    context.lang.report,
                     height: 48.h,
                     width: 327.w,
                     fontSize: 15.sp,
@@ -191,7 +190,7 @@ class SelectCoinBottomSheet extends ConsumerWidget {
               Column(
                 children: [
                   Text(
-                    context.tr(LocaleKeys.possessionPoints),
+                    context.lang.possessionPoints,
                     style: style.copyWith(
                       fontSize: 14.sp,
                       color: AppTheme.fontGrayLead,
@@ -226,7 +225,7 @@ class SelectCoinBottomSheet extends ConsumerWidget {
                 ],
               ),
               ButtonCustom(
-                context.tr(LocaleKeys.charge),
+                context.lang.charge,
                 onPressed: () {
                   showChargeSheet(context);
                 },
@@ -316,7 +315,7 @@ class SelectCoinBottomSheet extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SwitchButtonSetting(
-                    context.tr(LocaleKeys.delaySetting),
+                    context.lang.delaySetting,
                     ref.watch(
                       myPageProvider
                           .select((value) => value.delayController.text),
@@ -330,10 +329,8 @@ class SelectCoinBottomSheet extends ConsumerWidget {
                       MyPageBottomSheet().showBottomSheet(
                         context,
                         SettingBottomSheet(
-                          title: context.tr(
-                            LocaleKeys.delaySetting,
-                          ),
-                          content: context.tr(LocaleKeys.noteAboutDelaySetting),
+                          title: context.lang.delaySetting,
+                          content: context.lang.noteAboutAutoSetting,
                           controller: provider.delayController,
                           listItems: provider.delayItems,
                         ),
@@ -348,7 +345,7 @@ class SelectCoinBottomSheet extends ConsumerWidget {
                     width: 9.w,
                   ),
                   SwitchButtonSetting(
-                    context.tr(LocaleKeys.autoSetting),
+                    context.lang.autoSetting,
                     ref.watch(
                       myPageProvider
                           .select((value) => value.autoController.text),
@@ -362,10 +359,8 @@ class SelectCoinBottomSheet extends ConsumerWidget {
                       MyPageBottomSheet().showBottomSheet(
                         context,
                         SettingBottomSheet(
-                          title: context.tr(
-                            LocaleKeys.autoSetting,
-                          ),
-                          content: context.tr(LocaleKeys.noteAboutAutoSetting),
+                          title: context.lang.autoSetting,
+                          content: context.lang.noteAboutAutoSetting,
                           controller: provider.autoController,
                           listItems: provider.autoItems,
                         ),
@@ -408,7 +403,7 @@ class SelectCoinBottomSheet extends ConsumerWidget {
                 width: 12.w,
               ),
               Text(
-                context.tr(LocaleKeys.saveSettings),
+                context.lang.saveSettings,
                 style: style.copyWith(
                   fontSize: 14.sp,
                 ),
@@ -421,7 +416,7 @@ class SelectCoinBottomSheet extends ConsumerWidget {
           Padding(
             padding: EdgeInsets.only(bottom: context.screenPadding.bottom),
             child: ButtonCustom(
-              context.tr(LocaleKeys.sendPoints),
+              context.lang.sendPoints,
               height: 48.h,
               width: 327.w,
               onPressed: () {
@@ -467,7 +462,7 @@ class SelectChargeBottomSheet extends StatelessWidget {
             ),
           ),
           Text(
-            context.tr(LocaleKeys.possessionPoints),
+            context.lang.possessionPoints,
             style: context.titleSmall!.copyWith(
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
@@ -557,12 +552,12 @@ class SelectChargeBottomSheet extends StatelessWidget {
                 child: Consumer(
                   builder: (context, ref, child) {
                     return ButtonCustom(
-                      context.tr(LocaleKeys.buy),
+                      context.lang.buy,
                       width: 327.w,
                       height: 48.h,
                       backgroundColor: pointSelected.value == -1
                           ? AppTheme.middleGray
-                          : AppTheme.primaryColor,
+                          : context.primaryColor,
                       onPressed: () {
                         ref
                             .read(myPageProvider)
@@ -677,7 +672,7 @@ class SettingBottomSheet extends ConsumerWidget {
               return Padding(
                 padding: EdgeInsets.only(bottom: context.screenPadding.bottom),
                 child: ButtonCustom(
-                  context.tr(LocaleKeys.set),
+                  context.lang.set,
                   height: 48.h,
                   width: 327.w,
                   onPressed: () {
@@ -754,7 +749,7 @@ class ControlRequestBottomSheet extends ConsumerWidget {
               ),
             ),
             Text(
-              context.tr(LocaleKeys.controlRequestSettings),
+              context.lang.controlRequestSettings,
               style: context.titleLarge!.copyWith(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w600,
@@ -767,7 +762,7 @@ class ControlRequestBottomSheet extends ConsumerWidget {
             Padding(
               padding: EdgeInsets.only(left: 21.w),
               child: Text(
-                context.tr(LocaleKeys.possessionPoints),
+                context.lang.possessionPoints,
                 style: style,
               ),
             ),
@@ -806,7 +801,7 @@ class ControlRequestBottomSheet extends ConsumerWidget {
                   ],
                 ),
                 ButtonCustom(
-                  context.tr(LocaleKeys.charge),
+                  context.lang.charge,
                   onPressed: () {
                     showChargeSheet(context);
                   },
@@ -897,7 +892,7 @@ class ControlRequestBottomSheet extends ConsumerWidget {
                 : Padding(
                     padding: EdgeInsets.symmetric(vertical: 24.h),
                     child: Text(
-                      context.tr(LocaleKeys.requestRequires),
+                      context.lang.requestRequires,
                       style: style.copyWith(
                         color: const Color(0xffEB5757),
                       ),
@@ -909,7 +904,7 @@ class ControlRequestBottomSheet extends ConsumerWidget {
                   padding:
                       EdgeInsets.only(bottom: context.screenPadding.bottom),
                   child: ButtonCustom(
-                    context.tr(LocaleKeys.sendRequest),
+                    context.lang.sendRequest,
                     height: 42.h,
                     width: 327.w,
                     fontSize: 15.sp,
@@ -952,7 +947,7 @@ class ConfirmFinishBottomSheet extends StatelessWidget {
             height: 40.38.h,
           ),
           Text(
-            context.tr(LocaleKeys.confirmFinish),
+            context.lang.confirmFinish,
             style: context.titleLarge!.copyWith(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,
@@ -966,7 +961,7 @@ class ConfirmFinishBottomSheet extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                context.tr(LocaleKeys.remainingPoints),
+                context.lang.remainingPoints,
                 style: style,
               ),
               SizedBox(
@@ -990,10 +985,7 @@ class ConfirmFinishBottomSheet extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(top: 5.h),
-                child: Text(
-                  context.tr('pt'),
-                  style: style,
-                ),
+                child: Text('pt', style: style),
               ),
             ],
           ),
@@ -1006,7 +998,7 @@ class ConfirmFinishBottomSheet extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ButtonCustom(
-                  context.tr(LocaleKeys.cancel),
+                  context.lang.cancel,
                   height: 48.h,
                   width: 162.w,
                   borderWidth: 2.r,
@@ -1019,7 +1011,7 @@ class ConfirmFinishBottomSheet extends StatelessWidget {
                 Consumer(
                   builder: (context, ref, child) {
                     return ButtonCustom(
-                      context.tr(LocaleKeys.finish),
+                      context.lang.finish,
                       height: 48.h,
                       width: 162.w,
                       borderWidth: 2.r,

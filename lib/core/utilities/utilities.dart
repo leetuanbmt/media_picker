@@ -11,7 +11,6 @@ import 'package:share_plus/share_plus.dart';
 import '../config.dart';
 
 export 'db_helper.dart';
-export 'language.dart';
 export 'logger.dart';
 export 'preferences.dart';
 
@@ -28,7 +27,7 @@ class AppUtils {
       VxToast.show(
         context,
         msg: msg ?? '',
-        bgColor: AppTheme.primaryColor,
+        bgColor: context.primaryColor,
         textColor: Colors.white,
       );
     });

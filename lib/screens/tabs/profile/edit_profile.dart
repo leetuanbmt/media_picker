@@ -18,7 +18,7 @@ class EditProfileScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBarCustom(
-        title: context.tr(LocaleKeys.profileSettings),
+        title: context.lang.profileSettings,
       ),
       body: SingleChildScrollView(
         child: userFuture.when(

@@ -1,8 +1,9 @@
 import 'dart:ui';
 
 import '../../core/config.dart';
-import '../../providers/global_provider.dart';
 import '../../widgets/commons/indicators/loading.dart';
+
+final loadingProvider = StateProvider<bool>((ref) => false);
 
 class LoadingWrapperScreen extends HookConsumerWidget {
   const LoadingWrapperScreen(this.child, {super.key});

@@ -48,19 +48,19 @@ class ProfileHeader extends StatelessWidget {
                       Row(
                         children: [
                           _TagCustom(
-                            title: context.tr(LocaleKeys.delivery),
+                            title: context.lang.delivery,
                             color: context.primaryColor,
                           ),
                           SizedBox(width: 3.w),
                           _TagCustom(
-                            title: context.tr(LocaleKeys.category),
+                            title: context.lang.category,
                             color: const Color(0xff7B8AFF),
                           ),
                         ],
                       )
                     else
                       ButtonCustom(
-                        context.tr(LocaleKeys.ranking),
+                        context.lang.ranking,
                         height: 28.h,
                         backgroundColor: const Color(0xff8F3FFC),
                         onPressed: () {},
@@ -77,12 +77,12 @@ class ProfileHeader extends StatelessWidget {
                 child: Row(
                   children: [
                     _TagCustom(
-                      title: context.tr(LocaleKeys.delivery),
+                      title: context.lang.delivery,
                       color: context.primaryColor,
                     ),
                     SizedBox(width: 3.w),
                     _TagCustom(
-                      title: context.tr(LocaleKeys.category),
+                      title: context.lang.category,
                       color: const Color(0xff7B8AFF),
                     ),
                   ],
@@ -93,16 +93,16 @@ class ProfileHeader extends StatelessWidget {
             Row(
               children: [
                 FollowItem(
-                  title: context.tr(LocaleKeys.follow),
+                  title: context.lang.follow,
                   subTitle: user?.follow.toCompactCurrency ?? '',
                 ),
                 FollowItem(
-                  title: context.tr(LocaleKeys.followers),
+                  title: context.lang.followers,
                   subTitle: user?.followers.toCompactCurrency ?? '',
                   padding: EdgeInsets.only(left: 16.w, right: 16.w),
                 ),
                 FollowItem(
-                  title: context.tr(LocaleKeys.earnedPoints),
+                  title: context.lang.earnedPoints,
                   subTitle: user?.points.toCurrency ?? '',
                 ),
               ],

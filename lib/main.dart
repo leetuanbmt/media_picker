@@ -2,22 +2,33 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'core/config.dart';
-import 'core/utilities/preferences.dart';
+import 'core/utilities/persisted_state_notifier.dart';
 import 'firebase_options.dart';
 import 'root.dart';
 
 Future<void> initService() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-    await Future.wait([
-      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
-      Preferences.setPreferences(),
-      if (kReleaseMode)
-        SentryFlutter.init((options) => options.dsn = AppConfig.sentryDsn),
-    ]);
+
+    final hiveCacheDir = (await getApplicationSupportDirectory()).path;
+
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    // init hive
+    Hive.init(hiveCacheDir);
+
+    await PersistedStateNotifier.initializeBoxes(
+      path: hiveCacheDir,
+    );
+
+    if (kReleaseMode)
+      await SentryFlutter.init((options) => options.dsn = AppConfig.sentryDsn);
     // set image cache size
     PaintingBinding.instance.imageCache
       ..maximumSize = 1000
@@ -30,11 +41,14 @@ Future<void> initService() async {
 void main() async {
   runZonedGuarded(() async {
     await initService();
-
     runApp(
       const ProviderScope(
         // observers: [LoggerProvider()],
-        child: RootApp(),
+        child: ScreenUtilInit(
+          designSize: Size(375, 812),
+          minTextAdapt: false,
+          child: RootApp(),
+        ),
       ),
     );
   }, (exception, stackTrace) async {

@@ -1,7 +1,6 @@
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/config.dart';
-import '../../../../gen/assets.gen.dart';
 import '../../../../providers/my_page_provider.dart';
 import 'widgets/my_page_dialog.dart';
 import 'widgets/my_page_footer.dart';
@@ -42,7 +41,7 @@ class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          context.tr(LocaleKeys.callVideo_connecting),
+          context.lang.connecting,
           style: context.titleLarge!.copyWith(
             fontSize: 20.sp,
             fontWeight: FontWeight.w600,
@@ -88,7 +87,7 @@ class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
                     height: 18.h,
                   ),
                   Text(
-                    context.tr(LocaleKeys.connectedDevices),
+                    context.lang.connectDevices,
                     style: style.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -109,7 +108,7 @@ class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
                           height: 11.58.h,
                         ),
                         Text(
-                          context.tr(LocaleKeys.underControl),
+                          context.lang.underControl,
                           style: context.bodySmall!.copyWith(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
@@ -138,11 +137,11 @@ class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
                     onTap: () {},
                     child: Center(
                       child: Text(
-                        context.tr(LocaleKeys.addEquipment),
+                        context.lang.addEquipment,
                         style: style.copyWith(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w600,
-                          color: AppTheme.primaryColor,
+                          color: context.primaryColor,
                         ),
                       ),
                     ),

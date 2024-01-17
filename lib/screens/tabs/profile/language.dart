@@ -1,39 +1,46 @@
 import '../../../core/config.dart';
-import '../../../core/utilities/utilities.dart';
+import '../../../l10n/l10n.dart';
+import '../../../providers/user_preferences/user_preferences_provider.dart';
 import '../../../widgets/commons/button_custom.dart';
 
+@RoutePage()
 class LanguageScreen extends HookConsumerWidget {
   const LanguageScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final defaultLanguage = useState(AppLanguage.currentLanguage);
+    final preferences = ref.watch(userPreferencesProvider);
+    final preferencesNotifier = ref.watch(userPreferencesProvider.notifier);
+    final defaultLanguage = useState(preferences.locale);
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(context.tr(LocaleKeys.language)),
+        title: Text(context.lang.language),
       ),
       body: SafeArea(
         child: Column(
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: AppLanguage.supportLanguage.length,
+                itemCount: L10n.all.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final language = AppLanguage.supportLanguage[index];
+                  final language = L10n.all[index];
+                  final isoCodeName = LanguageLocals.getDisplayLanguage(
+                    language.languageCode,
+                  );
                   return ListTile(
                     title: Text(
-                      context.tr(language.value),
+                      '${isoCodeName.name} (${isoCodeName.nativeName})',
                       style: context.bodyLarge,
                     ),
-                    trailing: language.locale == defaultLanguage.value
+                    trailing: language == defaultLanguage.value
                         ? Icon(
                             Icons.check,
-                            color: AppTheme.primaryColor,
+                            color: context.primaryColor,
                           )
                         : null,
                     onTap: () {
-                      defaultLanguage.value = language.locale;
+                      defaultLanguage.value = language;
                     },
                   );
                 },
@@ -42,12 +49,12 @@ class LanguageScreen extends HookConsumerWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
               child: ButtonCustom(
-                context.tr(LocaleKeys.save),
+                context.lang.save,
                 width: double.infinity,
                 height: 44.h,
                 onPressed: () {
                   final locale = defaultLanguage.value;
-                  AppLanguage.changeLanguage(context, locale);
+                  preferencesNotifier.setLocale(locale);
                 },
               ),
             ),

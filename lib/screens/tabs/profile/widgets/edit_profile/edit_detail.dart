@@ -1,9 +1,8 @@
 import '../../../../../core/config.dart';
 import '../../../../../core/models/models.dart';
-import '../../../../../core/utilities/utilities.dart';
-import '../../../../../gen/assets.gen.dart';
+
+import '../../../../../routes/app_routes.gr.dart';
 import '../../../../../widgets/commons/theme_picker.dart';
-import '../../language.dart';
 import 'edit_item.dart';
 
 class EditProfileDetail extends StatelessWidget {
@@ -18,30 +17,28 @@ class EditProfileDetail extends StatelessWidget {
     return Column(
       children: [
         EditItem(
-          title: context.tr(LocaleKeys.username),
+          title: context.lang.username,
           textContent: user?.name ?? '',
         ),
         EditItem(
-          title: context.tr(LocaleKeys.age),
-          content: LocaleKeys.release
-              .tr()
-              .richText
+          title: context.lang.age,
+          content: context.lang.release.richText
               .textStyle(context.bodyMedium)
-              .color(AppTheme.primaryColor)
+              .color(context.primaryColor)
               .end
               .withTextSpanChildren([
             " ${user?.old ?? ''}".textSpan.black.make(),
           ]).make(),
         ),
         EditItem(
-          title: context.tr(LocaleKeys.themeColor),
+          title: context.lang.themeColor,
           content: Align(
             alignment: Alignment.centerRight,
             child: Container(
               height: 26.h,
               width: 26.w,
               decoration: BoxDecoration(
-                color: AppTheme.primaryColor,
+                color: context.primaryColor,
                 borderRadius: BorderRadius.circular(3.r),
               ),
             ),
@@ -51,18 +48,19 @@ class EditProfileDetail extends StatelessWidget {
           },
         ),
         EditItem(
-          title: context.tr(LocaleKeys.category),
+          title: context.lang.category,
           textContent: 'お笑い,美容',
+          showTrailing: false,
         ),
         EditItem(
-          title: context.tr(LocaleKeys.language),
-          textContent: context.tr(AppLanguage.currentLanguageValue),
+          title: context.lang.language,
+          // textContent: context.tr(AppLanguage.currentLanguageValue),
           onTap: () {
-            context.nextPage(const LanguageScreen());
+            context.navigator(const LanguageRoute());
           },
         ),
         EditItem(
-          title: context.tr(LocaleKeys.externLink),
+          title: context.lang.externLink,
           content: Row(
             children: [
               const Spacer(),
@@ -113,7 +111,7 @@ class EditProfileDetail extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                context.tr(LocaleKeys.selfIntroduction),
+                context.lang.selfIntroduction,
                 style: context.bodyMedium?.copyWith(
                   color: AppTheme.fontGrayLead,
                   fontWeight: FontWeight.w300,

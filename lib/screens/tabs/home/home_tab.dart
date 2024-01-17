@@ -3,6 +3,7 @@ import 'dart:math';
 
 import '../../../core/config.dart';
 import '../../../providers/firebase_provider.dart';
+import '../../../routes/app_routes.gr.dart';
 import '../../../widgets/commons/commons.dart';
 import '../../../widgets/search_app_bar.dart';
 import 'widgets/list_creator.dart';
@@ -60,8 +61,7 @@ class HomeScreen extends ConsumerWidget {
         searchAppBar: SearchAppBar(
           readOnly: true,
           onTap: () {
-            // context.navigator(SearchCreatorRoute());
-            checkSortFunction();
+            context.navigator(SearchCreatorRoute());
           },
         ),
       ),
@@ -75,7 +75,7 @@ class HomeScreen extends ConsumerWidget {
                 return listOnline.maybeWhen(
                   data: (result) {
                     return ListCreator(
-                      title: context.tr(LocaleKeys.online),
+                      title: context.lang.online,
                       users: result,
                       onlineList: true,
                       showMore: false,

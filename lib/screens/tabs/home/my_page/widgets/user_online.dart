@@ -53,7 +53,7 @@ class UserNormal extends StatelessWidget {
                   Column(
                     children: [
                       ColoredBox(
-                        color: AppTheme.primaryColor,
+                        color: context.primaryColor,
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.16.w),
                           child: Column(
@@ -82,7 +82,7 @@ class UserNormal extends StatelessWidget {
                                 bottomLeft: Radius.circular(20.r),
                                 bottomRight: Radius.circular(20.r),
                               ),
-                              color: AppTheme.primaryColor,
+                              color: context.primaryColor,
                             ),
                           ),
                           const DeviceConnected(),
@@ -114,7 +114,7 @@ class UserNormal extends StatelessWidget {
                               point: '100pt',
                             ),
                             Text(
-                              context.tr(LocaleKeys.userRanking),
+                              context.lang.userRanking,
                               style: style.copyWith(
                                 color: AppTheme.blackBold,
                               ),
@@ -129,7 +129,7 @@ class UserNormal extends StatelessWidget {
                               height: 20.h,
                             ),
                             Text(
-                              context.tr(LocaleKeys.inform),
+                              context.lang.inform,
                               style: style.copyWith(
                                 color: AppTheme.fontGray3,
                               ),
@@ -225,7 +225,7 @@ class UserBlocked extends StatelessWidget {
                   bottomLeft: Radius.circular(20.r),
                   bottomRight: Radius.circular(20.r),
                 ),
-                color: AppTheme.primaryColor,
+                color: context.primaryColor,
               ),
             ),
             Padding(
@@ -256,7 +256,7 @@ class UserBlocked extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 60.w),
           child: Text(
-            '${user.name} ${context.tr(LocaleKeys.hasBlocked)}',
+            '${user.name} ${context.lang.hasBlocked}',
             style: context.titleMedium!.copyWith(
               fontSize: 18.sp,
               fontWeight: FontWeight.w600,
@@ -270,7 +270,7 @@ class UserBlocked extends StatelessWidget {
         Consumer(
           builder: (context, ref, child) {
             return ButtonCustom(
-              context.tr(LocaleKeys.unblock),
+              context.lang.unblock,
               onPressed: () {
                 ref.read(myPageProvider).blockUser();
               },

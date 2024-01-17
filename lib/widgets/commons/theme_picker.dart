@@ -1,22 +1,25 @@
 import '../../core/config.dart';
-import '../../providers/global_provider.dart';
+
+import '../../providers/user_preferences/user_preferences_provider.dart';
 import '../dialogs.dart';
 import 'button_custom.dart';
 
-class ThemePicker extends HookWidget {
+class ThemePicker extends HookConsumerWidget {
   const ThemePicker({super.key});
   static show(BuildContext context) {
     return AppDialog.showAppBottomSheet(
       context,
-      title: context.tr(LocaleKeys.settingThemeColor),
+      title: context.lang.settingThemeColor,
       child: const ThemePicker(),
       name: 'ThemePicker',
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    final colorTheme = useState<Color>(AppTheme.defaultColor);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final preferences = ref.watch(userPreferencesProvider);
+    final preferencesNotifier = ref.watch(userPreferencesProvider.notifier);
+    final colorTheme = useState(preferences.themeColor);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -42,17 +45,13 @@ class ThemePicker extends HookWidget {
         Consumer(
           builder: (context, ref, child) {
             return ButtonCustom(
-              context.tr(LocaleKeys.set),
+              context.lang.set,
               height: 48.h,
               width: context.screenWidth,
               backgroundColor: colorTheme.value,
               onPressed: () {
                 Navigator.of(context).pop();
-                WidgetsBinding.instance.endOfFrame.then(
-                  (value) => ref
-                      .read(appGlobalProvider.notifier)
-                      .setColor(colorTheme.value),
-                );
+                preferencesNotifier.setThemeColor(colorTheme.value);
               },
             );
           },

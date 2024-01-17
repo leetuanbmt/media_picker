@@ -31,7 +31,7 @@ class SearchScreen extends StatelessWidget {
                   vertical: 10.h,
                 ),
                 child: Text(
-                  context.tr(LocaleKeys.recommendation),
+                  context.lang.recommendation,
                   style: context.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -79,7 +79,7 @@ class SearchScreen extends StatelessWidget {
                   vertical: 10.h,
                 ),
                 child: Text(
-                  context.tr(LocaleKeys.searchByCategory),
+                  context.lang.searchByCategory,
                   style: context.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),

@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../../core/config.dart';
-import '../../../gen/assets.gen.dart';
 import '../../../providers/auth/auth_notify.dart';
 import '../../../routes/app_routes.gr.dart';
 import '../widgets/logo.dart';
@@ -196,17 +195,16 @@ class LoginInformation extends StatelessWidget {
             style: style,
             children: <TextSpan>[
               TextSpan(
-                text: context.tr(LocaleKeys.byStartingFromAbove),
+                text: context.lang.byStartingFromAbove,
                 // style: style,
               ),
               TextSpan(
-                text: context.tr(LocaleKeys.termsOfService),
-                style: style.copyWith(color: AppTheme.primaryColor),
+                text: context.lang.termsOfService,
+                style: style.copyWith(color: context.primaryColor),
                 recognizer: TapGestureRecognizer()..onTap = () {},
               ),
               TextSpan(
-                text: context.tr(LocaleKeys.IAgree),
-                // style: style,
+                text: context.lang.iAgree,
               ),
             ],
           ),
@@ -216,12 +214,12 @@ class LoginInformation extends StatelessWidget {
           text: TextSpan(
             children: <TextSpan>[
               TextSpan(
-                text: context.tr(LocaleKeys.doNotHaveAccount),
+                text: context.lang.doNotHaveAccount,
                 style: style,
               ),
               TextSpan(
-                text: context.tr(LocaleKeys.signUp),
-                style: style.copyWith(color: AppTheme.primaryColor),
+                text: context.lang.signUp,
+                style: style.copyWith(color: context.primary),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     context.router.replace(const RegisterRoute());
@@ -244,7 +242,7 @@ class LoginByFaceID extends ConsumerWidget {
       children: [
         SizedBox(height: 20.h),
         Text(
-          context.tr(LocaleKeys.logInWithFaceID),
+          context.lang.logInWithFaceID,
           style: context.bodyMedium?.copyWith(
             fontWeight: FontWeight.w600,
             color: AppTheme.fontBoldLight,

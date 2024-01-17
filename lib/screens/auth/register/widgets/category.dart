@@ -36,7 +36,7 @@ class RegisterCategoryScreen extends StatelessWidget {
             height: 40.h,
           ),
           Text(
-            context.tr(LocaleKeys.categoryAppliesToYou),
+            context.lang.categoryAppliesToYou,
             textAlign: TextAlign.center,
             style: context.titleLarge!.copyWith(
               fontSize: 20.sp,
@@ -88,12 +88,12 @@ class RegisterCategoryScreen extends StatelessWidget {
                         .select((value) => value.checkCategoryEmpty),
                   );
                   return ButtonCustom(
-                    context.tr(LocaleKeys.toTheNext),
+                    context.lang.toTheNext,
                     height: 48.h,
                     width: 162.w,
                     backgroundColor: isActiveButton
                         ? AppTheme.middleGray
-                        : AppTheme.primaryColor,
+                        : context.primaryColor,
                     onPressed: () {
                       if (isActiveButton) return;
                       onNextPage();

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../../../core/config.dart';
-import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import 'my_page_bottom_sheet.dart';
 
@@ -58,9 +57,7 @@ class UserStatus extends StatelessWidget {
             width: 6.w,
           ),
           Text(
-            isOnline
-                ? context.tr(LocaleKeys.online)
-                : context.tr(LocaleKeys.offline),
+            isOnline ? context.lang.online : context.lang.offline,
             style: context.labelMedium!.copyWith(
               fontSize: 12.sp,
               fontWeight: FontWeight.w600,
@@ -102,7 +99,7 @@ class MyPageAction extends StatelessWidget {
                 );
               },
               child: Text(
-                context.tr(LocaleKeys.reportUser),
+                context.lang.report,
                 style: style,
               ),
             ),
@@ -112,7 +109,7 @@ class MyPageAction extends StatelessWidget {
                 ref.read(myPageProvider).blockUser();
               },
               child: Text(
-                context.tr(LocaleKeys.block),
+                context.lang.block,
                 style: style.copyWith(
                   color: const Color(0xff007AFF),
                 ),

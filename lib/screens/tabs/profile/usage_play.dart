@@ -1,5 +1,4 @@
 import '../../../core/config.dart';
-import '../../../gen/assets.gen.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
 
 @RoutePage()
@@ -39,7 +38,7 @@ class UsagePlayScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBarCustom(
-        title: context.tr(LocaleKeys.usageGuide),
+        title: context.lang.usageGuide,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -106,7 +105,7 @@ class UsagePlayScreen extends StatelessWidget {
                             style: context.titleLarge?.copyWith(
                               fontSize: 14.sp,
                               color: usageExample.last == e
-                                  ? AppTheme.primaryColor
+                                  ? context.primaryColor
                                   : null,
                               fontWeight: FontWeight.w300,
                             ),

@@ -1,5 +1,4 @@
 import '../../../core/config.dart';
-import '../../../gen/assets.gen.dart';
 
 class AuthLogo extends StatelessWidget {
   const AuthLogo({super.key});

@@ -1,4 +1,6 @@
 PODS:
+  - app_links (0.0.1):
+    - Flutter
   - AppAuth (1.6.2):
     - AppAuth/Core (= 1.6.2)
     - AppAuth/ExternalUserAgent (= 1.6.2)
@@ -9,11 +11,13 @@ PODS:
     - Flutter
   - biometric_storage (0.0.1):
     - Flutter
-  - cloud_firestore (4.13.6):
+  - cloud_firestore (4.14.0):
     - Firebase/Firestore (= 10.18.0)
     - firebase_core
     - Flutter
     - nanopb (< 2.30910.0, >= 2.30908.0)
+  - device_info_plus (0.0.1):
+    - Flutter
   - FBAEMKit (16.2.1):
     - FBSDKCoreKit_Basics (= 16.2.1)
   - FBSDKCoreKit (16.2.1):
@@ -33,14 +37,14 @@ PODS:
   - Firebase/Storage (10.18.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 10.18.0)
-  - firebase_auth (4.15.3):
+  - firebase_auth (4.16.0):
     - Firebase/Auth (= 10.18.0)
     - firebase_core
     - Flutter
   - firebase_core (2.24.2):
     - Firebase/CoreOnly (= 10.18.0)
     - Flutter
-  - firebase_storage (11.5.6):
+  - firebase_storage (11.6.0):
     - Firebase/Storage (= 10.18.0)
     - firebase_core
     - Flutter
@@ -82,6 +86,8 @@ PODS:
     - FBSDKLoginKit (~> 16.2.0)
     - Flutter
   - flutter_secure_storage (6.0.0):
+    - Flutter
+  - flutter_sharing_intent (0.0.1):
     - Flutter
   - flutter_webrtc (0.9.36):
     - Flutter
@@ -183,13 +189,13 @@ PODS:
     - FlutterMacOS
   - PromisesObjC (2.3.1)
   - RecaptchaInterop (100.0.0)
-  - Sentry/HybridSDK (8.15.2):
-    - SentryPrivate (= 8.15.2)
+  - Sentry/HybridSDK (8.17.2):
+    - SentryPrivate (= 8.17.2)
   - sentry_flutter (0.0.1):
     - Flutter
     - FlutterMacOS
-    - Sentry/HybridSDK (= 8.15.2)
-  - SentryPrivate (8.15.2)
+    - Sentry/HybridSDK (= 8.17.2)
+  - SentryPrivate (8.17.2)
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -210,9 +216,11 @@ PODS:
   - WebRTC-SDK (114.5735.08)
 
 DEPENDENCIES:
+  - app_links (from `.symlinks/plugins/app_links/ios`)
   - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
   - biometric_storage (from `.symlinks/plugins/biometric_storage/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
@@ -221,6 +229,7 @@ DEPENDENCIES:
   - flutter_downloader (from `.symlinks/plugins/flutter_downloader/ios`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - flutter_sharing_intent (from `.symlinks/plugins/flutter_sharing_intent/ios`)
   - flutter_webrtc (from `.symlinks/plugins/flutter_webrtc/ios`)
   - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
@@ -275,12 +284,16 @@ SPEC REPOS:
     - WebRTC-SDK
 
 EXTERNAL SOURCES:
+  app_links:
+    :path: ".symlinks/plugins/app_links/ios"
   audioplayers_darwin:
     :path: ".symlinks/plugins/audioplayers_darwin/ios"
   biometric_storage:
     :path: ".symlinks/plugins/biometric_storage/ios"
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
+  device_info_plus:
+    :path: ".symlinks/plugins/device_info_plus/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
@@ -298,6 +311,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  flutter_sharing_intent:
+    :path: ".symlinks/plugins/flutter_sharing_intent/ios"
   flutter_webrtc:
     :path: ".symlinks/plugins/flutter_webrtc/ios"
   geocoding_ios:
@@ -339,30 +354,33 @@ CHECKOUT OPTIONS:
     :tag: 10.18.0
 
 SPEC CHECKSUMS:
+  app_links: 5ef33d0d295a89d9d16bb81b0e3b0d5f70d6c875
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
   biometric_storage: 1400f1382af3a4cc2bf05340e13c3d8de873ceb9
-  cloud_firestore: c29d4c2e96fe31374d9dab458a99d7a488d3a735
+  cloud_firestore: 73eece22ce25a0565238c283ee9990f1618d8063
+  device_info_plus: c6fb39579d0f423935b0c9ce7ee2f44b71b9fce6
   FBAEMKit: 4763aa27b8f69eb9d2c274189e91388de1dbd88a
   FBSDKCoreKit: 40ae989ca1da1bbeba56acd4671dde64ad415506
   FBSDKCoreKit_Basics: 1257d71d2d692661290bf2af4bea5f9a101387af
   FBSDKLoginKit: bf4f96d0ce475de2da4b1800ce150bd8a6f120f3
   Firebase: 414ad272f8d02dfbf12662a9d43f4bba9bec2a06
-  firebase_auth: df44e14f8a93e8a9869d91695bd3f8e53d2c9f5a
+  firebase_auth: 8e9ec02991ca4659111cc671c84d0c010b6bfb26
   firebase_core: 0af4a2b24f62071f9bf283691c0ee41556dcb3f5
-  firebase_storage: 62de29ba51989dbf16f6a127a181d7dfd2b71d01
+  firebase_storage: 2b932fa5461f4efac36a2dcfbe240898b190b5b1
   FirebaseAppCheckInterop: 37884781f3e16a1ba47e7ec80a1e805f987788e3
   FirebaseAuth: 12314b438fa76048540c8fb86d6cfc9e08595176
   FirebaseAuthInterop: f90d6820bf6ecf44753b9f13ba941902d00b525a
   FirebaseCore: 2322423314d92f946219c8791674d2f3345b598f
   FirebaseCoreExtension: c08d14c7b22e07994e876d837e6f58642f340087
   FirebaseCoreInternal: b444828ea7cfd594fca83046b95db98a2be4f290
-  FirebaseFirestore: 584e3f563142f63d20e9ec9c505370d674d44eba
+  FirebaseFirestore: 4e32f3bf7ed59f574416e46ddfdfac418f42eab6
   FirebaseStorage: 8333c4b183764cdd170d9539a61322b71c23adff
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_downloader: b7301ae057deadd4b1650dc7c05375f10ff12c39
   flutter_facebook_auth: 24f9040e28e60ef2a8a93fdd1848e18a9cacb148
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
+  flutter_sharing_intent: e35380d0e1501d7111dbb7e46d5ac6339da6da98
   flutter_webrtc: 55df3aaa802114dad390191a46c2c8d535751268
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geocoding_ios: a389ea40f6f548de6e63006a2e31bf66ff80769a
@@ -388,9 +406,9 @@ SPEC CHECKSUMS:
   photo_manager: 4f6810b7dfc4feb03b461ac1a70dacf91fba7604
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
-  Sentry: 6f5742b4c47c17c9adcf265f6f328cf4a0ed1923
-  sentry_flutter: 2c309a1d4b45e59d02cfa15795705687f1e2081b
-  SentryPrivate: b2f7996f37781080f04a946eb4e377ff63c64195
+  Sentry: 64a9f9c3637af913adcf53deced05bbe452d1410
+  sentry_flutter: 57912cf425e09398bdf47f38842a1fcb9836f1be
+  SentryPrivate: 024c6fed507ac39ae98e6d087034160f942920d5
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
@@ -402,4 +420,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: a2b2fabbbd5d6687712e77a1ca6defcac2d6d4c6
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.14.3

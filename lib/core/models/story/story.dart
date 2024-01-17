@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../extensions/extension.dart';
 import '../../utilities/utilities.dart';
 import '../models.dart';
 
@@ -28,7 +27,6 @@ abstract class StoryModel with _$StoryModel {
 
   bool get isVideo => type == DbKeys.video;
   bool get isImage => type == DbKeys.image;
-  String get timeAgo => timestamp.timeAgo;
   double get aspectRatio => width / height;
 }
 

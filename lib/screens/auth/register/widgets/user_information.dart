@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import '../../../../core/config.dart';
 import '../../../../providers/auth/register_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
@@ -49,7 +51,7 @@ class RegisterUserInformation extends ConsumerWidget {
           Padding(
             padding: EdgeInsets.only(top: 30.h, bottom: 40.h),
             child: Text(
-              context.tr(LocaleKeys.enterYourPersonalInformation),
+              context.lang.enterYourPersonalInformation,
               style: context.titleLarge!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -61,7 +63,7 @@ class RegisterUserInformation extends ConsumerWidget {
             runSpacing: 30.h,
             children: [
               InputInformation(
-                title: context.tr(LocaleKeys.agencyCode),
+                title: context.lang.agencyCode,
                 hintText: '0000000000',
                 controller: provider.agencyCodeController,
               ),
@@ -69,8 +71,8 @@ class RegisterUserInformation extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: InputInformation(
-                      title: context.tr(LocaleKeys.surname),
-                      hintText: '(${context.tr(LocaleKeys.example)})山田',
+                      title: context.lang.surname,
+                      hintText: '(${context.lang.example})山田',
                       controller: provider.firstNameController,
                     ),
                   ),
@@ -79,8 +81,8 @@ class RegisterUserInformation extends ConsumerWidget {
                   ),
                   Expanded(
                     child: InputInformation(
-                      title: context.tr(LocaleKeys.surname),
-                      hintText: '(${context.tr(LocaleKeys.example)})太郎',
+                      title: context.lang.surname,
+                      hintText: '(${context.lang.example})太郎',
                       controller: provider.middleNameController,
                     ),
                   ),
@@ -90,8 +92,8 @@ class RegisterUserInformation extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: InputInformation(
-                      title: context.tr(LocaleKeys.name),
-                      hintText: '(${context.tr(LocaleKeys.example)})ヤマダ',
+                      title: context.lang.name,
+                      hintText: '(${context.lang.example})ヤマダ',
                       controller: provider.lastNameController,
                     ),
                   ),
@@ -100,16 +102,16 @@ class RegisterUserInformation extends ConsumerWidget {
                   ),
                   Expanded(
                     child: InputInformation(
-                      title: context.tr(LocaleKeys.may),
-                      hintText: '(${context.tr(LocaleKeys.example)})タロウ',
+                      title: context.lang.may,
+                      hintText: '(${context.lang.example})タロウ',
                       controller: provider.anotherNameController,
                     ),
                   ),
                 ],
               ),
               InputInformation(
-                title: context.tr(LocaleKeys.dateOfBirth),
-                hintText: context.tr(LocaleKeys.select),
+                title: context.lang.dateOfBirth,
+                hintText: context.lang.select,
                 controller: provider.dateInputController,
                 onTap: () async {
                   final DateTime? picked = await showDatePicker(
@@ -128,14 +130,14 @@ class RegisterUserInformation extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    context.tr(LocaleKeys.gender),
+                    context.lang.gender,
                     style: style,
                   ),
                   SizedBox(
                     height: 7.h,
                   ),
                   DropdownMenu<String>(
-                    hintText: context.tr(LocaleKeys.select),
+                    hintText: context.lang.select,
                     textStyle: dropStyle,
                     width: 343.w,
                     controller: provider.genderController,
@@ -160,7 +162,7 @@ class RegisterUserInformation extends ConsumerWidget {
                 ],
               ),
               InputInformation(
-                title: context.tr(LocaleKeys.telephoneNumber),
+                title: context.lang.telephoneNumber,
                 hintText: '09011112222',
                 controller: provider.phoneNumberController,
               ),
@@ -179,12 +181,12 @@ class RegisterUserInformation extends ConsumerWidget {
                         .select((value) => value.checkInformationEmpty),
                   );
                   return ButtonCustom(
-                    context.tr(LocaleKeys.toTheNext),
+                    context.lang.toTheNext,
                     width: 162.w,
                     height: 48.h,
                     backgroundColor: isDisableButton
                         ? AppTheme.middleGray
-                        : AppTheme.primaryColor,
+                        : context.primaryColor,
                     onPressed: () {
                       if (isDisableButton) return;
                       onNextPage();

@@ -1,7 +1,6 @@
 import '../../../../../core/config.dart';
 import '../../../../../core/models/enum/enum.dart';
 import '../../../../../core/models/user/user_model.dart';
-import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../widgets/commons/button_custom.dart';
 import '../../../../../widgets/commons/cache_image.dart';
@@ -29,7 +28,7 @@ class UserOffline extends StatelessWidget {
               bottomLeft: Radius.circular(20.r),
               bottomRight: Radius.circular(20.r),
             ),
-            color: AppTheme.primaryColor,
+            color: context.primaryColor,
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -60,7 +59,7 @@ class UserOffline extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        TextItem(value: context.tr(LocaleKeys.follow)),
+                        TextItem(value: context.lang.follow),
                         TextItem(
                           value: user.follow.toCompactCurrency,
                         ),
@@ -71,7 +70,7 @@ class UserOffline extends StatelessWidget {
                     ),
                     Column(
                       children: [
-                        TextItem(value: context.tr(LocaleKeys.followers)),
+                        TextItem(value: context.lang.followers),
                         TextItem(
                           value: user.followers.toCompactCurrency,
                         ),
@@ -114,7 +113,7 @@ class UserOffline extends StatelessWidget {
                           style: context.labelMedium!.copyWith(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w600,
-                            color: AppTheme.primaryColor,
+                            color: context.primaryColor,
                           ),
                         ),
                       ),
@@ -139,7 +138,7 @@ class UserOffline extends StatelessWidget {
                       height: 23.93.h,
                     ),
                     Text(
-                      context.tr(LocaleKeys.userRanking),
+                      context.lang.userRanking,
                       style: style,
                     ),
                     SizedBox(
@@ -152,7 +151,7 @@ class UserOffline extends StatelessWidget {
                       height: 36.h,
                     ),
                     Text(
-                      context.tr(LocaleKeys.inform),
+                      context.lang.inform,
                       style: style,
                     ),
                     SizedBox(
@@ -202,8 +201,8 @@ class UserOffline extends StatelessWidget {
                     ),
                     child: Center(
                       child: ButtonCustom(
-                        context.tr(LocaleKeys.following),
-                        backgroundColor: AppTheme.primaryColor.withOpacity(0.7),
+                        context.lang.following,
+                        backgroundColor: context.primaryColor.withOpacity(0.7),
                         height: 44.h,
                         width: 156.w,
                         fontSize: 15.sp,
@@ -217,7 +216,7 @@ class UserOffline extends StatelessWidget {
                     ),
                     child: Center(
                       child: ButtonCustom(
-                        '+ ${context.tr(LocaleKeys.follow)}',
+                        '+ ${context.lang.follow}',
                         type: ButtonType.outline,
                         borderWidth: 2.r,
                         height: 50.h,

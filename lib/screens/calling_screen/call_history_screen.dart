@@ -13,7 +13,7 @@ class CallHistoryScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.tr(LocaleKeys.callHistory)),
+        title: Text(context.lang.callHistory),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete),
@@ -45,7 +45,7 @@ class CallHistoryScreen extends ConsumerWidget {
                 data: (histories) {
                   if (histories.isEmpty) {
                     return context.buildEmptyList(
-                      context.tr(LocaleKeys.noCallHistory),
+                      context.lang.noCallHistory,
                     );
                   }
                   return ListView.builder(
@@ -140,7 +140,7 @@ class TimeDuration extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.fromLTRB(6, 2, 6, 2),
         decoration: BoxDecoration(
-          color: AppTheme.primaryColor,
+          color: context.primaryColor,
           borderRadius: const BorderRadius.all(Radius.circular(20)),
         ),
         child: totalCall().text.size(10).white.make(),

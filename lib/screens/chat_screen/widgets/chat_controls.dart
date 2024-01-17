@@ -35,7 +35,7 @@ class ChatControls extends HookConsumerWidget {
                 leading: [
                   IconButtonCustom(
                     iconData: CupertinoIcons.photo,
-                    color: context.primary,
+                    color: context.primaryColor,
                     onTap: () => provider.chooseMedia(context),
                   ),
                 ],
@@ -102,7 +102,7 @@ class ChatControls extends HookConsumerWidget {
                     height: 40.r,
                     margin: const EdgeInsets.only(left: 10),
                     decoration: BoxDecoration(
-                      color: context.primary,
+                      color: context.primaryColor,
                       shape: BoxShape.circle,
                     ),
                     child: loading.value

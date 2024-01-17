@@ -39,7 +39,7 @@ class OTPScreen extends StatelessWidget {
                   defaultPinTheme: theme,
                   focusedPinTheme: theme.copyWith(
                     decoration: decoration.copyWith(
-                      border: Border.all(color: AppTheme.primaryColor),
+                      border: Border.all(color: context.primaryColor),
                     ),
                   ),
                   onCompleted: (value) {

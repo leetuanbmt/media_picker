@@ -267,16 +267,16 @@ class _CallScreenState extends ConsumerState<CallScreen> {
     switch (callStatus) {
       case CallStatus.calling:
         return call.hasDialled
-            ? '${context.tr(LocaleKeys.callVideo_calling)} ...'
-            : '${context.tr(LocaleKeys.callVideo_connecting)} ...';
+            ? '${context.lang.calling} ...'
+            : '${context.lang.connecting} ...';
       case CallStatus.ringing:
-        return '${context.tr(LocaleKeys.callVideo_calling)} ...';
+        return '${context.lang.calling} ...';
       case CallStatus.rejected:
-        return context.tr(LocaleKeys.callVideo_callReject);
+        return context.lang.callReject;
       case CallStatus.ended:
-        return '${context.tr(LocaleKeys.callVideo_callEnd)} ${AppUtils.formatDuration(duration.value)}';
+        return '${context.lang.callEnd} ${AppUtils.formatDuration(duration.value)}';
       case CallStatus.missed:
-        return context.tr(LocaleKeys.callVideo_callEnd);
+        return context.lang.callEnd;
       default:
         return '';
     }

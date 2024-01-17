@@ -25,7 +25,7 @@ class RegisterUserName extends ConsumerWidget {
             height: 32.h,
           ),
           Text(
-            context.tr(LocaleKeys.decideOnUsername),
+            context.lang.decideOnUsername,
             style: context.titleLarge!.copyWith(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,
@@ -36,7 +36,7 @@ class RegisterUserName extends ConsumerWidget {
             height: 24.h,
           ),
           TextFieldCustom(
-            hintText: context.tr(LocaleKeys.username),
+            hintText: context.lang.username,
             textController: provider.userNameController,
           ),
           const Spacer(),
@@ -50,12 +50,12 @@ class RegisterUserName extends ConsumerWidget {
                         .select((value) => value.checkUsernameEmpty),
                   );
                   return ButtonCustom(
-                    context.tr(LocaleKeys.toTheNext),
+                    context.lang.toTheNext,
                     height: 48.h,
                     width: 162.w,
                     backgroundColor: isDisableButton
                         ? AppTheme.middleGray
-                        : AppTheme.primaryColor,
+                        : context.primaryColor,
                     onPressed: () {
                       if (isDisableButton) return;
                       confirmUsername(context);

@@ -1,12 +1,14 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../gen/assets.gen.dart';
 import '../../widgets/commons/indicators/loading_manager.dart';
 import '../config.dart';
 import '../utilities/utilities.dart';
 
 extension ContextEx on BuildContext {
+  AppLocalizations get lang => AppLocalizations.of(this)!;
+
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
 
   Color get primary => colorScheme.primary;

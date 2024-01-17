@@ -1,6 +1,5 @@
 import '../../../core/config.dart';
 import '../../../core/models/enum/enum.dart';
-import '../../../gen/assets.gen.dart';
 import '../../../routes/app_routes.gr.dart';
 
 @RoutePage()
@@ -10,7 +9,7 @@ class SelectAttributeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.primaryColor,
+      backgroundColor: context.primaryColor,
       body: SingleChildScrollView(
         padding: EdgeInsets.only(left: 20.w, right: 20.w),
         child: Column(
@@ -22,7 +21,7 @@ class SelectAttributeScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 5.w),
               child: Text(
-                context.tr(LocaleKeys.selectUserAttributes),
+                context.lang.selectUserAttributes,
                 style: context.headlineSmall!.copyWith(
                   color: Colors.white,
                   fontSize: 24.sp,
@@ -36,7 +35,7 @@ class SelectAttributeScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 5.w),
               child: Text(
-                context.tr(LocaleKeys.selectUserAttributesInform),
+                context.lang.selectUserAttributesInform,
                 style: context.bodySmall!.copyWith(
                   fontWeight: FontWeight.w300,
                   color: Colors.white,
@@ -51,8 +50,8 @@ class SelectAttributeScreen extends StatelessWidget {
                 height: 76.h,
                 width: 76.w,
               ),
-              titleMedium: context.tr(LocaleKeys.startAsCreator),
-              titleSmall: context.tr(LocaleKeys.forDistributorsOrStores),
+              titleMedium: context.lang.startAsCreator,
+              titleSmall: context.lang.forDistributorsOrStores,
               onTap: () {
                 context.router
                     .push(RegisterUserRoute(userType: UserType.creator));
@@ -66,8 +65,8 @@ class SelectAttributeScreen extends StatelessWidget {
                 height: 76.h,
                 width: 76.w,
               ),
-              titleMedium: context.tr(LocaleKeys.startAsFan),
-              titleSmall: context.tr(LocaleKeys.personWhoTipsMoney),
+              titleMedium: context.lang.startAsFan,
+              titleSmall: context.lang.personWhoTipsMoney,
               onTap: () {
                 context.router.push(RegisterUserRoute(userType: UserType.fan));
               },

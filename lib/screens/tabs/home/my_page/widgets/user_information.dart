@@ -4,7 +4,6 @@ import '../../../../../core/config.dart';
 
 import '../../../../../core/models/models.dart';
 import '../../../../../core/utilities/utilities.dart';
-import '../../../../../gen/assets.gen.dart';
 import '../../../../../providers/my_page_provider.dart';
 import '../../../../../widgets/commons/cache_image.dart';
 import 'widget.dart';
@@ -116,7 +115,7 @@ class UserInformation extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          TextItem(value: context.tr(LocaleKeys.follow)),
+                          TextItem(value: context.lang.follow),
                           TextItem(
                             value: creator.follow.toCompactCurrency,
                           ),
@@ -124,7 +123,7 @@ class UserInformation extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          TextItem(value: context.tr(LocaleKeys.followers)),
+                          TextItem(value: context.lang.followers),
                           TextItem(
                             value: creator.followers.toCompactCurrency,
                           ),
@@ -162,7 +161,7 @@ class UserInformation extends StatelessWidget {
               style: context.labelMedium!.copyWith(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
-                color: isBlocked ? Colors.white : AppTheme.primaryColor,
+                color: isBlocked ? Colors.white : context.primaryColor,
               ),
             ),
           ),
@@ -228,8 +227,8 @@ class UserBio extends ConsumerWidget {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: [
-                          AppTheme.primaryColor,
-                          AppTheme.primaryColor.withOpacity(0),
+                          context.primaryColor,
+                          context.primaryColor.withOpacity(0),
                         ],
                       ),
                     ),

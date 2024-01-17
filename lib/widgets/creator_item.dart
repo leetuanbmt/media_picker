@@ -28,7 +28,7 @@ class CreatorItem extends StatelessWidget {
         ),
       ),
       trailing: ButtonCustom(
-        context.tr(LocaleKeys.follow),
+        context.lang.following,
         height: 33.h,
         onPressed: onPressed,
       ),

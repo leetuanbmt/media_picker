@@ -43,7 +43,7 @@ class MyProfileScreen extends ConsumerWidget {
             },
           ),
         ],
-        backgroundColor: AppTheme.primaryColor,
+        backgroundColor: context.primaryColor,
       ),
       body: Consumer(
         builder: (context, ref, child) {

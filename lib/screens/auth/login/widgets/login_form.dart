@@ -2,6 +2,7 @@ import '../../../../core/config.dart';
 import '../../../../core/utilities/navigator.dart';
 import '../../../../providers/auth/auth_notify.dart';
 import '../../../../providers/auth/state/auth.dart';
+import '../../../../providers/user_preferences/user_preferences_provider.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
 
@@ -10,8 +11,18 @@ class LoginForm extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final pref = ref.watch(userPreferencesProvider);
+
+    final prefProvider = ref.watch(userPreferencesProvider.notifier);
+
     final emailController = useTextEditingController();
+
     final passwordController = useTextEditingController();
+
+    final isSaveAccount = useState(false);
+
+    final checkFieldsEmpty = useState(true);
+
     ref.listen(authProvider, (previous, next) {
       if (next is AuthLoading) {
         context.startLoading();
@@ -21,14 +32,15 @@ class LoginForm extends HookConsumerWidget {
       if (next is AuthError) {
         context.toast(next.message);
       } else if (next is AuthSuccess) {
-        AppConfig.email.setString(emailController.text);
-        AppConfig.password.setString(passwordController.text);
+        // save account
+        prefProvider.saveAccount(
+          emailController.text,
+          passwordController.text,
+          isSaveAccount.value,
+        );
         AppNavigator.instance.goToDashboard();
       }
     });
-
-    final isSaveAccount = useState(false);
-    final checkFieldsEmpty = useState(true);
 
     bool areFieldsEmpty() {
       return emailController.text.isEmpty || passwordController.text.isEmpty;
@@ -36,21 +48,17 @@ class LoginForm extends HookConsumerWidget {
 
     useEffect(
       () {
-        listener() {
-          checkFieldsEmpty.value = areFieldsEmpty();
+        isSaveAccount.value = pref.isRememberMe;
+        // check save account and set value for email and password
+        if (pref.isRememberMe) {
+          emailController.text = pref.username ?? '';
+          passwordController.text = pref.password ?? '';
         }
+        checkFieldsEmpty.value = areFieldsEmpty();
+        listener() => checkFieldsEmpty.value = areFieldsEmpty();
 
         emailController.addListener(listener);
         passwordController.addListener(listener);
-        final saveEmail = AppConfig.email.getString();
-        final savePassword = AppConfig.password.getString();
-        final checkSaveAccount = AppConfig.checkSaveAccount.getBool();
-        isSaveAccount.value = checkSaveAccount;
-        // check save account and set value for email and password
-        if (checkSaveAccount && saveEmail != null && savePassword != null) {
-          emailController.text = saveEmail;
-          passwordController.text = savePassword;
-        }
 
         return () {
           emailController.removeListener(listener);
@@ -67,14 +75,14 @@ class LoginForm extends HookConsumerWidget {
           children: [
             TextFieldCustom(
               textController: emailController,
-              hintText: context.tr(LocaleKeys.emailAddress),
+              hintText: context.lang.emailAddress,
               keyboardType: TextInputType.emailAddress,
             ),
             Padding(
               padding: EdgeInsets.only(top: 12.h),
               child: TextFieldCustom(
                 textController: passwordController,
-                hintText: context.tr(LocaleKeys.password),
+                hintText: context.lang.password,
                 obscureText: true,
               ),
             ),
@@ -92,7 +100,6 @@ class LoginForm extends HookConsumerWidget {
                       side: const BorderSide(color: AppTheme.box, width: 3),
                       onChanged: (value) {
                         isSaveAccount.value = value!;
-                        AppConfig.checkSaveAccount.setBool(value);
                       },
                     ),
                   ),
@@ -100,10 +107,9 @@ class LoginForm extends HookConsumerWidget {
                   GestureDetector(
                     onTap: () {
                       isSaveAccount.value = !isSaveAccount.value;
-                      AppConfig.checkSaveAccount.setBool(isSaveAccount.value);
                     },
                     child: Text(
-                      context.tr(LocaleKeys.logInAutomaticallyNextTime),
+                      context.lang.logInAutomaticallyNextTime,
                       style: context.bodySmall!.copyWith(
                         color: AppTheme.fontGrayLead,
                         fontWeight: FontWeight.w300,
@@ -114,7 +120,7 @@ class LoginForm extends HookConsumerWidget {
               ),
             ),
             ButtonCustom(
-              context.tr(LocaleKeys.logIn),
+              context.lang.logIn,
               height: 48.h,
               width: double.infinity,
               onPressed: () {
@@ -126,7 +132,7 @@ class LoginForm extends HookConsumerWidget {
               },
               backgroundColor: checkFieldsEmpty.value
                   ? AppTheme.middleGray
-                  : AppTheme.primaryColor,
+                  : context.primaryColor,
             ),
           ],
         ),

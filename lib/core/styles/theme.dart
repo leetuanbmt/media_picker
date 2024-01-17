@@ -1,13 +1,25 @@
 part of '../config.dart';
 
+class AppColor extends Color {
+  final String name;
+
+  const AppColor(super.color, {required this.name});
+
+  const AppColor.from(super.value, {required this.name});
+
+  factory AppColor.fromString(String string) {
+    final slices = string.split(':');
+    return AppColor(int.parse(slices.last), name: slices.first);
+  }
+
+  @override
+  String toString() {
+    return '$name:$value';
+  }
+}
+
 class AppTheme {
   AppTheme._();
-
-  static Color primaryColor = defaultColor;
-
-  static Color get defaultColor => Preferences.themeColor == null
-      ? supportColors.first
-      : Color(Preferences.themeColor!);
 
   static const blackBold = Color(0xff332C2C);
 
@@ -58,21 +70,24 @@ class AppTheme {
     statusBarIconBrightness: Brightness.dark,
     statusBarBrightness: Brightness.light,
   );
-
-  static const supportColors = <Color>[
-    Color(0xff47C3BE),
-    Color(0xff55BE81),
-    Color(0xffFF3976),
-    Color(0xffFF5D5D),
-    Color(0xffEE5266),
-    Color(0xff6B7CFF),
-    Color(0xff40A3FF),
-    Color(0xffFF8A48),
-    Color(0xffFCA600),
-    Color(0xffACAEB5),
-    Color(0xff575F74),
-    Color(0xff4F4F4F),
-  ];
+  static final Set<AppColor> supportColors = {
+    AppColor(Colors.red.value, name: 'Red'),
+    AppColor(Colors.pink.value, name: 'Pink'),
+    AppColor(Colors.purple.value, name: 'Purple'),
+    AppColor(Colors.deepPurple.value, name: 'DeepPurple'),
+    AppColor(Colors.indigo.value, name: 'Indigo'),
+    AppColor(Colors.blue.value, name: 'Blue'),
+    AppColor(Colors.lightBlue.value, name: 'LightBlue'),
+    AppColor(Colors.cyan.value, name: 'Cyan'),
+    AppColor(Colors.teal.value, name: 'Teal'),
+    AppColor(Colors.green.value, name: 'Green'),
+    AppColor(Colors.lightGreen.value, name: 'LightGreen'),
+    AppColor(Colors.yellow.value, name: 'Yellow'),
+    AppColor(Colors.amber.value, name: 'Amber'),
+    AppColor(Colors.orange.value, name: 'Orange'),
+    AppColor(Colors.deepOrange.value, name: 'DeepOrange'),
+    AppColor(Colors.brown.value, name: 'Brown'),
+  };
 
   static Color findByValue(int value) {
     return supportColors.firstWhere((e) => e.value == value);
@@ -88,17 +103,17 @@ class AppTheme {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
-  static ThemeData get appTheme {
-    ColorScheme colorScheme = ColorScheme.light(
+  static ThemeData appTheme(Color primaryColor, Brightness brightness) {
+    ColorScheme colorScheme = ColorScheme.fromSeed(
       primary: primaryColor,
+      seedColor: primaryColor,
       surface: surface,
+      brightness: brightness,
     );
-
     final themeData = ThemeData(
       useMaterial3: true,
       primaryColor: primaryColor,
       colorScheme: colorScheme,
-      brightness: colorScheme.brightness,
       scaffoldBackgroundColor: Colors.white,
       dividerColor: const Color(0x1F000000),
       appBarTheme: AppBarTheme(
@@ -121,8 +136,8 @@ class AppTheme {
       ),
       tabBarTheme: TabBarTheme(
         dividerColor: Colors.transparent,
-        indicatorColor: AppTheme.primaryColor,
-        labelColor: AppTheme.primaryColor,
+        indicatorColor: primaryColor,
+        labelColor: primaryColor,
         unselectedLabelColor: Colors.grey.shade600,
         indicator: const BoxDecoration(),
         unselectedLabelStyle: TextStyle(
@@ -142,6 +157,7 @@ class AppTheme {
       ),
     );
     final TextTheme textTheme = themeData.textTheme;
+
     return themeData.copyWith(
       textTheme: textTheme.copyWith(
         labelLarge: textTheme.labelLarge!.copyWith(

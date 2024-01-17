@@ -5,6 +5,7 @@ import 'package:gmo_media_picker/media_picker.dart';
 import '../../core/config.dart';
 import '../../core/models/models.dart';
 import '../../screens/chat_screen/chat_screen.dart';
+import 'chart_state.dart';
 
 final chartProvider = StateNotifierProvider.autoDispose
     .family<ChatProvider, ChatState, String>((ref, chartId) {

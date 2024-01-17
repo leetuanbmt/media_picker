@@ -128,7 +128,7 @@ class _ChatAudioState extends State<ChatAudio> {
                     )
                       .box
                       .margin(const EdgeInsets.all(3))
-                      .color(context.primary)
+                      .color(context.primaryColor)
                       .roundedFull
                       .make()
                   : Icon(
@@ -136,7 +136,7 @@ class _ChatAudioState extends State<ChatAudio> {
                           ? Icons.pause_circle_filled
                           : Icons.play_circle_filled_sharp,
                       size: 40,
-                      color: context.primary,
+                      color: context.primaryColor,
                     ),
             ),
           ),
@@ -225,7 +225,7 @@ class _ChatAudioState extends State<ChatAudio> {
                     AppUtils.formatDuration((duration - value).seconds),
                     style: context.labelMedium?.copyWith(
                       fontWeight: FontWeight.normal,
-                      color: context.primary,
+                      color: context.primaryColor,
                     ),
                   ),
                 ),

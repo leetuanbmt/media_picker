@@ -18,7 +18,7 @@ class RegisterForm extends ConsumerWidget {
           children: [
             TextFieldCustom(
               textController: provider.emailController,
-              hintText: context.tr(LocaleKeys.emailAddress),
+              hintText: context.lang.emailAddress,
               keyboardType: TextInputType.emailAddress,
             ),
             SizedBox(
@@ -26,7 +26,7 @@ class RegisterForm extends ConsumerWidget {
             ),
             TextFieldCustom(
               textController: provider.passwordController,
-              hintText: context.tr(LocaleKeys.password),
+              hintText: context.lang.password,
               obscureText: true,
             ),
             SizedBox(
@@ -39,7 +39,7 @@ class RegisterForm extends ConsumerWidget {
                       .select((value) => value.checkEmailPasswordEmpty),
                 );
                 return ButtonCustom(
-                  context.tr(LocaleKeys.signUp),
+                  context.lang.signUp,
                   width: double.infinity,
                   height: 48.h,
                   onPressed: () {
@@ -50,7 +50,7 @@ class RegisterForm extends ConsumerWidget {
                   },
                   backgroundColor: areFieldsEmpty
                       ? AppTheme.middleGray
-                      : AppTheme.primaryColor,
+                      : context.primaryColor,
                 );
               },
             ),

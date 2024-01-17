@@ -11,8 +11,8 @@ import '../core/utilities/navigator.dart';
 import '../core/utilities/utilities.dart';
 import '../routes/app_routes.gr.dart';
 import 'firebase_provider.dart';
-import 'global_provider.dart';
 import 'paginator_provider.dart';
+import 'providers.dart';
 
 part 'user_provider.g.dart';
 part 'user_provider.freezed.dart';

@@ -16,7 +16,6 @@ import 'package:video_player/video_player.dart';
 import '../../core/config.dart';
 import '../../core/models/models.dart';
 import '../../core/utilities/utilities.dart';
-import '../../gen/assets.gen.dart';
 import '../../providers/chart/chat_provider.dart';
 import '../../providers/firebase_provider.dart';
 import '../../widgets/commons/commons.dart';
@@ -59,7 +58,7 @@ class _ChatScreenState extends State<ChatScreen> {
               Dimensions.width10,
               Flexible(
                 child: Text(
-                  context.tr(LocaleKeys.announcementDistribution),
+                  context.lang.announcementDistribution,
                   style: context.titleMedium?.copyWith(
                     overflow: TextOverflow.ellipsis,
                     color: context.colorScheme.onPrimary,

@@ -165,7 +165,7 @@ class _TimeReMainingIndicatorState extends State<TimeReMainingIndicator> {
                           Positioned(
                             left: sliderValue.value * 15.2,
                             child: Text(
-                              '${sliderValue.value.round().toString()}${context.tr(LocaleKeys.seconds)}',
+                              '${sliderValue.value.round().toString()}${context.lang.seconds}',
                               style: context.bodyMedium!.copyWith(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w600,
@@ -280,7 +280,7 @@ class SwitchButtonSetting extends StatelessWidget {
                     height: 31.h,
                     width: 51.w,
                     child: CupertinoSwitch(
-                      activeColor: AppTheme.primaryColor,
+                      activeColor: context.primaryColor,
                       value: valueSetting,
                       onChanged: onChanged,
                     ),
@@ -322,15 +322,15 @@ class SwitchButtonSetting extends StatelessWidget {
                             ),
                             side: BorderSide(
                               width: 1.r,
-                              color: AppTheme.primaryColor,
+                              color: context.primaryColor,
                             ),
                           ),
                         ),
                         onPressed: onPressed,
                         child: Text(
-                          context.tr(LocaleKeys.change),
+                          context.lang.change,
                           style: style.copyWith(
-                            color: AppTheme.primaryColor,
+                            color: context.primaryColor,
                           ),
                           maxLines: 1,
                         ),

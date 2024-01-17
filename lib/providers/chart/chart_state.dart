@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'message.dart';
+import '../../core/models/chat/message.dart';
 
-part 'state.freezed.dart';
+part 'chart_state.freezed.dart';
 
 @freezed
 abstract class ChatState with _$ChatState {
