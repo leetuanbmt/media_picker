@@ -4,8 +4,7 @@ import 'package:flutter_portal/flutter_portal.dart';
 
 import 'core/config.dart';
 import 'core/utilities/navigator.dart';
-import 'hooks/configurations/use_deep_linking.dart';
-import 'hooks/configurations/use_get_storage_perms.dart';
+import 'hooks/configurations/use_get_permissions.dart';
 import 'l10n/l10n.dart';
 
 import 'providers/user_preferences/user_preferences_provider.dart';
@@ -48,7 +47,7 @@ class _RootAppState extends ConsumerState<RootApp> {
     getCallingPermissions();
 
 // deep linking and share intent form another app
-    useDeepLinking();
+    // useDeepLinking();
 
     return MaterialApp.router(
       title: AppConfig.title,

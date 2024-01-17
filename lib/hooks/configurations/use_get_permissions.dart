@@ -31,8 +31,8 @@ void getCallingPermissions() {
   // request permissions for calling screen
   useAsyncEffect(
     () async {
+      await Permission.camera.request();
       await Permission.microphone.request();
-      await Permission.phone.request();
     },
     keys: [],
   );

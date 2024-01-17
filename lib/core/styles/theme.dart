@@ -71,11 +71,11 @@ class AppTheme {
     statusBarBrightness: Brightness.light,
   );
   static final Set<AppColor> supportColors = {
+    AppColor(Colors.indigo.value, name: 'Indigo'),
     AppColor(Colors.red.value, name: 'Red'),
     AppColor(Colors.pink.value, name: 'Pink'),
     AppColor(Colors.purple.value, name: 'Purple'),
     AppColor(Colors.deepPurple.value, name: 'DeepPurple'),
-    AppColor(Colors.indigo.value, name: 'Indigo'),
     AppColor(Colors.blue.value, name: 'Blue'),
     AppColor(Colors.lightBlue.value, name: 'LightBlue'),
     AppColor(Colors.cyan.value, name: 'Cyan'),

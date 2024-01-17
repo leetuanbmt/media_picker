@@ -17,10 +17,6 @@ const keyAppName = 'gotip';
 
 const kKeyBoxName = '${keyAppName}_box_name';
 
-const kNoEncryptionWarningShownKey = 'showedNoEncryptionWarning';
-
-const kIsUsingEncryption = 'isUsingEncryption';
-
 String getBoxKey(String boxName) => '${keyAppName}_box_$boxName';
 
 abstract class PersistedStateNotifier<T> extends StateNotifier<T> {
@@ -40,26 +36,23 @@ abstract class PersistedStateNotifier<T> extends StateNotifier<T> {
   FutureOr<void> onInit() {}
 
   static late LazyBox _box;
+
   static late LazyBox _encryptedBox;
 
   static late SharedPreferences localStorage;
 
   static Future<String?> read(String key) async {
     try {
-      await localStorage.setBool(kIsUsingEncryption, true);
       return await secureStorage.read(key: key);
     } catch (e) {
-      await localStorage.setBool(kIsUsingEncryption, false);
       return localStorage.getString(key);
     }
   }
 
   static Future<void> write(String key, String value) async {
     try {
-      await localStorage.setBool(kIsUsingEncryption, true);
       await secureStorage.write(key: key, value: value);
     } catch (e) {
-      await localStorage.setBool(kIsUsingEncryption, false);
       await localStorage.setString(key, value);
     }
   }

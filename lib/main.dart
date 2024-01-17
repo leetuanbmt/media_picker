@@ -10,6 +10,7 @@ import 'core/config.dart';
 import 'core/utilities/persisted_state_notifier.dart';
 import 'firebase_options.dart';
 import 'root.dart';
+import 'widgets/commons/app_lifecycle.dart';
 
 Future<void> initService() async {
   try {
@@ -47,7 +48,9 @@ void main() async {
         child: ScreenUtilInit(
           designSize: Size(375, 812),
           minTextAdapt: false,
-          child: RootApp(),
+          child: AppLifecycleObserver(
+            child: RootApp(),
+          ),
         ),
       ),
     );

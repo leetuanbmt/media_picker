@@ -6,6 +6,7 @@ import '../core/config.dart';
 import '../core/utilities/db_helper.dart';
 import '../providers/user_provider.dart';
 import '../routes/app_routes.gr.dart';
+import '../widgets/commons/app_lifecycle.dart';
 
 class TabItem {
   const TabItem({
@@ -25,36 +26,12 @@ class DashboardScreen extends ConsumerStatefulWidget {
   ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends ConsumerState<DashboardScreen>
-    with WidgetsBindingObserver {
+class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   void initState() {
     ref.read(userProvider).initialize();
     setUserState(true);
-    WidgetsBinding.instance.addObserver(this);
     super.initState();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    Logger.log(state);
-    switch (state) {
-      case AppLifecycleState.resumed:
-        setUserState(true);
-        break;
-      case AppLifecycleState.paused:
-      case AppLifecycleState.inactive:
-        setUserState(false);
-        break;
-      default:
-    }
-    super.didChangeAppLifecycleState(state);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
   }
 
   @override
@@ -73,29 +50,33 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsScaffold(
-      routes: const [
-        HomeTabRoute(),
-        SearchRoute(),
-        MainRoute(),
-        NotificationRoute(),
-        ProfileTabRoute(),
-      ],
-      transitionBuilder: (context, child, animation) {
-        return child;
-      },
-      bottomNavigationBuilder: (context, tabsRouter) {
-        return _BottomNavigation(
-          currentIndex: tabsRouter.activeIndex,
-          onChange: (index) {
-            if (index == tabsRouter.activeIndex) {
-              tabsRouter.topRoute.router.pop();
-            } else {
-              tabsRouter.setActiveIndex(index);
-            }
-          },
-        );
-      },
+    return AppLifecycleWidget(
+      onResumed: () => setUserState(true),
+      onInactive: () => setUserState(false),
+      child: AutoTabsScaffold(
+        routes: const [
+          HomeTabRoute(),
+          SearchRoute(),
+          MainRoute(),
+          NotificationRoute(),
+          ProfileTabRoute(),
+        ],
+        transitionBuilder: (context, child, animation) {
+          return child;
+        },
+        bottomNavigationBuilder: (context, tabsRouter) {
+          return _BottomNavigation(
+            currentIndex: tabsRouter.activeIndex,
+            onChange: (index) {
+              if (index == tabsRouter.activeIndex) {
+                tabsRouter.topRoute.router.pop();
+              } else {
+                tabsRouter.setActiveIndex(index);
+              }
+            },
+          );
+        },
+      ),
     );
   }
 }

@@ -10,6 +10,7 @@ import '../../core/models/story/story.dart';
 import '../../core/models/user/user_model.dart';
 import '../../core/utilities/utilities.dart';
 import '../../core/utilities/video_manager.dart';
+import '../../widgets/commons/app_lifecycle.dart';
 import '../../widgets/commons/cache_image.dart';
 import '../../widgets/commons/indicators/loading_indicator.dart';
 
@@ -142,7 +143,7 @@ class StoryScreen extends ConsumerStatefulWidget {
 }
 
 class _StoryScreenState extends ConsumerState<StoryScreen>
-    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+    with SingleTickerProviderStateMixin {
   final videoManager = VideoManager();
 
   late PageController _pageController;
@@ -170,7 +171,6 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
     // listen animation status
     _animationController.addStatusListener(_listenVideoPlayer);
 
-    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
@@ -216,25 +216,6 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      // check if app is resumed play video
-      case AppLifecycleState.resumed:
-        ref.read(videoProvider).resume();
-        _animationController.forward();
-        break;
-      // check if app is paused pause video
-      case AppLifecycleState.paused:
-        ref.read(videoProvider).pause();
-        _animationController.stop();
-        break;
-      default:
-    }
-
-    super.didChangeAppLifecycleState(state);
-  }
-
-  @override
   void deactivate() {
     ref.read(videoProvider).pauseAll();
     super.deactivate();
@@ -244,58 +225,67 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
   void dispose() {
     _pageController.dispose();
     _animationController.dispose();
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: GestureDetector(
-        onTapDown: _onTapDown,
-        child: Stack(
-          children: <Widget>[
-            Center(
-              child: switch (_story.type) {
-                DbKeys.image => AspectRatio(
-                    aspectRatio: _story.aspectRatio,
-                    child: CacheImage(
-                      image: _story.url,
-                      dimension: Size.infinite,
+    return AppLifecycleWidget(
+      onResumed: () {
+        ref.read(videoProvider).resume();
+        _animationController.forward();
+      },
+      onInactive: () {
+        ref.read(videoProvider).pause();
+        _animationController.stop();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: GestureDetector(
+          onTapDown: _onTapDown,
+          child: Stack(
+            children: <Widget>[
+              Center(
+                child: switch (_story.type) {
+                  DbKeys.image => AspectRatio(
+                      aspectRatio: _story.aspectRatio,
+                      child: CacheImage(
+                        image: _story.url,
+                        dimension: Size.infinite,
+                      ),
                     ),
-                  ),
-                DbKeys.video => Container(
-                    width: context.screenWidth,
-                    height: context.screenHeight,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: ExtendedNetworkImageProvider(
-                          _story.thumbnail,
-                          cache: true,
+                  DbKeys.video => Container(
+                      width: context.screenWidth,
+                      height: context.screenHeight,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: ExtendedNetworkImageProvider(
+                            _story.thumbnail,
+                            cache: true,
+                          ),
+                        ),
+                      ),
+                      child: Center(
+                        child: Consumer(
+                          builder: (_, ref, child) {
+                            final videoAsync = ref.watch(videoProvider);
+                            final video = videoAsync.video;
+                            return video != null && videoAsync.isInitialized
+                                ? AspectRatio(
+                                    aspectRatio: _story.aspectRatio,
+                                    child: VideoPlayer(video),
+                                  )
+                                : const LoadingIndicator();
+                          },
                         ),
                       ),
                     ),
-                    child: Center(
-                      child: Consumer(
-                        builder: (_, ref, child) {
-                          final videoAsync = ref.watch(videoProvider);
-                          final video = videoAsync.video;
-                          return video != null && videoAsync.isInitialized
-                              ? AspectRatio(
-                                  aspectRatio: _story.aspectRatio,
-                                  child: VideoPlayer(video),
-                                )
-                              : const LoadingIndicator();
-                        },
-                      ),
-                    ),
-                  ),
-                _ => const SizedBox.shrink(),
-              },
-            ),
-            _author(),
-          ],
+                  _ => const SizedBox.shrink(),
+                },
+              ),
+              _author(),
+            ],
+          ),
         ),
       ),
     );

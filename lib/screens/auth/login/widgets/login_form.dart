@@ -76,10 +76,7 @@ class LoginForm extends HookConsumerWidget {
           passwordController.removeListener(listener);
         };
       },
-      [
-        emailController,
-        passwordController,
-      ],
+      [],
     );
 
     return Padding(

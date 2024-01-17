@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import '../../core/config.dart';
+import '../../widgets/commons/app_lifecycle.dart';
 import '../../widgets/commons/indicators/loading.dart';
 
 final loadingProvider = StateProvider<bool>((ref) => false);
@@ -32,27 +33,20 @@ class BlurWidget extends HookWidget {
   const BlurWidget({super.key});
   @override
   Widget build(BuildContext context) {
-    final state = useAppLifecycleState();
     final visibility = useState(0);
-    useEffect(
-      () {
-        if (state == AppLifecycleState.resumed) {
-          visibility.value = 0;
-        } else {
-          visibility.value = 1;
-        }
-        return null;
-      },
-      [state],
-    );
-    return AnimatedBuilder(
-      animation: visibility,
-      builder: (_, __) {
-        return Visibility(
-          visible: visibility.value != 0,
-          child: _Blur(blur: 20, opacity: 0.5 * visibility.value),
-        );
-      },
+
+    return AppLifecycleWidget(
+      onResumed: () => visibility.value = 0,
+      onInactive: () => visibility.value = 1,
+      child: AnimatedBuilder(
+        animation: visibility,
+        builder: (_, __) {
+          return Visibility(
+            visible: visibility.value != 0,
+            child: _Blur(blur: 20, opacity: 0.5 * visibility.value),
+          );
+        },
+      ),
     );
   }
 }
