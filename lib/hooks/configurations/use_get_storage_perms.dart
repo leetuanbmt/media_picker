@@ -23,15 +23,17 @@ void useGetStoragePermissions() {
         await Permission.audio.request();
       }
     },
-    null,
-    [],
+    keys: [],
   );
 }
 
 void getCallingPermissions() {
   // request permissions for calling screen
-  useAsyncEffect(() async {
-    await Permission.microphone.request();
-    await Permission.phone.request();
-  });
+  useAsyncEffect(
+    () async {
+      await Permission.microphone.request();
+      await Permission.phone.request();
+    },
+    keys: [],
+  );
 }

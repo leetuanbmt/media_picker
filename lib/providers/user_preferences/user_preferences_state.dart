@@ -13,13 +13,13 @@ final class UserPreferences {
     required this.themeMode,
     required this.themeColor,
     required this.fontFamily,
-    this.username,
-    this.password,
+    this.username = '',
+    this.password = '',
     this.isRememberMe = false,
   });
 
-  final String? username;
-  final String? password;
+  final String username;
+  final String password;
   final bool isRememberMe;
 
   @JsonKey(

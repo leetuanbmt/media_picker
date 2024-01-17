@@ -3,6 +3,7 @@ import '../../../../core/utilities/navigator.dart';
 import '../../../../providers/auth/auth_notify.dart';
 import '../../../../providers/auth/state/auth.dart';
 import '../../../../providers/user_preferences/user_preferences_provider.dart';
+import '../../../../providers/user_preferences/user_preferences_state.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
 
@@ -23,6 +24,24 @@ class LoginForm extends HookConsumerWidget {
 
     final checkFieldsEmpty = useState(true);
 
+    bool areFieldsEmpty() {
+      return emailController.text.isEmpty || passwordController.text.isEmpty;
+    }
+
+    void setUser(UserPreferences state) {
+      if (state.isRememberMe) {
+        isSaveAccount.value = state.isRememberMe;
+        if (state.isRememberMe) {
+          emailController.text = state.username;
+          passwordController.text = state.password;
+        }
+        checkFieldsEmpty.value = areFieldsEmpty();
+      }
+    }
+
+    ref.listen(userPreferencesProvider, (previous, next) {
+      setUser(next);
+    });
     ref.listen(authProvider, (previous, next) {
       if (next is AuthLoading) {
         context.startLoading();
@@ -42,19 +61,11 @@ class LoginForm extends HookConsumerWidget {
       }
     });
 
-    bool areFieldsEmpty() {
-      return emailController.text.isEmpty || passwordController.text.isEmpty;
-    }
-
     useEffect(
       () {
-        isSaveAccount.value = pref.isRememberMe;
         // check save account and set value for email and password
-        if (pref.isRememberMe) {
-          emailController.text = pref.username ?? '';
-          passwordController.text = pref.password ?? '';
-        }
-        checkFieldsEmpty.value = areFieldsEmpty();
+        setUser(pref);
+
         listener() => checkFieldsEmpty.value = areFieldsEmpty();
 
         emailController.addListener(listener);
@@ -65,7 +76,10 @@ class LoginForm extends HookConsumerWidget {
           passwordController.removeListener(listener);
         };
       },
-      [emailController, passwordController],
+      [
+        emailController,
+        passwordController,
+      ],
     );
 
     return Padding(

@@ -19,22 +19,17 @@ export '../core/utilities/logger.dart';
 part 'styles/dimensions.dart';
 part 'styles/theme.dart';
 
-enum DarkOption { dynamic, alwaysOn, alwaysOff }
-
-enum Flavor { dev, staging, prod }
-
 class AppConfig {
   AppConfig._();
-  static const String boxName = 'go_tip_app';
   static const String title = 'Go Tip App';
   static const String baseUrl = 'https://reqres.in/api/';
   static const String twitterConsumerKey = '85AYa4yAaJWikw0lsIQYI1PKI';
   static const String twitterConsumerSecret =
       'jLpkhyazdKaVibDEqoQuJFjuxsCyj0Ugzu54vCC9gHHFY1yr77';
-  static const themeColor = 'themeColor';
   static const authenticated = 'authenticated';
 
   static const websocketUrl = 'ws://10.1.15.65:1995';
+
   static const sentryDsn =
       'https://06c3a5a03ab9c5a100fba6dab6efade8@o4505984183369728.ingest.sentry.io/4505984184352768';
 }

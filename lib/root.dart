@@ -43,7 +43,11 @@ class _RootAppState extends ConsumerState<RootApp> {
       () => AppTheme.appTheme(themeColor, Brightness.dark),
       [themeColor],
     );
+
+    // request permissions calling
     getCallingPermissions();
+
+// deep linking and share intent form another app
     useDeepLinking();
 
     return MaterialApp.router(

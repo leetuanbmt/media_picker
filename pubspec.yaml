@@ -107,7 +107,7 @@ dev_dependencies:
   flutter_application_id: ^2.0.0-dev
 
 flutter_gen:
-  output: lib/collections
+  output: lib/core/collections
   assets:
     outputs:
       class_name: Assets

@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../config.dart';
 import 'primitive_utils.dart';
 
 const secureStorage = FlutterSecureStorage(
@@ -33,7 +31,6 @@ abstract class PersistedStateNotifier<T> extends StateNotifier<T> {
   }) {
     _load().then((_) => onInit());
   }
-
   // cache key for this state
   final String cacheKey;
 
@@ -45,9 +42,9 @@ abstract class PersistedStateNotifier<T> extends StateNotifier<T> {
   static late LazyBox _box;
   static late LazyBox _encryptedBox;
 
-  static Future<String?> read(String key) async {
-    final localStorage = await SharedPreferences.getInstance();
+  static late SharedPreferences localStorage;
 
+  static Future<String?> read(String key) async {
     try {
       await localStorage.setBool(kIsUsingEncryption, true);
       return await secureStorage.read(key: key);
@@ -58,8 +55,6 @@ abstract class PersistedStateNotifier<T> extends StateNotifier<T> {
   }
 
   static Future<void> write(String key, String value) async {
-    final localStorage = await SharedPreferences.getInstance();
-
     try {
       await localStorage.setBool(kIsUsingEncryption, true);
       await secureStorage.write(key: key, value: value);
@@ -70,29 +65,36 @@ abstract class PersistedStateNotifier<T> extends StateNotifier<T> {
   }
 
   static Future<void> initializeBoxes({required String? path}) async {
-    String? boxName = await read(kKeyBoxName);
+    try {
+      // initialize shared preferences
+      localStorage = await SharedPreferences.getInstance();
 
-    if (boxName == null) {
-      boxName = '$keyAppName-${PrimitiveUtils.uuid.v4()}';
-      await write(kKeyBoxName, boxName);
+      String? boxName = await read(kKeyBoxName);
+
+      if (boxName == null) {
+        boxName = '$keyAppName-${PrimitiveUtils.uuid.v4()}';
+        await write(kKeyBoxName, boxName);
+      }
+
+      String? encryptionKey = await read(getBoxKey(boxName));
+
+      if (encryptionKey == null) {
+        encryptionKey = base64Url.encode(Hive.generateSecureKey());
+        await write(getBoxKey(boxName), encryptionKey);
+      }
+
+      _encryptedBox = await Hive.openLazyBox(
+        boxName,
+        encryptionCipher: HiveAesCipher(base64Url.decode(encryptionKey)),
+      );
+
+      _box = await Hive.openLazyBox(
+        '${keyAppName}_cache',
+        path: path,
+      );
+    } catch (e) {
+      Logger.log('initializeBoxes $e', tag: 'initializeBoxes');
     }
-
-    String? encryptionKey = await read(getBoxKey(boxName));
-
-    if (encryptionKey == null) {
-      encryptionKey = base64Url.encode(Hive.generateSecureKey());
-      await write(getBoxKey(boxName), encryptionKey);
-    }
-
-    _encryptedBox = await Hive.openLazyBox(
-      boxName,
-      encryptionCipher: HiveAesCipher(base64Url.decode(encryptionKey)),
-    );
-
-    _box = await Hive.openLazyBox(
-      '${keyAppName}_cache',
-      path: path,
-    );
   }
 
   LazyBox get box => encrypted ? _encryptedBox : _box;

@@ -5,10 +5,12 @@ import 'package:flutter_sharing_intent/model/sharing_file.dart';
 import '../../core/config.dart';
 
 final appLinks = AppLinks();
+
 final linkStream = appLinks.allStringLinkStream.asBroadcastStream();
 
 void useDeepLinking() {
   useEffect(() {
+    Logger.log('useDeepLinking', tag: 'useDeepLinking');
     void uriListener(List<SharedFile> files) async {
       for (final file in files) {
         if (file.type != SharedMediaType.URL) continue;
@@ -22,10 +24,12 @@ void useDeepLinking() {
 
     final mediaStream =
         FlutterSharingIntent.instance.getMediaStream().listen(uriListener);
+
     final subscription = linkStream.listen((uri) async {
       Logger.log('Deep link: ${uri.toString()}');
     });
     return () {
+      Logger.log('deepLinking cancel', tag: 'useDeepLinking');
       mediaStream.cancel();
       subscription.cancel();
     };

@@ -108,7 +108,7 @@ class AppTheme {
       primary: primaryColor,
       seedColor: primaryColor,
       surface: surface,
-      brightness: brightness,
+      brightness: Brightness.light,
     );
     final themeData = ThemeData(
       useMaterial3: true,
