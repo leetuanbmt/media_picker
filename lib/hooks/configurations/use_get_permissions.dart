@@ -1,13 +1,14 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../core/config.dart';
 import '../utils/use_async_effect.dart';
 
 void useGetStoragePermissions() {
   useAsyncEffect(
     () async {
       final androidInfo = await DeviceInfoPlugin().androidInfo;
-
+      Logger.log('Android SDK: ${androidInfo.version.sdkInt}');
       final hasNoStoragePerm = androidInfo.version.sdkInt < 33 &&
           !await Permission.storage.isGranted &&
           !await Permission.storage.isLimited;
@@ -27,12 +28,14 @@ void useGetStoragePermissions() {
   );
 }
 
-void getCallingPermissions() {
+void useGetCameraPermissions({bool isAudio = false}) {
   // request permissions for calling screen
   useAsyncEffect(
     () async {
       await Permission.camera.request();
-      await Permission.microphone.request();
+      if (isAudio) {
+        await Permission.microphone.request();
+      }
     },
     keys: [],
   );

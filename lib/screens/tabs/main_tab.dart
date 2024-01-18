@@ -21,13 +21,9 @@ class MainScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(16),
           children: [
             switch (activity) {
-              // If some data is available, we display it.
-              // Note that data will still be available during a refresh.
               AsyncValue<Activity>(:final valueOrNull?) =>
                 Text(valueOrNull.activity),
-              // An error is available, so we render it.
-              AsyncValue(:final error?) => Text('Error: $error'),
-              // No data/error, so we're in loading state.
+              AsyncValue(:final error?) => Text('Oops: $error'),
               _ => const Loading(),
             },
           ],

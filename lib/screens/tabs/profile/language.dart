@@ -1,5 +1,6 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../../../core/config.dart';
-import '../../../l10n/l10n.dart';
 import '../../../providers/user_preferences/user_preferences_provider.dart';
 import '../../../widgets/commons/button_custom.dart';
 
@@ -22,9 +23,9 @@ class LanguageScreen extends HookConsumerWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: L10n.all.length,
+                itemCount: AppLocalizations.supportedLocales.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final language = L10n.all[index];
+                  final language = AppLocalizations.supportedLocales[index];
                   final isoCodeName = LanguageLocals.getDisplayLanguage(
                     language.languageCode,
                   );

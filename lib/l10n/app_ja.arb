@@ -1,4 +1,5 @@
 {
+  "@@locale": "ja",
   "home": "家",
   "search": "探す",
   "notification": "お知らせ",
@@ -151,5 +152,7 @@
   "settingThemeColor": "テーマカラーの設定",
   "noSearchResult": "検索結果がありません",
   "qrCode": "QRコード",
-  "reading": "読み取り中..."
+  "reading": "読み取り中...",
+  "connection_restored": "インターネット接続が復旧しました",
+  "you_are_offline": "現在、オフラインです"
 }

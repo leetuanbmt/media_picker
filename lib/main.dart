@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'core/config.dart';
-import 'core/utilities/persisted_state_notifier.dart';
+import 'core/utilities/preferences/preferences.dart';
 import 'firebase_options.dart';
 import 'root.dart';
 import 'widgets/commons/app_lifecycle.dart';

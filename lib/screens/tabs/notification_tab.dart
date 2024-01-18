@@ -1,8 +1,8 @@
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../core/config.dart';
+import '../../core/utilities/songs_utils.dart';
 import '../../widgets/commons/commons.dart';
-import '../contact_list.dart';
 
 final listKey = GlobalKey<AnimatedListState>();
 
@@ -103,12 +103,16 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
                   child: ButtonCustom(
                     'Go to Contact List',
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ContactList(),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const ContactList(),
+                      //   ),
+                      // );
+
+                      SongRetriever.getSongs().then((value) {
+                        Logger.log(value, tag: 'SongRetriever.getSongs');
+                      });
                     },
                   ),
                 )

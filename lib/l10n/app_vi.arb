@@ -1,4 +1,5 @@
 {
+  "@@locale": "vi",
   "home": "Trang chủ",
   "search": "Tìm kiếm",
   "notification": "Thông báo",
@@ -151,5 +152,7 @@
   "settingThemeColor": "Đặt màu chủ đề",
   "noSearchResult": "Không có kết quả tìm kiếm",
   "qrCode": "Mã QR",
-  "reading": "Đang đọc..."
+  "reading": "Đang đọc...",
+  "connection_restored": "Kết nối Internet đã được khôi phục",
+  "you_are_offline": "Bạn hiện đang ngoại tuyến"
 }

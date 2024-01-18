@@ -12,7 +12,6 @@ import '../config.dart';
 
 export 'db_helper.dart';
 export 'logger.dart';
-export 'preferences.dart';
 
 class AppUtils {
   AppUtils._();

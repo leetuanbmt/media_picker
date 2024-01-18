@@ -1,9 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../core/config.dart';
-import '../../l10n/l10n.dart';
+
 part 'user_preferences_state.g.dart';
 
 @JsonSerializable()
@@ -51,7 +52,8 @@ final class UserPreferences {
 
   Map<String, dynamic> toJson() => _$UserPreferencesToJson(this);
 
-  static Locale _defaultLocaleValue() => L10n.all.first;
+  static Locale _defaultLocaleValue() =>
+      AppLocalizations.supportedLocales.first;
 
   static Locale _localeFromJson(Map<String, dynamic> json) {
     return Locale(json['languageCode'], json['countryCode']);

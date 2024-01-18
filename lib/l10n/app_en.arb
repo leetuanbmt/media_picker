@@ -1,4 +1,5 @@
 {
+  "@@locale": "en",
   "home": "Home",
   "search": "Search",
   "notification": "Notification",
@@ -151,5 +152,7 @@
   "settingThemeColor": "Setting theme color",
   "noSearchResult": "There is no search result",
   "qrCode": "QR code",
-  "reading": "Reading..."
+  "reading": "Reading...",
+  "connection_restored": "Internet connection has been restored",
+  "you_are_offline": "You are currently offline"
 }

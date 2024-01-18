@@ -9,6 +9,7 @@ class PaginationNotifier<T> extends StateNotifier<PaginationState<T>> {
   }) : super(const PaginationState.loading()) {
     init();
   }
+
   final Future<BaseResponse<T>> Function(int nextPage) request;
 
   final List<T> _items = [];

@@ -65,7 +65,7 @@ base class DioInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    Logger.log(response.data.toString());
+    Logger.log(response.data);
     super.onResponse(response, handler);
   }
 }

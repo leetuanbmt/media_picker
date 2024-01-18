@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import '../../core/config.dart';
-import '../../core/utilities/persisted_state_notifier.dart';
+import '../../core/utilities/preferences/preferences.dart';
 import 'user_preferences_state.dart';
 
 final userPreferencesProvider =

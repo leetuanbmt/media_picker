@@ -4,8 +4,8 @@ import 'package:flutter_portal/flutter_portal.dart';
 
 import 'core/config.dart';
 import 'core/utilities/navigator.dart';
+import 'hooks/configurations/use_deep_linking.dart';
 import 'hooks/configurations/use_get_permissions.dart';
-import 'l10n/l10n.dart';
 
 import 'providers/user_preferences/user_preferences_provider.dart';
 import 'screens/calling_screen/loading_wrapper_screen.dart';
@@ -44,14 +44,16 @@ class _RootAppState extends ConsumerState<RootApp> {
     );
 
     // request permissions calling
-    getCallingPermissions();
+    useGetStoragePermissions();
+
+    useGetCameraPermissions(isAudio: true);
 
 // deep linking and share intent form another app
-    // useDeepLinking();
+    useDeepLinking();
 
     return MaterialApp.router(
       title: AppConfig.title,
-      supportedLocales: L10n.all,
+      supportedLocales: AppLocalizations.supportedLocales,
       locale: locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,

@@ -20,11 +20,14 @@ void useDeepLinking() {
       }
     }
 
+    //
     FlutterSharingIntent.instance.getInitialSharing().then(uriListener);
 
+    // listen to share intent
     final mediaStream =
         FlutterSharingIntent.instance.getMediaStream().listen(uriListener);
 
+    // listen to deep link
     final subscription = linkStream.listen((uri) async {
       Logger.log('Deep link: ${uri.toString()}');
     });

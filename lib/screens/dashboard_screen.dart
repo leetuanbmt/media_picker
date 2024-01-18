@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 import '../core/config.dart';
 import '../core/utilities/db_helper.dart';
+import '../hooks/configurations/use_effect_deactivate.dart';
 import '../providers/user_provider.dart';
 import '../routes/app_routes.gr.dart';
 import '../widgets/commons/app_lifecycle.dart';
@@ -19,26 +21,8 @@ class TabItem {
 }
 
 @RoutePage()
-class DashboardScreen extends ConsumerStatefulWidget {
+class DashboardScreen extends HookConsumerWidget {
   const DashboardScreen({super.key});
-
-  @override
-  ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
-}
-
-class _DashboardScreenState extends ConsumerState<DashboardScreen> {
-  @override
-  void initState() {
-    ref.read(userProvider).initialize();
-    setUserState(true);
-    super.initState();
-  }
-
-  @override
-  void deactivate() {
-    ref.read(userProvider).stopStream();
-    super.deactivate();
-  }
 
   void setUserState(bool isOnline) {
     final uid = FirebaseAuth.instance.currentUser?.uid;
@@ -48,8 +32,51 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         .update(<String, dynamic>{'isOnline': isOnline});
   }
 
+  void showToastConnect(BuildContext context, InternetStatus state) {
+    final isConnect = state == InternetStatus.connected;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              isConnect ? Icons.wifi : Icons.wifi_off,
+              color: context.colorScheme.onPrimary,
+            ),
+            const SizedBox(width: 10),
+            Text(isConnect
+                ? context.lang.connection_restored
+                : context.lang.you_are_offline),
+          ],
+        ),
+        backgroundColor: context.colorScheme.primary,
+        showCloseIcon: true,
+      ),
+    );
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    useEffectDeactivate(
+      effect: () {
+        ref.read(userProvider).initialize();
+        setUserState(true);
+        final subscription =
+            InternetConnection().onStatusChange.listen((status) {
+          showToastConnect(context, status);
+        });
+        return () {
+          Logger.log('DashboardScreen dispose');
+          subscription.cancel();
+        };
+      },
+      deactivate: () {
+        Logger.log('DashboardScreen deactivate');
+        ref.read(userProvider).stopStream();
+        setUserState(false);
+      },
+      keys: const [],
+    );
+
     return AppLifecycleWidget(
       onResumed: () => setUserState(true),
       onInactive: () => setUserState(false),
