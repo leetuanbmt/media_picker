@@ -1,6 +1,6 @@
 import '../../core/config.dart';
 
-import '../../providers/user_preferences/user_preferences_provider.dart';
+import '../../core/providers/user_preferences/user_preferences_provider.dart';
 import '../dialogs.dart';
 import 'button_custom.dart';
 

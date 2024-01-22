@@ -1,8 +1,8 @@
 import '../../core/config.dart';
 import '../../core/models/call_history/call_history.dart';
+import '../../core/providers/call_provider.dart';
+import '../../core/providers/firebase_provider.dart';
 import '../../core/utilities/utilities.dart';
-import '../../providers/call_provider.dart';
-import '../../providers/firebase_provider.dart';
 import '../../widgets/commons/commons.dart';
 
 @RoutePage()

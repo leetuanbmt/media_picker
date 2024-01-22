@@ -1,6 +1,6 @@
 import '../../../../core/config.dart';
 import '../../../../core/models/models.dart';
-import '../../../../routes/app_routes.gr.dart';
+import '../../../../core/routes/app_routes.gr.dart';
 import 'creator_online_item.dart';
 import 'following_item.dart';
 

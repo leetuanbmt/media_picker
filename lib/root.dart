@@ -3,11 +3,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 
 import 'core/config.dart';
+import 'core/hooks/configurations/use_deep_linking.dart';
+import 'core/hooks/configurations/use_get_permissions.dart';
+import 'core/providers/user_preferences/user_preferences_provider.dart';
 import 'core/utilities/navigator.dart';
-import 'hooks/configurations/use_deep_linking.dart';
-import 'hooks/configurations/use_get_permissions.dart';
-
-import 'providers/user_preferences/user_preferences_provider.dart';
 import 'screens/calling_screen/loading_wrapper_screen.dart';
 
 class RootApp extends StatefulHookConsumerWidget {
@@ -52,7 +51,7 @@ class _RootAppState extends ConsumerState<RootApp> {
     useDeepLinking();
 
     return MaterialApp.router(
-      title: AppConfig.title,
+      title: AppConfigs.title,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: locale,
       localizationsDelegates: const [

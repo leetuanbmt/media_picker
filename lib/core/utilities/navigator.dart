@@ -1,6 +1,6 @@
-import '../../routes/app_routes.dart';
-import '../../routes/app_routes.gr.dart';
 import '../config.dart';
+import '../routes/app_routes.dart';
+import '../routes/app_routes.gr.dart';
 
 class AppNavigator {
   factory AppNavigator() => instance;

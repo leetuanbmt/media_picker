@@ -1,10 +1,9 @@
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../../core/config.dart';
-
 import '../../../../../core/models/models.dart';
+import '../../../../../core/providers/my_page_provider.dart';
 import '../../../../../core/utilities/utilities.dart';
-import '../../../../../providers/my_page_provider.dart';
 import '../../../../../widgets/commons/cache_image.dart';
 import 'widget.dart';
 

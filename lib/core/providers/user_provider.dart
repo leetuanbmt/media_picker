@@ -5,17 +5,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../core/config.dart';
-import '../core/models/models.dart';
-import '../core/utilities/navigator.dart';
-import '../core/utilities/utilities.dart';
+import '../config.dart';
+import '../models/models.dart';
 import '../routes/app_routes.gr.dart';
+import '../utilities/navigator.dart';
+import '../utilities/utilities.dart';
+import 'common_provider.dart';
 import 'firebase_provider.dart';
-import 'paginator_provider.dart';
-import 'providers.dart';
 
-part 'user_provider.g.dart';
 part 'user_provider.freezed.dart';
+part 'user_provider.g.dart';
 
 final userProvider = ChangeNotifierProvider((ref) => UserProvider(ref));
 // FutureProvider.autoDispose.family<UserModel, String>(
@@ -126,7 +125,7 @@ class UserList extends _$UserList {
 
   @override
   Future<UserResultState> build() async {
-    final result = await ref.read(appProvider).getUserList(page: page);
+    final result = await ref.read(repositoryProvider).getUserList(page: page);
     return result.when(
       success: (data) {
         total = data.total;
@@ -147,7 +146,7 @@ class UserList extends _$UserList {
     if (!state.value!.isLoadMore && isHasMore) {
       state = AsyncData(state.value!.copyWith(isLoadMore: true));
       page++;
-      final result = await ref.read(appProvider).getUserList(page: page);
+      final result = await ref.read(repositoryProvider).getUserList(page: page);
       state = AsyncData(state.value!.copyWith(isLoadMore: false));
       result.when(
         success: (data) {
@@ -163,7 +162,7 @@ class UserList extends _$UserList {
 
   Future<void> onRefresh() async {
     page = 1;
-    final result = await ref.read(appProvider).getUserList(page: page);
+    final result = await ref.read(repositoryProvider).getUserList(page: page);
     result.when(
       success: (data) {
         items
@@ -178,28 +177,22 @@ class UserList extends _$UserList {
   }
 }
 
-final usersProvider = StateNotifierProvider.autoDispose<
-    PaginationNotifier<UserModel>, PaginationState<UserModel>>((ref) {
-  return PaginationNotifier(
-    request: (int page) async {
-      final res = await ref.read(appProvider).getUserList(page: page);
-      return res.when(
-        success: (data) {
-          return BaseResponse(
-            total: data.total,
-            items: data.data,
-          );
-        },
-        failure: (error) {
-          throw error.message ?? 'Error';
-        },
-      );
-    },
-  );
-});
-final exampleStreamProvider = StreamProvider.autoDispose<int>((ref) async* {
-  for (var i = 0; i < 1000; i++) {
-    await Future.delayed(const Duration(seconds: 1));
-    yield i;
-  }
-});
+// final usersProvider = StateNotifierProvider.autoDispose<
+//     PaginationNotifier<UserModel>, PaginationState<UserModel>>((ref) {
+//   return PaginationNotifier(
+//     request: (int page) async {
+//       final res = await ref.read(repositoryProvider).getUserList(page: page);
+//       return res.when(
+//         success: (data) {
+//           return BaseResponse(
+//             total: data.total,
+//             items: data.data,
+//           );
+//         },
+//         failure: (error) {
+//           throw error.message ?? 'Error';
+//         },
+//       );
+//     },
+//   );
+// });

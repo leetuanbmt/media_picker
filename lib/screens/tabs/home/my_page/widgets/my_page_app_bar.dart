@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../../../core/config.dart';
-import '../../../../../providers/my_page_provider.dart';
+import '../../../../../core/providers/my_page_provider.dart';
 import 'my_page_bottom_sheet.dart';
 
 class MyPageLeading extends StatelessWidget {

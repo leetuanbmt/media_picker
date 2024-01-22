@@ -4,10 +4,10 @@ import '../../core/config.dart';
 import '../../core/models/call/call.dart';
 import '../../core/models/call_history/call_history.dart';
 import '../../core/models/enum/enum.dart';
+import '../../core/providers/call_provider.dart';
+import '../../core/providers/firebase_provider.dart';
+import '../../core/routes/app_routes.gr.dart';
 import '../../core/utilities/utilities.dart';
-import '../../providers/call_provider.dart';
-import '../../providers/firebase_provider.dart';
-import '../../routes/app_routes.gr.dart';
 import '../../widgets/commons/cache_image.dart';
 import 'widgets/dial_button.dart';
 

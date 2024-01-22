@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../core/config.dart';
-import '../core/models/call/call.dart';
-import '../core/utilities/db_helper.dart';
-import '../core/utilities/navigator.dart';
+import '../config.dart';
+import '../models/call/call.dart';
 import '../routes/app_routes.gr.dart';
+import '../utilities/db_helper.dart';
+import '../utilities/navigator.dart';
 import 'user_provider.dart';
 
 final callStream = StreamProvider.autoDispose.family<DocumentSnapshot?, String>(

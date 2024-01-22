@@ -1,7 +1,7 @@
-import '../core/config.dart';
-import '../core/models/enum/enum.dart';
-import '../core/models/user/user_model.dart';
-import '../core/utilities/utilities.dart';
+import '../config.dart';
+import '../models/enum/enum.dart';
+import '../models/user/user_model.dart';
+import '../utilities/utilities.dart';
 import 'firebase_provider.dart';
 
 final myPageProvider = ChangeNotifierProvider.autoDispose<MyPageProvider>(

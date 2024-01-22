@@ -154,5 +154,18 @@
   "qrCode": "Mã QR",
   "reading": "Đang đọc...",
   "connection_restored": "Kết nối Internet đã được khôi phục",
-  "you_are_offline": "Bạn hiện đang ngoại tuyến"
+  "you_are_offline": "Bạn hiện đang ngoại tuyến",
+  "numberOfDataPoints": "Number of data points: {value}",
+  "@numberOfDataPoints": {
+    "description": "A message with a formatted int parameter",
+    "placeholders": {
+      "value": {
+        "type": "int",
+        "format": "compactCurrency",
+        "optionalParameters": {
+          "decimalDigits": 2
+        }
+      }
+    }
+  }
 }

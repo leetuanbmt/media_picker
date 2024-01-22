@@ -1,7 +1,7 @@
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/config.dart';
-import '../../../../providers/my_page_provider.dart';
+import '../../../../core/providers/my_page_provider.dart';
 import 'widgets/my_page_dialog.dart';
 import 'widgets/my_page_footer.dart';
 

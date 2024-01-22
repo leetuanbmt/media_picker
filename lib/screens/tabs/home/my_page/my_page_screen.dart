@@ -1,6 +1,6 @@
 import '../../../../core/config.dart';
-import '../../../../providers/firebase_provider.dart';
-import '../../../../providers/my_page_provider.dart';
+import '../../../../core/providers/firebase_provider.dart';
+import '../../../../core/providers/my_page_provider.dart';
 import '../../../../widgets/commons/commons.dart';
 import 'widgets/my_page_app_bar.dart';
 import 'widgets/user_offline.dart';

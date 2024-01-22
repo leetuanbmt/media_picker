@@ -1,7 +1,7 @@
 import '../../../../../core/config.dart';
 import '../../../../../core/models/enum/enum.dart';
 import '../../../../../core/models/user/user_model.dart';
-import '../../../../../providers/my_page_provider.dart';
+import '../../../../../core/providers/my_page_provider.dart';
 import '../../../../../widgets/commons/button_custom.dart';
 import '../../../../../widgets/commons/cache_image.dart';
 import 'my_page_body.dart';

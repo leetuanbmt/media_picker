@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
-import '../../core/config.dart';
-import '../../core/models/models.dart';
-import '../../core/utilities/db_helper.dart';
-import '../../core/utilities/navigator.dart';
+import '../../config.dart';
+import '../../models/models.dart';
 import '../../routes/app_routes.gr.dart';
+import '../../utilities/db_helper.dart';
+import '../../utilities/navigator.dart';
 import '../firebase_provider.dart';
-import 'auth_notify.dart';
+import 'auth_provider.dart';
 
 final registerProvider = ChangeNotifierProvider.autoDispose<RegisterProvider>(
   (ref) => RegisterProvider(ref)..initialize(),

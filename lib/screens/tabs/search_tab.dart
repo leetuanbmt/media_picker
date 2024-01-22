@@ -1,6 +1,6 @@
 import '../../core/config.dart';
-import '../../providers/firebase_provider.dart';
-import '../../routes/app_routes.gr.dart';
+import '../../core/providers/firebase_provider.dart';
+import '../../core/routes/app_routes.gr.dart';
 import '../../widgets/commons/app_bar_custom.dart';
 import '../../widgets/search_app_bar.dart';
 import 'home/widgets/following_item.dart';

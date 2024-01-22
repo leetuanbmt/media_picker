@@ -1,7 +1,7 @@
 import '../../../../../core/config.dart';
 import '../../../../../core/models/models.dart';
 
-import '../../../../../routes/app_routes.gr.dart';
+import '../../../../../core/routes/app_routes.gr.dart';
 import '../../../../../widgets/commons/theme_picker.dart';
 import 'edit_item.dart';
 

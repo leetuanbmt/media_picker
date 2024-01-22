@@ -2,7 +2,7 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter_sharing_intent/flutter_sharing_intent.dart';
 import 'package:flutter_sharing_intent/model/sharing_file.dart';
 
-import '../../core/config.dart';
+import '../../config.dart';
 
 final appLinks = AppLinks();
 

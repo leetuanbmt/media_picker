@@ -1,5 +1,5 @@
 import '../../core/config.dart';
-import '../../providers/firebase_provider.dart';
+import '../../core/providers/firebase_provider.dart';
 import '../dialogs.dart';
 import 'button_custom.dart';
 

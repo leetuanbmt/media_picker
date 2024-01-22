@@ -1,7 +1,7 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../core/config.dart';
-import '../../../providers/user_preferences/user_preferences_provider.dart';
+import '../../../core/providers/user_preferences/user_preferences_provider.dart';
 import '../../../widgets/commons/button_custom.dart';
 
 @RoutePage()

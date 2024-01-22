@@ -2,8 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../../core/config.dart';
-import '../../../providers/auth/auth_notify.dart';
-import '../../../routes/app_routes.gr.dart';
+import '../../../core/providers/auth/auth_provider.dart';
+import '../../../core/routes/app_routes.gr.dart';
 import '../widgets/logo.dart';
 import '../widgets/social_button.dart';
 import 'widgets/login_form.dart';

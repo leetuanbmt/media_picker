@@ -1,6 +1,6 @@
 import '../../../../../core/config.dart';
 import '../../../../../core/models/user/user_model.dart';
-import '../../../../../providers/my_page_provider.dart';
+import '../../../../../core/providers/my_page_provider.dart';
 import '../../../../../widgets/commons/button_custom.dart';
 import 'my_page_body.dart';
 import 'my_page_footer.dart';

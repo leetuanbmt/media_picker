@@ -1,9 +1,9 @@
 import '../../../../core/config.dart';
+import '../../../../core/providers/auth/auth_provider.dart';
+import '../../../../core/providers/auth/state/auth.dart';
+import '../../../../core/providers/user_preferences/user_preferences_provider.dart';
+import '../../../../core/providers/user_preferences/user_preferences_state.dart';
 import '../../../../core/utilities/navigator.dart';
-import '../../../../providers/auth/auth_notify.dart';
-import '../../../../providers/auth/state/auth.dart';
-import '../../../../providers/user_preferences/user_preferences_provider.dart';
-import '../../../../providers/user_preferences/user_preferences_state.dart';
 import '../../../../widgets/commons/button_custom.dart';
 import '../../../../widgets/commons/text_field_custom.dart';
 

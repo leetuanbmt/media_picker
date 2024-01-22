@@ -11,6 +11,10 @@ class MainActivity: FlutterFragmentActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        flutterEngine
+        .platformViewsController
+        .registry
+        .registerViewFactory("demo_view", NativeViewFactory())
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, songRetrieverChannel)
             .setMethodCallHandler { call, result ->

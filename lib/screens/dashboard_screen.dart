@@ -4,10 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 import '../core/config.dart';
+import '../core/hooks/configurations/use_effect_deactivate.dart';
+import '../core/providers/user_provider.dart';
+import '../core/routes/app_routes.gr.dart';
 import '../core/utilities/db_helper.dart';
-import '../hooks/configurations/use_effect_deactivate.dart';
-import '../providers/user_provider.dart';
-import '../routes/app_routes.gr.dart';
 import '../widgets/commons/app_lifecycle.dart';
 
 class TabItem {

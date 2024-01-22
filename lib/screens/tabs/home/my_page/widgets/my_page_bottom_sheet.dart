@@ -1,6 +1,6 @@
 import '../../../../../core/config.dart';
 import '../../../../../core/models/enum/enum.dart';
-import '../../../../../providers/my_page_provider.dart';
+import '../../../../../core/providers/my_page_provider.dart';
 import '../../../../../widgets/commons/button_custom.dart';
 import 'widget.dart';
 

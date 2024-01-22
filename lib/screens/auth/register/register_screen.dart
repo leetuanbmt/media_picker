@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 
 import '../../../core/config.dart';
-import '../../../routes/app_routes.gr.dart';
+import '../../../core/routes/app_routes.gr.dart';
 import '../widgets/logo.dart';
 import '../widgets/social_button.dart';
 import 'widgets/register_form.dart';

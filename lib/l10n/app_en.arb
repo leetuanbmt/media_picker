@@ -154,5 +154,18 @@
   "qrCode": "QR code",
   "reading": "Reading...",
   "connection_restored": "Internet connection has been restored",
-  "you_are_offline": "You are currently offline"
+  "you_are_offline": "You are currently offline",
+  "numberOfDataPoints": "Number of data points: {value}",
+  "@numberOfDataPoints": {
+    "description": "A message with a formatted int parameter",
+    "placeholders": {
+      "value": {
+        "type": "int",
+        "format": "compactCurrency",
+        "optionalParameters": {
+          "decimalDigits": 2
+        }
+      }
+    }
+  }
 }

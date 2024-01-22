@@ -29,7 +29,7 @@ Future<void> initService() async {
     );
 
     if (kReleaseMode)
-      await SentryFlutter.init((options) => options.dsn = AppConfig.sentryDsn);
+      await SentryFlutter.init((options) => options.dsn = AppConfigs.sentryDsn);
     // set image cache size
     PaintingBinding.instance.imageCache
       ..maximumSize = 1000

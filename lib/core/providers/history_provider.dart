@@ -1,5 +1,5 @@
-import '../core/config.dart';
-import '../core/models/models.dart';
+import '../config.dart';
+import '../models/models.dart';
 
 final historyProvider = Provider.autoDispose<HistoryNotify>((ref) {
   return HistoryNotify();

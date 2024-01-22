@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../core/config.dart';
-import '../core/models/models.dart';
-import '../core/utilities/utilities.dart';
+import '../config.dart';
+import '../models/models.dart';
+import '../utilities/utilities.dart';
 import 'firebase_provider.dart';
 part 'search_provider.freezed.dart';
 

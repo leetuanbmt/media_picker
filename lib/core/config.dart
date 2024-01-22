@@ -19,10 +19,9 @@ export '../core/utilities/logger.dart';
 part 'styles/dimensions.dart';
 part 'styles/theme.dart';
 
-class AppConfig {
-  AppConfig._();
-  static const String title = 'Go Tip App';
+class AppConfigs {
   static const String baseUrl = 'https://reqres.in/api/';
+  static const String title = 'Go Tip App';
   static const String twitterConsumerKey = '85AYa4yAaJWikw0lsIQYI1PKI';
   static const String twitterConsumerSecret =
       'jLpkhyazdKaVibDEqoQuJFjuxsCyj0Ugzu54vCC9gHHFY1yr77';

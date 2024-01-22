@@ -1,6 +1,6 @@
 import '../../../core/config.dart';
 import '../../../core/models/models.dart';
-import '../../../providers/history_provider.dart';
+import '../../../core/providers/history_provider.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
 import 'widgets/point_confirm/point_confirm_detail.dart';
 import 'widgets/point_confirm/point_confirm_header.dart';

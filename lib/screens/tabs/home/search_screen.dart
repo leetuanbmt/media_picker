@@ -1,6 +1,6 @@
 import '../../../../core/config.dart';
-import '../../../providers/search_provider.dart';
-import '../../../routes/app_routes.gr.dart';
+import '../../../core/providers/search_provider.dart';
+import '../../../core/routes/app_routes.gr.dart';
 import '../../../widgets/commons/commons.dart';
 import '../../../widgets/creator_item.dart';
 import '../../../widgets/search_app_bar.dart';

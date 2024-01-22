@@ -1,7 +1,7 @@
 import '../../../../../core/config.dart';
 import '../../../../../core/models/enum/enum.dart';
-import '../../../../../providers/my_page_provider.dart';
-import '../../../../../routes/app_routes.gr.dart';
+import '../../../../../core/providers/my_page_provider.dart';
+import '../../../../../core/routes/app_routes.gr.dart';
 import '../../../../../widgets/commons/commons.dart';
 import '../device_connected.dart';
 import 'my_page_bottom_sheet.dart';

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../core/config.dart';
-import '../../../providers/firebase_provider.dart';
+import '../../../core/providers/firebase_provider.dart';
 import '../../../widgets/commons/commons.dart';
 import 'widgets/edit_profile/edit_detail.dart';
 import 'widgets/edit_profile/edit_profile_header.dart';

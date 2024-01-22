@@ -5,14 +5,17 @@ sealed class AppRepositories {
     required String userId,
     CancelToken? cancelToken,
   });
-  Future<Result<UserResultState>> getUserList({
+  Future<Result<PaginationResponse<UserM>>> getUserList({
     required int page,
+    int perPage = 10,
     CancelToken? cancelToken,
   });
 }
 
 class AppRepositoriesImpl extends BaseRepository implements AppRepositories {
-  late final RestClient restClient = RestClient(dio);
+  AppRepositoriesImpl({required this.clientProvider});
+  final Dio clientProvider;
+  late final RestClient restClient = RestClient(clientProvider);
 
   @override
   Future<Result<UserModel>> fetchUserInfo({
@@ -30,14 +33,29 @@ class AppRepositoriesImpl extends BaseRepository implements AppRepositories {
   }
 
   @override
-  Future<Result<UserResultState>> getUserList({
+  Future<Result<PaginationResponse<UserM>>> getUserList({
     required int page,
+    int perPage = 10,
     CancelToken? cancelToken,
-  }) {
-    return request(restClient.getUserList(page, 10, cancelToken));
+  }) async {
+    final data = await request(
+      restClient.getUserList(page, perPage, cancelToken),
+    );
+    try {
+      return data.when(
+        success: (data) {
+          return Result.success(
+              PaginationResponse.fromJson(data, UserM.fromJson));
+        },
+        failure: (error) => Result.failure(error),
+      );
+    } catch (e) {
+      Logger.log(e);
+      return Result.failure(
+        FailureException(
+          message: e.toString(),
+        ),
+      );
+    }
   }
-}
-
-base class Demo {
-  void setData() {}
 }

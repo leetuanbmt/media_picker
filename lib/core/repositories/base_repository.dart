@@ -1,29 +1,25 @@
 library repositories;
 
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 
-import '../../providers/user_provider.dart';
 import '../config.dart';
 import '../models/models.dart';
 import '../services/rest_client.dart';
+import '../utilities/pagination/pagination.dart';
+
 part 'app_repositories.dart';
 
 typedef CallBack<Data> = Future Function(Data? data);
 
 sealed class BaseRepository {
-  final dio = Dio(
-    BaseOptions(
-      baseUrl: AppConfig.baseUrl,
-      connectTimeout: const Duration(seconds: 5),
-      receiveTimeout: const Duration(seconds: 5),
-    ),
-  )..interceptors.add(DioInterceptor());
-
   Future<Result<Data>> request<Data>(Future<Data> call) async {
     try {
       final response = await call;
       return Result.success(response);
     } on Exception catch (exception) {
+      Logger.log(exception);
       if (exception is DioException) {
         int? errorCode = exception.response?.statusCode;
         final failure = FailureException(
@@ -52,20 +48,5 @@ sealed class BaseRepository {
         ),
       );
     }
-  }
-}
-
-base class DioInterceptor extends Interceptor {
-  @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final msg = options.uri.toString();
-    Logger.log(msg);
-    super.onRequest(options, handler);
-  }
-
-  @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    Logger.log(response.data);
-    super.onResponse(response, handler);
   }
 }

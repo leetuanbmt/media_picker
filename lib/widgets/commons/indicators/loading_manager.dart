@@ -1,5 +1,5 @@
 import '../../../core/config.dart';
-import 'loading.dart';
+import '../commons.dart';
 
 class LoadingManager {
   factory LoadingManager() => instance;
@@ -22,7 +22,7 @@ class LoadingManager {
       routeSettings: const RouteSettings(name: 'LoadingManager'),
       builder: (context) => const PopScope(
         canPop: false,
-        child: Center(child: Loading()),
+        child: Center(child: LoadingIndicator()),
       ),
     ).whenComplete(() {
       showLoading = false;

@@ -1,6 +1,6 @@
 import '../../../core/config.dart';
-import '../../../providers/user_provider.dart';
-import '../../../routes/app_routes.gr.dart';
+import '../../../core/providers/user_provider.dart';
+import '../../../core/routes/app_routes.gr.dart';
 import '../../../widgets/commons/app_bar_custom.dart';
 import 'widgets/profile_tab/profile_detail.dart';
 import 'widgets/profile_tab/profile_header.dart';

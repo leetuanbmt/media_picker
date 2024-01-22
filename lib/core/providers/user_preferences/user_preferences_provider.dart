@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import '../../core/config.dart';
-import '../../core/utilities/preferences/preferences.dart';
+import '../../config.dart';
+import '../../utilities/preferences/preferences.dart';
 import 'user_preferences_state.dart';
 
 final userPreferencesProvider =

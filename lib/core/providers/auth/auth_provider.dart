@@ -4,9 +4,9 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../../core/config.dart';
-import '../../core/models/models.dart';
-import '../../core/utilities/navigator.dart';
+import '../../config.dart';
+import '../../models/models.dart';
+import '../../utilities/navigator.dart';
 import '../firebase_provider.dart';
 import 'state/auth.dart';
 

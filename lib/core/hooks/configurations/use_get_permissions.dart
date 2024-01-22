@@ -1,7 +1,7 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../core/config.dart';
+import '../../config.dart';
 import '../utils/use_async_effect.dart';
 
 void useGetStoragePermissions() {

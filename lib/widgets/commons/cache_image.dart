@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:uuid/uuid.dart';
 import '../../core/config.dart';
-import '../../providers/firebase_provider.dart';
+import '../../core/providers/firebase_provider.dart';
 import 'online_dot_indicator.dart';
 import 'shimmer.dart';
 

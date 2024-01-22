@@ -1,8 +1,8 @@
 import '../core/config.dart';
 import '../core/models/models.dart';
-import '../providers/call_provider.dart';
-import '../providers/firebase_provider.dart';
-import '../routes/app_routes.gr.dart';
+import '../core/providers/call_provider.dart';
+import '../core/providers/firebase_provider.dart';
+import '../core/routes/app_routes.gr.dart';
 import '../widgets/commons/commons.dart';
 
 class ContactList extends ConsumerWidget {

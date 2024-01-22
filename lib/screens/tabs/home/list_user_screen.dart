@@ -1,6 +1,6 @@
 import '../../../core/config.dart';
 import '../../../core/models/models.dart';
-import '../../../routes/app_routes.gr.dart';
+import '../../../core/routes/app_routes.gr.dart';
 import '../../../widgets/creator_item.dart';
 
 @RoutePage()

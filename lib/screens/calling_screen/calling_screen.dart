@@ -6,13 +6,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:permission_handler/permission_handler.dart';
+
 import '../../core/config.dart';
 import '../../core/models/call/call.dart';
 import '../../core/models/call_history/call_history.dart';
 import '../../core/models/enum/enum.dart';
+import '../../core/providers/call_provider.dart';
+import '../../core/providers/firebase_provider.dart';
 import '../../core/utilities/utilities.dart';
-import '../../providers/call_provider.dart';
-import '../../providers/firebase_provider.dart';
 import '../../widgets/commons/cache_image.dart';
 import 'controls.dart';
 import 'peer_connection.dart';

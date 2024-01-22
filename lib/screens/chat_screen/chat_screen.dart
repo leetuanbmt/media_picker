@@ -15,21 +15,21 @@ import 'package:video_player/video_player.dart';
 
 import '../../core/config.dart';
 import '../../core/models/models.dart';
+import '../../core/providers/chart/chat_provider.dart';
+import '../../core/providers/firebase_provider.dart';
 import '../../core/utilities/utilities.dart';
-import '../../providers/chart/chat_provider.dart';
-import '../../providers/firebase_provider.dart';
 import '../../widgets/commons/commons.dart';
 import '../../widgets/commons/zoom_builder/media_builder_preview.dart';
 
+part 'widgets/chat_audio.dart';
 part 'widgets/chat_bottom_actions.dart';
 part 'widgets/chat_controls.dart';
+part 'widgets/chat_image.dart';
 part 'widgets/chat_item.dart';
 part 'widgets/chat_list.dart';
 part 'widgets/chat_text.dart';
 part 'widgets/chat_url.dart';
 part 'widgets/chat_video.dart';
-part 'widgets/chat_audio.dart';
-part 'widgets/chat_image.dart';
 
 @RoutePage()
 class ChatScreen extends StatefulWidget {

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../core/config.dart';
-import '../core/models/models.dart';
-import '../core/utilities/utilities.dart';
+import '../config.dart';
+import '../models/models.dart';
+import '../utilities/utilities.dart';
 
 typedef Json = Map<String, dynamic>;
 

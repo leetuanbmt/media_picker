@@ -33,20 +33,3 @@ class FailureException with _$FailureException {
     return 'FailureException(type: $type, error: $error, stackTrace: $stackTrace, message: $message, code: $code)';
   }
 }
-
-@freezed
-abstract class PaginationState<T> with _$PaginationState<T> {
-  const factory PaginationState.data(List<T> items) = _Data;
-  const factory PaginationState.error(Object? e) = _Error;
-  const factory PaginationState.loading() = _Loading;
-  const factory PaginationState.loadMore(List<T> items) = _OnLoadMore;
-  const factory PaginationState.loadMoreError(List<T> items, Object? e) =
-      _LoadMoreError;
-}
-
-class BaseResponse<T> {
-  final int total;
-  final List<T> items;
-
-  BaseResponse({required this.total, required this.items});
-}

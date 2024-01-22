@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 
 import '../../core/config.dart';
-import '../../routes/app_routes.gr.dart';
+import '../../core/routes/app_routes.gr.dart';
 
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   const AppBarCustom({

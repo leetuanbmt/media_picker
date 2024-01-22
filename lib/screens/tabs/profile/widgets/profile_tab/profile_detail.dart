@@ -1,10 +1,10 @@
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../../core/config.dart';
+import '../../../../../core/hooks/configurations/use_package_info.dart';
 import '../../../../../core/models/models.dart';
-import '../../../../../hooks/configurations/use_package_info.dart';
-import '../../../../../providers/auth/auth_notify.dart';
-import '../../../../../routes/app_routes.gr.dart';
+import '../../../../../core/providers/auth/auth_provider.dart';
+import '../../../../../core/routes/app_routes.gr.dart';
 import 'card_profile.dart';
 
 class ProfileDetail extends HookWidget {

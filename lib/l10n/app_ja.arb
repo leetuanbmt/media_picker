@@ -154,5 +154,18 @@
   "qrCode": "QRコード",
   "reading": "読み取り中...",
   "connection_restored": "インターネット接続が復旧しました",
-  "you_are_offline": "現在、オフラインです"
+  "you_are_offline": "現在、オフラインです",
+  "numberOfDataPoints": "Number of data points: {value}",
+  "@numberOfDataPoints": {
+    "description": "A message with a formatted int parameter",
+    "placeholders": {
+      "value": {
+        "type": "int",
+        "format": "compactCurrency",
+        "optionalParameters": {
+          "decimalDigits": 2
+        }
+      }
+    }
+  }
 }

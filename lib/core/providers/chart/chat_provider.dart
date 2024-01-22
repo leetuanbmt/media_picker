@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:gmo_media_picker/media_picker.dart';
 
-import '../../core/config.dart';
-import '../../core/models/models.dart';
-import '../../screens/chat_screen/chat_screen.dart';
+import '../../../screens/chat_screen/chat_screen.dart';
+import '../../config.dart';
+import '../../models/models.dart';
 import 'chart_state.dart';
 
 final chartProvider = StateNotifierProvider.autoDispose

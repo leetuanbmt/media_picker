@@ -2,8 +2,8 @@ import 'dart:developer';
 import 'dart:math';
 
 import '../../../core/config.dart';
-import '../../../providers/firebase_provider.dart';
-import '../../../routes/app_routes.gr.dart';
+import '../../../core/providers/firebase_provider.dart';
+import '../../../core/routes/app_routes.gr.dart';
 import '../../../widgets/commons/commons.dart';
 import '../../../widgets/search_app_bar.dart';
 import 'widgets/list_creator.dart';

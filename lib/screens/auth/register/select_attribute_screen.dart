@@ -1,6 +1,6 @@
 import '../../../core/config.dart';
 import '../../../core/models/enum/enum.dart';
-import '../../../routes/app_routes.gr.dart';
+import '../../../core/routes/app_routes.gr.dart';
 
 @RoutePage()
 class SelectAttributeScreen extends StatelessWidget {

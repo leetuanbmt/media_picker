@@ -60,3 +60,21 @@ class UserModel with _$UserModel {
         isOnline: true,
       );
 }
+
+@freezed
+class UserM with _$UserM {
+  const UserM._();
+
+  const factory UserM({
+    int? id,
+    String? email,
+    @JsonKey(name: 'first_name') String? firstName,
+    @JsonKey(name: 'last_name') String? lastName,
+    String? avatar,
+  }) = _UserM;
+
+  String get fullName => '$firstName $lastName';
+
+  factory UserM.fromJson(Object? json) =>
+      _$UserMFromJson(json as Map<String, dynamic>);
+}
