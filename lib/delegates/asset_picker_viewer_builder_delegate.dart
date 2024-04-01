@@ -28,8 +28,7 @@ abstract class AssetPickerViewerBuilderDelegate<Asset, Path> {
 
   final AssetSelectPredicate<Asset>? selectPredicate;
 
-  final StreamController<int> pageStreamController =
-      StreamController<int>.broadcast();
+  final pageStreamController = StreamController<int>.broadcast();
 
   final ScrollController previewingListController = ScrollController();
 
@@ -115,10 +114,6 @@ abstract class AssetPickerViewerBuilderDelegate<Asset, Path> {
       parent: doubleTapAnimationController,
       curve: Curves.easeInOut,
     );
-  }
-
-  OrdinalSortKey ordinalSortKey(double value) {
-    return OrdinalSortKey(value, name: 'AssetPickerViewerBuilderDelegate');
   }
 
   void updateAnimation(ExtendedImageGestureState state) {
@@ -250,11 +245,11 @@ class DefaultAssetPickerViewerBuilderDelegate
     required super.currentIndex,
     required super.previewAssets,
     required super.themeData,
+    required this.specialPickerType,
     super.selectorProvider,
     super.provider,
     super.selectedAssets,
     this.previewThumbnailSize,
-    this.specialPickerType,
     super.maxAssets,
     super.shouldReversePreview,
     super.selectPredicate,
@@ -262,7 +257,7 @@ class DefaultAssetPickerViewerBuilderDelegate
 
   final ThumbnailSize? previewThumbnailSize;
 
-  final SpecialPickerType? specialPickerType;
+  final SpecialPickerType specialPickerType;
 
   bool get isMoment => specialPickerType == SpecialPickerType.moment;
 
@@ -365,24 +360,21 @@ class DefaultAssetPickerViewerBuilderDelegate
     return PositionedDirectional(
       start: 16,
       top: context.topPadding + 16,
-      child: Semantics(
-        sortKey: ordinalSortKey(0),
-        child: IconButton(
-          onPressed: Navigator.of(context).maybePop,
-          padding: EdgeInsets.zero,
-          constraints: BoxConstraints.tight(const Size.square(28)),
-          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-          iconSize: 18,
-          icon: Container(
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: themeData.iconTheme.color,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.keyboard_return_rounded,
-              color: themeData.canvasColor,
-            ),
+      child: IconButton(
+        onPressed: Navigator.of(context).maybePop,
+        padding: EdgeInsets.zero,
+        constraints: BoxConstraints.tight(const Size.square(28)),
+        tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+        iconSize: 18,
+        icon: Container(
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: themeData.iconTheme.color,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            Icons.keyboard_return_rounded,
+            color: themeData.canvasColor,
           ),
         ),
       ),
@@ -431,7 +423,14 @@ class DefaultAssetPickerViewerBuilderDelegate
               padding: const EdgeInsets.symmetric(horizontal: 20.0)
                   .copyWith(bottom: context.bottomPadding),
               decoration: BoxDecoration(
-                border: Border(top: BorderSide(color: themeData.canvasColor)),
+                color: themeData.bottomNavigationBarTheme.backgroundColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(.05),
+                    blurRadius: 10,
+                    offset: const Offset(1, -1),
+                  ),
+                ],
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -542,55 +541,31 @@ class DefaultAssetPickerViewerBuilderDelegate
     );
   }
 
-  Widget appBar(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: Semantics(
-              sortKey: ordinalSortKey(0),
-              child: IconButton(
-                color: Colors.white,
-                icon: const Icon(Icons.close),
-                onPressed: Navigator.of(context).maybePop,
-              ),
-            ),
-          ),
-        ),
-        if (specialPickerType == null)
-          Expanded(
-            child: Center(
-              child: Semantics(
-                sortKey: ordinalSortKey(0.1),
-                child: StreamBuilder<int>(
-                  initialData: currentIndex,
-                  stream: pageStreamController.stream,
-                  builder: (_, AsyncSnapshot<int> snapshot) => ScaleText(
-                    '${snapshot.data! + 1}/${previewAssets.length}',
-                    style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  ),
+  AssetPickerAppBar appBar(BuildContext context) {
+    return AssetPickerAppBar(
+      leading: IconButton(
+        icon: const Icon(Icons.close),
+        onPressed: Navigator.of(context).maybePop,
+      ),
+      title: specialPickerType == SpecialPickerType.review
+          ? StreamBuilder<int>(
+              initialData: currentIndex,
+              stream: pageStreamController.stream,
+              builder: (_, AsyncSnapshot<int> snapshot) => ScaleText(
+                '${snapshot.data! + 1}/${previewAssets.length}',
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-            ),
-          ),
+            )
+          : null,
+      actions: [
         if (provider != null)
-          Expanded(
-            child: Container(
-              alignment: AlignmentDirectional.centerEnd,
-              padding: const EdgeInsetsDirectional.only(end: 14),
-              child: Semantics(
-                sortKey: ordinalSortKey(0.2),
-                child: selectButton(context),
-              ),
-            ),
-          )
-        else
-          const Spacer(),
+          Padding(
+            padding: const EdgeInsetsDirectional.only(end: 10),
+            child: selectButton(context),
+          ),
       ],
     );
   }
@@ -647,7 +622,7 @@ class DefaultAssetPickerViewerBuilderDelegate
                 : 20,
             height: 32,
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            color: themeData.primaryColor,
+            color: themeData.buttonTheme.colorScheme?.primary,
             disabledColor: themeData.dividerColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(3),
@@ -656,25 +631,13 @@ class DefaultAssetPickerViewerBuilderDelegate
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             child: ScaleText(
               buildText(),
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 17,
+              style: TextStyle(
+                fontSize: 16,
                 fontWeight: FontWeight.normal,
+                color: themeData.buttonTheme.colorScheme?.onPrimary,
               ),
               overflow: TextOverflow.fade,
               softWrap: false,
-              semanticsLabel: () {
-                if (isMoment && hasVideo) {
-                  return semanticsTextDelegate.confirm;
-                }
-                if (provider!.isSelectedNotEmpty) {
-                  return '${semanticsTextDelegate.confirm}'
-                      ' (${provider.currentlySelectedAssets.length}'
-                      '/'
-                      '${selectorProvider!.maxAssets})';
-                }
-                return semanticsTextDelegate.confirm;
-              }(),
             ),
           );
         },
@@ -698,23 +661,19 @@ class DefaultAssetPickerViewerBuilderDelegate
           Feedback.forTap(context);
           onChangingSelected(context, asset, isSelected);
         },
-        child: AnimatedContainer(
+        child: AnimatedSwitcher(
           duration: kThemeAnimationDuration,
-          width: 28.0,
-          decoration: BoxDecoration(
-            border: !isSelected
-                ? Border.all(color: themeData.iconTheme.color!)
-                : null,
-            color: isSelected ? themeData.colorScheme.secondary : Colors.white,
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Icon(
-              Icons.check,
-              size: 20.0,
-              color: isSelected ? Colors.white : Colors.black,
-            ),
-          ),
+          child: isSelected
+              ? Icon(
+                  Icons.check_circle,
+                  color: themeData.primaryColor,
+                  size: 28,
+                )
+              : Icon(
+                  Icons.check_circle_outline,
+                  color: themeData.primaryColor,
+                  size: 28,
+                ),
         ),
       ),
     );
@@ -750,7 +709,6 @@ class DefaultAssetPickerViewerBuilderDelegate
                       style: const TextStyle(
                         fontSize: 17,
                         height: 1.2,
-                        color: Colors.white,
                       ),
                       semanticsLabel: semanticsTextDelegate.select,
                     ),
@@ -765,31 +723,25 @@ class DefaultAssetPickerViewerBuilderDelegate
   }
 
   Widget _pageViewBuilder(BuildContext context) {
-    return Semantics(
-      sortKey: ordinalSortKey(1),
-      child: ExtendedImageGesturePageView.builder(
-        physics: previewAssets.length == 1
-            ? const CustomClampingScrollPhysics()
-            : const CustomBouncingScrollPhysics(),
-        controller: pageController,
-        itemCount: previewAssets.length,
-        itemBuilder: assetPageBuilder,
-        reverse: shouldReversePreview,
-        onPageChanged: (int index) {
-          currentIndex = index;
-          pageStreamController.add(index);
-        },
-      ),
+    return ExtendedImageGesturePageView.builder(
+      physics: previewAssets.length == 1
+          ? const CustomClampingScrollPhysics()
+          : const CustomBouncingScrollPhysics(),
+      controller: pageController,
+      itemCount: previewAssets.length,
+      itemBuilder: assetPageBuilder,
+      reverse: shouldReversePreview,
+      onPageChanged: (int index) {
+        currentIndex = index;
+        pageStreamController.add(index);
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: appBar(context),
-      ),
+      appBar: appBar(context),
       body: Stack(
         children: [
           Positioned.fill(child: _pageViewBuilder(context)),
@@ -808,35 +760,5 @@ class DefaultAssetPickerViewerBuilderDelegate
         ],
       ),
     );
-    // return Theme(
-    //   data: themeData,
-    //   child: AnnotatedRegion<SystemUiOverlayStyle>(
-    //     value: themeData.appBarTheme.systemOverlayStyle ??
-    //         (themeData.effectiveBrightness.isDark
-    //             ? SystemUiOverlayStyle.light
-    //             : SystemUiOverlayStyle.dark),
-    //     child: Material(
-    //       color: themeData.colorScheme.onSecondary,
-    //       child: Stack(
-    //         children: <Widget>[
-    //           Positioned.fill(child: _pageViewBuilder(context)),
-    //           if (isMoment && hasVideo) ...<Widget>[
-    //             momentVideoBackButton(context),
-    //             PositionedDirectional(
-    //               end: 16,
-    //               bottom: context.bottomPadding + 16,
-    //               child: confirmButton(context),
-    //             ),
-    //           ] else ...<Widget>[
-    //             appBar(context),
-    //             if (selectedAssets != null ||
-    //                 (isMoment && hasVideo && isAppleOS(context)))
-    //               bottomDetailBuilder(context),
-    //           ],
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }
