@@ -1730,7 +1730,7 @@ class DefaultAssetPickerBuilderDelegate
           decoration: BoxDecoration(
             border: !selected
                 ? Border.all(
-                    color: context.theme.unselectedWidgetColor,
+                    color: Colors.white,
                     width: indicatorSize / 25,
                   )
                 : null,

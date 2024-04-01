@@ -99,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-                  picker(RequestType.all);
+                  pickAssets(RequestType.all);
                 },
               ),
               MaterialButton(
@@ -109,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-                  picker(RequestType.common);
+                  pickAssets(RequestType.common);
                 },
               ),
               MaterialButton(
@@ -119,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-                  picker(RequestType.image);
+                  pickAssets(RequestType.image);
                 },
               ),
               MaterialButton(
@@ -129,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-                  picker(RequestType.video);
+                  pickAssets(RequestType.video);
                 },
               ),
               MaterialButton(
@@ -139,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-                  picker(RequestType.audio);
+                  pickAssets(RequestType.audio);
                 },
               ),
             ],
@@ -149,7 +149,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void picker(RequestType type) {
-    AssetPicker.pickAssets(context);
+  void pickAssets(RequestType type) {
+    AssetPicker.pickAssets(
+      context,
+      pickerConfig: AssetPickerConfig(
+        requestType: type,
+        maxAssets: isMulti ? 10 : 1,
+      ),
+    );
   }
 }

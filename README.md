@@ -53,8 +53,8 @@ dependencies:
 
 ## Screenshots
 
-| ![1](https://github.com/TuanMinhVan/media_picker/blob/main/ima/screen.jpg?raw=true) | ![2](https://github.com/TuanMinhVan/media_picker/blob/main/ima/path_list.jpg?raw=true) | ![3](https://github.com/TuanMinhVan/media_picker/blob/main/ima/review.jpg?raw=true) |
-| ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| ![1](./ima/screen.jpg) | ![2](./ima/path_list.jpg) | ![3](./ima/review.jpg) |
+| ---------------------- | ------------------------- | ---------------------- |
 
 ## Usage
 

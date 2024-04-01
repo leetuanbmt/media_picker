@@ -543,70 +543,55 @@ class DefaultAssetPickerViewerBuilderDelegate
   }
 
   Widget appBar(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: isDisplayingDetail,
-      builder: (_, bool value, Widget? child) => AnimatedPositionedDirectional(
-        duration: kThemeAnimationDuration,
-        curve: Curves.easeInOut,
-        top: value ? 0.0 : -(context.topPadding + kToolbarHeight),
-        start: 0.0,
-        end: 0.0,
-        height: context.topPadding + kToolbarHeight,
-        child: child!,
-      ),
-      child: Container(
-        padding: EdgeInsetsDirectional.only(top: context.topPadding),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: Semantics(
-                  sortKey: ordinalSortKey(0),
-                  child: IconButton(
-                    color: Colors.white,
-                    icon: const Icon(Icons.close),
-                    onPressed: Navigator.of(context).maybePop,
-                  ),
-                ),
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Semantics(
+              sortKey: ordinalSortKey(0),
+              child: IconButton(
+                color: Colors.white,
+                icon: const Icon(Icons.close),
+                onPressed: Navigator.of(context).maybePop,
               ),
             ),
-            if (specialPickerType == null)
-              Expanded(
-                child: Center(
-                  child: Semantics(
-                    sortKey: ordinalSortKey(0.1),
-                    child: StreamBuilder<int>(
-                      initialData: currentIndex,
-                      stream: pageStreamController.stream,
-                      builder: (_, AsyncSnapshot<int> snapshot) => ScaleText(
-                        '${snapshot.data! + 1}/${previewAssets.length}',
-                        style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                        ),
-                      ),
+          ),
+        ),
+        if (specialPickerType == null)
+          Expanded(
+            child: Center(
+              child: Semantics(
+                sortKey: ordinalSortKey(0.1),
+                child: StreamBuilder<int>(
+                  initialData: currentIndex,
+                  stream: pageStreamController.stream,
+                  builder: (_, AsyncSnapshot<int> snapshot) => ScaleText(
+                    '${snapshot.data! + 1}/${previewAssets.length}',
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
                     ),
                   ),
                 ),
               ),
-            if (provider != null)
-              Expanded(
-                child: Container(
-                  alignment: AlignmentDirectional.centerEnd,
-                  padding: const EdgeInsetsDirectional.only(end: 14),
-                  child: Semantics(
-                    sortKey: ordinalSortKey(0.2),
-                    child: selectButton(context),
-                  ),
-                ),
-              )
-            else
-              const Spacer(),
-          ],
-        ),
-      ),
+            ),
+          ),
+        if (provider != null)
+          Expanded(
+            child: Container(
+              alignment: AlignmentDirectional.centerEnd,
+              padding: const EdgeInsetsDirectional.only(end: 14),
+              child: Semantics(
+                sortKey: ordinalSortKey(0.2),
+                child: selectButton(context),
+              ),
+            ),
+          )
+        else
+          const Spacer(),
+      ],
     );
   }
 
@@ -724,11 +709,12 @@ class DefaultAssetPickerViewerBuilderDelegate
             shape: BoxShape.circle,
           ),
           child: Center(
-              child: Icon(
-            Icons.check,
-            size: 20.0,
-            color: isSelected ? Colors.white : Colors.black,
-          )),
+            child: Icon(
+              Icons.check,
+              size: 20.0,
+              color: isSelected ? Colors.white : Colors.black,
+            ),
+          ),
         ),
       ),
     );
@@ -799,35 +785,58 @@ class DefaultAssetPickerViewerBuilderDelegate
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: themeData,
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: themeData.appBarTheme.systemOverlayStyle ??
-            (themeData.effectiveBrightness.isDark
-                ? SystemUiOverlayStyle.light
-                : SystemUiOverlayStyle.dark),
-        child: Material(
-          color: themeData.colorScheme.onSecondary,
-          child: Stack(
-            children: <Widget>[
-              Positioned.fill(child: _pageViewBuilder(context)),
-              if (isMoment && hasVideo) ...<Widget>[
-                momentVideoBackButton(context),
-                PositionedDirectional(
-                  end: 16,
-                  bottom: context.bottomPadding + 16,
-                  child: confirmButton(context),
-                ),
-              ] else ...<Widget>[
-                appBar(context),
-                if (selectedAssets != null ||
-                    (isMoment && hasVideo && isAppleOS(context)))
-                  bottomDetailBuilder(context),
-              ],
-            ],
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: appBar(context),
+      ),
+      body: Stack(
+        children: [
+          Positioned.fill(child: _pageViewBuilder(context)),
+          if (isMoment && hasVideo) ...<Widget>[
+            PositionedDirectional(
+              end: 16,
+              bottom: context.bottomPadding + 16,
+              child: confirmButton(context),
+            ),
+          ] else ...<Widget>[
+            // appBar(context),
+            if (selectedAssets != null ||
+                (isMoment && hasVideo && isAppleOS(context)))
+              bottomDetailBuilder(context),
+          ],
+        ],
       ),
     );
+    // return Theme(
+    //   data: themeData,
+    //   child: AnnotatedRegion<SystemUiOverlayStyle>(
+    //     value: themeData.appBarTheme.systemOverlayStyle ??
+    //         (themeData.effectiveBrightness.isDark
+    //             ? SystemUiOverlayStyle.light
+    //             : SystemUiOverlayStyle.dark),
+    //     child: Material(
+    //       color: themeData.colorScheme.onSecondary,
+    //       child: Stack(
+    //         children: <Widget>[
+    //           Positioned.fill(child: _pageViewBuilder(context)),
+    //           if (isMoment && hasVideo) ...<Widget>[
+    //             momentVideoBackButton(context),
+    //             PositionedDirectional(
+    //               end: 16,
+    //               bottom: context.bottomPadding + 16,
+    //               child: confirmButton(context),
+    //             ),
+    //           ] else ...<Widget>[
+    //             appBar(context),
+    //             if (selectedAssets != null ||
+    //                 (isMoment && hasVideo && isAppleOS(context)))
+    //               bottomDetailBuilder(context),
+    //           ],
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }

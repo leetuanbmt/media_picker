@@ -106,7 +106,6 @@ class AssetPickerConfig {
   /// Whether to allow sort delegates to sort paths with
   /// [FilterOptionGroup.containsPathModified].
   /// [FilterOptionGroup.containsPathModified]
-  /// {@end template}
   final bool sortPathsByModifiedDate;
 
   /// Filter options for the picker.
