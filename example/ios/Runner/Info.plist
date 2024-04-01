@@ -45,5 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Requesting local network for debugging processes</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>You must agree with the photo album to see your pictures</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>You must agree the additions permission to save assets.</string>
 </dict>
 </plist>

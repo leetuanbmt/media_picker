@@ -9,7 +9,7 @@ class AssetPickerConfig {
     this.pathThumbnailSize = defaultPathThumbnailSize,
     this.previewThumbnailSize,
     this.requestType = RequestType.common,
-    this.specialPickerType,
+    this.specialPickerType = SpecialPickerType.review,
     this.keepScrollOffset = false,
     this.sortPathDelegate,
     this.sortPathsByModifiedDate = false,
@@ -94,7 +94,7 @@ class AssetPickerConfig {
   ///
   /// * [SpecialPickerType.moment]
   /// * [SpecialPickerType.noPreview]
-  final SpecialPickerType? specialPickerType;
+  final SpecialPickerType specialPickerType;
 
   /// Whether the picker should save the scroll offset between pushes and pops.
   final bool keepScrollOffset;

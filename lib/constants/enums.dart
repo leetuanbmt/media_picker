@@ -2,8 +2,8 @@ part of '../media_picker.dart';
 
 enum SpecialPickerType {
   moment,
-
-  noPreview,
+  review,
+  none,
 }
 
 enum SpecialItemPosition {

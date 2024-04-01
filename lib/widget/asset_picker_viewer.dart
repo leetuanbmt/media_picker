@@ -22,7 +22,7 @@ class AssetPickerViewer<Asset, Path> extends StatefulWidget {
     DefaultAssetPickerProvider? selectorProvider,
     ThumbnailSize? previewThumbnailSize,
     List<AssetEntity>? selectedAssets,
-    SpecialPickerType? specialPickerType,
+    required SpecialPickerType specialPickerType,
     int? maxAssets,
     bool shouldReversePreview = false,
     AssetSelectPredicate<AssetEntity>? selectPredicate,
