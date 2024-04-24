@@ -35,7 +35,9 @@ abstract class PaginationNotifier<T> extends StateNotifier<PaginationState<T>> {
 
   Future<void> _fetchFirst() async {
     _currentPage = 1;
+
     state = const PaginationState.loading();
+
     final result = await request(_currentPage);
     result.when(
       success: (data) {
@@ -65,6 +67,7 @@ abstract class PaginationNotifier<T> extends StateNotifier<PaginationState<T>> {
   }
 
   Future<void> onRefresh() async {
+    // reset page to 1
     _currentPage = 1;
     final result = await request(_currentPage);
     result.when(

@@ -1,4 +1,4 @@
-import 'package:biometric_storage/biometric_storage.dart';
+// import 'package:biometric_storage/biometric_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -177,16 +177,16 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
   }
 
   Future<void> loginFaceID(BuildContext context) async {
-    final response = await BiometricStorage().canAuthenticate();
-    if (response == CanAuthenticateResponse.success) {
-      final storage = await BiometricStorage().getStorage('login');
-      final credentials = await storage.read();
-      if (credentials != null) {
-        final email = credentials.split(' ')[0];
-        final password = credentials.split(' ')[1];
-        signInWithEmailAndPassword(email, password);
-      }
-    }
+    // final response = await BiometricStorage().canAuthenticate();
+    // if (response == CanAuthenticateResponse.success) {
+    //   final storage = await BiometricStorage().getStorage('login');
+    //   final credentials = await storage.read();
+    //   if (credentials != null) {
+    //     final email = credentials.split(' ')[0];
+    //     final password = credentials.split(' ')[1];
+    //     signInWithEmailAndPassword(email, password);
+    //   }
+    // }
   }
 
   Future<void> logout() async {

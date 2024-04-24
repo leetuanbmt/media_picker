@@ -20,15 +20,16 @@ class _RootAppState extends ConsumerState<RootApp> {
   @override
   Widget build(BuildContext context) {
     // locale
-    final locale = ref.watch(userPreferencesProvider.select((s) => s.locale));
+    final locale =
+        ref.watch(UserPreferencesNotifier.provider.select((s) => s.locale));
 
     // theme mode
     final themeMode =
-        ref.watch(userPreferencesProvider.select((s) => s.themeMode));
+        ref.watch(UserPreferencesNotifier.provider.select((s) => s.themeMode));
 
     // theme color
     final themeColor =
-        ref.watch(userPreferencesProvider.select((s) => s.themeColor));
+        ref.watch(UserPreferencesNotifier.provider.select((s) => s.themeColor));
 
     // light theme
     final lightTheme = useMemoized(
@@ -43,12 +44,12 @@ class _RootAppState extends ConsumerState<RootApp> {
     );
 
     // request permissions calling
-    useGetStoragePermissions();
+    // useGetStoragePermissions();
 
-    useGetCameraPermissions(isAudio: true);
+    // useGetCameraPermissions(isAudio: true);
 
 // deep linking and share intent form another app
-    useDeepLinking();
+    // useDeepLinking();
 
     return MaterialApp.router(
       title: AppConfigs.title,

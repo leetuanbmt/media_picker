@@ -12,9 +12,9 @@ class LoginForm extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pref = ref.watch(userPreferencesProvider);
+    final pref = ref.watch(UserPreferencesNotifier.provider);
 
-    final prefProvider = ref.watch(userPreferencesProvider.notifier);
+    final prefProvider = ref.watch(UserPreferencesNotifier.notifier);
 
     final emailController = useTextEditingController();
 
@@ -39,7 +39,7 @@ class LoginForm extends HookConsumerWidget {
       }
     }
 
-    ref.listen(userPreferencesProvider, (previous, next) {
+    ref.listen(UserPreferencesNotifier.provider, (previous, next) {
       setUser(next);
     });
     ref.listen(authProvider, (previous, next) {

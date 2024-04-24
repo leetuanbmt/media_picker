@@ -10,14 +10,16 @@ import '../../widgets/commons/cache_image.dart';
 import '../../widgets/commons/indicators/loading_indicator.dart';
 import '../../widgets/commons/indicators/loading_manager.dart';
 
-final userNotify =
-    StateNotifierProvider.autoDispose<UserNotify, PaginationState<UserM>>(
-        (ref) {
-  return UserNotify(ref);
-});
-
 class UserNotify extends PaginationNotifier<UserM> {
   final Ref ref;
+
+  static final provider =
+      StateNotifierProvider.autoDispose<UserNotify, PaginationState<UserM>>(
+          (ref) {
+    return UserNotify(ref);
+  });
+
+  static Refreshable<UserNotify> get notifier => provider.notifier;
 
   UserNotify(this.ref);
   @override
@@ -32,18 +34,18 @@ class MainScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(userNotify);
-    ref.listen(userNotify, (previous, next) {
+    final userNotify = ref.read(UserNotify.notifier);
+    final userProvider = ref.watch(UserNotify.provider);
+    ref.listen(UserNotify.notifier, (previous, next) {
       if (next is PaginationLoading) {
         LoadingManager().show(context);
       } else {
         LoadingManager().hide(context);
       }
     });
-    final controller = ref.watch(userNotify.notifier);
     final scrollController = usePagination(
-      controller.onLoadMore,
-      () => controller.canLoadMore(),
+      userNotify.onLoadMore,
+      () => userNotify.canLoadMore(),
     );
 
     return Scaffold(
@@ -56,16 +58,16 @@ class MainScreen extends HookConsumerWidget {
       ),
       body: AppLifecycleWidget(
         onResumed: () {
-          ref.read(userNotify.notifier).onRefresh();
+          userNotify.onRefresh();
         },
         child: RefreshIndicator(
           onRefresh: () async {
-            return ref.read(userNotify.notifier).onRefresh();
+            return userNotify.onRefresh();
           },
           child: CustomScrollView(
             controller: scrollController,
             slivers: [
-              state.maybeWhen(
+              userProvider.maybeWhen(
                 orElse: () => const SliverToBoxAdapter(),
                 success: (items) {
                   return ItemsListBuilder(items);
@@ -132,25 +134,10 @@ class LoadingMore extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SliverToBoxAdapter(
-      child: ref.watch(userNotify).maybeWhen(
+      child: ref.watch(UserNotify.provider).maybeWhen(
             orElse: () => const SizedBox.shrink(),
             loadMore: (_) => const LoadingIndicator(),
           ),
     );
-  }
-}
-
-class BaseHookConsumer extends StatefulHookConsumerWidget {
-  const BaseHookConsumer({super.key});
-
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _BaseHookConsumerState();
-}
-
-class _BaseHookConsumerState extends ConsumerState<BaseHookConsumer> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

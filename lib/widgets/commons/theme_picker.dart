@@ -17,8 +17,8 @@ class ThemePicker extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final preferences = ref.watch(userPreferencesProvider);
-    final preferencesNotifier = ref.watch(userPreferencesProvider.notifier);
+    final preferences = ref.watch(UserPreferencesNotifier.provider);
+    final preferencesNotifier = ref.watch(UserPreferencesNotifier.notifier);
     final colorTheme = useState(preferences.themeColor);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

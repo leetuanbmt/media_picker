@@ -4,12 +4,14 @@ import '../../config.dart';
 import '../../utilities/preferences/preferences.dart';
 import 'user_preferences_state.dart';
 
-final userPreferencesProvider =
-    StateNotifierProvider<UserPreferencesNotifier, UserPreferences>(
-  (ref) => UserPreferencesNotifier(),
-);
-
 class UserPreferencesNotifier extends PersistedStateNotifier<UserPreferences> {
+  static final provider = StateNotifierProvider.autoDispose<
+      UserPreferencesNotifier, UserPreferences>((ref) {
+    return UserPreferencesNotifier();
+  });
+
+  static Refreshable<UserPreferencesNotifier> get notifier => provider.notifier;
+
   UserPreferencesNotifier()
       : super(
           UserPreferences.withDefaults(),
