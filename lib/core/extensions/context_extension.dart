@@ -23,8 +23,6 @@ extension ContextEx on BuildContext {
 
   Color get surface => colorScheme.surface;
 
-  Color get background => colorScheme.background;
-
   Color get error => colorScheme.error;
 
   Color get onPrimary => colorScheme.onPrimary;
@@ -32,8 +30,6 @@ extension ContextEx on BuildContext {
   Color get onSecondary => colorScheme.onSecondary;
 
   Color get onSurface => colorScheme.onSurface;
-
-  Color get onBackground => colorScheme.onBackground;
 
   Color get onError => colorScheme.onError;
 

@@ -48,9 +48,6 @@ class QRScreen extends StatelessWidget {
                 onDetect: (BarcodeCapture capture) {
                   Logger.log(capture.barcodes);
                 },
-                onScannerStarted: (arguments) {
-                  Logger.log(arguments);
-                },
               ),
             ),
           ),

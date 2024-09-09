@@ -63,14 +63,17 @@ class OTPScreen extends StatelessWidget {
     FocusScope.of(context).unfocus();
     LoadingManager.instance.show(context);
     Future.delayed(1.seconds, () {
+      if (!context.mounted) return;
       LoadingManager.instance.hide(context);
       WidgetsBinding.instance.endOfFrame.then((value) {
         if (authType == AuthType.login) {
+          if (!context.mounted) return;
           AutoRouter.of(context).pushAndPopUntil(
             const HomeRoute(),
             predicate: (_) => false,
           );
         } else {
+          if (!context.mounted) return;
           AutoRouter.of(context).push(const SelectAttributeRoute());
         }
       });

@@ -21,7 +21,7 @@ class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
       (timeStamp) {
         MyPageDialog().showDialogSpentAllPoint(context);
         Future.delayed(const Duration(seconds: 3), () {
-          context.back();
+          Navigator.of(context).pop();
         });
       },
     );

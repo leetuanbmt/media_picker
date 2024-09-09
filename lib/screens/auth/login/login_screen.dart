@@ -24,48 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
-  void checkUserInJapan() {
-    Logger.log('checkUserInJapan');
-    isUserInJapan().then(
-      (isInJapan) {
-        if (!isInJapan) {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Location Restriction'),
-                content: const Text('Login is only available in Japan.'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
-        }
-      },
-      onError: (e) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Location Restriction'),
-              content: Text(e.toString()),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
   Future<bool> isUserInJapan() async {
     try {
       LocationPermission permission = await Geolocator.checkPermission();
@@ -89,9 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
 
       // Use a geo location library like 'geolocator' to get the user's location
-      final Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
+      final Position position = await Geolocator.getCurrentPosition();
       Logger.log(position.toJson());
       // Implement your logic to determine if the user is in Japan based on their location
       // For simplicity, let's assume that if the latitude is between 24 and 46 (roughly Japan's latitudinal range),

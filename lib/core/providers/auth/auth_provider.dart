@@ -69,7 +69,9 @@ class AuthNotifier extends StateNotifier<AuthenticationState> {
     switch (result.status) {
       case LoginStatus.success:
         final accessToken = result.accessToken!;
-        final credential = FacebookAuthProvider.credential(accessToken.token);
+        final credential = FacebookAuthProvider.credential(
+          accessToken.tokenString,
+        );
         final userCredential = await firebaseAuth.signInWithCredential(
           credential,
         );

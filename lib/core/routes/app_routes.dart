@@ -1,10 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'app_routes.gr.dart';
 
 @AutoRouterConfig()
-class AppRouter extends $AppRouter implements AutoRouteGuard {
+class AppRouter extends RootStackRouter {
   @override
   final List<AutoRoute> routes = [
     AutoRoute(
@@ -63,16 +62,7 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
   ];
 
   @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) {
-    final authenticated = FirebaseAuth.instance.currentUser != null;
-    if (authenticated || resolver.route.name != DashboardRoute.name) {
-      resolver.next(true);
-    } else {
-      resolver.redirect(
-        LoginRoute(onResult: (didLogin) => resolver.next(didLogin)),
-      );
-    }
-  }
+  final List<AutoRouteGuard> guards = [AuthGuard()];
 }
 
 @RoutePage(name: 'HomeTabRoute')
@@ -88,4 +78,18 @@ class ProfileTab extends AutoRouter {
 @RoutePage(name: 'SearchTabRoute')
 class SearchTab extends AutoRouter {
   const SearchTab({super.key});
+}
+
+class AuthGuard extends AutoRouteGuard {
+  @override
+  void onNavigation(NavigationResolver resolver, StackRouter router) {
+    final authenticated = FirebaseAuth.instance.currentUser != null;
+    if (authenticated || resolver.route.name != DashboardRoute.name) {
+      resolver.next(true);
+    } else {
+      resolver.redirect(
+        LoginRoute(onResult: (didLogin) => resolver.next(didLogin)),
+      );
+    }
+  }
 }

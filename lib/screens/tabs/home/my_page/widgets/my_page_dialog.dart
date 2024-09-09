@@ -11,6 +11,7 @@ class MyPageDialog {
         Future.delayed(
           const Duration(seconds: 3),
         ).whenComplete(() {
+          if (!context.mounted) return;
           Navigator.of(context).pop();
         });
         return Center(
@@ -35,6 +36,7 @@ class MyPageDialog {
       barrierDismissible: false,
       builder: (context) {
         Future.delayed(const Duration(seconds: 3), () {
+          if (!context.mounted) return;
           Navigator.of(context).pop();
         });
         return Center(
@@ -178,6 +180,7 @@ class AutoDialog extends StatelessWidget {
     Future.delayed(const Duration(seconds: 2)).whenComplete(() {
       isAnimation.value = true;
       Future.delayed(const Duration(seconds: 3), () {
+        if (!context.mounted) return;
         Navigator.of(context).pop();
         MyPageDialog().showDiaLogSuccess(context);
       });

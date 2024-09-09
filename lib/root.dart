@@ -3,8 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 
 import 'core/config.dart';
-import 'core/hooks/configurations/use_deep_linking.dart';
-import 'core/hooks/configurations/use_get_permissions.dart';
 import 'core/providers/user_preferences/user_preferences_provider.dart';
 import 'core/utilities/navigator.dart';
 import 'screens/calling_screen/loading_wrapper_screen.dart';

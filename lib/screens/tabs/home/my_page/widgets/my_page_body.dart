@@ -15,6 +15,7 @@ class DeviceConnected extends StatelessWidget {
     MyPageBottomSheet()
         .showBottomSheet(context, const ControlRequestBottomSheet(), () {
       Future.delayed(const Duration(seconds: 3), () {
+        if (!context.mounted) return;
         final controlStatus = provider.requestStatus;
         if (controlStatus == RequestControlStatus.requesting) {
           ScaffoldMessenger.of(context).showSnackBar(

@@ -17,6 +17,7 @@ class MyPageFooter extends StatelessWidget {
 
       if (isSendPoint) {
         Future.delayed(const Duration(seconds: 10), () {
+          if (!context.mounted) return;
           showDialog(
             barrierDismissible: false,
             context: context,

@@ -62,6 +62,7 @@ class DashboardScreen extends HookConsumerWidget {
         setUserState(true);
         final subscription =
             InternetConnection().onStatusChange.listen((status) {
+          if (!context.mounted) return;
           showToastConnect(context, status);
         });
         return () {
@@ -96,7 +97,7 @@ class DashboardScreen extends HookConsumerWidget {
             currentIndex: tabsRouter.activeIndex,
             onChange: (index) {
               if (index == tabsRouter.activeIndex) {
-                tabsRouter.topRoute.router.pop();
+                tabsRouter.topRoute.router.maybePop();
               } else {
                 tabsRouter.setActiveIndex(index);
               }

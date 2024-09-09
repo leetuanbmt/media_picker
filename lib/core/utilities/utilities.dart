@@ -23,6 +23,7 @@ class AppUtils {
 // show toast message
   static void toast(BuildContext context, String? msg) {
     WidgetsBinding.instance.endOfFrame.then((value) {
+      if (!context.mounted) return;
       VxToast.show(
         context,
         msg: msg ?? '',
