@@ -72,7 +72,7 @@ class ReportUserBottomSheet extends StatelessWidget {
             ),
             Text(
               context.lang.userReports,
-              style: context.headlineSmall!.copyWith(
+              style: context.textTheme.headlineSmall!.copyWith(
                 fontWeight: FontWeight.w600,
                 color: const Color(0xff4F4F4F),
               ),
@@ -84,7 +84,7 @@ class ReportUserBottomSheet extends StatelessWidget {
               maxLines: 5,
               decoration: InputDecoration(
                 hintText: context.lang.reportViolationsByUser,
-                hintStyle: context.titleSmall!.copyWith(
+                hintStyle: context.textTheme.titleSmall!.copyWith(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w300,
                   color: AppTheme.boxFont,
@@ -98,7 +98,7 @@ class ReportUserBottomSheet extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(
-                bottom: context.screenPadding.bottom,
+                bottom: context.padding.bottom,
               ),
               child: Consumer(
                 builder: (context, ref, child) {
@@ -136,7 +136,7 @@ class SelectCoinBottomSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.read(myPageProvider);
 
-    final style = context.labelMedium!.copyWith(
+    final style = context.textTheme.labelMedium!.copyWith(
       fontSize: 12.sp,
       fontWeight: FontWeight.w600,
     );
@@ -208,7 +208,7 @@ class SelectCoinBottomSheet extends ConsumerWidget {
                       RichText(
                         text: TextSpan(
                           text: '99999',
-                          style: context.titleLarge!.copyWith(
+                          style: context.textTheme.titleLarge!.copyWith(
                             fontSize: 24.sp,
                             fontWeight: FontWeight.w600,
                           ),
@@ -414,7 +414,7 @@ class SelectCoinBottomSheet extends ConsumerWidget {
             height: 24.19.h,
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: context.screenPadding.bottom),
+            padding: EdgeInsets.only(bottom: context.padding.bottom),
             child: ButtonCustom(
               context.lang.sendPoints,
               height: 48.h,
@@ -463,7 +463,7 @@ class SelectChargeBottomSheet extends StatelessWidget {
           ),
           Text(
             context.lang.possessionPoints,
-            style: context.titleSmall!.copyWith(
+            style: context.textTheme.titleSmall!.copyWith(
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
             ),
@@ -481,7 +481,7 @@ class SelectChargeBottomSheet extends StatelessWidget {
               SizedBox(width: 11.65.w),
               Text(
                 '2000',
-                style: context.headlineLarge!.copyWith(
+                style: context.textTheme.headlineLarge!.copyWith(
                   fontSize: 32.sp,
                   fontWeight: FontWeight.w600,
                 ),
@@ -507,7 +507,7 @@ class SelectChargeBottomSheet extends StatelessWidget {
                     ),
                     Text(
                       '500',
-                      style: context.titleMedium!.copyWith(
+                      style: context.textTheme.titleMedium!.copyWith(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
                       ),
@@ -548,7 +548,7 @@ class SelectChargeBottomSheet extends StatelessWidget {
             valueListenable: pointSelected,
             builder: (context, value, child) {
               return Padding(
-                padding: EdgeInsets.only(bottom: context.screenPadding.bottom),
+                padding: EdgeInsets.only(bottom: context.padding.bottom),
                 child: Consumer(
                   builder: (context, ref, child) {
                     return ButtonCustom(
@@ -621,7 +621,7 @@ class SettingBottomSheet extends ConsumerWidget {
           ),
           Text(
             title,
-            style: context.titleLarge!.copyWith(
+            style: context.textTheme.titleLarge!.copyWith(
               fontSize: 24.sp,
               fontWeight: FontWeight.w600,
             ),
@@ -631,7 +631,7 @@ class SettingBottomSheet extends ConsumerWidget {
           ),
           Text(
             content,
-            style: context.labelLarge!.copyWith(
+            style: context.textTheme.labelLarge!.copyWith(
               fontSize: 15.sp,
               fontWeight: FontWeight.w300,
               color: AppTheme.fontGrayLead,
@@ -642,7 +642,7 @@ class SettingBottomSheet extends ConsumerWidget {
           ),
           DropdownMenu(
             width: 328.37.w,
-            textStyle: context.titleMedium!.copyWith(
+            textStyle: context.textTheme.titleMedium!.copyWith(
               fontSize: 16.sp,
               fontWeight: FontWeight.w300,
               color: AppTheme.boxFont,
@@ -670,7 +670,7 @@ class SettingBottomSheet extends ConsumerWidget {
           Consumer(
             builder: (context, ref, child) {
               return Padding(
-                padding: EdgeInsets.only(bottom: context.screenPadding.bottom),
+                padding: EdgeInsets.only(bottom: context.padding.bottom),
                 child: ButtonCustom(
                   context.lang.set,
                   height: 48.h,
@@ -719,7 +719,7 @@ class ControlRequestBottomSheet extends ConsumerWidget {
       ),
     );
 
-    final style = context.labelLarge!.copyWith(
+    final style = context.textTheme.labelLarge!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w600,
       color: AppTheme.fontGrayLead,
@@ -750,7 +750,7 @@ class ControlRequestBottomSheet extends ConsumerWidget {
             ),
             Text(
               context.lang.controlRequestSettings,
-              style: context.titleLarge!.copyWith(
+              style: context.textTheme.titleLarge!.copyWith(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w600,
                 color: AppTheme.blackBold,
@@ -783,7 +783,7 @@ class ControlRequestBottomSheet extends ConsumerWidget {
                     ),
                     Text(
                       '99999',
-                      style: context.headlineSmall!.copyWith(
+                      style: context.textTheme.headlineSmall!.copyWith(
                         fontSize: 24.sp,
                         fontWeight: FontWeight.w600,
                       ),
@@ -793,7 +793,7 @@ class ControlRequestBottomSheet extends ConsumerWidget {
                     ),
                     Text(
                       'pt',
-                      style: context.labelMedium!.copyWith(
+                      style: context.textTheme.labelMedium!.copyWith(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
                       ),
@@ -901,8 +901,7 @@ class ControlRequestBottomSheet extends ConsumerWidget {
             Consumer(
               builder: (context, ref, child) {
                 return Padding(
-                  padding:
-                      EdgeInsets.only(bottom: context.screenPadding.bottom),
+                  padding: EdgeInsets.only(bottom: context.padding.bottom),
                   child: ButtonCustom(
                     context.lang.sendRequest,
                     height: 42.h,
@@ -932,7 +931,7 @@ class ConfirmFinishBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.bodySmall!.copyWith(
+    final style = context.textTheme.bodySmall!.copyWith(
       fontWeight: FontWeight.w600,
       color: AppTheme.blackBold,
     );
@@ -948,7 +947,7 @@ class ConfirmFinishBottomSheet extends StatelessWidget {
           ),
           Text(
             context.lang.confirmFinish,
-            style: context.titleLarge!.copyWith(
+            style: context.textTheme.titleLarge!.copyWith(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,
               color: AppTheme.blackBold,
@@ -976,7 +975,7 @@ class ConfirmFinishBottomSheet extends StatelessWidget {
               ),
               Text(
                 '20000',
-                style: context.headlineSmall!.copyWith(
+                style: context.textTheme.headlineSmall!.copyWith(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w500,
                   color: AppTheme.blackBold,
@@ -993,7 +992,7 @@ class ConfirmFinishBottomSheet extends StatelessWidget {
             height: 32.h,
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: context.screenPadding.bottom),
+            padding: EdgeInsets.only(bottom: context.padding.bottom),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

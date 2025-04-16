@@ -26,7 +26,7 @@ class RegisterUserName extends ConsumerWidget {
           ),
           Text(
             context.lang.decideOnUsername,
-            style: context.titleLarge!.copyWith(
+            style: context.textTheme.titleLarge!.copyWith(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,
               color: AppTheme.blackBold,
@@ -90,7 +90,7 @@ class InputInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.bodyMedium!.copyWith(
+    final style = context.textTheme.bodyMedium!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w600,
       color: AppTheme.fontBoldLight,

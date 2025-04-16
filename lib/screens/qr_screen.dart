@@ -29,7 +29,7 @@ class QRScreen extends StatelessWidget {
           SizedBox(height: 60.h),
           Text(
             context.lang.reading,
-            style: context.titleMedium?.copyWith(
+            style: context.textTheme.titleMedium?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w600,
             ),

@@ -55,7 +55,7 @@ class UsagePlayScreen extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   '利用シーン',
-                  style: context.titleLarge?.copyWith(
+                  style: context.textTheme.titleLarge?.copyWith(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w600,
                   ),
@@ -69,7 +69,7 @@ class UsagePlayScreen extends StatelessWidget {
                     children: [
                       Text(
                         e['title'] ?? '',
-                        style: context.titleMedium?.copyWith(
+                        style: context.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                           fontSize: 14.sp,
                         ),
@@ -82,33 +82,27 @@ class UsagePlayScreen extends StatelessWidget {
                   ),
                 );
               }),
-              SizedBox(height: 25.h),
+              Gap(25.h),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    TextApp.bold(
                       '使い方の例',
-                      style: context.titleLarge?.copyWith(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      type: TextType.xlg,
                     ),
-                    SizedBox(height: 31.h),
+                    Gap(31.h),
                     ...usageExample.map(
                       (e) {
                         return Padding(
                           padding: EdgeInsets.only(bottom: 12.h),
-                          child: Text(
+                          child: TextApp(
                             e,
-                            style: context.titleLarge?.copyWith(
-                              fontSize: 14.sp,
-                              color: usageExample.last == e
-                                  ? context.primaryColor
-                                  : null,
-                              fontWeight: FontWeight.w300,
-                            ),
+                            fontWeight: FontWeight.w300,
+                            color: usageExample.last == e
+                                ? context.primaryColor
+                                : null,
                           ),
                         );
                       },

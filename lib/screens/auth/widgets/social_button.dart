@@ -27,7 +27,7 @@ class SocialButton extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-              color: AppTheme.black.withOpacity(0.1),
+              color: AppTheme.black.withValues(alpha: 0.1),
             ),
           ),
           child: const Icon(Icons.apple, size: 40),
@@ -61,7 +61,7 @@ class SocialList extends StatelessWidget {
       children: [
         Text(
           context.lang.logInWithYourSNSAccount,
-          style: context.bodyMedium!.copyWith(
+          style: context.textTheme.bodyMedium!.copyWith(
             color: AppTheme.blackBold,
             fontWeight: FontWeight.w600,
           ),

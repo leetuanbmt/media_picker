@@ -7,7 +7,7 @@ class ChartList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final messageAsync = ref.watch(chartProvider(chatId));
     return messageAsync.maybeWhen(
-      orElse: () => Dimensions.empty,
+      orElse: () => const SizedBox.shrink(),
       loading: () => const Loading(),
       success: (messages) {
         return AnimatedList(

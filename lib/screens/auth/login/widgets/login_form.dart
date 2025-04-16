@@ -121,7 +121,7 @@ class LoginForm extends HookConsumerWidget {
                     },
                     child: Text(
                       context.lang.logInAutomaticallyNextTime,
-                      style: context.bodySmall!.copyWith(
+                      style: context.textTheme.bodySmall!.copyWith(
                         color: AppTheme.fontGrayLead,
                         fontWeight: FontWeight.w300,
                       ),

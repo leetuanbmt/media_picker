@@ -23,7 +23,7 @@ class RegisterSuccessDialog {
                 ),
                 Text(
                   context.lang.registerCompleted,
-                  style: context.bodyLarge!.copyWith(
+                  style: context.textTheme.bodyLarge!.copyWith(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w600,
                     color: AppTheme.blackBold,

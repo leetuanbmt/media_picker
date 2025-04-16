@@ -108,9 +108,9 @@ class _ChatAudioState extends State<ChatAudio> {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(9),
-        color: Colors.grey.withOpacity(0.2),
+        color: Colors.grey.withValues(alpha: 0.2),
         border: Border.all(
-          color: Colors.blueGrey.withOpacity(0.3),
+          color: Colors.blueGrey.withValues(alpha: 0.3),
           width: 0.5,
         ),
       ),
@@ -121,16 +121,19 @@ class _ChatAudioState extends State<ChatAudio> {
             child: SizedBox.square(
               dimension: 40,
               child: isLoading
-                  ? const LoadingIndicator(
-                      color: Colors.white,
-                      width: 40,
-                      strokeWidth: 1,
+                  ? Container(
+                      color: context.primaryColor,
+                      margin: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        color: context.primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const LoadingIndicator(
+                        color: Colors.white,
+                        width: 40,
+                        strokeWidth: 1,
+                      ),
                     )
-                      .box
-                      .margin(const EdgeInsets.all(3))
-                      .color(context.primaryColor)
-                      .roundedFull
-                      .make()
                   : Icon(
                       isPlaying
                           ? Icons.pause_circle_filled
@@ -173,7 +176,7 @@ class _ChatAudioState extends State<ChatAudio> {
                           stops: <double>[value / max, value / max],
                           colors: <Color>[
                             context.colorScheme.primary,
-                            Colors.white.withOpacity(.85),
+                            Colors.white.withValues(alpha: .85),
                           ],
                         ).createShader(rect),
                         child: Container(
@@ -204,7 +207,9 @@ class _ChatAudioState extends State<ChatAudio> {
                           min: 0,
                           max: max,
                           value: value.toDouble(),
-                          label: AppUtils.formatDuration(value.seconds),
+                          label: AppUtils.formatDuration(
+                            Duration(seconds: value),
+                          ),
                           divisions: 100,
                           onChangeStart: (_) => _dragging = true,
                           onChangeEnd: (double val) {
@@ -219,11 +224,12 @@ class _ChatAudioState extends State<ChatAudio> {
                     ],
                   ),
                 ),
-                Dimensions.width5,
+                Gap(5.w),
                 Center(
                   child: Text(
-                    AppUtils.formatDuration((duration - value).seconds),
-                    style: context.labelMedium?.copyWith(
+                    AppUtils.formatDuration(
+                        Duration(seconds: duration - value)),
+                    style: context.textTheme.labelMedium?.copyWith(
                       fontWeight: FontWeight.normal,
                       color: context.primaryColor,
                     ),

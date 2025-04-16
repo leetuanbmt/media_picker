@@ -50,7 +50,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
           hintText: context.lang.searchByUser,
           filled: true,
           fillColor: Colors.white,
-          hintStyle: context.labelMedium?.copyWith(
+          hintStyle: context.textTheme.labelMedium?.copyWith(
             fontSize: 16.sp,
             fontWeight: FontWeight.w300,
             color: AppTheme.boxFont,

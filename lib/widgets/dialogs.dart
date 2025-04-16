@@ -1,4 +1,4 @@
-library dialogs;
+library;
 
 import '../core/config.dart';
 
@@ -33,7 +33,7 @@ class AppDialog {
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.only(bottom: context.screenPadding.bottom),
+          padding: EdgeInsets.only(bottom: context.padding.bottom),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -54,7 +54,7 @@ class AppDialog {
                 padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
                 child: Text(
                   title,
-                  style: context.titleLarge?.copyWith(
+                  style: context.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: AppTheme.blackBold,
                   ),

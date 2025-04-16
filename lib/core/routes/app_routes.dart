@@ -87,7 +87,7 @@ class AuthGuard extends AutoRouteGuard {
     if (authenticated || resolver.route.name != DashboardRoute.name) {
       resolver.next(true);
     } else {
-      resolver.redirect(
+      resolver.redirectUntil(
         LoginRoute(onResult: (didLogin) => resolver.next(didLogin)),
       );
     }

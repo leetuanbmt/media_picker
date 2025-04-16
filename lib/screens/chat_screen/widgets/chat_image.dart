@@ -19,7 +19,7 @@ class ChatImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return switch (total) {
-      0 => Dimensions.empty,
+      0 => const SizedBox.shrink(),
       1 => _buildSingleImage(context),
       2 => _buildTwoImages(context),
       3 => _buildThreeImages(context),
@@ -251,7 +251,7 @@ class ChatImage extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: aspectRatio,
               child: Container(
-                color: Colors.white.withOpacity(0.5),
+                color: Colors.white.withValues(alpha: 0.5),
                 child: Center(
                   child: Text(
                     '+$valueCount',

@@ -100,7 +100,7 @@ class _ColorLoader3State extends State<Loading>
                     ),
                     child: Dot(
                       radius: dotRadius,
-                      color: context.primaryColor.withOpacity(.5),
+                      color: context.primaryColor.withValues(alpha: .5),
                     ),
                   ),
                   Transform.translate(
@@ -120,7 +120,7 @@ class _ColorLoader3State extends State<Loading>
                     ),
                     child: Dot(
                       radius: dotRadius,
-                      color: context.primaryColor.withOpacity(.5),
+                      color: context.primaryColor.withValues(alpha: .5),
                     ),
                   ),
                   Transform.translate(
@@ -140,7 +140,7 @@ class _ColorLoader3State extends State<Loading>
                     ),
                     child: Dot(
                       radius: dotRadius,
-                      color: context.primaryColor.withOpacity(.5),
+                      color: context.primaryColor.withValues(alpha: .5),
                     ),
                   ),
                   Transform.translate(

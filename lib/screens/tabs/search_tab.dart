@@ -32,7 +32,7 @@ class SearchScreen extends StatelessWidget {
                 ),
                 child: Text(
                   context.lang.recommendation,
-                  style: context.titleSmall?.copyWith(
+                  style: context.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -80,7 +80,7 @@ class SearchScreen extends StatelessWidget {
                 ),
                 child: Text(
                   context.lang.searchByCategory,
-                  style: context.titleSmall?.copyWith(
+                  style: context.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -144,10 +144,10 @@ class CategoryItem extends StatelessWidget {
               ),
             ),
           ),
-          HeightBox(5.h),
+          Gap(5.h),
           Text(
             category.split(' ').last,
-            style: context.labelMedium?.copyWith(
+            style: context.textTheme.labelMedium?.copyWith(
               fontWeight: FontWeight.w600,
             ),
           ),

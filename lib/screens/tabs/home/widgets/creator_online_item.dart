@@ -41,7 +41,7 @@ class CreatorOnlineItem extends ConsumerWidget {
               ),
               child: Text(
                 creator?.firstCategory.removeIcon ?? '',
-                style: context.labelMedium?.copyWith(
+                style: context.textTheme.labelMedium?.copyWith(
                   color: Colors.white,
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,

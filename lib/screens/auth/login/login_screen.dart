@@ -140,12 +140,12 @@ class LoginInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.bodySmall!.copyWith(
+    final style = context.textTheme.bodySmall!.copyWith(
       color: AppTheme.fontGrayLead,
     );
     return Column(
       children: [
-        HeightBox(30.h),
+        Gap(30.h),
         RichText(
           text: TextSpan(
             style: style,
@@ -199,7 +199,7 @@ class LoginByFaceID extends ConsumerWidget {
         SizedBox(height: 20.h),
         Text(
           context.lang.logInWithFaceID,
-          style: context.bodyMedium?.copyWith(
+          style: context.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w600,
             color: AppTheme.fontBoldLight,
           ),

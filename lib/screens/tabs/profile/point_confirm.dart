@@ -98,7 +98,7 @@ class HistoryItem extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: '${history.point}',
-                      style: context.bodyMedium?.copyWith(
+                      style: context.textTheme.bodyMedium?.copyWith(
                         color: pointColor,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
@@ -107,14 +107,14 @@ class HistoryItem extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: history.suffix,
-                          style: context.bodyMedium?.copyWith(
+                          style: context.textTheme.bodyMedium?.copyWith(
                             color: AppTheme.fontBoldLight,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         TextSpan(
                           text: history.title,
-                          style: context.bodyMedium?.copyWith(
+                          style: context.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w300,
                           ),
                         ),
@@ -126,7 +126,7 @@ class HistoryItem extends StatelessWidget {
               SizedBox(height: 4.h),
               Text(
                 history.date.format('d/M H:s'),
-                style: context.labelSmall?.copyWith(
+                style: context.textTheme.labelSmall?.copyWith(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w300,
                   color: AppTheme.fontGrayLead,

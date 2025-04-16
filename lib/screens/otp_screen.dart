@@ -19,7 +19,7 @@ class OTPScreen extends StatelessWidget {
     final theme = PinTheme(
       width: 42.w,
       height: 50.h,
-      textStyle: context.bodyMedium,
+      textStyle: context.textTheme.bodyMedium,
       decoration: decoration,
     );
 
@@ -62,7 +62,7 @@ class OTPScreen extends StatelessWidget {
   void sentOTP(BuildContext context, String val) {
     FocusScope.of(context).unfocus();
     LoadingManager.instance.show(context);
-    Future.delayed(1.seconds, () {
+    Future.delayed(const Duration(seconds: 1), () {
       if (!context.mounted) return;
       LoadingManager.instance.hide(context);
       WidgetsBinding.instance.endOfFrame.then((value) {
@@ -93,7 +93,7 @@ class OTPTitle extends StatelessWidget {
         ),
         Text(
           '認証コードを入力してください',
-          style: context.titleMedium!.copyWith(
+          style: context.textTheme.titleMedium!.copyWith(
             fontWeight: FontWeight.w600,
             color: AppTheme.blackBold,
           ),
@@ -104,7 +104,7 @@ class OTPTitle extends StatelessWidget {
         Text(
           'メールアドレスに送信した認証コードを入力し、登録\nを完成させましょう！',
           textAlign: TextAlign.center,
-          style: context.bodySmall?.copyWith(
+          style: context.textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w300,
             color: AppTheme.fontGrayLead,
           ),

@@ -32,7 +32,7 @@ class CategoryPicker extends HookWidget {
     return Consumer(
       builder: (context, ref, child) {
         return ref.watch(categoriesProvider).maybeWhen(
-              orElse: () => Dimensions.empty,
+              orElse: () => const SizedBox.shrink(),
               data: (categories) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

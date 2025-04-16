@@ -119,7 +119,11 @@ class ChatProvider extends StateNotifier<ChatState> {
     messages.insert(0, message);
     listKey.currentState?.insertItem(0);
     state = ChatState.success(messages);
-    scroll.animateTo(0, duration: 3.milliseconds, curve: Curves.easeOut);
+    scroll.animateTo(
+      0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
   }
 
 // remove message from list

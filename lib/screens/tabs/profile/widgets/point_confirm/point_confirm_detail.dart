@@ -60,7 +60,7 @@ class PointConfirmDetail extends StatelessWidget {
                   ),
                   Text(
                     context.lang.thisMonth,
-                    style: context.bodyMedium?.copyWith(
+                    style: context.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),

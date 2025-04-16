@@ -34,7 +34,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                   child: RichText(
                     text: TextSpan(
                       text: context.lang.fan,
-                      style: context.titleMedium?.copyWith(
+                      style: context.textTheme.titleMedium?.copyWith(
                         color: AppTheme.pink,
                         fontSize: 20.sp,
                         fontWeight: FontWeight.w600,
@@ -42,7 +42,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                       children: [
                         TextSpan(
                           text: context.lang.enjoyAs,
-                          style: context.titleMedium?.copyWith(
+                          style: context.textTheme.titleMedium?.copyWith(
                             fontSize: 15.sp,
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
@@ -86,7 +86,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                 },
                 child: Text(
                   context.lang.controlRequest,
-                  style: context.titleLarge?.copyWith(
+                  style: context.textTheme.titleLarge?.copyWith(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w700,
                   ),
@@ -100,7 +100,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
               child: RichText(
                 text: TextSpan(
                   text: context.lang.fan,
-                  style: context.titleMedium?.copyWith(
+                  style: context.textTheme.titleMedium?.copyWith(
                     color: AppTheme.purple,
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w600,
@@ -108,7 +108,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                   children: [
                     TextSpan(
                       text: context.lang.enjoyAs,
-                      style: context.titleMedium?.copyWith(
+                      style: context.textTheme.titleMedium?.copyWith(
                         fontSize: 15.sp,
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
@@ -149,7 +149,7 @@ class _UsageFlowScreenState extends State<UsageFlowScreen> {
                 },
                 child: Text(
                   context.lang.tipsToEarnPoints,
-                  style: context.titleLarge?.copyWith(
+                  style: context.textTheme.titleLarge?.copyWith(
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w700,
                   ),
@@ -195,7 +195,7 @@ class _BubbleCustom extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
         child: Text(
           context.lang.convertTipDescription,
-          style: context.titleMedium?.copyWith(
+          style: context.textTheme.titleMedium?.copyWith(
             fontSize: 14.sp,
             fontWeight: FontWeight.w600,
             color: Colors.white,
@@ -234,7 +234,7 @@ class _UseGuideFlow extends StatelessWidget {
         SizedBox(height: 8.h),
         Text(
           title,
-          style: context.labelSmall?.copyWith(fontSize: 12.sp),
+          style: context.textTheme.labelSmall?.copyWith(fontSize: 12.sp),
           textAlign: TextAlign.center,
         ),
       ],

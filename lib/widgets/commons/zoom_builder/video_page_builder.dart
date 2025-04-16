@@ -227,7 +227,7 @@ class _VideoPageBuilderState extends State<VideoPageBuilder>
       alignment: Alignment.bottomCenter,
       child: Container(
         height: 40,
-        color: Colors.black.withOpacity(.2),
+        color: Colors.black.withValues(alpha: .2),
         child: Row(
           children: <Widget>[
             _buildSkipBack(),

@@ -77,8 +77,8 @@ class RegisterUserScreen extends ConsumerWidget {
                         (index) => SizedBox.square(
                           dimension: 8,
                           child: CircleAvatar(
-                            backgroundColor: Colors.white.withOpacity(
-                              activePage == index ? 1 : 0.7,
+                            backgroundColor: Colors.white.withValues(
+                              alpha: activePage == index ? 1 : 0.7,
                             ),
                           ),
                         ),

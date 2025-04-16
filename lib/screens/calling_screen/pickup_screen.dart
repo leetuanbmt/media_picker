@@ -95,7 +95,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
                   SizedBox(height: context.screenHeight * .2),
                   Text(
                     widget.call.callerName,
-                    style: context.headlineMedium?.copyWith(
+                    style: context.textTheme.headlineMedium?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
@@ -103,7 +103,7 @@ class _PickupScreenState extends ConsumerState<PickupScreen> {
                   const SizedBox(height: 20),
                   Text(
                     context.lang.incomingCall,
-                    style: context.bodyMedium?.copyWith(
+                    style: context.textTheme.bodyMedium?.copyWith(
                       color: Colors.white,
                     ),
                   ),

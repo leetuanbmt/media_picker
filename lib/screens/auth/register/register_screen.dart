@@ -36,7 +36,7 @@ class RegisterInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.bodyMedium!.copyWith(
+    final style = context.textTheme.bodyMedium!.copyWith(
       fontSize: 12,
       color: AppTheme.fontGrayLead,
     );

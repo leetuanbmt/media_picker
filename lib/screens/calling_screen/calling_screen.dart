@@ -255,7 +255,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
   }
 
   void dragUpdate(DragUpdateDetails details) {
-    final appBarHeight = kTextTabBarHeight + context.screenPadding.top;
+    final appBarHeight = kTextTabBarHeight + context.padding.top;
     final minWidth = context.screenWidth - 120.w;
     final minHeight = context.screenHeight - 150.h - appBarHeight.h;
     position.value = Offset(
@@ -297,13 +297,13 @@ class _CallScreenState extends ConsumerState<CallScreen> {
               dimension: MediaQuery.of(context).size,
             ),
             Container(
-              color: Colors.black.withOpacity(.5),
+              color: Colors.black.withValues(alpha: .5),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     call.hasDialled ? call.receiverName : call.callerName,
-                    style: context.headlineMedium?.copyWith(
+                    style: context.textTheme.headlineMedium?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
@@ -311,7 +311,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
                   const SizedBox(height: 20),
                   Text(
                     status,
-                    style: context.bodyMedium?.copyWith(
+                    style: context.textTheme.bodyMedium?.copyWith(
                       color: Colors.white,
                     ),
                   ),
@@ -341,7 +341,7 @@ class _CallScreenState extends ConsumerState<CallScreen> {
                     width: 120.w,
                     clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(.5),
+                      color: Colors.black.withValues(alpha: .5),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: RTCVideoView(

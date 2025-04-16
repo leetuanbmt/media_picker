@@ -420,7 +420,7 @@
 //     if (isDownloading || isFetching) {
 //       shape = ShapeDecoration(
 //         shape: const CircleBorder(),
-//         color: Colors.white.withOpacity(0),
+//         color: Colors.white.withValues(alpha: 0),
 //       );
 //     }
 
@@ -473,7 +473,7 @@
 //           return CircularProgressIndicator(
 //             backgroundColor: isDownloading
 //                 ? CupertinoColors.lightBackgroundGray
-//                 : Colors.white.withOpacity(0),
+//                 : Colors.white.withValues(alpha: 0),
 //             valueColor: AlwaysStoppedAnimation(
 //               isFetching
 //                   ? CupertinoColors.lightBackgroundGray

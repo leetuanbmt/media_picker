@@ -38,7 +38,7 @@ class ProfileHeader extends StatelessWidget {
                     ),
                     Text(
                       user?.id ?? 'ID:0000000',
-                      style: context.labelSmall?.copyWith(
+                      style: context.textTheme.labelSmall?.copyWith(
                         color: AppTheme.fontGray3,
                         fontWeight: FontWeight.w400,
                       ),
@@ -125,7 +125,7 @@ class FollowItem extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   @override
   Widget build(BuildContext context) {
-    final titleStyle = context.bodySmall?.copyWith(
+    final titleStyle = context.textTheme.bodySmall?.copyWith(
       color: AppTheme.fontGray3,
       fontWeight: FontWeight.w300,
     );
@@ -167,7 +167,7 @@ class _TagCustom extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         title,
-        style: context.labelSmall?.copyWith(
+        style: context.textTheme.labelSmall?.copyWith(
           fontSize: 12.sp,
           color: Colors.white,
           fontWeight: FontWeight.w600,

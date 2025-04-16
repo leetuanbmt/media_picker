@@ -21,7 +21,7 @@ class RegisterBankAccountScreen extends StatelessWidget {
             Text(
               context.lang.registerYourStripeAccount,
               textAlign: TextAlign.center,
-              style: context.titleLarge!.copyWith(
+              style: context.textTheme.titleLarge!.copyWith(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w600,
                 color: AppTheme.blackBold,
@@ -32,7 +32,7 @@ class RegisterBankAccountScreen extends StatelessWidget {
             ),
             Text(
               context.lang.registerAccountWithdrawPoint,
-              style: context.bodyMedium!.copyWith(
+              style: context.textTheme.bodyMedium!.copyWith(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w300,
                 color: const Color(0xff828282),

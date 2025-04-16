@@ -55,7 +55,7 @@ class _TimeReMainingIndicatorState extends State<TimeReMainingIndicator> {
             builder: (context, value, child) {
               return Text(
                 '${(dragPosition.value * 11.12).toInt()}mb', // MAX 300mp /27 = 11.12
-                style: context.titleMedium!.copyWith(
+                style: context.textTheme.titleMedium!.copyWith(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
@@ -68,9 +68,7 @@ class _TimeReMainingIndicatorState extends State<TimeReMainingIndicator> {
           painter: TrianglePainter(),
           size: Size(9.5.w, 8.h),
         ),
-        SizedBox(
-          height: 10.h,
-        ),
+        Gap(10.h),
         ValueListenableBuilder(
           valueListenable: dragPosition,
           builder: (context, value, child) {
@@ -111,9 +109,7 @@ class _TimeReMainingIndicatorState extends State<TimeReMainingIndicator> {
             );
           },
         ),
-        SizedBox(
-          height: 15.57.h,
-        ),
+        Gap(15.57.h),
         Container(
           width: 337.07.w,
           height: 44.h,
@@ -166,7 +162,7 @@ class _TimeReMainingIndicatorState extends State<TimeReMainingIndicator> {
                             left: sliderValue.value * 15.2,
                             child: Text(
                               '${sliderValue.value.round().toString()}${context.lang.seconds}',
-                              style: context.bodyMedium!.copyWith(
+                              style: context.textTheme.bodyMedium!.copyWith(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
@@ -235,7 +231,7 @@ class TextItem extends StatelessWidget {
       value,
       overflow: TextOverflow.ellipsis,
       maxLines: 1,
-      style: context.bodySmall!.copyWith(
+      style: context.textTheme.bodySmall!.copyWith(
         fontSize: 12.sp,
         fontWeight: FontWeight.w600,
         color: Colors.white,
@@ -262,7 +258,7 @@ class SwitchButtonSetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.labelMedium!.copyWith(
+    final style = context.textTheme.labelMedium!.copyWith(
       fontSize: 12.sp,
       fontWeight: FontWeight.w600,
     );
@@ -280,14 +276,12 @@ class SwitchButtonSetting extends StatelessWidget {
                     height: 31.h,
                     width: 51.w,
                     child: CupertinoSwitch(
-                      activeColor: context.primaryColor,
+                      inactiveTrackColor: context.primaryColor,
                       value: valueSetting,
                       onChanged: onChanged,
                     ),
                   ),
-                  SizedBox(
-                    width: 14.w,
-                  ),
+                  Gap(14.w),
                   Text(
                     content,
                     style: style.copyWith(
@@ -308,9 +302,7 @@ class SwitchButtonSetting extends StatelessWidget {
                           color: AppTheme.fontGray3,
                         ),
                       ),
-                      SizedBox(
-                        width: 8.w,
-                      ),
+                      Gap(8.w),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(48.w, 24.h),

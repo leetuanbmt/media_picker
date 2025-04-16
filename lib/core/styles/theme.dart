@@ -14,7 +14,7 @@ class AppColor extends Color {
 
   @override
   String toString() {
-    return '$name:$value';
+    return '$name:$a';
   }
 }
 
@@ -71,26 +71,26 @@ class AppTheme {
     statusBarBrightness: Brightness.light,
   );
   static final Set<AppColor> supportColors = {
-    AppColor(Colors.indigo.value, name: 'Indigo'),
-    AppColor(Colors.red.value, name: 'Red'),
-    AppColor(Colors.pink.value, name: 'Pink'),
-    AppColor(Colors.purple.value, name: 'Purple'),
-    AppColor(Colors.deepPurple.value, name: 'DeepPurple'),
-    AppColor(Colors.blue.value, name: 'Blue'),
-    AppColor(Colors.lightBlue.value, name: 'LightBlue'),
-    AppColor(Colors.cyan.value, name: 'Cyan'),
-    AppColor(Colors.teal.value, name: 'Teal'),
-    AppColor(Colors.green.value, name: 'Green'),
-    AppColor(Colors.lightGreen.value, name: 'LightGreen'),
-    AppColor(Colors.yellow.value, name: 'Yellow'),
-    AppColor(Colors.amber.value, name: 'Amber'),
-    AppColor(Colors.orange.value, name: 'Orange'),
-    AppColor(Colors.deepOrange.value, name: 'DeepOrange'),
-    AppColor(Colors.brown.value, name: 'Brown'),
+    AppColor(Colors.indigo.toARGB32(), name: 'Indigo'),
+    AppColor(Colors.red.toARGB32(), name: 'Red'),
+    AppColor(Colors.pink.toARGB32(), name: 'Pink'),
+    AppColor(Colors.purple.toARGB32(), name: 'Purple'),
+    AppColor(Colors.deepPurple.toARGB32(), name: 'DeepPurple'),
+    AppColor(Colors.blue.toARGB32(), name: 'Blue'),
+    AppColor(Colors.lightBlue.toARGB32(), name: 'LightBlue'),
+    AppColor(Colors.cyan.toARGB32(), name: 'Cyan'),
+    AppColor(Colors.teal.toARGB32(), name: 'Teal'),
+    AppColor(Colors.green.toARGB32(), name: 'Green'),
+    AppColor(Colors.lightGreen.toARGB32(), name: 'LightGreen'),
+    AppColor(Colors.yellow.toARGB32(), name: 'Yellow'),
+    AppColor(Colors.amber.toARGB32(), name: 'Amber'),
+    AppColor(Colors.orange.toARGB32(), name: 'Orange'),
+    AppColor(Colors.deepOrange.toARGB32(), name: 'DeepOrange'),
+    AppColor(Colors.brown.toARGB32(), name: 'Brown'),
   };
 
   static Color findByValue(int value) {
-    return supportColors.firstWhere((e) => e.value == value);
+    return supportColors.firstWhere((e) => e.toARGB32() == value);
   }
 
   static const surface = Color(0xffF5F8FA);
@@ -116,6 +116,12 @@ class AppTheme {
       colorScheme: colorScheme,
       scaffoldBackgroundColor: Colors.white,
       dividerColor: const Color(0x1F000000),
+      cardTheme: const CardTheme(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+      ),
       appBarTheme: AppBarTheme(
         scrolledUnderElevation: 0,
         backgroundColor: primaryColor,

@@ -1,15 +1,15 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../widgets/commons/indicators/loading_manager.dart';
 import '../config.dart';
-import '../utilities/utilities.dart';
 
 extension ContextEx on BuildContext {
   AppLocalizations get lang => AppLocalizations.of(this)!;
 
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
+
+  ThemeData get theme => Theme.of(this);
 
   Color get primary => colorScheme.primary;
 
@@ -33,60 +33,39 @@ extension ContextEx on BuildContext {
 
   Color get onError => colorScheme.onError;
 
-  TextTheme get textTheme => Theme.of(this).textTheme;
+  TextTheme get textTheme => theme.textTheme;
 
-  // TextStyle get overline => Theme.of(this).textTheme.labelSmall!;
+  Color get primaryColor => theme.primaryColor;
 
-  // TextStyle get caption => Theme.of(this).textTheme.bodySmall!;
+  EdgeInsets get padding => MediaQuery.paddingOf(this);
 
-  // TextStyle get button => Theme.of(this).textTheme.labelLarge!;
+  double get screenWidth => MediaQuery.sizeOf(this).width;
 
-  // TextStyle get bodyText2 => Theme.of(this).textTheme.bodyMedium!;
+  double get screenHeight => MediaQuery.sizeOf(this).height;
 
-  // TextStyle get bodyText1 => Theme.of(this).textTheme.bodyLarge!;
+  Size get screenSize => MediaQuery.sizeOf(this);
 
-  // TextStyle get subtitle2 => Theme.of(this).textTheme.titleSmall!;
-
-  // TextStyle get subtitle1 => Theme.of(this).textTheme.titleMedium!;
-
-  // TextStyle get headline1 => Theme.of(this).textTheme.displayLarge!;
-
-  // TextStyle get headline2 => Theme.of(this).textTheme.displayMedium!;
-
-  // TextStyle get headline3 => Theme.of(this).textTheme.displaySmall!;
-
-  // TextStyle get headline4 => Theme.of(this).textTheme.headlineMedium!;
-
-  // TextStyle get headline5 => Theme.of(this).textTheme.headlineSmall!;
-
-  // TextStyle get headline6 => Theme.of(this).textTheme.titleLarge!;
-
-  // Size get mediaSize => MediaQuery.of(this).size;
-
-  // double get width => MediaQuery.of(this).size.width;
-
-  // double get height => MediaQuery.of(this).size.height;
-
-  // double get scale => MediaQuery.of(this).devicePixelRatio;
-
-  // Orientation get orientation => MediaQuery.of(this).orientation;
-
-  // Color get dividerColor => Theme.of(this).dividerColor;
-
-  // Color get canvasColor => Theme.of(this).canvasColor;
-
-  // EdgeInsets get padding => MediaQuery.of(this).padding;
-
-  // double get widthScale => width > height ? height : width;
-
-  // double get heightScale => width < height ? height : width;
-
-  // int get widthPixels => (width * height).toInt();
-
-  // int get heightPixels => (height * scale).toInt();
   void startLoading() => LoadingManager().show(this);
+
   void endLoading() => LoadingManager().hide(this);
-  void toast(String? message) => AppUtils.toast(this, message ?? '');
+
+  void toast(String? message) => showSnackBar(message ?? '');
+
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(this)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
+            ),
+          ),
+        ),
+      );
+  }
 
   Future<dynamic> navigator(PageRouteInfo route) =>
       AutoRouter.of(this).navigate(route);

@@ -163,7 +163,7 @@ class _NotificationItem extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 5.0),
             child: Text(
               'ここにユーザーからフォローされたなどの情報が入ります',
-              style: context.bodyMedium?.copyWith(
+              style: context.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: AppTheme.blackBold,
                 fontSize: 15.sp,
@@ -172,7 +172,7 @@ class _NotificationItem extends StatelessWidget {
           ),
           subtitle: Text(
             '30分前',
-            style: context.bodySmall?.copyWith(
+            style: context.textTheme.bodySmall?.copyWith(
               color: AppTheme.fontGrayLead,
               fontSize: 13.sp,
             ),

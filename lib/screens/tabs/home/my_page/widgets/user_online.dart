@@ -37,7 +37,7 @@ class UserNormal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.titleSmall!.copyWith(
+    final style = context.textTheme.titleSmall!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w600,
     );
@@ -172,7 +172,7 @@ class UserNormal extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: context.screenPadding.bottom),
+              padding: EdgeInsets.only(bottom: context.padding.bottom),
               child: Consumer(
                 builder: (context, ref, child) {
                   final isShow = ref.watch(
@@ -257,7 +257,7 @@ class UserBlocked extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 60.w),
           child: Text(
             '${user.name} ${context.lang.hasBlocked}',
-            style: context.titleMedium!.copyWith(
+            style: context.textTheme.titleMedium!.copyWith(
               fontSize: 18.sp,
               fontWeight: FontWeight.w600,
             ),

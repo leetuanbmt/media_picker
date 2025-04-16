@@ -88,7 +88,7 @@ class CallHistoryItem extends ConsumerWidget {
       ),
       title: Text(
         history.name,
-        style: context.titleMedium?.copyWith(
+        style: context.textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -105,10 +105,10 @@ class CallHistoryItem extends ConsumerWidget {
                 ? Colors.redAccent
                 : const Color(0xff47C3BE),
           ),
-          Dimensions.width5,
+          Gap(5.w),
           Text(
             history.time,
-            style: context.labelMedium?.copyWith(
+            style: context.textTheme.labelMedium?.copyWith(
               color: AppTheme.fontGrayLead,
             ),
           ),
@@ -143,7 +143,13 @@ class TimeDuration extends StatelessWidget {
           color: context.primaryColor,
           borderRadius: const BorderRadius.all(Radius.circular(20)),
         ),
-        child: totalCall().text.size(10).white.make(),
+        child: Text(
+          totalCall(),
+          style: context.textTheme.bodyMedium?.copyWith(
+            color: Colors.white,
+            fontSize: 10,
+          ),
+        ),
       ),
     );
   }

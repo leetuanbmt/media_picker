@@ -43,7 +43,7 @@ class CreatorOnlineItem extends StatelessWidget {
               ),
               child: Text(
                 model?.firstCategory ?? '👗ファッション',
-                style: context.labelMedium?.copyWith(
+                style: context.textTheme.labelMedium?.copyWith(
                   color: Colors.white,
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
@@ -55,13 +55,13 @@ class CreatorOnlineItem extends StatelessWidget {
               children: [
                 Text(
                   model?.name ?? 'ゆうこ',
-                  style: context.labelMedium?.copyWith(
+                  style: context.textTheme.labelMedium?.copyWith(
                     color: Colors.white,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                2.widthBox,
+                Gap(2.w),
                 CircleAvatar(
                   radius: 8.r,
                   child: Icon(Icons.check, size: 12.sp),

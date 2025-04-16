@@ -1,4 +1,4 @@
-library media_review;
+library;
 
 import 'dart:async';
 import 'dart:math' as math;

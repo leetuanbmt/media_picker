@@ -37,7 +37,7 @@ class ChartListItem extends ConsumerWidget {
                   dimension: const Size.square(40),
                   radius: 100,
                 ),
-                Dimensions.width10,
+                Gap(10.w),
                 Flexible(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +46,7 @@ class ChartListItem extends ConsumerWidget {
                       Text.rich(
                         TextSpan(
                           text: message.name,
-                          style: context.bodyMedium?.copyWith(
+                          style: context.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                           children: [
@@ -54,7 +54,7 @@ class ChartListItem extends ConsumerWidget {
                               alignment: PlaceholderAlignment.middle,
                               child: Text(
                                 ' ${message.timestamp.timeAgo()}',
-                                style: context.labelSmall,
+                                style: context.textTheme.labelSmall,
                               ),
                             ),
                           ],

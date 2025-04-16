@@ -140,7 +140,7 @@ class PhotoViewScreen extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: context.surface.withOpacity(0.3),
+                color: context.surface.withValues(alpha: 0.3),
               ),
               child: SizedBox.square(
                 dimension: 30.r,

@@ -14,7 +14,7 @@ class EditProfileHeader extends StatelessWidget {
           children: [
             Container(
               height: 56.h,
-              color: context.primaryColor.withOpacity(.2),
+              color: context.primaryColor.withValues(alpha: .2),
             ),
             Container(
               height: 56.h,

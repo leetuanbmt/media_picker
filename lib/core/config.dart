@@ -1,4 +1,4 @@
-library config;
+library;
 
 import 'package:flutter/services.dart';
 
@@ -9,14 +9,15 @@ export 'package:auto_size_text/auto_size_text.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter_hooks/flutter_hooks.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
+export 'package:gap/gap.dart';
 export 'package:hooks_riverpod/hooks_riverpod.dart';
-export 'package:velocity_x/velocity_x.dart';
 
+export '../../../l10n/app_localizations.dart';
 export '../core/collections/collections.dart';
 export '../core/extensions/extension.dart';
 export '../core/utilities/logger.dart';
+export '../widgets/commons/title_widget.dart';
 
-part 'styles/dimensions.dart';
 part 'styles/theme.dart';
 
 class AppConfigs {

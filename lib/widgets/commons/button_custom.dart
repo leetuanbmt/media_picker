@@ -78,7 +78,7 @@ class ButtonCustom extends StatelessWidget {
           onPressed: onPressed,
           child: Text(
             textContent,
-            style: context.bodyMedium!.copyWith(
+            style: context.textTheme.bodyMedium!.copyWith(
               fontSize: fontSize,
               color: textColor ?? context.primaryColor,
               fontWeight: fontWeight,
@@ -105,7 +105,7 @@ class ButtonCustom extends StatelessWidget {
                 )
               : AutoSizeText(
                   textContent,
-                  style: context.bodyMedium!.copyWith(
+                  style: context.textTheme.bodyMedium!.copyWith(
                     fontSize: fontSize,
                     color: titleColor,
                     fontWeight: fontWeight,

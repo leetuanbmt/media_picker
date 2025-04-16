@@ -30,8 +30,8 @@ class MyPageDialog {
     );
   }
 
-  void showDialogSpentAllPoint(BuildContext context) {
-    showDialog(
+  Future<void> showDialogSpentAllPoint(BuildContext context) {
+    return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
@@ -54,7 +54,7 @@ class MyPageDialog {
                 ),
                 Text(
                   context.lang.spentAllPoint,
-                  style: context.titleLarge!.copyWith(
+                  style: context.textTheme.titleLarge!.copyWith(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w600,
                     color: AppTheme.blackBold,
@@ -78,7 +78,7 @@ class DelayDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.bodySmall!.copyWith(
+    final style = context.textTheme.bodySmall!.copyWith(
       fontSize: 12.sp,
       fontWeight: FontWeight.w600,
       color: AppTheme.blackBold,
@@ -148,7 +148,7 @@ class DelayDialog extends StatelessWidget {
               },
               child: Text(
                 context.lang.cancel,
-                style: context.titleSmall!.copyWith(
+                style: context.textTheme.titleSmall!.copyWith(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   color: context.primaryColor,
@@ -169,7 +169,7 @@ class AutoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.bodySmall!.copyWith(
+    final style = context.textTheme.bodySmall!.copyWith(
       fontSize: 12.sp,
       fontWeight: FontWeight.w600,
       color: AppTheme.black,
@@ -228,7 +228,7 @@ class AutoDialog extends StatelessWidget {
                               ),
                               Text(
                                 '30',
-                                style: context.displaySmall!.copyWith(
+                                style: context.textTheme.displaySmall!.copyWith(
                                   fontSize: 40.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppTheme.blackBold,
@@ -255,7 +255,7 @@ class AutoDialog extends StatelessWidget {
                                     end: Alignment.bottomCenter,
                                     colors: [
                                       AppTheme.purple,
-                                      AppTheme.purple.withOpacity(0),
+                                      AppTheme.purple.withValues(alpha: 0),
                                     ],
                                   )
                                 : null,
@@ -266,7 +266,8 @@ class AutoDialog extends StatelessWidget {
                             children: [
                               Text(
                                 '3000',
-                                style: context.headlineSmall!.copyWith(
+                                style:
+                                    context.textTheme.headlineSmall!.copyWith(
                                   fontSize: 24.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white,
@@ -275,7 +276,7 @@ class AutoDialog extends StatelessWidget {
                               ),
                               Text(
                                 'pt',
-                                style: context.titleMedium!.copyWith(
+                                style: context.textTheme.titleMedium!.copyWith(
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white,
@@ -288,7 +289,7 @@ class AutoDialog extends StatelessWidget {
                         if (isAnimation.value)
                           Text(
                             '-100',
-                            style: context.titleLarge!.copyWith(
+                            style: context.textTheme.titleLarge!.copyWith(
                               fontSize: 20.sp,
                               fontWeight: FontWeight.w600,
                               color: AppTheme.purple,
@@ -309,7 +310,7 @@ class AutoDialog extends StatelessWidget {
               },
               child: Text(
                 context.lang.cancel,
-                style: context.titleSmall!.copyWith(
+                style: context.textTheme.titleSmall!.copyWith(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   color: context.primaryColor,

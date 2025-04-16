@@ -30,7 +30,7 @@ class ListCreator extends StatelessWidget {
               ),
               child: Text(
                 title,
-                style: context.labelMedium?.copyWith(
+                style: context.textTheme.labelMedium?.copyWith(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                 ),
@@ -49,7 +49,7 @@ class ListCreator extends StatelessWidget {
                   ),
                   child: Text(
                     context.lang.seeMore,
-                    style: context.labelMedium?.copyWith(
+                    style: context.textTheme.labelMedium?.copyWith(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                       color: context.primaryColor,

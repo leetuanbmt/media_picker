@@ -22,7 +22,7 @@ class SelectAttributeScreen extends StatelessWidget {
               padding: EdgeInsets.only(left: 5.w),
               child: Text(
                 context.lang.selectUserAttributes,
-                style: context.headlineSmall!.copyWith(
+                style: context.textTheme.headlineSmall!.copyWith(
                   color: Colors.white,
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w600,
@@ -36,7 +36,7 @@ class SelectAttributeScreen extends StatelessWidget {
               padding: EdgeInsets.only(left: 5.w),
               child: Text(
                 context.lang.selectUserAttributesInform,
-                style: context.bodySmall!.copyWith(
+                style: context.textTheme.bodySmall!.copyWith(
                   fontWeight: FontWeight.w300,
                   color: Colors.white,
                 ),
@@ -125,7 +125,7 @@ class UserOption extends StatelessWidget {
                           padding: EdgeInsets.only(bottom: 8.h),
                           child: Text(
                             titleMedium,
-                            style: context.bodyMedium!.copyWith(
+                            style: context.textTheme.bodyMedium!.copyWith(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
                               color: AppTheme.supportColors.last,
@@ -134,7 +134,7 @@ class UserOption extends StatelessWidget {
                         ),
                         Text(
                           titleSmall,
-                          style: context.bodySmall!.copyWith(
+                          style: context.textTheme.bodySmall!.copyWith(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                             color: AppTheme.fontGrayLead,

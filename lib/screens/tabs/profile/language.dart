@@ -1,5 +1,3 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../../core/config.dart';
 import '../../../core/providers/user_preferences/user_preferences_provider.dart';
 import '../../../widgets/commons/button_custom.dart';
@@ -32,7 +30,7 @@ class LanguageScreen extends HookConsumerWidget {
                   return ListTile(
                     title: Text(
                       '${isoCodeName.name} (${isoCodeName.nativeName})',
-                      style: context.bodyLarge,
+                      style: context.textTheme.bodyLarge,
                     ),
                     trailing: language == defaultLanguage.value
                         ? Icon(

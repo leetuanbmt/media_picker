@@ -17,13 +17,13 @@ class RegisterUserInformation extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.read(registerProvider.notifier);
 
-    final style = context.bodyMedium!.copyWith(
+    final style = context.textTheme.bodyMedium!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w600,
       color: AppTheme.fontBoldLight,
     );
 
-    final dropStyle = context.titleMedium!.copyWith(
+    final dropStyle = context.textTheme.titleMedium!.copyWith(
       fontSize: 16.sp,
       color: AppTheme.blackBold,
       fontWeight: FontWeight.w300,
@@ -52,7 +52,7 @@ class RegisterUserInformation extends ConsumerWidget {
             padding: EdgeInsets.only(top: 30.h, bottom: 40.h),
             child: Text(
               context.lang.enterYourPersonalInformation,
-              style: context.titleLarge!.copyWith(
+              style: context.textTheme.titleLarge!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
                 color: AppTheme.blackBold,

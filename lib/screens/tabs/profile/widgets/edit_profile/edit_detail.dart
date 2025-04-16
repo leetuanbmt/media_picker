@@ -22,13 +22,29 @@ class EditProfileDetail extends StatelessWidget {
         ),
         EditItem(
           title: context.lang.age,
-          content: context.lang.release.richText
-              .textStyle(context.bodyMedium)
-              .color(context.primaryColor)
-              .end
-              .withTextSpanChildren([
-            " ${user?.old ?? ''}".textSpan.black.make(),
-          ]).make(),
+          content: RichText(
+            text: TextSpan(
+              style: context.textTheme.bodyMedium?.copyWith(
+                color: context.primaryColor,
+              ),
+              children: [
+                TextSpan(text: context.lang.release),
+                TextSpan(
+                  text: " ${user?.old ?? ''}",
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // content: context.lang.release.richText
+          //     .textStyle(context.bodyMedium)
+          //     .color(context.primaryColor)
+          //     .end
+          //     .withTextSpanChildren([
+          //   " ${user?.old ?? ''}".textSpan.black.make(),
+          // ]).make(),
         ),
         EditItem(
           title: context.lang.themeColor,
@@ -76,7 +92,7 @@ class EditProfileDetail extends StatelessWidget {
                       ),
                       Text(
                         'ti_k42',
-                        style: context.labelMedium?.copyWith(
+                        style: context.textTheme.labelMedium?.copyWith(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w300,
                         ),
@@ -92,7 +108,7 @@ class EditProfileDetail extends StatelessWidget {
                       ),
                       Text(
                         'facebook.com',
-                        style: context.labelMedium?.copyWith(
+                        style: context.textTheme.labelMedium?.copyWith(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w300,
                         ),
@@ -112,7 +128,7 @@ class EditProfileDetail extends StatelessWidget {
             children: [
               Text(
                 context.lang.selfIntroduction,
-                style: context.bodyMedium?.copyWith(
+                style: context.textTheme.bodyMedium?.copyWith(
                   color: AppTheme.fontGrayLead,
                   fontWeight: FontWeight.w300,
                 ),

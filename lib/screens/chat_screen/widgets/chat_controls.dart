@@ -17,7 +17,7 @@ class ChatControls extends HookConsumerWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.05),
+            color: Colors.black.withValues(alpha: .05),
             blurRadius: 10,
             offset: const Offset(1, -1),
           ),
@@ -26,9 +26,9 @@ class ChatControls extends HookConsumerWidget {
       padding: EdgeInsets.symmetric(
         vertical: 10.h,
         horizontal: 10.w,
-      ).copyWith(bottom: (context.screenPadding.bottom / 2) + 10.h),
+      ).copyWith(bottom: (context.padding.bottom / 2) + 10.h),
       child: ref.watch(userListFirestore).maybeWhen(
-            orElse: () => Dimensions.empty,
+            orElse: () => const SizedBox.shrink(),
             data: (users) {
               return FlutterMentions(
                 key: key,
@@ -78,7 +78,7 @@ class ChatControls extends HookConsumerWidget {
                             const SizedBox(width: 20.0),
                             Text(
                               data['display'],
-                              style: context.bodyMedium?.copyWith(
+                              style: context.textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

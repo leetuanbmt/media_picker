@@ -1,4 +1,4 @@
-library pagination_core;
+library;
 
 import 'dart:async';
 

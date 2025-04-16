@@ -31,7 +31,7 @@ class TextFieldCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.titleMedium!.copyWith(
+    final style = context.textTheme.titleMedium!.copyWith(
       fontSize: fontSize,
       color: AppTheme.blackBold,
       fontWeight: FontWeight.w300,

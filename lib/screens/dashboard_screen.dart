@@ -142,16 +142,16 @@ class _BottomNavigation extends StatelessWidget {
       ),
     ];
     return Container(
-      height: kBottomNavigationBarHeight.h + context.screenPadding.bottom,
+      height: kBottomNavigationBarHeight.h + context.padding.bottom,
       padding: EdgeInsets.symmetric(horizontal: 10.w).copyWith(
-        bottom: context.screenPadding.bottom / 2,
+        bottom: context.padding.bottom / 2,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
         //box shadow top navigator bar
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, -1),
           ),
@@ -202,6 +202,7 @@ class _BottomTabItem extends StatelessWidget {
     final color = isActive ? context.primaryColor : AppTheme.defaultGrey;
     return Expanded(
       child: Material(
+        color: Colors.transparent,
         child: InkWell(
           onTap: () => onTap.call(index),
           child: Column(

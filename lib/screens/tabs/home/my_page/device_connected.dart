@@ -18,9 +18,10 @@ class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
+      (timeStamp) async {
         MyPageDialog().showDialogSpentAllPoint(context);
         Future.delayed(const Duration(seconds: 3), () {
+          if (!mounted) return;
           Navigator.of(context).pop();
         });
       },
@@ -34,7 +35,7 @@ class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
       {'device': '扇風機', 'status': true},
     ];
 
-    final style = context.titleSmall!.copyWith(
+    final style = context.textTheme.titleSmall!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w400,
     );
@@ -42,7 +43,7 @@ class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
       appBar: AppBar(
         title: Text(
           context.lang.connecting,
-          style: context.titleLarge!.copyWith(
+          style: context.textTheme.titleLarge!.copyWith(
             fontSize: 20.sp,
             fontWeight: FontWeight.w600,
             color: const Color(0xffFFFFFF),
@@ -74,7 +75,7 @@ class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xff555E58).withOpacity(0.1),
+                    color: const Color(0xff555E58).withValues(alpha: 0.1),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -109,7 +110,7 @@ class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
                         ),
                         Text(
                           context.lang.underControl,
-                          style: context.bodySmall!.copyWith(
+                          style: context.textTheme.bodySmall!.copyWith(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
                             color: const Color(0xffEB5757),
@@ -158,8 +159,9 @@ class _DeviceConnectedScreenState extends State<DeviceConnectedScreen> {
               );
               return isShow
                   ? Padding(
-                      padding:
-                          EdgeInsets.only(bottom: context.screenPadding.bottom),
+                      padding: EdgeInsets.only(
+                        bottom: context.padding.bottom,
+                      ),
                       child: const DeviceControlling(),
                     )
                   : const SizedBox();
@@ -183,7 +185,7 @@ class DeviceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.titleSmall!.copyWith(
+    final style = context.textTheme.titleSmall!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w400,
     );

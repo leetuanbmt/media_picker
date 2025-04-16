@@ -6,108 +6,90 @@ version: 1.0.0+1
 
 environment:
   sdk: ^3.5.2
-  flutter: 3.24.2
 
 dependencies:
+  animations: ^2.0.11
+  auto_route: ^10.0.1
+  auto_size_text: ^3.0.0
+  cupertino_icons: ^1.0.8
+  dio: ^5.8.0+1
+  extended_image: ^10.0.0
   flutter:
     sdk: flutter
+  flutter_hooks: ^0.21.2
   flutter_localizations:
     sdk: flutter
-  cupertino_icons: ^1.0.2
-  freezed_annotation: ^2.4.1
-  json_annotation: ^4.8.1
-  dio: ^5.3.2
-  retrofit: ^4.0.1
-  auto_route: ^9.2.2
-  intl: ^0.19.0
-  flutter_screenutil: ^5.9.0
-  velocity_x: ^4.1.1
-  auto_size_text: ^3.0.0
-  freezed: ^2.4.2
-  shared_preferences: ^2.2.0
-  flutter_svg: ^2.0.7
-  hooks_riverpod: ^2.4.2
-  flutter_hooks: ^0.20.2
-  riverpod_annotation: ^2.1.6
-  toast: ^0.3.0
-  pinput: ^5.0.0
-  flutter_webrtc: ^0.11.7
-  # web_socket_client: ^0.1.0
-  audioplayers: ^6.1.0
-  sentry_flutter: ^8.8.0
-  synchronized: ^3.1.0
-  permission_handler: ^11.0.1
-  # redacted: ^1.0.11
-  percent_indicator: ^4.2.3
-
-  mobile_scanner: ^5.2.2
-  # biometric_storage: ^5.0.0+4
-  # flutter_local_notifications: ^16.0.0+1
-  # cached_network_image: ^3.2.3
-  photo_view: ^0.15.0
-  flutter_slidable: ^3.0.0
-  flutter_cache_manager: ^3.3.1
-  share_plus: ^10.0.2
-
-  # firebase
-  firebase_core: ^2.17.0
-  cloud_firestore: ^4.9.3
-  firebase_auth: ^4.10.1
-  firebase_storage: ^11.4.1
-
-  # login with social
-  google_sign_in: ^6.1.5
-  # twitter_login: ^4.4.2
-  flutter_facebook_auth: ^7.1.1
-
-  # media_kit
-  # media_kit: ^1.1.8
-  # media_kit_video: ^1.2.1
-  # media_kit_libs_video: ^1.0.3
-
-  animations: ^2.0.8
-  uuid: ^4.1.0
-  sign_in_with_apple: ^6.1.2
-  geolocator: ^13.0.1
+  flutter_screenutil: ^5.9.3
+  flutter_svg: ^2.0.17
+  flutter_webrtc: ^0.13.1+hotfix.1
+  freezed: ^3.0.6
+  freezed_annotation: ^3.0.0
   geocoding: ^3.0.0
-  extended_image: ^8.1.1
-  timeago: ^3.5.0
-  video_player: ^2.7.2
-  provider: ^6.0.5
+  geolocator: ^14.0.0
+  hooks_riverpod: ^2.6.1
+  intl: ^0.19.0
+  json_annotation: ^4.9.0
+  pinput: ^5.0.1
+  retrofit: ^4.4.2
+  riverpod_annotation: ^2.6.1
+  shared_preferences: ^2.5.3
+  sign_in_with_apple: ^7.0.1
+  timeago: ^3.7.0
+  toast: ^0.3.0
+  uuid: ^4.5.1
+  video_player: ^2.9.5
+  flutter_facebook_auth: ^7.1.1
+  provider: ^6.1.4
   flutter_parsed_text: ^2.2.1
-  path_provider: ^2.1.1
+  path_provider: ^2.1.5
   flutter_link_previewer: ^3.2.2
   flutter_chat_types: ^3.6.2
-  photo_manager: ^3.0.0-dev.5
-  gmo_media_picker:
-    git:
-      url: https://github.com/TuanMinhVan/media_picker.git
-      ref: 1744cfe3438bccd9563f3cae85181855b0a6fd7a
+  photo_manager: ^3.6.4
   flutter_mentions: ^2.0.1
   flutter_portal: ^0.4.0
-  url_launcher: ^6.2.1
-  flutter_downloader: ^1.11.4
-  photo_manager_image_provider: ^2.1.0
+  url_launcher: ^6.3.1
+  flutter_downloader: ^1.12.0
+  photo_manager_image_provider: ^2.2.0
   hive: ^2.2.3
   scroll_to_index: ^3.0.1
-  device_info_plus: ^10.1.2
-  app_links: ^6.3.2
-  internet_connection_checker_plus: ^2.2.0
-  flutter_secure_storage: ^9.0.0
-  country_code_picker: ^3.0.0
+  device_info_plus: ^11.3.3
+  app_links: ^6.4.0
+  internet_connection_checker_plus: ^2.7.1
+  flutter_secure_storage: ^9.2.4
+  country_code_picker: ^3.3.0
+  flutter_local_notifications: ^19.1.0
+  cloud_firestore: ^5.6.6
+  flutter_slidable: ^4.0.0
+  firebase_auth: ^5.5.2
+  audioplayers: ^6.4.0
+  permission_handler: ^12.0.0+1
+  mobile_scanner: ^6.0.7
+  package_info_plus: ^8.3.0
+  share_plus: ^10.1.4
+  flutter_cache_manager: ^3.4.1
+  sentry_flutter: ^8.14.1
+  photo_view: ^0.15.0
+  gap: ^3.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.13.1
-  flutter_lints: ^4.0.0
-  build_runner: ^2.4.8
-  json_serializable: ^6.7.1
-  retrofit_generator: ^9.1.1
-  auto_route_generator: ^9.0.0
-  flutter_gen_runner: ^5.3.1
-  riverpod_generator: ^2.2.6
-  flutter_application_id: ^2.0.0-dev
+  flutter_launcher_icons: ^0.14.3
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.15
+  json_serializable: ^6.9.4
+  retrofit_generator: ^9.1.9
+  auto_route_generator: ^10.0.1
+  flutter_gen_runner: ^5.10.0
+  riverpod_generator: ^2.6.5
+  flutter_application_id: ^2.1.0
+  firebase_messaging: ^15.2.5
+  google_sign_in: ^6.3.0
+  percent_indicator: ^4.2.5
+  gmo_media_picker:
+    git:
+      url: https://${GITHUB_TOKEN}@github.com/leetuanbmt/media_picker.git
+      ref: f2413ce57653153bbc53da5161a0219c2e6b4648
 
 flutter_gen:
   output: lib/core/collections

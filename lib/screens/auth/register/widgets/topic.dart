@@ -23,7 +23,7 @@ class RegisterTopicScreen extends StatelessWidget {
           ),
           Text(
             context.lang.purposeUse,
-            style: context.titleLarge!.copyWith(
+            style: context.textTheme.titleLarge!.copyWith(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,
               color: AppTheme.blackBold,

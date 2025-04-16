@@ -81,7 +81,7 @@ class HomeScreen extends ConsumerWidget {
                       showMore: false,
                     );
                   },
-                  orElse: () => Dimensions.empty,
+                  orElse: () => const SizedBox.shrink(),
                 );
               },
             ),
@@ -117,14 +117,14 @@ class UserListByCategory extends ConsumerWidget {
     final userAsync = ref.watch(userByCategory(category));
     return userAsync.maybeWhen(
       data: (users) {
-        if (users.isEmpty) return Dimensions.empty;
+        if (users.isEmpty) return const SizedBox.shrink();
         return ListCreator(
           title: category.removeIcon,
           users: users,
         );
       },
       orElse: () {
-        return Dimensions.empty;
+        return const SizedBox.shrink();
       },
     );
   }

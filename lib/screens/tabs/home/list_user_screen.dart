@@ -22,7 +22,7 @@ class ListUserScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 20.h),
                 child: Text(
                   '${items.length}${context.lang.people}',
-                  style: context.bodyMedium?.copyWith(
+                  style: context.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),

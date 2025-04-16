@@ -41,7 +41,7 @@ class ThemePicker extends HookConsumerWidget {
               )
               .toList(),
         ),
-        HeightBox(10.h),
+        Gap(10.h),
         Consumer(
           builder: (context, ref, child) {
             return ButtonCustom(

@@ -293,7 +293,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen>
 
   Widget _author() {
     return Positioned(
-      top: kToolbarHeight * .2 + context.screenPadding.top,
+      top: kToolbarHeight * .2 + context.padding.top,
       left: 10.0,
       right: 10.0,
       child: Column(
@@ -418,7 +418,7 @@ class AnimatedBar extends StatelessWidget {
                   double.infinity,
                   position < currentIndex
                       ? Colors.white
-                      : Colors.white.withOpacity(0.5),
+                      : Colors.white.withValues(alpha: 0.5),
                 ),
                 if (position == currentIndex)
                   AnimatedBuilder(
@@ -477,14 +477,16 @@ class UserInfo extends StatelessWidget {
               children: <TextSpan>[
                 TextSpan(
                   text: '${user.name}\n',
-                  style: context.titleSmall?.copyWith(
+                  style: context.textTheme.titleSmall?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 TextSpan(
                   text: timeAgo,
-                  style: context.labelMedium?.copyWith(color: Colors.white),
+                  style: context.textTheme.labelMedium?.copyWith(
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),

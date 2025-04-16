@@ -34,7 +34,7 @@ class EditItem extends StatelessWidget {
         leading: title != null
             ? Text(
                 title!,
-                style: context.bodyMedium?.copyWith(
+                style: context.textTheme.bodyMedium?.copyWith(
                   color: AppTheme.fontGrayLead,
                   fontWeight: FontWeight.w300,
                 ),
@@ -44,7 +44,7 @@ class EditItem extends StatelessWidget {
             (textContent != null
                 ? Text(
                     textContent!,
-                    style: context.titleMedium?.copyWith(
+                    style: context.textTheme.titleMedium?.copyWith(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w300,
                     ),

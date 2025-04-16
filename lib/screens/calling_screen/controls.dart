@@ -34,7 +34,7 @@ class Controls extends StatelessWidget {
                     ? Icons.volume_mute_rounded
                     : Icons.volume_off_sharp,
                 iconColor: Colors.black,
-                color: Colors.white.withOpacity(.5),
+                color: Colors.white.withValues(alpha: .5),
                 onTap: onToggleAudio,
               ),
             DialButton(
@@ -45,7 +45,7 @@ class Controls extends StatelessWidget {
               iconColor: Colors.white,
               color: callStatus == CallStatus.ended ||
                       callStatus == CallStatus.rejected
-                  ? Colors.black.withOpacity(.5)
+                  ? Colors.black.withValues(alpha: .5)
                   : Colors.redAccent,
               onTap: onEndCall,
             ),
@@ -54,7 +54,7 @@ class Controls extends StatelessWidget {
                 icon: isFrontCameraSelected
                     ? Icons.camera_front
                     : Icons.camera_rear,
-                color: Colors.white.withOpacity(.5),
+                color: Colors.white.withValues(alpha: .5),
                 iconColor: Colors.black,
                 onTap: onSwitchCamera,
               ),

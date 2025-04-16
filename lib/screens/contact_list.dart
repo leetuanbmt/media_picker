@@ -39,7 +39,7 @@ class ContactList extends ConsumerWidget {
                   return Center(
                     child: Text(
                       error.toString(),
-                      style: context.titleMedium,
+                      style: context.textTheme.titleMedium,
                     ),
                   );
                 },
@@ -67,13 +67,13 @@ class _UserItem extends StatelessWidget {
       ),
       title: Text(
         user?.name ?? '',
-        style: context.titleMedium?.copyWith(
+        style: context.textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.w600,
         ),
       ),
       subtitle: Text(
         user?.email ?? '',
-        style: context.labelMedium?.copyWith(
+        style: context.textTheme.labelMedium?.copyWith(
           fontStyle: FontStyle.italic,
           color: AppTheme.fontGrayLead,
         ),

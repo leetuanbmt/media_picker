@@ -23,7 +23,7 @@ class DeviceConnected extends StatelessWidget {
               content: Center(
                 child: Text(
                   context.lang.controlRequest,
-                  style: context.bodyMedium!.copyWith(
+                  style: context.textTheme.bodyMedium!.copyWith(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                     color: context.primaryColor,
@@ -55,7 +55,7 @@ class DeviceConnected extends StatelessWidget {
       {'device': '扇風機', 'status': true},
     ];
 
-    final style = context.bodyMedium!.copyWith(
+    final style = context.textTheme.bodyMedium!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w400,
     );
@@ -71,7 +71,7 @@ class DeviceConnected extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: const Color(0xff555E58).withOpacity(0.09),
+            color: const Color(0xff555E58).withValues(alpha: 0.09),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -141,14 +141,16 @@ class DeviceConnected extends StatelessWidget {
                             context.lang.requesting,
                             height: 32.h,
                             width: 212.w,
-                            backgroundColor: context.primary.withOpacity(0.8),
+                            backgroundColor:
+                                context.primary.withValues(alpha: 0.8),
                             onPressed: () {},
                           )
                         : ButtonCustom(
                             context.lang.underControl,
                             height: 32.h,
                             width: 212.h,
-                            backgroundColor: context.primary.withOpacity(0.8),
+                            backgroundColor:
+                                context.primary.withValues(alpha: 0.8),
                             onPressed: () {
                               context.router.push(const DeviceConnectedRoute());
                             },
@@ -179,7 +181,7 @@ class HistoryDonate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.labelMedium!.copyWith(
+    final style = context.textTheme.labelMedium!.copyWith(
       fontSize: 12.sp,
       fontWeight: FontWeight.w600,
       color: const Color(0xff0B0C0C),
@@ -193,7 +195,7 @@ class HistoryDonate extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(10.r)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xff555E58).withOpacity(0.09),
+            color: const Color(0xff555E58).withValues(alpha: 0.09),
             blurRadius: 6,
             offset: const Offset(0, 4),
           ),
@@ -247,7 +249,7 @@ class UserNotification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.labelSmall!.copyWith(
+    final style = context.textTheme.labelSmall!.copyWith(
       fontSize: 12.sp,
       fontWeight: FontWeight.w600,
       color: Colors.white,
@@ -371,7 +373,7 @@ class ListRankingUser extends StatelessWidget {
                               backgroundColor: colorRank[index],
                               child: Text(
                                 (index + 1).toString(),
-                                style: context.labelMedium!.copyWith(
+                                style: context.textTheme.labelMedium!.copyWith(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w600,
                                   color: AppTheme.background,
@@ -434,7 +436,7 @@ class ListFollowUser extends StatelessWidget {
                   child: Center(
                     child: Text(
                       '+391',
-                      style: context.labelMedium!.copyWith(
+                      style: context.textTheme.labelMedium!.copyWith(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,

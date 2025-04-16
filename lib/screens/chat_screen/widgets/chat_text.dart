@@ -5,10 +5,10 @@ class ChatTextWidget extends StatelessWidget {
   final Message message;
   @override
   Widget build(BuildContext context) {
-    final style = context.bodyMedium;
+    final style = context.textTheme.bodyMedium;
     return ParsedText(
       text: message.message,
-      style: context.bodyMedium,
+      style: style,
       parse: [
         MatchText(
           pattern: tagPattern,

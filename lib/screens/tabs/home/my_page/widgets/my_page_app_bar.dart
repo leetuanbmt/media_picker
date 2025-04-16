@@ -58,7 +58,7 @@ class UserStatus extends StatelessWidget {
           ),
           Text(
             isOnline ? context.lang.online : context.lang.offline,
-            style: context.labelMedium!.copyWith(
+            style: context.textTheme.labelMedium!.copyWith(
               fontSize: 12.sp,
               fontWeight: FontWeight.w600,
               color: Colors.white,
@@ -81,7 +81,7 @@ class MyPageAction extends StatelessWidget {
     showCupertinoModalPopup(
       context: context,
       builder: (ctx) {
-        final style = context.titleMedium!.copyWith(
+        final style = context.textTheme.titleMedium!.copyWith(
           fontSize: 20.sp,
           fontWeight: FontWeight.w400,
           color: const Color(0xffEB5757),

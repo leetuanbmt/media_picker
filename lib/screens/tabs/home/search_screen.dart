@@ -26,7 +26,16 @@ class SearchCreatorScreen extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (category.isNotEmptyAndNotNull) ...[
-            category!.text.semiBold.size(16.sp).make().p(16.w),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                category!,
+                style: context.textTheme.titleMedium!.copyWith(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
             const Divider(
               height: 1,
               color: AppTheme.lightGray,
@@ -36,16 +45,15 @@ class SearchCreatorScreen extends HookConsumerWidget {
             child: Consumer(
               builder: (context, ref, _) {
                 final searchAsync = ref.watch(searchNotifier(category));
-                return searchAsync.when(
-                  initial: () => const Loading(),
-                  loading: () => const Loading(),
+                return searchAsync.maybeWhen(
+                  orElse: () => const Loading(),
                   error: (message) => Center(child: Text(message)),
                   loaded: (users) {
                     if (users.isEmpty) {
                       return Center(
-                        child: Text(
+                        child: TextApp.bold(
                           context.lang.noSearchResult,
-                          style: context.bodyMedium,
+                          type: TextType.lg,
                         ),
                       );
                     }

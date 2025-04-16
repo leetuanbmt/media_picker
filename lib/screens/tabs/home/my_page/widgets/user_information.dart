@@ -18,7 +18,7 @@ class UserID extends StatelessWidget {
       children: [
         Text(
           'ID:${creator.id}',
-          style: context.labelMedium!.copyWith(
+          style: context.textTheme.labelMedium!.copyWith(
             fontSize: 12.sp,
             fontWeight: FontWeight.w600,
             color: Colors.white,
@@ -82,7 +82,7 @@ class UserInformation extends StatelessWidget {
                   children: [
                     Text(
                       creator.name,
-                      style: context.titleLarge!.copyWith(
+                      style: context.textTheme.titleLarge!.copyWith(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
@@ -157,7 +157,7 @@ class UserInformation extends StatelessWidget {
             ),
             child: Text(
               creator.listCategory.first,
-              style: context.labelMedium!.copyWith(
+              style: context.textTheme.labelMedium!.copyWith(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
                 color: isBlocked ? Colors.white : context.primaryColor,
@@ -186,7 +186,7 @@ class UserBio extends ConsumerWidget {
 
     double maxLines = AppUtils.getTextHeight(
           creator.bio!.isNotEmpty ? creator.bio! : 'No bio description',
-          context.labelMedium!.copyWith(
+          context.textTheme.labelMedium!.copyWith(
             fontSize: 12.sp,
             fontWeight: FontWeight.w600,
             color: Colors.white,
@@ -204,7 +204,7 @@ class UserBio extends ConsumerWidget {
               children: [
                 Text(
                   creator.bio!.isNotEmpty ? creator.bio! : 'No bio description',
-                  style: context.labelMedium!.copyWith(
+                  style: context.textTheme.labelMedium!.copyWith(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
@@ -227,7 +227,7 @@ class UserBio extends ConsumerWidget {
                         end: Alignment.topCenter,
                         colors: [
                           context.primaryColor,
-                          context.primaryColor.withOpacity(0),
+                          context.primaryColor.withValues(alpha: 0),
                         ],
                       ),
                     ),

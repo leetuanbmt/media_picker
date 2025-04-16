@@ -32,7 +32,7 @@ class MyPageFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.labelMedium!.copyWith(
+    final style = context.textTheme.labelMedium!.copyWith(
       fontSize: 12.sp,
       fontWeight: FontWeight.w600,
     );
@@ -55,7 +55,7 @@ class MyPageFooter extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: ' 2000',
-                    style: context.titleMedium!.copyWith(
+                    style: context.textTheme.titleMedium!.copyWith(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
                       color: context.primaryColor,
@@ -171,7 +171,7 @@ class DeviceControlling extends StatelessWidget {
         Center(
           child: Text(
             '〇〇${context.lang.isControllingYourDevice}',
-            style: context.bodySmall!.copyWith(
+            style: context.textTheme.bodySmall!.copyWith(
               fontWeight: FontWeight.w600,
               color: AppTheme.fontBoldLight,
             ),
@@ -185,21 +185,21 @@ class DeviceControlling extends StatelessWidget {
           child: RichText(
             text: TextSpan(
               text: context.lang.remaining,
-              style: context.labelLarge!.copyWith(
+              style: context.textTheme.labelLarge!.copyWith(
                 fontWeight: FontWeight.w600,
                 color: AppTheme.fontBoldLight,
               ),
               children: [
                 TextSpan(
                   text: '5000',
-                  style: context.headlineLarge!.copyWith(
+                  style: context.textTheme.headlineLarge!.copyWith(
                     color: AppTheme.purple,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 TextSpan(
                   text: 'pt',
-                  style: context.labelLarge!.copyWith(
+                  style: context.textTheme.labelLarge!.copyWith(
                     fontWeight: FontWeight.w600,
                     color: AppTheme.fontBoldLight,
                   ),

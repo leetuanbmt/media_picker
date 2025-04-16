@@ -57,7 +57,7 @@ class ChatVideo extends StatelessWidget {
           child: Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(Dimensions.size10),
+                borderRadius: BorderRadius.circular(10),
                 child: RepaintBoundary(
                   child: CacheImage(
                     image: mediaItem.thumbnail,

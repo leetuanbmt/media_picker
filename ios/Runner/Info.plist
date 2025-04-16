@@ -89,7 +89,5 @@
 	</array>
 	<key>FacebookAutoLogAppEventsEnabled</key>
 	<false/>
-	<key>FLTEnableImpeller</key>
- 	<false />
 </dict>
 </plist>

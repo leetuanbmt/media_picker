@@ -1,4 +1,4 @@
-library chat_module;
+library;
 
 import 'dart:async';
 
@@ -55,11 +55,11 @@ class _ChatScreenState extends State<ChatScreen> {
           title: Row(
             children: [
               const AuthAvatar(Size.square(40)),
-              Dimensions.width10,
+              Gap(10.w),
               Flexible(
                 child: Text(
                   context.lang.announcementDistribution,
-                  style: context.titleMedium?.copyWith(
+                  style: context.textTheme.titleMedium?.copyWith(
                     overflow: TextOverflow.ellipsis,
                     color: context.colorScheme.onPrimary,
                     fontWeight: FontWeight.bold,

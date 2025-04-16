@@ -1,4 +1,4 @@
-library shimmer;
+library;
 
 import 'package:flutter/rendering.dart';
 
@@ -303,7 +303,7 @@ class LoadingBuilder extends StatelessWidget {
       itemCount: 10,
       padding: padding ?? EdgeInsets.symmetric(horizontal: 16.w),
       separatorBuilder: (BuildContext context, int index) {
-        return 10.heightBox;
+        return const Gap(10);
       },
       itemBuilder: (BuildContext context, int index) {
         return SizedBox(

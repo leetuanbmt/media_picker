@@ -1,4 +1,3 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 
@@ -60,7 +59,7 @@ class _RootAppState extends ConsumerState<RootApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
-      showPerformanceOverlay: false,
+      showPerformanceOverlay: true,
       showSemanticsDebugger: false,
       themeMode: themeMode,
       theme: lightTheme,
@@ -74,7 +73,7 @@ class _RootAppState extends ConsumerState<RootApp> {
             data: MediaQuery.of(context).copyWith(
               textScaler: const TextScaler.linear(1.0),
             ),
-            child: LoadingWrapperScreen(child!),
+            child: AppWrapperScreen(child: child!),
           ),
         );
       },

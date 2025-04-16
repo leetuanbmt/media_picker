@@ -63,7 +63,7 @@ class _PointSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: context.primaryColor.withOpacity(.2),
+        color: context.primaryColor.withValues(alpha: .2),
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: Padding(
@@ -87,7 +87,7 @@ class _PointSlider extends StatelessWidget {
                 SizedBox(width: 5.w),
                 Text(
                   context.lang.pointEarned,
-                  style: context.titleSmall?.copyWith(
+                  style: context.textTheme.titleSmall?.copyWith(
                     color: AppTheme.fontGrayLead,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
@@ -105,14 +105,14 @@ class _PointSlider extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: '2000',
-                      style: context.titleLarge?.copyWith(
+                      style: context.textTheme.titleLarge?.copyWith(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w600,
                       ),
                       children: [
                         TextSpan(
                           text: 'pt',
-                          style: context.titleSmall?.copyWith(
+                          style: context.textTheme.titleSmall?.copyWith(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w600,
                           ),

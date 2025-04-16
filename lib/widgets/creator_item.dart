@@ -20,12 +20,9 @@ class CreatorItem extends StatelessWidget {
         radius: 100.r,
         dimension: Size.square(50.r),
       ),
-      title: Text(
+      title: TextApp.bold(
         name,
-        style: context.titleMedium?.copyWith(
-          fontSize: 16.sp,
-          fontWeight: FontWeight.w600,
-        ),
+        type: TextType.lg,
       ),
       trailing: ButtonCustom(
         context.lang.following,

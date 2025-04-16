@@ -15,7 +15,7 @@ class UserOffline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.bodyMedium!.copyWith(
+    final style = context.textTheme.bodyMedium!.copyWith(
       fontSize: 14.sp,
       fontWeight: FontWeight.w600,
       color: AppTheme.blackBold,
@@ -45,7 +45,7 @@ class UserOffline extends StatelessWidget {
                 ),
                 Text(
                   user.name,
-                  style: context.titleMedium!.copyWith(
+                  style: context.textTheme.titleMedium!.copyWith(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
@@ -96,8 +96,8 @@ class UserOffline extends StatelessWidget {
                   spacing: 8.w,
                   runSpacing: 4.h,
                   children: [
-                    ...user.listCategory.generate(
-                      (index) => Container(
+                    ...user.listCategory.map(
+                      (e) => Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: 6.w,
                           vertical: 1.h,
@@ -109,8 +109,8 @@ class UserOffline extends StatelessWidget {
                           color: Colors.white,
                         ),
                         child: Text(
-                          user.listCategory[index],
-                          style: context.labelMedium!.copyWith(
+                          e,
+                          style: context.textTheme.labelMedium!.copyWith(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w600,
                             color: context.primaryColor,
@@ -197,12 +197,13 @@ class UserOffline extends StatelessWidget {
             return isFollowing
                 ? Padding(
                     padding: EdgeInsets.only(
-                      bottom: context.screenPadding.bottom,
+                      bottom: context.padding.bottom,
                     ),
                     child: Center(
                       child: ButtonCustom(
                         context.lang.following,
-                        backgroundColor: context.primaryColor.withOpacity(0.7),
+                        backgroundColor:
+                            context.primaryColor.withValues(alpha: 0.7),
                         height: 44.h,
                         width: 156.w,
                         fontSize: 15.sp,
@@ -212,7 +213,7 @@ class UserOffline extends StatelessWidget {
                   )
                 : Padding(
                     padding: EdgeInsets.only(
-                      bottom: context.screenPadding.bottom,
+                      bottom: context.padding.bottom,
                     ),
                     child: Center(
                       child: ButtonCustom(

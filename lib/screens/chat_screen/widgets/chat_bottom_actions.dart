@@ -22,8 +22,8 @@ class ChatBottomActions extends StatelessWidget {
         children: [
           Center(
             child: Container(
-              height: Dimensions.size5,
-              width: Dimensions.size80,
+              height: 5.h,
+              width: 80.w,
               margin: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
                 color: Colors.grey.shade400,
