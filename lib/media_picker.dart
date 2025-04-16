@@ -1,4 +1,4 @@
-library media_picker;
+library;
 
 import 'dart:async';
 import 'dart:developer' as dev;

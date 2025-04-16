@@ -21,7 +21,7 @@ extension BuildContextExtension on BuildContext {
 
   Color get primary => colorScheme.primary;
 
-  Color get background => colorScheme.background;
+  Color get background => colorScheme.surface;
 }
 
 extension BrightnessExtension on Brightness {
@@ -34,7 +34,7 @@ extension BrightnessExtension on Brightness {
 }
 
 extension ColorExtension on Color {
-  bool get isTransparent => this == Colors.transparent || alpha == 0x00;
+  bool get isTransparent => this == Colors.transparent || a == 0x00;
 }
 
 extension ThemeDataExtension on ThemeData {

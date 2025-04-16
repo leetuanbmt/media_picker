@@ -46,7 +46,7 @@ abstract class AssetPickerBuilderDelegate<Asset, Path> {
   ThemeData get theme => Theme.of(context);
 
   Color interactiveTextColor(BuildContext context) => Color.lerp(
-        context.iconTheme.color?.withOpacity(.7) ?? Colors.white,
+        context.iconTheme.color?.withValues(alpha: .7) ?? Colors.white,
         Colors.blueAccent,
         0.4,
       )!;
@@ -209,7 +209,7 @@ abstract class AssetPickerBuilderDelegate<Asset, Path> {
           decoration: !isAppleOS(context)
               ? BoxDecoration(
                   borderRadius: BorderRadius.circular(2),
-                  color: theme.iconTheme.color!.withOpacity(0.75),
+                  color: theme.iconTheme.color!.withValues(alpha: 0.75),
                 )
               : null,
           child: ScaleText(
@@ -234,7 +234,7 @@ abstract class AssetPickerBuilderDelegate<Asset, Path> {
       builder: (_, AssetPickerProvider<Asset, Path> p, __) {
         if (!p.selectedAssets.contains(asset) && p.selectedMaximumAssets) {
           return Container(
-            color: theme.colorScheme.background.withOpacity(.85),
+            color: theme.colorScheme.surface.withValues(alpha: .85),
           );
         }
         return const SizedBox.shrink();
@@ -282,13 +282,14 @@ abstract class AssetPickerBuilderDelegate<Asset, Path> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         height: permissionLimitedBarHeight,
-        color: theme.primaryColor.withOpacity(isAppleOS(context) ? 0.90 : 1),
+        color:
+            theme.primaryColor.withValues(alpha: isAppleOS(context) ? 0.90 : 1),
         child: Row(
           children: <Widget>[
             const SizedBox(width: 5),
             Icon(
               Icons.warning,
-              color: Colors.orange[400]!.withOpacity(.8),
+              color: Colors.orange[400]!.withValues(alpha: .8),
             ),
             const SizedBox(width: 15),
             Expanded(
@@ -302,7 +303,7 @@ abstract class AssetPickerBuilderDelegate<Asset, Path> {
             ),
             Icon(
               Icons.keyboard_arrow_right,
-              color: context.iconTheme.color?.withOpacity(.5),
+              color: context.iconTheme.color?.withValues(alpha: .5),
             ),
           ],
         ),
@@ -316,7 +317,8 @@ abstract class AssetPickerBuilderDelegate<Asset, Path> {
       padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(
         bottom: context.bottomPadding,
       ),
-      color: theme.primaryColor.withOpacity(isAppleOS(context) ? 0.90 : 1),
+      color:
+          theme.primaryColor.withValues(alpha: isAppleOS(context) ? 0.90 : 1),
       child: Row(
         children: <Widget>[
           previewButton(context),
@@ -1116,25 +1118,34 @@ class DefaultAssetPickerBuilderDelegate
       isOriginal: false,
       thumbnailSize: gridThumbnailSize,
     );
-    SpecialImageType? type;
-    if (imageProvider.imageFileType == ImageFileType.gif) {
-      type = SpecialImageType.gif;
-    } else if (imageProvider.imageFileType == ImageFileType.heic) {
-      type = SpecialImageType.heic;
-    }
-    return Stack(
-      children: <Widget>[
-        Positioned.fill(
-          child: RepaintBoundary(
-            child: AssetEntityGridItemBuilder(
-              image: imageProvider,
-              failedItemBuilder: failedItemBuilder,
+    SpecialImageType? specialImageType;
+
+    return FutureBuilder(
+      future: imageProvider.imageFileType,
+      builder: (context, snapshot) {
+        if (snapshot.data case final type? when type == ImageFileType.gif) {
+          specialImageType = SpecialImageType.gif;
+        }
+        if (snapshot.data case final type? when type == ImageFileType.heic) {
+          specialImageType = SpecialImageType.heic;
+        }
+
+        return Stack(
+          children: <Widget>[
+            Positioned.fill(
+              child: RepaintBoundary(
+                child: AssetEntityGridItemBuilder(
+                  image: imageProvider,
+                  failedItemBuilder: failedItemBuilder,
+                ),
+              ),
             ),
-          ),
-        ),
-        if (type == SpecialImageType.gif) gifIndicator(context, asset),
-        if (asset.type == AssetType.video) videoIndicator(context, asset),
-      ],
+            if (specialImageType == SpecialImageType.gif)
+              gifIndicator(context, asset),
+            if (asset.type == AssetType.video) videoIndicator(context, asset),
+          ],
+        );
+      },
     );
   }
 
@@ -1188,7 +1199,7 @@ class DefaultAssetPickerBuilderDelegate
                     maxHeight: MediaQuery.sizeOf(context).height *
                         (isAppleOS(context) ? .6 : .8),
                   ),
-                  color: theme.colorScheme.background,
+                  color: theme.colorScheme.surface,
                   child: child,
                 ),
               ),
@@ -1346,7 +1357,7 @@ class DefaultAssetPickerBuilderDelegate
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: theme.iconTheme.color!.withOpacity(0.2),
+                  color: theme.iconTheme.color!.withValues(alpha: 0.2),
                 ),
                 child: ValueListenableBuilder<bool>(
                   valueListenable: isSwitchingPath,
@@ -1386,11 +1397,13 @@ class DefaultAssetPickerBuilderDelegate
       }
       if (pathEntity.type.containsAudio()) {
         return ColoredBox(
-          color: theme.colorScheme.primary.withOpacity(0.12),
+          color: theme.colorScheme.primary.withValues(alpha: 0.12),
           child: const Center(child: Icon(Icons.audiotrack)),
         );
       }
-      return ColoredBox(color: theme.colorScheme.primary.withOpacity(0.12));
+      return ColoredBox(
+        color: theme.colorScheme.primary.withValues(alpha: 0.12),
+      );
     }
 
     final String pathName =
@@ -1560,7 +1573,7 @@ class DefaultAssetPickerBuilderDelegate
                     p.selectedAssets.isNotEmpty);
         if (isDisabled) {
           return Container(
-            color: theme.colorScheme.background.withOpacity(.85),
+            color: theme.colorScheme.surface.withValues(alpha: .85),
           );
         }
         return const SizedBox.shrink();
@@ -1642,8 +1655,8 @@ class DefaultAssetPickerBuilderDelegate
               duration: switchingPathDuration,
               padding: EdgeInsets.all(indicatorSize * .35),
               color: selected
-                  ? theme.colorScheme.primary.withOpacity(.45)
-                  : theme.colorScheme.background.withOpacity(.1),
+                  ? theme.colorScheme.primary.withValues(alpha: .45)
+                  : theme.colorScheme.surface.withValues(alpha: .1),
             );
           },
         ),
@@ -1705,7 +1718,7 @@ class DefaultAssetPickerBuilderDelegate
         color: theme.bottomNavigationBarTheme.backgroundColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.05),
+            color: Colors.black.withValues(alpha: .05),
             blurRadius: 10,
             offset: const Offset(1, -1),
           ),

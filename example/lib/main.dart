@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gmo_media_picker/media_picker.dart';
+import 'package:media_picker/media_picker.dart';
 
 void main() {
   runApp(const MyApp());

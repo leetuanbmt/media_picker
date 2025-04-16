@@ -348,7 +348,7 @@ class DefaultAssetPickerViewerBuilderDelegate
           Center(
             child: Icon(
               Icons.video_library,
-              color: themeData.iconTheme.color?.withOpacity(0.54),
+              color: themeData.iconTheme.color?.withValues(alpha: 0.54),
             ),
           ),
         ],
@@ -426,7 +426,7 @@ class DefaultAssetPickerViewerBuilderDelegate
                 color: themeData.bottomNavigationBarTheme.backgroundColor,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(.05),
+                    color: Colors.black.withValues(alpha: .05),
                     blurRadius: 10,
                     offset: const Offset(1, -1),
                   ),
@@ -526,7 +526,7 @@ class DefaultAssetPickerViewerBuilderDelegate
                             color: isSelected
                                 ? null
                                 : themeData.colorScheme.surface
-                                    .withOpacity(0.54),
+                                    .withValues(alpha: 0.54),
                           ),
                         ),
                       ],

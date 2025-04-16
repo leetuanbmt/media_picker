@@ -10,5 +10,7 @@
     "typedefs",
     "videocam",
     "vsync"
-  ]
+  ],
+  "dart.flutterSdkPath": ".fvm/versions/3.29.3",
+  "cmake.sourceDirectory": "/Users/tuanvm/Desktop/gmo/media_picker/example/linux"
 }
