@@ -10,5 +10,6 @@
     "typedefs",
     "videocam",
     "vsync"
-  ]
+  ],
+  "dart.flutterSdkPath": ".fvm/versions/3.32.2"
 }

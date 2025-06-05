@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gmo_media_picker/media_picker.dart';
+import 'package:media_picker/media_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -113,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
         requestType: type,
         maxAssets: isMulti ? 10 : 1,
         specialPickerType:
-            isReview ? SpecialPickerType.review : SpecialPickerType.none,
+            isReview ? SpecialPickerType.review : SpecialPickerType.noPreview,
       ),
     );
   }
